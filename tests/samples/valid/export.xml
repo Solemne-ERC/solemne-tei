@@ -11,12 +11,12 @@
           <idno>P.SAM</idno>
           <idno type="category">P</idno>
           <idno type="type">edition</idno>
+          <idno type="transcription">https://example.org/id/transcription/P.SAM</idno>
         </title>
         <title type="alias">Paenitentiale Sampliense</title>
       </titleStmt>
       <publicationStmt>
         <publisher>A sample of the project's schema</publisher>
-        <idno type="URI">https://example.org/id/transcription/P.SAM</idno>
         <availability>
           <licence target="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</licence>
         </availability>

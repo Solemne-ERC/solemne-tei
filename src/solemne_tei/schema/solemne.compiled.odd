@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.1.0 (SHA-256 1f6311de7ef5038aa61cd62844d8d80f9690d69c6a0abc19143946ff4232c264) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.1.0 (SHA-256 c708cacfbc4621a42297e5b32e84cd5f6f20eae719b2125d9f17867f074bab3d) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -149,6 +149,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           record they point to is named inside them, by a name with <att>ref</att>, and the import makes the
           relation from that name. <att>key</att> and <att>corresp</att> keep TEI's other uses; a record's pointer
           in them is reported.</p>
+        <p>A node's ids in other projects (SCTA's, the Clavis canonum's keys) are given in <att>sameAs</att>, each
+          with a prefix declared in the header by a <gi>prefixDef</gi> in <gi>listPrefixDef</gi>
+          (<code>clavis:IS35.27</code>). The application knows four: <code>scta</code> (SCTA,
+          <code>http://scta.info/resource/…</code>), <code>clavis</code> (the Clavis canonum,
+          <code>https://data.mgh.de/databases/clavis/db/legacysearch?key=…</code>), <code>pseudoisidor</code> (the
+          Pseudoisidor project) and <code>corpuscorporum</code> (the Corpus Corporum's Patrologia Latina); another
+          may be declared, and is reported. A prefix used without its declaration is an error. A record's or a
+          manuscript's ids are <gi>idno</gi>s typed by their authority, from a closed list, beside the kinds of
+          identifier the files use: <val>shelfmark</val>, <val>ISBN</val>, <val>url</val>,
+          <val>biblatex</val>.</p>
       </div>
 
       <div>
@@ -6849,6 +6859,18 @@ resource, either within the current document or elsewhere.</desc>
       <p>Les attributs utilisant ce type de données doivent contenir un seul mot, qui suit les règles
       de définition d'un nom XML valide (voir <ptr target="https://www.w3.org/TR/REC-xml/#dt-name"/>) :
       par exemple ils ne peuvent contenir de blancs ou commencer par des chiffres. </p>
+  </remarks>
+</dataSpec><dataSpec module="tei" ident="teidata.prefix">
+  <desc xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2016-11-28" xml:lang="en">defines a range of values that may function as a URI scheme name.</desc>
+  <content xmlns:xi="http://www.w3.org/2001/XInclude">
+    <dataRef name="token" restriction="[a-z][a-z0-9\+\.\-]*"/>
+  </content>
+  <remarks xmlns:xi="http://www.w3.org/2001/XInclude" ident="teidata.prefix-remarks" versionDate="2016-11-28" xml:lang="en">
+    <p>This datatype is used to constrain a string of characters to
+    one that can be used as a URI scheme name according to <ref target="https://www.ietf.org/rfc/rfc3986.txt">RFC 3986</ref>, <ref target="https://tools.ietf.org/html/rfc3986#section-3.1">section
+    3.1</ref>. Thus only the 26 lowercase letters a–z, the 10
+    digits 0–9, the plus sign, the period, and the hyphen are
+    permitted, and the value must start with a letter.</p>
   </remarks>
 </dataSpec><dataSpec module="tei" ident="teidata.enumerated">
   <desc xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-10-22" xml:lang="en">defines the range of attribute values expressed as a single XML name taken from a list of
@@ -13949,6 +13971,96 @@ element in the TEI header.
       </datatype>
     </attDef>
   </attList>
+</classSpec><classSpec xmlns:xi="http://www.w3.org/2001/XInclude" module="header" type="atts" ident="att.patternReplacement">
+  <desc versionDate="2012-11-22" xml:lang="en">provides attributes for regular-expression matching and replacement.</desc>
+  <desc versionDate="2023-08-24" xml:lang="ja">正規表現のマッチと置換のための属性を提供する。</desc>
+  <attList>
+    <attDef ident="matchPattern" usage="req">
+      <desc versionDate="2012-11-22" xml:lang="en">specifies a regular expression against which the values of other attributes
+        can be matched.</desc>
+      
+      
+      <datatype><dataRef key="teidata.pattern"/></datatype>
+      <remarks ident="att.patternReplacement-attr.matchPattern-remarks" versionDate="2013-12-08" xml:lang="en">
+        <p>The syntax used should follow that defined by <ref target="https://www.w3.org/TR/xpath-functions/#regex-syntax">W3C XPath syntax</ref>. Note that parenthesized groups are used not only for establishing order of precedence and atoms for
+          quantification, but also for creating subpatterns to be referenced by the
+          <att>replacementPattern</att> attribute.</p>
+      </remarks>
+      <remarks ident="att.patternReplacement-attr.matchPattern-remarks" versionDate="2007-06-12" xml:lang="fr">
+        <p>Les groupes parenthésés ne sont pas seulement utilisés pour établir un ordre de priorité
+          et des unités de quantification, mais aussi pour créer des sous-modèles référencés par
+          l'attribut <att>replacementPattern</att>.</p>
+      </remarks>
+      <remarks ident="att.patternReplacement-attr.matchPattern-remarks" versionDate="2008-04-06" xml:lang="es">
+        <p>Utilizan a los grupos de Parenthesised no sólo para establecer el orden de la precedencia
+          y los átomos para la cuantificación, sino también para crear los subpatterns que se
+          referirán por el atributo <att>replacementPattern</att>.</p>
+      </remarks>
+      <remarks ident="att.patternReplacement-attr.matchPattern-remarks" versionDate="2023-08-24" xml:lang="ja">
+        <p> 使用される構文は、<ref target="http://www.w3.org/TR/xpath-functions/#regex-syntax">W3C XPath syntax</ref>で定義されているものに従うべきである。カッコで囲まれたグループは、出現順序や量化単位の他、属性 <att>replacementPattern</att>で参照される下位パターンの作成にも使用されることに注意する。 </p>
+      </remarks>
+    </attDef>
+    <attDef ident="replacementPattern" usage="req">
+      <desc versionDate="2013-12-08" xml:lang="en">specifies a <soCalled>replacement pattern</soCalled>, that is, the skeleton of a relative or absolute URI containing references to groups in
+        the <att>matchPattern</att> which, once subpattern substitution
+        has been performed, complete the URI.</desc>
+      <desc versionDate="2009-01-05" xml:lang="fr">spécifie une <soCalled>règle de
+        remplacement</soCalled> qui, après avoir opéré les substitutions prévues à chaque nœud,
+        génère une URI.</desc>
+      <desc versionDate="2007-12-20" xml:lang="ko">하위 유형 대치가 실행되면, URI를 제공하는 <soCalled>replacement
+        pattern</soCalled>를 명시한다.</desc>
+      <desc versionDate="2007-05-02" xml:lang="zh-TW">標明一個<soCalled>取代模式</soCalled>，一旦進行次要模式的替換，會自動提供統一資源識別符 (URI) 。</desc>
+      <desc versionDate="2023-08-24" xml:lang="ja"><soCalled>replacement pattern</soCalled>を指定する。つまり、<att>matchPattern</att>内のグループへの参照を含む相対URIまたは絶対URIのスケルトンで、サブパターンの置換が実行されることで、URIを完成させるものである。</desc>
+      <desc versionDate="2018-07-18" xml:lang="de">beschreibt ein <soCalled>replacement pattern
+        (Ersetzungsmuster)</soCalled>, das heißt das Grundgerüst einer relativen oder absoluten URI, die Referenzen auf Gruppen im <att>matchPattern</att>-Attribut enthalten und die URI komplettieren, sobald die  
+        Ersetzung der untergeordneten Muster durchgeführt wurde.</desc>
+      <desc versionDate="2007-05-04" xml:lang="es">especifica un <soCalled>replacement pattern (patrón
+        de remplazamiento)</soCalled>, el cual, una vez se ha ejecutado el subpatrón de
+        sustitución, proporciona un URI.</desc>
+      <desc versionDate="2007-01-21" xml:lang="it">specifica un <soCalled>replacement pattern</soCalled>
+        che, una volta applicato un sub-pattern di sostituzione, fornisce un URI.</desc>
+      <datatype><dataRef key="teidata.replacement"/></datatype>
+      <remarks ident="att.patternReplacement-attr.replacementPattern-remarks" versionDate="2012-11-22" xml:lang="en">
+        <p>The strings <mentioned>$1</mentioned>, <mentioned>$2</mentioned> etc.  are references to the corresponding group in the
+          regular expression specified by <att>matchPattern</att> (counting open parenthesis, left
+          to right). Processors are expected to replace them with whatever matched the corresponding
+          group in the regular expression.</p>
+        <p>If a digit preceded by a dollar sign is needed in the actual replacement pattern (as
+          opposed to being used as a back reference), the dollar sign must be written as
+          <code>%24</code>.</p>
+      </remarks>
+      <remarks ident="att.patternReplacement-attr.replacementPattern-remarks" versionDate="2007-06-12" xml:lang="fr">
+        <p>Les chaînes <q>$1</q> à <q>$9</q> sont des références au groupe correspondant dans
+          l'expression régulière spécifiée par l'attribut <att>matchPattern</att> (en incluant la parenthèse
+          ouvrante, de gauche à droite). Les processeurs devraient remplacer ces groupes par les
+          valeurs correspondant aux groupes dans l'expression régulière.</p>
+        <p>Si un chiffre précédé par un dollar est nécessaire dans le modèle de remplacement actuel
+          (en opposition à ce qui a été utilisé comme référence antérieure), le signe dollar doit
+          être encodé <code>%24</code>.</p>
+      </remarks>
+      <remarks ident="att.patternReplacement-attr.replacementPattern-remarks" versionDate="2008-04-06" xml:lang="es">
+        <p>Las series <q>$1</q>a través <q>$9</q> son referencias al grupo correspondiente en la
+          expresión regular especificada por el <att>matchPattern</att> (contando paréntesis
+          abiertos, de izquierda a derecha). Se espera que los procesadores las substituyan por el
+          grupo correspondiente en la expresión regular.</p>
+        <p>Si un dígito precedido por el signo del dólar se necesita en el modelo actual de
+          substitución (en contraposición a ser utilizado como una referencia posterior), el signo
+          de dólar se debe escribir como <code>%24</code>.</p>
+      </remarks>
+      <remarks ident="att.patternReplacement-attr.replacementPattern-remarks" versionDate="2008-04-05" xml:lang="ja">
+        <p>
+          文字列<mentioned>$1</mentioned>、<mentioned>$2</mentioned>などは、属性<att>matchPattern</att>にある正規表現に該当するグループに(開き括弧を左から右の順番で数えて)対応するものである。処理ソフトウェアは、当該正規表現に対応するグループに置換することが期待されている。</p>
+        <p>ドル記号に続く数値が(後方参照として用いられるのではなく)置換パターンとして必要な場合には、そのドル記号は<code>%24</code>と書かれなければならない。
+        </p>
+      </remarks>
+    </attDef>
+  </attList>
+  <listRef>
+    <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/SA.html#SAPU">17.2.3. Using Abbreviated Pointers</ref>
+    <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD54M">2.3.6.3. Milestone Method</ref>
+    <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD54">2.3.6. The Reference System Declaration</ref>
+    <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD54S">2.3.6.2. Search-and-Replace Method</ref>
+  </listRef>
 </classSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="header" xml:id="gi-teiHeader" ident="teiHeader"><gloss versionDate="2013-02-02" xml:lang="en">TEI header</gloss><gloss versionDate="2009-01-05" xml:lang="fr">en-tête TEI</gloss><gloss versionDate="2007-12-20" xml:lang="ko">TEI 헤더</gloss><gloss versionDate="2007-05-02" xml:lang="zh-TW">TEI標頭</gloss><gloss versionDate="2006-10-18" xml:lang="de">TEI-Header (elektronische Titelseite)</gloss><gloss versionDate="2007-05-04" xml:lang="es">Encabezado TEI</gloss><gloss versionDate="2007-01-21" xml:lang="it">intestazione</gloss><desc versionDate="2016-02-19" xml:lang="en">supplies descriptive and
     declarative metadata associated with a digital resource or set of
     resources.</desc><desc versionDate="2009-01-05" xml:lang="fr">fournit des informations descriptives et déclaratives qui
@@ -15001,53 +15113,61 @@ distribution of a text.</desc>
                   manuscript's description (msDesc) in its sourceDesc.</sch:assert>
               </sch:rule>
             </constraint>
-          </constraintSpec><attList><attDef ident="type" usage="opt" mode="change">
-      <desc versionDate="2010-04-30" xml:lang="en">categorizes the identifier, for example as an ISBN, Social Security number, etc.</desc>
-      <desc versionDate="2009-01-05" xml:lang="fr">classe un numéro dans une catégorie, par exemple comme étant un numéro ISBN ou comme appartenant une autre série normalisée.</desc>
-      <desc versionDate="2007-12-20" xml:lang="ko">예를 들어 ISBN 또는 기타 표준 일련번호로, 숫자를 범주화한다.</desc>
-      <desc versionDate="2007-05-02" xml:lang="zh-TW">表明編碼的種類，例如國際標準書號 (ISBN) 或其他標準系列編碼。</desc>
-      <desc versionDate="2008-04-05" xml:lang="ja">当該数値の分類を示す。例えば、ISBNなど。</desc>
-      <desc versionDate="2016-11-17" xml:lang="de">bestimmt die Art des Identifikators (z. B. ISBN, Sozialversicherungsnummer, URI)</desc>
-      <desc versionDate="2007-05-04" xml:lang="es">clasifica el número, por ejemplo como un ISBN o cualquier otro número estándard.</desc>
-      <desc versionDate="2007-01-21" xml:lang="it">classifica l'identificatore, ad esempio come codice ISBN o altri generi di identificatori standard.</desc>
-      <datatype>
+          </constraintSpec><attList><attDef ident="type" mode="change" rend="change" usage="opt"><desc versionDate="2010-04-30" xml:lang="en">categorizes the identifier, for example as an ISBN, Social Security number, etc.</desc><desc versionDate="2009-01-05" xml:lang="fr">classe un numéro dans une catégorie, par exemple comme étant un numéro ISBN ou comme appartenant une autre série normalisée.</desc><desc versionDate="2007-12-20" xml:lang="ko">예를 들어 ISBN 또는 기타 표준 일련번호로, 숫자를 범주화한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">表明編碼的種類，例如國際標準書號 (ISBN) 或其他標準系列編碼。</desc><desc versionDate="2008-04-05" xml:lang="ja">当該数値の分類を示す。例えば、ISBNなど。</desc><desc versionDate="2016-11-17" xml:lang="de">bestimmt die Art des Identifikators (z. B. ISBN, Sozialversicherungsnummer, URI)</desc><desc versionDate="2007-05-04" xml:lang="es">clasifica el número, por ejemplo como un ISBN o cualquier otro número estándard.</desc><desc versionDate="2007-01-21" xml:lang="it">classifica l'identificatore, ad esempio come codice ISBN o altri generi di identificatori standard.</desc><datatype>
         <dataRef key="teidata.enumerated"/>
-      </datatype>
-      <valList type="semi">
-        <valItem ident="ISBN">
-          <desc versionDate="2016-07-02" xml:lang="en">International Standard Book Number: a 13- or
-            (if assigned prior to 2007) 10-digit identifying number assigned by the publishing
-            industry to a published book or similar item, registered with the <ref target="https://www.isbn-international.org"> International ISBN Agency.</ref></desc>
-        </valItem>
-        <valItem ident="ISSN">
-          <desc versionDate="2016-07-02" xml:lang="en">International Standard Serial Number: an
-            eight-digit number to uniquely identify a serial publication.</desc>
-        </valItem>
-        <valItem ident="DOI">
-          <desc versionDate="2016-07-02" xml:lang="en">Digital Object Identifier: a unique string of
-            letters and numbers assigned to an electronic document.</desc>
-        </valItem>
-        <valItem ident="URI">
-          <desc versionDate="2022-02-23" xml:lang="en">Uniform Resource Identifier: a string of
-            characters to uniquely identify a resource, following the syntax of <ref target="https://datatracker.ietf.org/doc/html/rfc3986">RFC 3986</ref>.</desc>
-        </valItem>
-        <valItem ident="VIAF">
-          <desc versionDate="2016-07-02" xml:lang="en">A data number in the Virtual Internet
-            Authority File assigned to link different names in catalogs around the world for the
-            same entity.</desc>
-        </valItem>
-        <valItem ident="ESTC">
-          <desc versionDate="2016-07-02" xml:lang="en">English Short-Title Catalogue number: an
-            identifying number assigned to a document in English printed in the British Isles or
-            North America before 1801.</desc>
-        </valItem>
-        <valItem ident="OCLC">
-          <desc versionDate="2016-07-02" xml:lang="en">OCLC control number (record number) for the
-            union catalog record in WorldCat, a union catalog for member libraries in the Online
-            Computer Library Center global cooperative.</desc>
-        </valItem>
-      </valList>
-    </attDef></attList><exemplum xml:lang="und">
+      </datatype><valList type="closed"><valItem ident="category">
+                  <desc>in the formal title: the document's category</desc>
+                </valItem><valItem ident="type">
+                  <desc>in the formal title: the document's type</desc>
+                </valItem><valItem ident="work">
+                  <desc>in an export's formal title: the permalink of the work the file belongs to</desc>
+                </valItem><valItem ident="version">
+                  <desc>in an export's formal title: the permalink of the version</desc>
+                </valItem><valItem ident="witness">
+                  <desc>in an export's formal title: the permalink of the witness</desc>
+                </valItem><valItem ident="transcription">
+                  <desc>in an export's formal title: the permalink of the transcription</desc>
+                </valItem><valItem ident="wikidata">
+                  <desc>Wikidata's item (Q…)</desc>
+                </valItem><valItem ident="viaf">
+                  <desc>the Virtual International Authority File</desc>
+                </valItem><valItem ident="gnd">
+                  <desc>the Gemeinsame Normdatei</desc>
+                </valItem><valItem ident="geonames">
+                  <desc>GeoNames</desc>
+                </valItem><valItem ident="tgn">
+                  <desc>the Getty Thesaurus of Geographic Names</desc>
+                </valItem><valItem ident="pleiades">
+                  <desc>Pleiades, for ancient places</desc>
+                </valItem><valItem ident="mirabile">
+                  <desc>Mirabile</desc>
+                </valItem><valItem ident="clavis">
+                  <desc>the Clavis canonum</desc>
+                </valItem><valItem ident="biblissima">
+                  <desc>Biblissima</desc>
+                </valItem><valItem ident="schoenberg">
+                  <desc>the Schoenberg Database of Manuscripts</desc>
+                </valItem><valItem ident="hmml">
+                  <desc>the Hill Museum &amp; Manuscript Library</desc>
+                </valItem><valItem ident="bodleian">
+                  <desc>the Bodleian Libraries' catalogues</desc>
+                </valItem><valItem ident="manusOnline">
+                  <desc>Manus Online</desc>
+                </valItem><valItem ident="ieArk">
+                  <desc>the Bodleian's ARK for an intellectual entity</desc>
+                </valItem><valItem ident="crArk">
+                  <desc>the Bodleian's ARK for a catalogue record</desc>
+                </valItem><valItem ident="SCN">
+                  <desc>the Bodleian's Summary Catalogue number</desc>
+                </valItem><valItem ident="shelfmark">
+                  <desc>a manuscript's shelfmark</desc>
+                </valItem><valItem ident="ISBN">
+                  <desc>a publication's ISBN</desc>
+                </valItem><valItem ident="url">
+                  <desc>an address on the web</desc>
+                </valItem><valItem ident="biblatex">
+                  <desc>a publication's biblatex key</desc>
+                </valItem></valList></attDef></attList><exemplum xml:lang="und">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-idno-egXML-ei">
       <idno type="ISBN">978-1-906964-22-1</idno>
       <idno type="ISSN">0143-3385</idno>
@@ -16763,6 +16883,99 @@ during the encoding of a text.</desc>
   <listRef>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#CORS6">3.11.4. Declaring Reference Systems</ref>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/SA.html#SACRCS">17.2.5.4. Citation Structures</ref>
+  </listRef>
+</elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="header" xml:id="gi-prefixDef" ident="prefixDef"><gloss versionDate="2012-11-22" xml:lang="en">prefix definition</gloss><desc versionDate="2012-12-26" xml:lang="en">defines a prefixing scheme used in <ident type="datatype">teidata.pointer</ident> values,
+  showing how abbreviated URIs using the scheme may be expanded into full URIs.</desc><classes><memberOf key="att.global"/><memberOf key="att.patternReplacement"/></classes><content><classRef key="model.pLike" minOccurs="0" maxOccurs="unbounded"/></content><constraintSpec ident="same-as-prefixes" scheme="schematron">
+            <desc>A prefix used in @sameAs is declared in the header; the prefixes the application knows are scta,
+              clavis, pseudoisidor and corpuscorporum.</desc>
+            <constraint>
+              <sch:rule context="tei:*[@sameAs]">
+                <sch:let name="declared" value="/tei:TEI/tei:teiHeader//tei:prefixDef/@ident"/>
+                <sch:assert id="same-as-prefix-declared" test="every $id in tokenize(normalize-space(@sameAs), ' ')                   satisfies (not(matches($id, '^[A-Za-z][A-Za-z0-9+.\-]*:')) or matches($id, '^https?:') or                   substring-before($id, ':') = $declared)">The prefixes in @sameAs (<sch:value-of select="normalize-space(@sameAs)"/>) are declared in the header, by prefixDef in
+                  listPrefixDef.</sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:prefixDef">
+                <sch:assert id="prefix-known" role="warning" test="@ident = ('scta', 'clavis', 'pseudoisidor',                   'corpuscorporum')">The prefix <sch:value-of select="@ident"/> isn't one the application knows
+                  (scta, clavis, pseudoisidor, corpuscorporum).</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><attList><attDef ident="ident" usage="req">
+      <desc versionDate="2012-11-22" xml:lang="en">supplies a name which functions as the prefix for an abbreviated
+          pointing scheme such as a private URI scheme. The prefix constitutes the 
+        text preceding the first colon.</desc>
+	<datatype>
+	  <dataRef key="teidata.prefix"/>
+	</datatype>
+	<remarks ident="prefixDef-attr.ident-remarks" versionDate="2017-05-25" xml:lang="en">
+	  <p>The value is limited to <ident type="datatype">teidata.prefix</ident> so that it may be
+	  mapped directly to a URI prefix.</p>
+	</remarks>
+    </attDef></attList><exemplum versionDate="2012-11-22" xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-prefixDef-egXML-fm">
+      <prefixDef ident="ref" matchPattern="([a-z]+)" replacementPattern="../../references/references.xml#$1">
+        <p>
+          In the context of this project, private URIs with 
+          the prefix "ref" point to <gi>div</gi> elements in 
+          the project's global references.xml file.
+        </p>
+      </prefixDef>
+    </egXML>
+  </exemplum><remarks ident="prefixDef-remarks" versionDate="2026-04-16" xml:lang="en">
+    <p>Note that we used the term <q>prefix</q> in a general sense; in the context 
+      of a <ident type="datatype">teidata.pointer</ident> attribute, the prefix 
+      functions as a private URI scheme name as defined in 
+      <ref target="https://datatracker.ietf.org/doc/html/rfc7595">RFC 7595</ref>.
+    </p>
+    <p>The abbreviated pointer may be dereferenced to produce either
+    an absolute or a relative URI reference. In the latter case it is
+    combined with the value of <att>xml:base</att> in force at the
+    place where the pointing attribute occurs to form an absolute URI
+    in the usual manner as prescribed by <ref target="https://www.w3.org/TR/xmlbase/">XML Base</ref>.</p>
+  </remarks><listRef>
+    <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/SA.html#SAPU">17.2.3. Using Abbreviated Pointers</ref>
+  </listRef></elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" module="header" xml:id="gi-listPrefixDef" ident="listPrefixDef">
+  <gloss versionDate="2012-11-22" xml:lang="en">list of prefix definitions</gloss>
+  <desc versionDate="2012-11-23" xml:lang="en">contains a list of definitions of prefixing schemes used in <ident type="datatype">teidata.pointer</ident> values, showing how abbreviated URIs using each scheme may be expanded into full URIs.</desc>
+  <classes>
+    <memberOf key="att.global"/>
+    <memberOf key="model.encodingDescPart"/>
+  </classes>
+  <content>
+    <sequence>
+      <elementRef key="desc" minOccurs="0" maxOccurs="unbounded"/>
+        <alternate minOccurs="1" maxOccurs="unbounded">
+          <elementRef key="prefixDef"/>
+          <elementRef key="listPrefixDef"/>
+        </alternate>
+    </sequence>
+   </content>
+  <exemplum versionDate="2012-11-22" xml:lang="en">
+    <p>In this example, two private URI scheme prefixes are defined and patterns are provided 
+    for dereferencing them. Each prefix is also supplied with a human-readable explanation in a
+    <gi>p</gi> element.</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-listPrefixDef-egXML-dd">
+      <listPrefixDef>
+        <prefixDef ident="psn" matchPattern="([A-Z]+)" replacementPattern="personography.xml#$1">
+          <p>
+            Private URIs using the <code>psn</code> 
+            prefix are pointers to <gi>person</gi> 
+            elements in the personography.xml file. 
+            For example, <code>psn:MDH</code> 
+            dereferences to <code>personography.xml#MDH</code>.
+          </p>
+        </prefixDef>
+        <prefixDef ident="bibl" matchPattern="([a-z]+[a-z0-9]*)" replacementPattern="http://www.example.com/getBibl.xql?id=$1">
+          <p>
+            Private URIs using the <code>bibl</code> prefix can be 
+            expanded to form URIs which retrieve the relevant 
+            bibliographical reference from www.example.com.
+          </p>
+        </prefixDef>
+      </listPrefixDef>
+    </egXML>
+  </exemplum>
+  <listRef>
+    <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/SA.html#SAPU">17.2.3. Using Abbreviated Pointers</ref>
   </listRef>
 </elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" module="header" xml:id="gi-classDecl" ident="classDecl">
   <gloss versionDate="2005-01-14" xml:lang="en">classification declarations</gloss>

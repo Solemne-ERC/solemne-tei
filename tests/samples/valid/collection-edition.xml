@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: MIT -->
+<!-- A collection in a printed edition, its chapters given the Clavis canonum's keys in @sameAs, with the prefix
+     declared in the header, and the edition's identifiers typed by kind. Made up: the collection, its edition and
+     its keys are not real. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="formal">
+          <idno>COLL.Samp</idno>
+          <idno type="category">SYSCOLL</idno>
+          <idno type="type">edition</idno>
+        </title>
+        <title type="alias">Collectio Sampliensis</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>A sample of the project's schema</publisher>
+      </publicationStmt>
+      <sourceDesc>
+        <biblStruct>
+          <monogr>
+            <editor ref="#new_person_Editrix">
+              <persName>
+                <forename>Anna</forename>
+                <surname>Editrix</surname>
+              </persName>
+            </editor>
+            <title level="m" ref="#new_work_Collectio-Sampliensis">Collectio Sampliensis</title>
+            <idno type="ISBN">0-000-00000-0</idno>
+            <idno type="biblatex">editrix1999</idno>
+            <imprint>
+              <publisher>Nowhere Press</publisher>
+              <pubPlace>Nowhere</pubPlace>
+              <date when="1999">1999</date>
+            </imprint>
+          </monogr>
+        </biblStruct>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <listPrefixDef>
+        <prefixDef ident="clavis" matchPattern="(.+)"
+          replacementPattern="https://data.mgh.de/databases/clavis/db/legacysearch?key=$1">
+          <p>The Clavis canonum's keys.</p>
+        </prefixDef>
+      </listPrefixDef>
+    </encodingDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="section" n="1">
+        <head type="rubric">INCIPIT LIBER PRIMUS</head>
+        <div type="chapter" n="1" sameAs="clavis:SA01.001">
+          <head type="number">I.</head>
+          <head type="rubric">De fide.</head>
+          <p>Fidem rectam teneant omnes.<note type="source" source="C.SAM-0600_1"/></p>
+        </div>
+        <div type="chapter" n="2" sameAs="clavis:SA01.002">
+          <head type="number">II.</head>
+          <head type="rubric">De baptismo.</head>
+          <p>Baptismus in nomine trinitatis detur.</p>
+        </div>
+      </div>
+    </body>
+  </text>
+</TEI>

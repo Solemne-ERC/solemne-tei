@@ -33,3 +33,10 @@ Files written for the draft of this schema need these changes to pass.
   id in the file, or a permalink), on `title`, `author`, `editor`, `country`, `region`, `settlement`, `origPlace`,
   `repository`, `institution` and the names. `provenance`, `acquisition` and `origin` name their record inside them,
   by a name with `@ref`. A record's pointer in `@key` or `@corresp` is reported, as a warning.
+- **External ids:** a node's ids in other projects go in `@sameAs`, each with a prefix declared in the header by
+  `prefixDef` in `listPrefixDef` (`clavis:IS35.27`); an undeclared prefix is an error, and a prefix other than
+  `scta`, `clavis`, `pseudoisidor` and `corpuscorporum` a warning. `idno/@type` is a closed list: the authorities
+  (`wikidata`, `viaf`, `gnd`, `geonames`, `tgn`, `pleiades`, `mirabile`, `clavis`, `biblissima`, `schoenberg`,
+  `hmml`, `bodleian`, `manusOnline`, the Bodleian's `ieArk`, `crArk` and `SCN`), the formal title's `category` and
+  `type`, the levels' `work`, `version`, `witness` and `transcription`, and `shelfmark`, `ISBN`, `url` and
+  `biblatex`.

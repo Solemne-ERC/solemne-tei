@@ -89,6 +89,16 @@
           record they point to is named inside them, by a name with <att>ref</att>, and the import makes the
           relation from that name. <att>key</att> and <att>corresp</att> keep TEI's other uses; a record's pointer
           in them is reported.</p>
+        <p>A node's ids in other projects (SCTA's, the Clavis canonum's keys) are given in <att>sameAs</att>, each
+          with a prefix declared in the header by a <gi>prefixDef</gi> in <gi>listPrefixDef</gi>
+          (<code>clavis:IS35.27</code>). The application knows four: <code>scta</code> (SCTA,
+          <code>http://scta.info/resource/…</code>), <code>clavis</code> (the Clavis canonum,
+          <code>https://data.mgh.de/databases/clavis/db/legacysearch?key=…</code>), <code>pseudoisidor</code> (the
+          Pseudoisidor project) and <code>corpuscorporum</code> (the Corpus Corporum's Patrologia Latina); another
+          may be declared, and is reported. A prefix used without its declaration is an error. A record's or a
+          manuscript's ids are <gi>idno</gi>s typed by their authority, from a closed list, beside the kinds of
+          identifier the files use: <val>shelfmark</val>, <val>ISBN</val>, <val>url</val>,
+          <val>biblatex</val>.</p>
       </div>
 
       <div>
@@ -112,8 +122,9 @@
         <moduleRef key="header"
           include="abstract authority availability catDesc category change citeData citeStructure classDecl
             correction creation distributor edition editionStmt editorialDecl encodingDesc extent fileDesc funder
-            handNote idno interpretation keywords langUsage language licence listChange normalization notesStmt
-            principal profileDesc projectDesc publicationStmt punctuation quotation refsDecl revisionDesc
+            handNote idno interpretation keywords langUsage language licence listChange listPrefixDef normalization
+            notesStmt prefixDef principal profileDesc projectDesc publicationStmt punctuation quotation refsDecl
+            revisionDesc
             samplingDecl scriptNote segmentation seriesStmt sourceDesc sponsor stdVals taxonomy teiHeader
             textClass titleStmt typeNote"/>
         <moduleRef key="textstructure" include="TEI body div text"/>
@@ -591,6 +602,30 @@
           </constraintSpec>
         </elementSpec>
 
+        <!-- External ids: a node's in @sameAs, its prefix declared in the header; a record's or a manuscript's in
+             an idno typed by its authority. -->
+        <elementSpec ident="prefixDef" module="header" mode="change">
+          <constraintSpec ident="same-as-prefixes" scheme="schematron">
+            <desc>A prefix used in @sameAs is declared in the header; the prefixes the application knows are scta,
+              clavis, pseudoisidor and corpuscorporum.</desc>
+            <constraint>
+              <sch:rule context="tei:*[@sameAs]">
+                <sch:let name="declared" value="/tei:TEI/tei:teiHeader//tei:prefixDef/@ident"/>
+                <sch:assert id="same-as-prefix-declared" test="every $id in tokenize(normalize-space(@sameAs), ' ')
+                  satisfies (not(matches($id, '^[A-Za-z][A-Za-z0-9+.\-]*:')) or matches($id, '^https?:') or
+                  substring-before($id, ':') = $declared)">The prefixes in @sameAs (<sch:value-of
+                  select="normalize-space(@sameAs)"/>) are declared in the header, by prefixDef in
+                  listPrefixDef.</sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:prefixDef">
+                <sch:assert id="prefix-known" role="warning" test="@ident = ('scta', 'clavis', 'pseudoisidor',
+                  'corpuscorporum')">The prefix <sch:value-of select="@ident"/> isn't one the application knows
+                  (scta, clavis, pseudoisidor, corpuscorporum).</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+        </elementSpec>
+
         <elementSpec ident="idno" module="header" mode="change">
           <constraintSpec ident="formal-title" scheme="schematron">
             <desc>The formal title holds the document's code (an identifier without a type), its category and its
@@ -649,6 +684,90 @@
               </sch:rule>
             </constraint>
           </constraintSpec>
+          <attList>
+            <attDef ident="type" mode="change">
+              <valList type="closed" mode="replace">
+                <valItem ident="category">
+                  <desc>in the formal title: the document's category</desc>
+                </valItem>
+                <valItem ident="type">
+                  <desc>in the formal title: the document's type</desc>
+                </valItem>
+                <valItem ident="work">
+                  <desc>in an export's formal title: the permalink of the work the file belongs to</desc>
+                </valItem>
+                <valItem ident="version">
+                  <desc>in an export's formal title: the permalink of the version</desc>
+                </valItem>
+                <valItem ident="witness">
+                  <desc>in an export's formal title: the permalink of the witness</desc>
+                </valItem>
+                <valItem ident="transcription">
+                  <desc>in an export's formal title: the permalink of the transcription</desc>
+                </valItem>
+                <valItem ident="wikidata">
+                  <desc>Wikidata's item (Q…)</desc>
+                </valItem>
+                <valItem ident="viaf">
+                  <desc>the Virtual International Authority File</desc>
+                </valItem>
+                <valItem ident="gnd">
+                  <desc>the Gemeinsame Normdatei</desc>
+                </valItem>
+                <valItem ident="geonames">
+                  <desc>GeoNames</desc>
+                </valItem>
+                <valItem ident="tgn">
+                  <desc>the Getty Thesaurus of Geographic Names</desc>
+                </valItem>
+                <valItem ident="pleiades">
+                  <desc>Pleiades, for ancient places</desc>
+                </valItem>
+                <valItem ident="mirabile">
+                  <desc>Mirabile</desc>
+                </valItem>
+                <valItem ident="clavis">
+                  <desc>the Clavis canonum</desc>
+                </valItem>
+                <valItem ident="biblissima">
+                  <desc>Biblissima</desc>
+                </valItem>
+                <valItem ident="schoenberg">
+                  <desc>the Schoenberg Database of Manuscripts</desc>
+                </valItem>
+                <valItem ident="hmml">
+                  <desc>the Hill Museum &amp; Manuscript Library</desc>
+                </valItem>
+                <valItem ident="bodleian">
+                  <desc>the Bodleian Libraries' catalogues</desc>
+                </valItem>
+                <valItem ident="manusOnline">
+                  <desc>Manus Online</desc>
+                </valItem>
+                <valItem ident="ieArk">
+                  <desc>the Bodleian's ARK for an intellectual entity</desc>
+                </valItem>
+                <valItem ident="crArk">
+                  <desc>the Bodleian's ARK for a catalogue record</desc>
+                </valItem>
+                <valItem ident="SCN">
+                  <desc>the Bodleian's Summary Catalogue number</desc>
+                </valItem>
+                <valItem ident="shelfmark">
+                  <desc>a manuscript's shelfmark</desc>
+                </valItem>
+                <valItem ident="ISBN">
+                  <desc>a publication's ISBN</desc>
+                </valItem>
+                <valItem ident="url">
+                  <desc>an address on the web</desc>
+                </valItem>
+                <valItem ident="biblatex">
+                  <desc>a publication's biblatex key</desc>
+                </valItem>
+              </valList>
+            </attDef>
+          </attList>
         </elementSpec>
 
         <elementSpec ident="teiHeader" module="header" mode="change">

@@ -1,6 +1,6 @@
 {
   "SPDX-License-Identifier": "MIT",
-  "generated": "Generated from solemne.odd 0.1.0 (SHA-256 1f6311de7ef5038aa61cd62844d8d80f9690d69c6a0abc19143946ff4232c264) by solemne-tei build. Edit the ODD, not this file.",
+  "generated": "Generated from solemne.odd 0.1.0 (SHA-256 c708cacfbc4621a42297e5b32e84cd5f6f20eae719b2125d9f17867f074bab3d) by solemne-tei build. Edit the ODD, not this file.",
   "lists": {
     "annotation": {
       "motivation": [
@@ -110,6 +110,36 @@
         "inscription",
         "number",
         "rubric"
+      ]
+    },
+    "idno": {
+      "type": [
+        "ISBN",
+        "SCN",
+        "biblatex",
+        "biblissima",
+        "bodleian",
+        "category",
+        "clavis",
+        "crArk",
+        "geonames",
+        "gnd",
+        "hmml",
+        "ieArk",
+        "manusOnline",
+        "mirabile",
+        "pleiades",
+        "schoenberg",
+        "shelfmark",
+        "tgn",
+        "transcription",
+        "type",
+        "url",
+        "version",
+        "viaf",
+        "wikidata",
+        "witness",
+        "work"
       ]
     },
     "layout": {
