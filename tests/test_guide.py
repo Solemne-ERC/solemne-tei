@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
-"""The guide: its parts included, each specification group referenced by the schema, its ids unique; the build
-reports an error in a part at that part's file and line."""
+"""The guide: its parts included, each specification group referenced by the schema, its ids unique; every
+element, attribute and rule with one tier; the build reports an error in a part at that part's file and line."""
 
 from pathlib import Path
 
@@ -8,11 +8,14 @@ import pytest
 from lxml import etree
 
 from solemne_tei.build import ODD_PATH, BuildError, check_odd, expand
+from solemne_tei.rules import attribute_tiers, element_tiers, rules, tiers
+from solemne_tei.schema_files import COMPILED_ODD, SCHEMA_DIR
 from solemne_tei.validate import Validator
 
 TEI = "http://www.tei-c.org/ns/1.0"
 XI = "http://www.w3.org/2001/XInclude"
 GUIDE = ODD_PATH.parent
+TIERS = ("required", "common", "full", "export only")
 
 
 @pytest.fixture(scope="module")
@@ -109,3 +112,45 @@ def test_the_odd_check_names_the_part_and_its_line(root: Path, tmp_path: Path) -
     path.write_bytes(expanded.text)
     with pytest.raises(BuildError, match=r"chapters/part\.xml:5: relaxng error"):
         check_odd(path, Validator(), expanded.places)
+
+
+def schema_elements() -> set[str]:
+    compiled = etree.parse(str(SCHEMA_DIR / COMPILED_ODD))
+    return {e.get("ident") for e in compiled.find(f".//{{{TEI}}}schemaSpec").iter(f"{{{TEI}}}elementSpec")}
+
+
+def test_the_tiers_are_the_four_of_the_header(odd: etree._Element) -> None:
+    assert sorted(tiers(odd).values()) == sorted(TIERS)
+
+
+def test_every_element_the_schema_allows_has_one_tier(odd: etree._Element) -> None:
+    found = element_tiers(odd)
+    assert set(found) == schema_elements()
+    wrong = {element: named for element, named in found.items() if len(named) != 1 or named[0] not in TIERS}
+    assert not wrong
+
+
+def test_every_attribute_the_odd_defines_has_one_tier(odd: etree._Element) -> None:
+    found = attribute_tiers(odd)
+    assert "div/@type" in found
+    wrong = {attribute: named for attribute, named in found.items() if len(named) != 1 or named[0] not in TIERS}
+    assert not wrong
+
+
+def test_every_rule_has_one_tier_and_a_part(odd: etree._Element) -> None:
+    found = rules(odd)
+    assert {r.check for r in found} == {"relaxng", "schematron"}
+    assert [r.id for r in found if r.tier not in TIERS or not r.part or not r.description] == []
+    ids = [r.id for r in found]
+    assert len(ids) == len(set(ids))
+
+
+def test_an_attribute_s_tier_is_not_below_its_element_s(odd: etree._Element) -> None:
+    order = {tier: i for i, tier in enumerate(TIERS)}
+    elements = element_tiers(odd)
+    lower = [
+        attribute
+        for attribute, (tier,) in attribute_tiers(odd).items()
+        if order[tier] < order[elements[attribute.split("/@")[0]][0]]
+    ]
+    assert lower == []

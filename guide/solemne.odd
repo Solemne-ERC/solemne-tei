@@ -28,6 +28,32 @@
           descriptions.</p>
       </sourceDesc>
     </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="tiers">
+          <desc>The tiers: how far a file goes, from a minimal file to the full encoding. Every element, attribute
+            and rule of the schema belongs to one tier, named by <att>corresp</att> on its specification, or, for an
+            element taken from TEI unchanged, by the table of elements beside the specification.</desc>
+          <category xml:id="tier-required">
+            <catDesc><term>required</term>: what every file has. A file without it fails the checks: the import
+              refuses a file that fails the RelaxNG, and reports the Schematron's errors, such as a formal title
+              without the document's code.</catDesc>
+          </category>
+          <category xml:id="tier-common">
+            <catDesc><term>common</term>: what most encoders add, as most of the project's coded files
+              do.</catDesc>
+          </category>
+          <category xml:id="tier-full">
+            <catDesc><term>full</term>: every other claim about the text, its source or the world, at full depth,
+              signed and with its evidence.</catDesc>
+          </category>
+          <category xml:id="tier-export-only">
+            <catDesc><term>export only</term>: the application's own state, which only its exports write, so that
+              anyone can read them.</catDesc>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
   </teiHeader>
   <text>
     <front>
@@ -45,9 +71,81 @@
       <xi:include href="chapters/editions-and-literature.xml"/>
       <xi:include href="chapters/exports.xml"/>
 
-      <div>
+      <div xml:id="specification">
         <head>The specification</head>
-        <schemaSpec ident="solemne" start="TEI" docLang="en" targetLang="en">
+        <p>The schema takes the modules of TEI below, and from each only the elements listed: an element outside
+          them fails the RelaxNG. Each part's specifications follow, in the parts' order. An element the
+          specifications change carries its tier there; the others take theirs from this table.</p>
+        <table xml:id="element-tiers">
+          <head>The elements taken from TEI unchanged, by tier</head>
+          <row role="label">
+            <cell>Tier</cell>
+            <cell>Elements</cell>
+          </row>
+          <row corresp="#tier-required">
+            <cell>required</cell>
+            <cell>
+              <gi>fileDesc</gi> <gi>publicationStmt</gi> <gi>sourceDesc</gi> <gi>TEI</gi> <gi>text</gi>
+            </cell>
+          </row>
+          <row corresp="#tier-common">
+            <cell>common</cell>
+            <cell>
+              <gi>address</gi> <gi>analytic</gi> <gi>biblScope</gi> <gi>biblStruct</gi>
+              <gi>distributor</gi> <gi>email</gi> <gi>forename</gi> <gi>imprint</gi> <gi>listPerson</gi>
+              <gi>monogr</gi> <gi>p</gi> <gi>postCode</gi> <gi>publisher</gi> <gi>pubPlace</gi>
+              <gi>series</gi> <gi>standOff</gi> <gi>street</gi> <gi>surname</gi>
+            </cell>
+          </row>
+          <row corresp="#tier-full">
+            <cell>full</cell>
+            <cell>
+              <gi>abbr</gi> <gi>abstract</gi> <gi>accMat</gi> <gi>acquisition</gi> <gi>add</gi>
+              <gi>additional</gi> <gi>additions</gi> <gi>addName</gi> <gi>addrLine</gi>
+              <gi>adminInfo</gi> <gi>affiliation</gi> <gi>altIdentifier</gi> <gi>anchor</gi>
+              <gi>annotation</gi> <gi>authority</gi> <gi>availability</gi> <gi>binding</gi>
+              <gi>bindingDesc</gi> <gi>birth</gi> <gi>bloc</gi> <gi>catchwords</gi> <gi>catDesc</gi>
+              <gi>category</gi> <gi>change</gi> <gi>choice</gi> <gi>cit</gi> <gi>citedRange</gi>
+              <gi>classDecl</gi> <gi>collation</gi> <gi>collection</gi> <gi>colophon</gi>
+              <gi>condition</gi> <gi>corr</gi> <gi>correction</gi> <gi>creation</gi> <gi>custEvent</gi>
+              <gi>custodialHist</gi> <gi>death</gi> <gi>decoDesc</gi> <gi>decoNote</gi> <gi>del</gi>
+              <gi>depth</gi> <gi>desc</gi> <gi>dim</gi> <gi>dimensions</gi> <gi>district</gi>
+              <gi>edition</gi> <gi>editionStmt</gi> <gi>encodingDesc</gi> <gi>expan</gi>
+              <gi>explicit</gi> <gi>extent</gi> <gi>filiation</gi> <gi>finalRubric</gi>
+              <gi>foliation</gi> <gi>foreign</gi> <gi>funder</gi> <gi>genName</gi> <gi>geo</gi>
+              <gi>geogName</gi> <gi>graphic</gi> <gi>handDesc</gi> <gi>handNote</gi> <gi>height</gi>
+              <gi>heraldry</gi> <gi>history</gi> <gi>incipit</gi> <gi>interpretation</gi> <gi>item</gi>
+              <gi>keywords</gi> <gi>label</gi> <gi>language</gi> <gi>langUsage</gi> <gi>layout</gi>
+              <gi>layoutDesc</gi> <gi>lb</gi> <gi>licence</gi> <gi>list</gi> <gi>listAnnotation</gi>
+              <gi>listBibl</gi> <gi>listChange</gi> <gi>listEvent</gi> <gi>listOrg</gi>
+              <gi>listPlace</gi> <gi>listPrefixDef</gi> <gi>listRelation</gi> <gi>listWit</gi>
+              <gi>location</gi> <gi>locus</gi> <gi>locusGrp</gi> <gi>material</gi> <gi>measure</gi>
+              <gi>msContents</gi> <gi>msFrag</gi> <gi>msIdentifier</gi> <gi>msItem</gi>
+              <gi>msItemStruct</gi> <gi>msName</gi> <gi>msPart</gi> <gi>musicNotation</gi> <gi>name</gi>
+              <gi>nameLink</gi> <gi>normalization</gi> <gi>notesStmt</gi> <gi>num</gi>
+              <gi>objectDesc</gi> <gi>objectType</gi> <gi>occupation</gi> <gi>org</gi> <gi>orig</gi>
+              <gi>origDate</gi> <gi>origin</gi> <gi>physDesc</gi> <gi>place</gi> <gi>principal</gi>
+              <gi>profileDesc</gi> <gi>projectDesc</gi> <gi>provenance</gi> <gi>ptr</gi>
+              <gi>punctuation</gi> <gi>q</gi> <gi>quotation</gi> <gi>recordHist</gi> <gi>refsDecl</gi>
+              <gi>reg</gi> <gi>resp</gi> <gi>respStmt</gi> <gi>revisionDesc</gi> <gi>roleName</gi>
+              <gi>rubric</gi> <gi>samplingDecl</gi> <gi>scriptDesc</gi> <gi>scriptNote</gi>
+              <gi>seal</gi> <gi>sealDesc</gi> <gi>secFol</gi> <gi>seriesStmt</gi> <gi>sic</gi>
+              <gi>signatures</gi> <gi>source</gi> <gi>sponsor</gi> <gi>stamp</gi> <gi>stdVals</gi>
+              <gi>subst</gi> <gi>summary</gi> <gi>supplied</gi> <gi>support</gi> <gi>supportDesc</gi>
+              <gi>surrogates</gi> <gi>taxonomy</gi> <gi>term</gi> <gi>textClass</gi> <gi>textLang</gi>
+              <gi>typeDesc</gi> <gi>typeNote</gi> <gi>unclear</gi> <gi>watermark</gi> <gi>width</gi>
+              <gi>witness</gi>
+            </cell>
+          </row>
+          <row corresp="#tier-export-only">
+            <cell>export only</cell>
+            <cell>
+              <gi>citeData</gi> <gi>citeStructure</gi> <gi>link</gi> <gi>linkGrp</gi>
+            </cell>
+          </row>
+        </table>
+        <schemaSpec ident="solemne" start="TEI" docLang="en" targetLang="en" xml:id="element-outside-the-schema"
+          corresp="#tier-required">
 
           <!-- The modules, and the elements taken from each. -->
           <moduleRef key="tei"/>

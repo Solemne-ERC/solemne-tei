@@ -14,6 +14,11 @@ Each release says what changed, and whether files that passed may now fail.
 - The build checks the ODD with its parts included, reports each error at its part's file and line, and writes the
   expanded ODD into the package as `solemne.expanded.odd`. The stamp in each generated file names the expanded ODD's
   SHA-256.
+- Every element, attribute and rule names its tier, `required`, `common`, `full` or `export only`, by `@corresp`
+  pointing to the tiers' taxonomy in the ODD's header; the elements taken from TEI unchanged take theirs from a table
+  beside the specification. Each Schematron rule has a `constraintSpec` of its own, and each restriction the RelaxNG
+  checks (a closed list, a required attribute, a pattern) an `xml:id` on the specification that makes it. Nothing
+  changes for files.
 
 ## 0.1.0 (2026-11-04)
 

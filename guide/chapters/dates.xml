@@ -5,22 +5,28 @@
   <p>This part's prose comes in a later version of the guide.</p>
 
   <specGrp xml:id="dates-specs">
-    <elementSpec ident="date" module="core" mode="change">
-          <constraintSpec ident="dates" scheme="schematron">
-            <desc>A date is one point, or a span with both its bounds.</desc>
-            <constraint>
-              <sch:rule context="tei:*[@notBefore or @notAfter][not(self::tei:locus or self::tei:biblScope or
-                self::tei:citedRange)]">
-                <sch:assert id="date-span-bounds" role="warning" test="@notBefore and @notAfter">A span gives both
-                  its bounds, @notBefore and @notAfter.</sch:assert>
-              </sch:rule>
-              <sch:rule context="tei:*[@from or @to][not(self::tei:locus or self::tei:biblScope or
-                self::tei:citedRange)]">
-                <sch:assert id="date-from-to" role="warning" test="@from and @to">A span gives both its ends,
-                  @from and @to.</sch:assert>
-              </sch:rule>
-            </constraint>
-          </constraintSpec>
+    <!-- A date is one point, or a span with both its bounds. -->
+    <elementSpec ident="date" module="core" mode="change" corresp="#tier-common">
+      <constraintSpec ident="date-span-bounds" scheme="schematron" corresp="#tier-full">
+        <desc>A span gives both its bounds.</desc>
+        <constraint>
+          <sch:rule context="tei:*[@notBefore or @notAfter][not(self::tei:locus or self::tei:biblScope or
+            self::tei:citedRange)]">
+            <sch:assert id="date-span-bounds" role="warning" test="@notBefore and @notAfter">A span gives both its
+              bounds, @notBefore and @notAfter.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="date-from-to" scheme="schematron" corresp="#tier-full">
+        <desc>A span gives both its ends.</desc>
+        <constraint>
+          <sch:rule context="tei:*[@from or @to][not(self::tei:locus or self::tei:biblScope or
+            self::tei:citedRange)]">
+            <sch:assert id="date-from-to" role="warning" test="@from and @to">A span gives both its ends, @from and
+              @to.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
     </elementSpec>
   </specGrp>
 </div>

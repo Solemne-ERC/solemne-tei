@@ -39,286 +39,382 @@
     <val>biblatex</val>.</p>
 
   <specGrp xml:id="file-and-header-specs">
-        <!-- The header. -->
-        <elementSpec ident="titleStmt" module="header" mode="change">
-          <constraintSpec ident="title-statement" scheme="schematron">
-            <desc>The title statement opens with the formal title; the other titles are aliases or other
-              titles.</desc>
-            <constraint>
-              <sch:rule context="tei:fileDesc/tei:titleStmt">
-                <sch:assert id="title-first-formal" test="tei:title[1][@type = 'formal']">The title statement
-                  opens with a title typed formal.</sch:assert>
-                <sch:assert id="title-one-formal" test="count(tei:title[@type = 'formal']) = 1">The title
-                  statement has one formal title.</sch:assert>
-              </sch:rule>
-              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title">
-                <sch:assert id="title-type" test="@type = ('formal', 'alias', 'other')">A title in the title
-                  statement is typed formal, alias or other.</sch:assert>
-                <sch:assert id="title-alias-words" test="not(@type = 'alias') or normalize-space(.) != ''">An
-                  alias isn't empty.</sch:assert>
-                <sch:assert id="title-other-source" role="warning" test="not(@type = 'other') or @source">A title
-                  typed other names its source in @source.</sch:assert>
-              </sch:rule>
-            </constraint>
-          </constraintSpec>
-        </elementSpec>
+    <!-- The title statement: the formal title first, then aliases and other titles. -->
+    <elementSpec ident="titleStmt" module="header" mode="change" corresp="#tier-required">
+      <constraintSpec ident="title-first-formal" scheme="schematron" corresp="#tier-required">
+        <desc>The title statement opens with the formal title.</desc>
+        <constraint>
+          <sch:rule context="tei:fileDesc/tei:titleStmt">
+            <sch:assert id="title-first-formal" test="tei:title[1][@type = 'formal']">The title statement opens
+              with a title typed formal.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="title-one-formal" scheme="schematron" corresp="#tier-required">
+        <desc>The title statement has one formal title.</desc>
+        <constraint>
+          <sch:rule context="tei:fileDesc/tei:titleStmt">
+            <sch:assert id="title-one-formal" test="count(tei:title[@type = 'formal']) = 1">The title statement
+              has one formal title.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="title-type" scheme="schematron" corresp="#tier-required">
+        <desc>The title statement's titles are typed formal, alias or other.</desc>
+        <constraint>
+          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title">
+            <sch:assert id="title-type" test="@type = ('formal', 'alias', 'other')">A title in the title statement
+              is typed formal, alias or other.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="title-alias-words" scheme="schematron" corresp="#tier-common">
+        <desc>An alias isn't empty.</desc>
+        <constraint>
+          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title">
+            <sch:assert id="title-alias-words" test="not(@type = 'alias') or normalize-space(.) != ''">An alias
+              isn't empty.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="title-other-source" scheme="schematron" corresp="#tier-full">
+        <desc>A title typed other names its source.</desc>
+        <constraint>
+          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title">
+            <sch:assert id="title-other-source" role="warning" test="not(@type = 'other') or @source">A title
+              typed other names its source in @source.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+    </elementSpec>
 
-        <elementSpec ident="idno" module="header" mode="change">
-          <constraintSpec ident="formal-title" scheme="schematron">
-            <desc>The formal title holds the document's code (an identifier without a type), its category and its
-              type, once each; an export adds the permalinks of the levels the file belongs to.</desc>
-            <constraint>
-              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']">
-                <sch:assert id="formal-title-idnos" test="count(tei:idno[not(@type)]) = 1 and count(tei:idno[@type =
-                  'category']) = 1 and count(tei:idno[@type = 'type']) = 1 and (every $level in ('work', 'version',
-                  'witness', 'transcription') satisfies count(tei:idno[@type = $level]) le 1)">The formal title holds
-                  the document's code (an identifier without a type), its category and its type, once each, and at
-                  most one permalink for each level the file belongs to.</sch:assert>
-              </sch:rule>
-              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title/tei:idno">
-                <sch:assert id="idno-in-formal-title" test="parent::tei:title[@type = 'formal']">An identifier in
-                  the title statement stands in the formal title.</sch:assert>
-                <sch:assert id="idno-type" test="not(@type) or @type = ('category', 'type', 'work', 'version',
-                  'witness', 'transcription')">An identifier in the formal title is the code (without a type), the
-                  category, the type, or the permalink of a level (work, version, witness,
-                  transcription).</sch:assert>
-              </sch:rule>
-              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
-                <sch:let name="category" value="normalize-space(../tei:idno[@type = 'category'][1])"/>
-                <sch:let name="prefix" value="substring-before(normalize-space(.), '.')"/>
-                <sch:assert id="code-format" test="matches(normalize-space(.),
-                  '^[A-Z]+\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*$')">The document's code (<sch:value-of
-                  select="normalize-space(.)"/>) begins with its category's prefix and a dot, and holds only letters,
-                  digits, dots and hyphens.</sch:assert>
-                <sch:assert id="code-category" test="$category = ('', 'UNK', 'LR', 'CPT', 'CHA') or $prefix = (if
-                  ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category)">The document's code
-                  (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of
-                  select="if ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category"/>, for the category
-                  <sch:value-of select="$category"/>).</sch:assert>
-                <sch:assert id="code-manuscript" test="not(contains(normalize-space(.), '.ms-')) or
-                  ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A manuscript's code (<sch:value-of
-                  select="normalize-space(.)"/>) goes with the manuscript's description (msDesc) in the
-                  sourceDesc.</sch:assert>
-                <sch:assert id="code-matches-file-name" role="warning" test="not(matches(base-uri(.),
-                  '/(C|D|COLL|P|EP|H|EX)\.[^/]*\.xml$')) or ends-with(base-uri(.), concat('/',
-                  encode-for-uri(normalize-space(.)), '.xml'))">A file named by a code is named by its document's
-                  code (<sch:value-of select="normalize-space(.)"/>).</sch:assert>
-              </sch:rule>
-              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'category']">
-                <sch:assert id="category-value" test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'C', 'D', 'P', 'H',
-                  'EX', 'EP', 'LR', 'CPT', 'CHA', 'UNK')">The document's category (<sch:value-of
-                  select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, C, D, P, H, EX, EP, LR, CPT, CHA,
-                  UNK.</sch:assert>
-              </sch:rule>
-              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type']">
-                <sch:assert id="document-type-value" test="normalize-space(.) = ('edition', 'manuscript',
-                  'reconstruction', 'hypothesis', 'placeholder')">The document's type (<sch:value-of
-                  select="normalize-space(.)"/>) is one of edition, manuscript, reconstruction, hypothesis,
-                  placeholder.</sch:assert>
-                <sch:assert id="type-manuscript" test="not(normalize-space(.) = 'manuscript') or
-                  ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A document typed manuscript has the
-                  manuscript's description (msDesc) in its sourceDesc.</sch:assert>
-              </sch:rule>
-            </constraint>
-          </constraintSpec>
-          <attList>
-            <attDef ident="type" mode="change">
-              <valList type="closed" mode="replace">
-                <valItem ident="category">
-                  <desc>in the formal title: the document's category</desc>
-                </valItem>
-                <valItem ident="type">
-                  <desc>in the formal title: the document's type</desc>
-                </valItem>
-                <valItem ident="work">
-                  <desc>in an export's formal title: the permalink of the work the file belongs to</desc>
-                </valItem>
-                <valItem ident="version">
-                  <desc>in an export's formal title: the permalink of the version</desc>
-                </valItem>
-                <valItem ident="witness">
-                  <desc>in an export's formal title: the permalink of the witness</desc>
-                </valItem>
-                <valItem ident="transcription">
-                  <desc>in an export's formal title: the permalink of the transcription</desc>
-                </valItem>
-                <valItem ident="wikidata">
-                  <desc>Wikidata's item (Q…)</desc>
-                </valItem>
-                <valItem ident="viaf">
-                  <desc>the Virtual International Authority File</desc>
-                </valItem>
-                <valItem ident="gnd">
-                  <desc>the Gemeinsame Normdatei</desc>
-                </valItem>
-                <valItem ident="geonames">
-                  <desc>GeoNames</desc>
-                </valItem>
-                <valItem ident="tgn">
-                  <desc>the Getty Thesaurus of Geographic Names</desc>
-                </valItem>
-                <valItem ident="pleiades">
-                  <desc>Pleiades, for ancient places</desc>
-                </valItem>
-                <valItem ident="mirabile">
-                  <desc>Mirabile</desc>
-                </valItem>
-                <valItem ident="clavis">
-                  <desc>the Clavis canonum</desc>
-                </valItem>
-                <valItem ident="biblissima">
-                  <desc>Biblissima</desc>
-                </valItem>
-                <valItem ident="schoenberg">
-                  <desc>the Schoenberg Database of Manuscripts</desc>
-                </valItem>
-                <valItem ident="hmml">
-                  <desc>the Hill Museum &amp; Manuscript Library</desc>
-                </valItem>
-                <valItem ident="bodleian">
-                  <desc>the Bodleian Libraries' catalogues</desc>
-                </valItem>
-                <valItem ident="manusOnline">
-                  <desc>Manus Online</desc>
-                </valItem>
-                <valItem ident="ieArk">
-                  <desc>the Bodleian's ARK for an intellectual entity</desc>
-                </valItem>
-                <valItem ident="crArk">
-                  <desc>the Bodleian's ARK for a catalogue record</desc>
-                </valItem>
-                <valItem ident="SCN">
-                  <desc>the Bodleian's Summary Catalogue number</desc>
-                </valItem>
-                <valItem ident="shelfmark">
-                  <desc>a manuscript's shelfmark</desc>
-                </valItem>
-                <valItem ident="ISBN">
-                  <desc>a publication's ISBN</desc>
-                </valItem>
-                <valItem ident="url">
-                  <desc>an address on the web</desc>
-                </valItem>
-                <valItem ident="biblatex">
-                  <desc>a publication's biblatex key</desc>
-                </valItem>
-              </valList>
-            </attDef>
-          </attList>
-        </elementSpec>
+    <!-- The formal title's identifiers: the document's code, its category and its type; an export's levels. -->
+    <elementSpec ident="idno" module="header" mode="change" corresp="#tier-required">
+      <constraintSpec ident="formal-title-idnos" scheme="schematron" corresp="#tier-required">
+        <desc>The formal title holds the document's code (an identifier without a type), its category and its
+          type, once each; an export adds the permalinks of the levels the file belongs to.</desc>
+        <constraint>
+          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']">
+            <sch:assert id="formal-title-idnos" test="count(tei:idno[not(@type)]) = 1 and count(tei:idno[@type =
+              'category']) = 1 and count(tei:idno[@type = 'type']) = 1 and (every $level in ('work', 'version',
+              'witness', 'transcription') satisfies count(tei:idno[@type = $level]) le 1)">The formal title holds
+              the document's code (an identifier without a type), its category and its type, once each, and at
+              most one permalink for each level the file belongs to.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="idno-in-formal-title" scheme="schematron" corresp="#tier-required">
+        <desc>An identifier in the title statement stands in the formal title.</desc>
+        <constraint>
+          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title/tei:idno">
+            <sch:assert id="idno-in-formal-title" test="parent::tei:title[@type = 'formal']">An identifier in the
+              title statement stands in the formal title.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="idno-type" scheme="schematron" corresp="#tier-required">
+        <desc>An identifier in the title statement is the code, the category, the type, or a level's
+          permalink.</desc>
+        <constraint>
+          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title/tei:idno">
+            <sch:assert id="idno-type" test="not(@type) or @type = ('category', 'type', 'work', 'version',
+              'witness', 'transcription')">An identifier in the formal title is the code (without a type), the
+              category, the type, or the permalink of a level (work, version, witness, transcription).</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="code-format" scheme="schematron" corresp="#tier-required">
+        <desc>The document's code is a prefix of capitals, a dot, then letters and digits joined by dots or
+          hyphens.</desc>
+        <constraint>
+          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
+            <sch:assert id="code-format" test="matches(normalize-space(.),
+              '^[A-Z]+\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*$')">The document's code (<sch:value-of
+              select="normalize-space(.)"/>) begins with its category's prefix and a dot, and holds only letters,
+              digits, dots and hyphens.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="code-category" scheme="schematron" corresp="#tier-required">
+        <desc>The document's code begins with its category's prefix.</desc>
+        <constraint>
+          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
+            <sch:let name="category" value="normalize-space(../tei:idno[@type = 'category'][1])"/>
+            <sch:let name="prefix" value="substring-before(normalize-space(.), '.')"/>
+            <sch:assert id="code-category" test="$category = ('', 'UNK', 'LR', 'CPT', 'CHA') or $prefix = (if
+              ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category)">The document's code
+              (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of
+              select="if ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category"/>, for the category
+              <sch:value-of select="$category"/>).</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="code-manuscript" scheme="schematron" corresp="#tier-full">
+        <desc>A manuscript's code goes with the manuscript's description.</desc>
+        <constraint>
+          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
+            <sch:assert id="code-manuscript" test="not(contains(normalize-space(.), '.ms-')) or
+              ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A manuscript's code (<sch:value-of
+              select="normalize-space(.)"/>) goes with the manuscript's description (msDesc) in the
+              sourceDesc.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="code-matches-file-name" scheme="schematron" corresp="#tier-required">
+        <desc>A file named by a code is named by its document's code.</desc>
+        <constraint>
+          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
+            <sch:assert id="code-matches-file-name" role="warning" test="not(matches(base-uri(.),
+              '/(C|D|COLL|P|EP|H|EX)\.[^/]*\.xml$')) or ends-with(base-uri(.), concat('/',
+              encode-for-uri(normalize-space(.)), '.xml'))">A file named by a code is named by its document's code
+              (<sch:value-of select="normalize-space(.)"/>).</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="category-value" scheme="schematron" corresp="#tier-required">
+        <desc>The document's category is one of the categories.</desc>
+        <constraint>
+          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'category']">
+            <sch:assert id="category-value" test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'C', 'D', 'P', 'H',
+              'EX', 'EP', 'LR', 'CPT', 'CHA', 'UNK')">The document's category (<sch:value-of
+              select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, C, D, P, H, EX, EP, LR, CPT, CHA,
+              UNK.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="document-type-value" scheme="schematron" corresp="#tier-required">
+        <desc>The document's type is one of the types.</desc>
+        <constraint>
+          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type']">
+            <sch:assert id="document-type-value" test="normalize-space(.) = ('edition', 'manuscript',
+              'reconstruction', 'hypothesis', 'placeholder')">The document's type (<sch:value-of
+              select="normalize-space(.)"/>) is one of edition, manuscript, reconstruction, hypothesis,
+              placeholder.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="type-manuscript" scheme="schematron" corresp="#tier-full">
+        <desc>A document typed manuscript has the manuscript's description.</desc>
+        <constraint>
+          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type']">
+            <sch:assert id="type-manuscript" test="not(normalize-space(.) = 'manuscript') or
+              ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A document typed manuscript has the manuscript's
+              description (msDesc) in its sourceDesc.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <attList>
+        <attDef ident="type" mode="change" corresp="#tier-required">
+          <valList type="closed" mode="replace" xml:id="idno-type-unknown" corresp="#tier-required">
+            <valItem ident="category">
+              <desc>in the formal title: the document's category</desc>
+            </valItem>
+            <valItem ident="type">
+              <desc>in the formal title: the document's type</desc>
+            </valItem>
+            <valItem ident="work">
+              <desc>in an export's formal title: the permalink of the work the file belongs to</desc>
+            </valItem>
+            <valItem ident="version">
+              <desc>in an export's formal title: the permalink of the version</desc>
+            </valItem>
+            <valItem ident="witness">
+              <desc>in an export's formal title: the permalink of the witness</desc>
+            </valItem>
+            <valItem ident="transcription">
+              <desc>in an export's formal title: the permalink of the transcription</desc>
+            </valItem>
+            <valItem ident="wikidata">
+              <desc>Wikidata's item (Q…)</desc>
+            </valItem>
+            <valItem ident="viaf">
+              <desc>the Virtual International Authority File</desc>
+            </valItem>
+            <valItem ident="gnd">
+              <desc>the Gemeinsame Normdatei</desc>
+            </valItem>
+            <valItem ident="geonames">
+              <desc>GeoNames</desc>
+            </valItem>
+            <valItem ident="tgn">
+              <desc>the Getty Thesaurus of Geographic Names</desc>
+            </valItem>
+            <valItem ident="pleiades">
+              <desc>Pleiades, for ancient places</desc>
+            </valItem>
+            <valItem ident="mirabile">
+              <desc>Mirabile</desc>
+            </valItem>
+            <valItem ident="clavis">
+              <desc>the Clavis canonum</desc>
+            </valItem>
+            <valItem ident="biblissima">
+              <desc>Biblissima</desc>
+            </valItem>
+            <valItem ident="schoenberg">
+              <desc>the Schoenberg Database of Manuscripts</desc>
+            </valItem>
+            <valItem ident="hmml">
+              <desc>the Hill Museum &amp; Manuscript Library</desc>
+            </valItem>
+            <valItem ident="bodleian">
+              <desc>the Bodleian Libraries' catalogues</desc>
+            </valItem>
+            <valItem ident="manusOnline">
+              <desc>Manus Online</desc>
+            </valItem>
+            <valItem ident="ieArk">
+              <desc>the Bodleian's ARK for an intellectual entity</desc>
+            </valItem>
+            <valItem ident="crArk">
+              <desc>the Bodleian's ARK for a catalogue record</desc>
+            </valItem>
+            <valItem ident="SCN">
+              <desc>the Bodleian's Summary Catalogue number</desc>
+            </valItem>
+            <valItem ident="shelfmark">
+              <desc>a manuscript's shelfmark</desc>
+            </valItem>
+            <valItem ident="ISBN">
+              <desc>a publication's ISBN</desc>
+            </valItem>
+            <valItem ident="url">
+              <desc>an address on the web</desc>
+            </valItem>
+            <valItem ident="biblatex">
+              <desc>a publication's biblatex key</desc>
+            </valItem>
+          </valList>
+        </attDef>
+      </attList>
+    </elementSpec>
 
-        <!-- The header points to records the same way: titles to works, authors and editors to persons, places
-             and institutions to theirs. provenance, acquisition and origin have no @ref in TEI: the record they
-             point to is named inside them, by a name with @ref. -->
-        <elementSpec ident="title" module="core" mode="change">
-          <attList>
-            <attDef ident="ref" mode="change">
-              <datatype minOccurs="1" maxOccurs="unbounded">
-                <dataRef key="solemne.recordPointer"/>
-              </datatype>
-            </attDef>
-          </attList>
-        </elementSpec>
-        <elementSpec ident="author" module="core" mode="change">
-          <attList>
-            <attDef ident="ref" mode="change">
-              <datatype minOccurs="1" maxOccurs="unbounded">
-                <dataRef key="solemne.recordPointer"/>
-              </datatype>
-            </attDef>
-          </attList>
-        </elementSpec>
-        <elementSpec ident="editor" module="core" mode="change">
-          <attList>
-            <attDef ident="ref" mode="change">
-              <datatype minOccurs="1" maxOccurs="unbounded">
-                <dataRef key="solemne.recordPointer"/>
-              </datatype>
-            </attDef>
-          </attList>
-        </elementSpec>
+    <!-- The header points to records the same way: titles to works, authors and editors to persons, places
+         and institutions to theirs. provenance, acquisition and origin have no @ref in TEI: the record they
+         point to is named inside them, by a name with @ref. -->
+    <elementSpec ident="title" module="core" mode="change" corresp="#tier-required">
+      <attList>
+        <attDef ident="ref" mode="change" corresp="#tier-full">
+          <datatype minOccurs="1" maxOccurs="unbounded">
+            <dataRef key="solemne.recordPointer"/>
+          </datatype>
+        </attDef>
+      </attList>
+    </elementSpec>
+    <elementSpec ident="author" module="core" mode="change" corresp="#tier-full">
+      <attList>
+        <attDef ident="ref" mode="change" corresp="#tier-full">
+          <datatype minOccurs="1" maxOccurs="unbounded">
+            <dataRef key="solemne.recordPointer"/>
+          </datatype>
+        </attDef>
+      </attList>
+    </elementSpec>
+    <elementSpec ident="editor" module="core" mode="change" corresp="#tier-common">
+      <attList>
+        <attDef ident="ref" mode="change" corresp="#tier-full">
+          <datatype minOccurs="1" maxOccurs="unbounded">
+            <dataRef key="solemne.recordPointer"/>
+          </datatype>
+        </attDef>
+      </attList>
+    </elementSpec>
 
-        <elementSpec ident="teiHeader" module="header" mode="change">
-          <constraintSpec ident="record-pointers" scheme="schematron">
-            <desc>A record is pointed to by @ref, not by @key or @corresp.</desc>
-            <constraint>
-              <sch:rule context="tei:*[@key or @corresp]">
-                <sch:report id="record-pointer-in-ref" role="warning" test="some $p in tokenize(normalize-space(string-join((@key, @corresp), ' ')), ' ') satisfies matches($p, '^#?[Nn]ew_[A-Za-z]+_|^#?(PERS\.\d+|solemne_person_\d+)$|^https?://\S+/id/(person|place|institution|event|manuscript|publication)/')">&lt;<sch:name/>&gt;
-                  points to a record in @key or @corresp (<sch:value-of select="normalize-space(string-join((@key,
-                  @corresp), ' '))"/>): a record is pointed to by @ref, on a name inside provenance, acquisition and
-                  origin.</sch:report>
-              </sch:rule>
-            </constraint>
-          </constraintSpec>
-        </elementSpec>
+    <elementSpec ident="teiHeader" module="header" mode="change" corresp="#tier-required">
+      <constraintSpec ident="record-pointer-in-ref" scheme="schematron" corresp="#tier-full">
+        <desc>A record is pointed to by @ref, not by @key or @corresp.</desc>
+        <constraint>
+          <sch:rule context="tei:*[@key or @corresp]">
+            <sch:report id="record-pointer-in-ref" role="warning" test="some $p in
+              tokenize(normalize-space(string-join((@key, @corresp), ' ')), ' ') satisfies matches($p,
+              '^#?[Nn]ew_[A-Za-z]+_|^#?(PERS\.\d+|solemne_person_\d+)$|^https?://\S+/id/(person|place|institution|event|manuscript|publication)/')">&lt;<sch:name/>&gt;
+              points to a record in @key or @corresp (<sch:value-of select="normalize-space(string-join((@key,
+              @corresp), ' '))"/>): a record is pointed to by @ref, on a name inside provenance, acquisition and
+              origin.</sch:report>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+    </elementSpec>
 
-        <!-- External ids: a node's in @sameAs, its prefix declared in the header; a record's or a manuscript's in
-             an idno typed by its authority. -->
-        <elementSpec ident="prefixDef" module="header" mode="change">
-          <constraintSpec ident="same-as-prefixes" scheme="schematron">
-            <desc>A prefix used in @sameAs is declared in the header; the prefixes the application knows are scta,
-              clavis, pseudoisidor and corpuscorporum.</desc>
-            <constraint>
-              <sch:rule context="tei:*[@sameAs]">
-                <sch:let name="declared" value="/tei:TEI/tei:teiHeader//tei:prefixDef/@ident"/>
-                <sch:assert id="same-as-prefix-declared" test="every $id in tokenize(normalize-space(@sameAs), ' ')
-                  satisfies (not(matches($id, '^[A-Za-z][A-Za-z0-9+.\-]*:')) or matches($id, '^https?:') or
-                  substring-before($id, ':') = $declared)">The prefixes in @sameAs (<sch:value-of
-                  select="normalize-space(@sameAs)"/>) are declared in the header, by prefixDef in
-                  listPrefixDef.</sch:assert>
-              </sch:rule>
-              <sch:rule context="tei:prefixDef">
-                <sch:assert id="prefix-known" role="warning" test="@ident = ('scta', 'clavis', 'pseudoisidor',
-                  'corpuscorporum')">The prefix <sch:value-of select="@ident"/> isn't one the application knows
-                  (scta, clavis, pseudoisidor, corpuscorporum).</sch:assert>
-              </sch:rule>
-            </constraint>
-          </constraintSpec>
-        </elementSpec>
+    <!-- External ids: a node's in @sameAs, its prefix declared in the header; a record's or a manuscript's in an
+         idno typed by its authority. -->
+    <elementSpec ident="prefixDef" module="header" mode="change" corresp="#tier-full">
+      <constraintSpec ident="same-as-prefix-declared" scheme="schematron" corresp="#tier-full">
+        <desc>A prefix used in @sameAs is declared in the header.</desc>
+        <constraint>
+          <sch:rule context="tei:*[@sameAs]">
+            <sch:let name="declared" value="/tei:TEI/tei:teiHeader//tei:prefixDef/@ident"/>
+            <sch:assert id="same-as-prefix-declared" test="every $id in tokenize(normalize-space(@sameAs), ' ')
+              satisfies (not(matches($id, '^[A-Za-z][A-Za-z0-9+.\-]*:')) or matches($id, '^https?:') or
+              substring-before($id, ':') = $declared)">The prefixes in @sameAs (<sch:value-of
+              select="normalize-space(@sameAs)"/>) are declared in the header, by prefixDef in
+              listPrefixDef.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="prefix-known" scheme="schematron" corresp="#tier-full">
+        <desc>The prefixes the application knows are scta, clavis, pseudoisidor and corpuscorporum.</desc>
+        <constraint>
+          <sch:rule context="tei:prefixDef">
+            <sch:assert id="prefix-known" role="warning" test="@ident = ('scta', 'clavis', 'pseudoisidor',
+              'corpuscorporum')">The prefix <sch:value-of select="@ident"/> isn't one the application knows (scta,
+              clavis, pseudoisidor, corpuscorporum).</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+    </elementSpec>
 
-        <!-- The declarations a text and its parts point to: curation and inferred units. -->
-        <elementSpec ident="editorialDecl" module="header" mode="change">
-          <constraintSpec ident="declarations" scheme="schematron">
-            <desc>@decls points to a correction or a segmentation in the header; of several corrections, one is the
-              default; a statement of inferred units for some divisions is pointed to by them.</desc>
-            <constraint>
-              <sch:rule context="tei:*[@decls]">
-                <sch:assert id="decls-target" test="every $t in tokenize(normalize-space(@decls), ' ') satisfies
-                  (starts-with($t, '#') and exists(/tei:TEI/tei:teiHeader//(tei:correction |
-                  tei:segmentation)[@xml:id = substring($t, 2)]))">@decls (<sch:value-of
-                  select="normalize-space(@decls)"/>) points to a correction or a segmentation in the
-                  header.</sch:assert>
-              </sch:rule>
-              <sch:rule context="tei:editorialDecl[count(tei:correction) gt 1]">
-                <sch:assert id="correction-default" test="count(tei:correction[@default = 'true']) = 1">Of several
-                  corrections, one is the default (@default="true"): the whole text's.</sch:assert>
-              </sch:rule>
-              <sch:rule context="tei:segmentation[@type = 'inferred-units'][@default = 'false']">
-                <sch:let name="id" value="concat('#', @xml:id)"/>
-                <sch:assert id="inferred-units-pointed-to" role="warning" test="@xml:id and
-                  //@decls[tokenize(normalize-space(.), ' ') = $id]">A statement of inferred units for some
-                  divisions (@default="false") is pointed to by their @decls.</sch:assert>
-              </sch:rule>
-            </constraint>
-          </constraintSpec>
-        </elementSpec>
+    <!-- The declarations a text and its parts point to: curation and inferred units. -->
+    <elementSpec ident="editorialDecl" module="header" mode="change" corresp="#tier-full">
+      <constraintSpec ident="decls-target" scheme="schematron" corresp="#tier-full">
+        <desc>@decls points to a correction or a segmentation in the header.</desc>
+        <constraint>
+          <sch:rule context="tei:*[@decls]">
+            <sch:assert id="decls-target" test="every $t in tokenize(normalize-space(@decls), ' ') satisfies
+              (starts-with($t, '#') and exists(/tei:TEI/tei:teiHeader//(tei:correction |
+              tei:segmentation)[@xml:id = substring($t, 2)]))">@decls (<sch:value-of
+              select="normalize-space(@decls)"/>) points to a correction or a segmentation in the
+              header.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="correction-default" scheme="schematron" corresp="#tier-full">
+        <desc>Of several corrections, one is the default.</desc>
+        <constraint>
+          <sch:rule context="tei:editorialDecl[count(tei:correction) gt 1]">
+            <sch:assert id="correction-default" test="count(tei:correction[@default = 'true']) = 1">Of several
+              corrections, one is the default (@default="true"): the whole text's.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="inferred-units-pointed-to" scheme="schematron" corresp="#tier-full">
+        <desc>A statement of inferred units for some divisions is pointed to by them.</desc>
+        <constraint>
+          <sch:rule context="tei:segmentation[@type = 'inferred-units'][@default = 'false']">
+            <sch:let name="id" value="concat('#', @xml:id)"/>
+            <sch:assert id="inferred-units-pointed-to" role="warning" test="@xml:id and
+              //@decls[tokenize(normalize-space(.), ' ') = $id]">A statement of inferred units for some divisions
+              (@default="false") is pointed to by their @decls.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+    </elementSpec>
 
-        <!-- The units of reception, where the encoders didn't mark them. -->
-        <elementSpec ident="segmentation" module="header" mode="change">
-          <classes mode="change">
-            <memberOf key="att.typed"/>
-          </classes>
-          <attList>
-            <attDef ident="type" mode="change">
-              <valList type="closed" mode="replace">
-                <valItem ident="inferred-units">
-                  <desc>the units of reception aren't marked: each division that holds paragraphs is
-                    one</desc>
-                </valItem>
-              </valList>
-            </attDef>
-            <attDef ident="subtype" mode="delete"/>
-          </attList>
-        </elementSpec>
+    <!-- The units of reception, where the encoders didn't mark them. -->
+    <elementSpec ident="segmentation" module="header" mode="change" corresp="#tier-full">
+      <classes mode="change">
+        <memberOf key="att.typed"/>
+      </classes>
+      <attList>
+        <attDef ident="type" mode="change" corresp="#tier-full">
+          <valList type="closed" mode="replace" xml:id="segmentation-type-unknown" corresp="#tier-full">
+            <valItem ident="inferred-units">
+              <desc>the units of reception aren't marked: each division that holds paragraphs is one</desc>
+            </valItem>
+          </valList>
+        </attDef>
+        <attDef ident="subtype" mode="delete"/>
+      </attList>
+    </elementSpec>
   </specGrp>
 </div>

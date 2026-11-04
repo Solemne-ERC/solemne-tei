@@ -5,21 +5,21 @@
   <p>This part's prose comes in a later version of the guide.</p>
 
   <specGrp xml:id="relations-specs">
-        <!-- Exports: relations are observations or judgements. -->
-        <elementSpec ident="relation" module="namesdates" mode="change">
-          <attList>
-            <attDef ident="name" mode="change" usage="req"/>
-            <attDef ident="type" mode="change">
-              <valList type="closed" mode="replace">
-                <valItem ident="observation">
-                  <desc>what a witness shows</desc>
-                </valItem>
-                <valItem ident="judgement">
-                  <desc>what holds of a version or a work, with its method</desc>
-                </valItem>
-              </valList>
-            </attDef>
-          </attList>
-        </elementSpec>
+    <!-- Relations are observations or judgements. -->
+    <elementSpec ident="relation" module="namesdates" mode="change" corresp="#tier-full">
+      <attList>
+        <attDef ident="name" mode="change" usage="req" xml:id="relation-without-name" corresp="#tier-full"/>
+        <attDef ident="type" mode="change" corresp="#tier-full">
+          <valList type="closed" mode="replace" xml:id="relation-type-unknown" corresp="#tier-full">
+            <valItem ident="observation">
+              <desc>what a witness shows</desc>
+            </valItem>
+            <valItem ident="judgement">
+              <desc>what holds of a version or a work, with its method</desc>
+            </valItem>
+          </valList>
+        </attDef>
+      </attList>
+    </elementSpec>
   </specGrp>
 </div>
