@@ -77,8 +77,9 @@ class Validator:
         xslt = self._saxon.new_xslt30_processor()
         self._schematron = xslt.compile_stylesheet(stylesheet_file=str(schema_dir / SCHEMATRON_XSLT))
 
-    def check(self, path: Path) -> Result:
+    def check(self, path: str | os.PathLike[str]) -> Result:
         name = str(path)
+        path = Path(path)
         result = Result(name)
         parser = etree.XMLParser(huge_tree=True, resolve_entities=False)
         try:
@@ -195,7 +196,7 @@ def _init_worker(schema_dir: Path) -> None:
     _validator = Validator(schema_dir)
 
 
-def _check_in_worker(path: Path) -> Result:
+def _check_in_worker(path: str | os.PathLike[str]) -> Result:
     assert _validator is not None
     return _validator.check(path)
 
@@ -208,8 +209,10 @@ def xml_files(paths: Iterable[Path]) -> list[Path]:
     return sorted(found)
 
 
-def validate(paths: Sequence[Path], jobs: int | None = None, schema_dir: Path = SCHEMA_DIR) -> list[Result]:
-    """Check files with `jobs` workers (all cores by default), in the order given."""
+def validate(
+    paths: Sequence[str | os.PathLike[str]], jobs: int | None = None, schema_dir: Path = SCHEMA_DIR
+) -> list[Result]:
+    """Check files with `jobs` workers (all cores by default), in the order given. A path may be a string."""
     jobs = jobs or os.cpu_count() or 1
     if jobs <= 1 or len(paths) <= 1:
         validator = Validator(schema_dir)
