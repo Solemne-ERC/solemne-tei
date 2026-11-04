@@ -32,6 +32,27 @@ Folders are searched for `*.xml`. Each problem is printed with its file, line, c
 results as JSON; `--jobs N` sets the number of workers (all cores by default; the results don't depend on it);
 `--strict` makes Schematron errors fail too. The exit code is 1 when a file isn't well formed or fails the RelaxNG.
 
+From Python:
+
+```python
+from solemne_tei import SCHEMA_VERSION, Validator, closed_lists, validate
+
+results = validate(["one_file.xml"], jobs=4)  # a Result per file, with its Problems
+validator = Validator()  # compiled once, to check files one by one
+result = validator.check("one_file.xml")
+lists = closed_lists()  # {"div": {"type": ["capitulum", ...]}, ...}
+```
+
+## The lists encoders need
+
+```
+solemne-tei lists
+```
+
+It prints the schema's closed lists (the types of divisions, headings, notes and the rest, by element and attribute),
+the categories a document's code begins with, and the codes of the Bible's 73 books with their Vulgate names; `--json`
+gives the same as data.
+
 ## Regenerating the schema
 
 After changing the ODD, in a clone:
@@ -40,9 +61,11 @@ After changing the ODD, in a clone:
 solemne-tei build
 ```
 
-It writes the RelaxNG (`solemne.rng`), the Schematron (`solemne.sch`) and the Schematron compiled to XSLT
-(`solemne-schematron.xsl`) into `src/solemne_tei/schema/`. Each starts with the SHA-256 of the ODD it came from; a
-test fails when the ODD has changed since. Running it again on the same ODD writes nothing, and says so.
+It writes the RelaxNG (`solemne.rng`), the Schematron (`solemne.sch`), the Schematron compiled to XSLT
+(`solemne-schematron.xsl`), the compiled ODD (`solemne.compiled.odd`) and its closed lists (`closed-lists.json`) into
+`src/solemne_tei/schema/`. Each names the version and the SHA-256 of the ODD it came from; a test fails when the ODD
+has changed since. The version is the ODD's `editionStmt/edition/@n`, kept equal to the package's. Running the build
+again on the same ODD writes nothing, and says so.
 
 The first run fetches what the build needs into `build/tei/` (ignored by git), at pinned versions checked by their
 SHA-256:
