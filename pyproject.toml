@@ -13,7 +13,7 @@ license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Gleb Schmidt" }, { name = "Friederike Voit" }, { name = "Sven Meeder" }, { name = "Radboud University" }]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = ["lxml>=6.1.3", "saxonche>=13.1.1"]
 
 [project.optional-dependencies]
 dev = ["pytest==9.2.0", "ruff==0.17.3"]
@@ -27,6 +27,9 @@ solemne-tei = "solemne_tei.cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["solemne_tei*"]
+
+[tool.setuptools.package-data]
+solemne_tei = ["schema/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

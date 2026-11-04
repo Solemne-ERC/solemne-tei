@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: MIT -->
+<!-- A collection as one manuscript transmits it, with the manuscript's description. Made up: the collection,
+     the manuscript and the library are not real. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="formal">
+          <idno type="collCode">COLL.Samp.ms-Now-NL-12</idno>
+          <idno type="collCat">SYSCOLL</idno>
+          <idno type="collType">manuscript</idno>
+        </title>
+        <title type="alias">Collectio Sampliensis in Nowhere, National Library, 12</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>A sample of the project's schema</publisher>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc xml:id="Now-NL-12" xml:lang="en">
+          <msIdentifier>
+            <country>Nowhereland</country>
+            <settlement>Nowhere</settlement>
+            <repository>National Library</repository>
+            <idno type="shelfmark">MS 12</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem>
+              <locus from="1r" to="40v">fols. 1r–40v</locus>
+              <title>Collectio Sampliensis</title>
+              <textLang mainLang="la">Latin</textLang>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc form="codex">
+              <supportDesc material="perg">
+                <support>Parchment.</support>
+                <extent>40 leaves <dimensions type="leaf" unit="mm">
+                    <height>250</height>
+                    <width>170</width>
+                  </dimensions></extent>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+          <history>
+            <origin>
+              <origDate calendar="Gregorian" notBefore="0800" notAfter="0850">first half of the ninth
+                century</origDate>
+              <origPlace>Somewhere in the north</origPlace>
+            </origin>
+          </history>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="register">
+        <head type="rubric">INCIPIUNT CAPITULA</head>
+        <div type="registerItem" n="1">
+          <head type="number">I</head>
+          <head type="rubric">De fide.</head>
+        </div>
+        <div type="registerItem" n="2">
+          <head type="number">II</head>
+          <head type="rubric">De baptismo.</head>
+        </div>
+      </div>
+      <div type="section">
+        <head type="rubric">INCIPIT LIBER PRIMUS</head>
+        <div type="chapter" n="1">
+          <head type="number">I</head>
+          <head type="rubric">De fide.</head>
+          <head type="inscription">Ex concilio Sampliensi.</head>
+          <p><pb n="1v"/>Fidem rectam teneant omnes.<note type="source" source="C.SAM-0600_1"/></p>
+        </div>
+        <div type="chapter" n="2">
+          <head type="number">II</head>
+          <head type="inscription">Item ex epistola <persName ref="#new_person_Exemplus">Exempli</persName>
+            papae de baptismo.</head>
+          <p>Baptismus in nomine trinitatis detur.<note type="parallel">Cf. Coll. exempli 3.4.</note></p>
+        </div>
+      </div>
+    </body>
+  </text>
+  <standOff>
+    <listPerson>
+      <person xml:id="new_person_Exemplus">
+        <persName type="main">Exemplus</persName>
+        <persName type="alternative">Exemplus papa</persName>
+      </person>
+    </listPerson>
+  </standOff>
+</TEI>
