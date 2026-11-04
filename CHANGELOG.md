@@ -5,6 +5,19 @@ Each release says what changed, and whether files that passed may now fail.
 
 ## Unreleased
 
+### The rules
+
+Files that passed 0.1.0 may now fail where they have fragments or codes of the categories `LR`, `CPT` and `CHA`.
+
+- **Fragments, two new errors:** `fragment-attributes`: a later fragment (one with `@prev`) carries only its
+  `xml:id`, `@prev` and `@next`, and the span's other attributes go on its first fragment; a segment's later
+  fragments repeat its `@type`, which the RelaxNG requires, with the same value. `fragment-order`: `@next` points to
+  an element later in the file, so that the fragments follow the text's order.
+- **Codes:** a code of the categories `LR`, `CPT` and `CHA` begins with `LR.`, `CPT.` and `CHA.` (`code-category`),
+  as the old guide's coding rules have it; it took any prefix before. `UNK` still takes any.
+- **File names:** `code-matches-file-name` reads any category's prefix in a file's name, not only `C`, `D`, `COLL`,
+  `P`, `EP`, `H` and `EX`.
+
 ### The guide
 
 - The ODD is split into the guide's parts: `guide/solemne.odd` is the root, and includes by XInclude one file per

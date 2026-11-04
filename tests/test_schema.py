@@ -4,6 +4,7 @@ checked against their pins, and the build stops on an ODD that isn't valid. The 
 of every rule among them, are checked in test_guide."""
 
 import hashlib
+import re
 import tomllib
 from pathlib import Path
 
@@ -146,3 +147,38 @@ def test_the_schematron_embedded_in_a_grammar_is_gathered_namespaces_first(tmp_p
     assert schema.get("queryBinding") == "xslt2"
     assert [etree.QName(el).localname for el in schema] == ["ns", "pattern"]
     assert schema.find(f"{{{SCH}}}pattern/{{{SCH}}}rule").get("context") == "tei:p"
+
+
+def with_code(tmp_path: Path, code: str, category: str, name: str = "file.xml") -> Path:
+    """A valid sample whose formal title gives this code and category, saved under this name."""
+    text = (SAMPLES / "valid" / "council-edition.xml").read_text(encoding="utf-8")
+    text = re.sub(r"<idno>[^<]*</idno>", f"<idno>{code}</idno>", text, count=1)
+    text = re.sub(r'<idno type="category">[^<]*</idno>', f'<idno type="category">{category}</idno>', text, count=1)
+    path = tmp_path / name
+    path.write_text(text, encoding="utf-8")
+    return path
+
+
+def schematron_rules(validator: Validator, path: Path) -> set[str]:
+    return {p.rule for p in validator.check(path).problems if p.check == "schematron"}
+
+
+@pytest.mark.parametrize("category", ["LR", "CPT", "CHA"])
+def test_a_code_begins_with_its_category_s_own_prefix(validator: Validator, tmp_path: Path, category: str) -> None:
+    own = with_code(tmp_path, f"{category}.Exemplum-0800", category)
+    assert "code-category" not in schematron_rules(validator, own)
+    assert "code-category" in schematron_rules(validator, with_code(tmp_path, "C.Exemplum-0800", category))
+
+
+def test_a_code_of_an_unknown_category_takes_any_prefix(validator: Validator, tmp_path: Path) -> None:
+    assert "code-category" not in schematron_rules(validator, with_code(tmp_path, "C.Exemplum-0800", "UNK"))
+
+
+@pytest.mark.parametrize("category", ["C", "LR", "CPT", "CHA", "SYSCOLL"])
+def test_a_file_named_by_a_code_is_named_by_its_own(validator: Validator, tmp_path: Path, category: str) -> None:
+    prefix = "COLL" if category == "SYSCOLL" else category
+    code = f"{prefix}.Exemplum-0800"
+    right = with_code(tmp_path, code, category, f"{code}.xml")
+    assert "code-matches-file-name" not in schematron_rules(validator, right)
+    wrong = with_code(tmp_path, code, category, f"{prefix}.Aliud-0801.xml")
+    assert "code-matches-file-name" in schematron_rules(validator, wrong)

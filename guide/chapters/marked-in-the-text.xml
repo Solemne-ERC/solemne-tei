@@ -85,6 +85,39 @@
       <p><quote xml:id="prev-wrong-b" prev="#prev-wrong-a">maneant.</quote></p>
     </div>
   </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="fragment-attributes">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <p><quote xml:id="attributes-wrong-a" next="#attributes-wrong-b" source="C.NIC-0325_15">Placuit ut episcopi
+          in ciuitatibus suis</quote></p>
+      <p><quote xml:id="attributes-wrong-b" prev="#attributes-wrong-a" source="C.NIC-0325_15">maneant.</quote></p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="fragment-order">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <p><quote xml:id="order-wrong-b" prev="#order-wrong-a">maneant.</quote></p>
+      <p><quote xml:id="order-wrong-a" next="#order-wrong-b" source="C.NIC-0325_15">Placuit ut episcopi in
+          ciuitatibus suis</quote></p>
+    </div>
+  </egXML>
+  <p>Fragments as they should be: a quotation over two paragraphs, its source on the first fragment; a formula over
+    two, each fragment typed, as the RelaxNG requires of every segment.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <p><quote xml:id="fragments-a" next="#fragments-b" source="C.NIC-0325_15">Placuit ut episcopi in ciuitatibus
+          suis</quote></p>
+      <p><quote xml:id="fragments-b" prev="#fragments-a">maneant.</quote></p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+    <div type="chapter" n="2">
+      <head type="number">II.</head>
+      <p>Placuit ut <seg type="formula" xml:id="formula-a" next="#formula-b">si quis</seg></p>
+      <p><seg type="formula" xml:id="formula-b" prev="#formula-a">episcopus</seg> migrauerit, deponatur.</p>
+    </div>
+  </egXML>
 
   <specGrp xml:id="marked-in-the-text-specs">
     <!-- Notes: in the text, typed by their layer. -->
@@ -190,6 +223,33 @@
               normalize-space($prev/@next) = concat('#', @xml:id)">&lt;<sch:name/>&gt;'s @prev (<sch:value-of
               select="@prev"/>) points to the previous fragment in the file, a &lt;<sch:name/>&gt; whose @next
               points back.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="fragment-attributes" scheme="schematron" corresp="#tier-full">
+        <desc>Only the first fragment carries the attributes that describe the whole span; a later one carries its
+          xml:id, @prev and @next, and the attributes the RelaxNG requires (a segment's type), with the first
+          fragment's values.</desc>
+        <constraint>
+          <sch:rule context="tei:*[@prev]">
+            <sch:let name="prev" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@prev), '#')]"/>
+            <sch:let name="other" value="@*[not(name() = ('xml:id', 'prev', 'next'))]"/>
+            <sch:assert id="fragment-attributes" test="every $a in $other satisfies (self::tei:seg and name($a) =
+              'type' and $a = $prev/@type)">&lt;<sch:name/>&gt; is a later fragment (it has @prev): it carries only
+              its xml:id, @prev and @next, and the span's other attributes (<sch:value-of select="string-join(for $a
+              in $other return concat('@', name($a)), ', ')"/>) go on its first fragment.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+      <constraintSpec ident="fragment-order" scheme="schematron" corresp="#tier-full">
+        <desc>A fragment's @next points to an element later in the file: the fragments follow the text's
+          order.</desc>
+        <constraint>
+          <sch:rule context="tei:*[@next]">
+            <sch:let name="next" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@next), '#')]"/>
+            <sch:assert id="fragment-order" test="every $n in $next satisfies $n >> .">&lt;<sch:name/>&gt;'s @next
+              (<sch:value-of select="@next"/>) points to a fragment later in the file: the fragments follow the
+              text's order.</sch:assert>
           </sch:rule>
         </constraint>
       </constraintSpec>

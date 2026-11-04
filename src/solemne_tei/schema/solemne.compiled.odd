@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.1.0 (SHA-256 13d7d85c32fa91074353fd10429a41c6907b5e26542541c53b5635f9a16b62e4) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.1.0 (SHA-256 01f7eb63f7571eb8ba6ade4a698494bb0a9bc01f11f2ff9decbb78896bcfe29b) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -581,6 +581,39 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <head type="number">I.</head>
       <p><quote xml:id="prev-wrong-a">Placuit ut episcopi in ciuitatibus suis</quote></p>
       <p><quote xml:id="prev-wrong-b" prev="#prev-wrong-a">maneant.</quote></p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="fragment-attributes">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <p><quote xml:id="attributes-wrong-a" next="#attributes-wrong-b" source="C.NIC-0325_15">Placuit ut episcopi
+          in ciuitatibus suis</quote></p>
+      <p><quote xml:id="attributes-wrong-b" prev="#attributes-wrong-a" source="C.NIC-0325_15">maneant.</quote></p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="fragment-order">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <p><quote xml:id="order-wrong-b" prev="#order-wrong-a">maneant.</quote></p>
+      <p><quote xml:id="order-wrong-a" next="#order-wrong-b" source="C.NIC-0325_15">Placuit ut episcopi in
+          ciuitatibus suis</quote></p>
+    </div>
+  </egXML>
+  <p>Fragments as they should be: a quotation over two paragraphs, its source on the first fragment; a formula over
+    two, each fragment typed, as the RelaxNG requires of every segment.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <p><quote xml:id="fragments-a" next="#fragments-b" source="C.NIC-0325_15">Placuit ut episcopi in ciuitatibus
+          suis</quote></p>
+      <p><quote xml:id="fragments-b" prev="#fragments-a">maneant.</quote></p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples">
+    <div type="chapter" n="2">
+      <head type="number">II.</head>
+      <p>Placuit ut <seg type="formula" xml:id="formula-a" next="#formula-b">si quis</seg></p>
+      <p><seg type="formula" xml:id="formula-b" prev="#formula-a">episcopus</seg> migrauerit, deponatur.</p>
     </div>
   </egXML>
 
@@ -8107,6 +8140,29 @@ Ce ne seroyt que bon que nous rendissiez noz cloches...</egXML>
             <sch:let name="prev" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@prev), '#')]"/>
             <sch:assert id="fragment-prev" test="count($prev) = 1 and local-name($prev) = local-name() and               normalize-space($prev/@next) = concat('#', @xml:id)">&lt;<sch:name/>&gt;'s @prev (<sch:value-of select="@prev"/>) points to the previous fragment in the file, a &lt;<sch:name/>&gt; whose @next
               points back.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec><constraintSpec ident="fragment-attributes" scheme="schematron" corresp="#tier-full">
+        <desc>Only the first fragment carries the attributes that describe the whole span; a later one carries its
+          xml:id, @prev and @next, and the attributes the RelaxNG requires (a segment's type), with the first
+          fragment's values.</desc>
+        <constraint>
+          <sch:rule context="tei:*[@prev]">
+            <sch:let name="prev" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@prev), '#')]"/>
+            <sch:let name="other" value="@*[not(name() = ('xml:id', 'prev', 'next'))]"/>
+            <sch:assert id="fragment-attributes" test="every $a in $other satisfies (self::tei:seg and name($a) =               'type' and $a = $prev/@type)">&lt;<sch:name/>&gt; is a later fragment (it has @prev): it carries only
+              its xml:id, @prev and @next, and the span's other attributes (<sch:value-of select="string-join(for $a               in $other return concat('@', name($a)), ', ')"/>) go on its first fragment.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec><constraintSpec ident="fragment-order" scheme="schematron" corresp="#tier-full">
+        <desc>A fragment's @next points to an element later in the file: the fragments follow the text's
+          order.</desc>
+        <constraint>
+          <sch:rule context="tei:*[@next]">
+            <sch:let name="next" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@next), '#')]"/>
+            <sch:assert id="fragment-order" test="every $n in $next satisfies $n &gt;&gt; .">&lt;<sch:name/>&gt;'s @next
+              (<sch:value-of select="@next"/>) points to a fragment later in the file: the fragments follow the
+              text's order.</sch:assert>
           </sch:rule>
         </constraint>
       </constraintSpec><attList><attDef ident="source" mode="change" corresp="#tier-full">
@@ -15710,12 +15766,13 @@ distribution of a text.</desc>
           </sch:rule>
         </constraint>
       </constraintSpec><constraintSpec ident="code-category" scheme="schematron" corresp="#tier-required">
-        <desc>The document's code begins with its category's prefix.</desc>
+        <desc>The document's code begins with its category's prefix: COLL for both kinds of collection, the
+          category itself for the others; UNK's any.</desc>
         <constraint>
           <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
             <sch:let name="category" value="normalize-space(../tei:idno[@type = 'category'][1])"/>
             <sch:let name="prefix" value="substring-before(normalize-space(.), '.')"/>
-            <sch:assert id="code-category" test="$category = ('', 'UNK', 'LR', 'CPT', 'CHA') or $prefix = (if               ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category)">The document's code
+            <sch:assert id="code-category" test="$category = ('', 'UNK') or $prefix = (if               ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category)">The document's code
               (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of select="if ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category"/>, for the category
               <sch:value-of select="$category"/>).</sch:assert>
           </sch:rule>
@@ -15729,10 +15786,10 @@ distribution of a text.</desc>
           </sch:rule>
         </constraint>
       </constraintSpec><constraintSpec ident="code-matches-file-name" scheme="schematron" corresp="#tier-required">
-        <desc>A file named by a code is named by its document's code.</desc>
+        <desc>A file named by a code, any category's, is named by its document's code.</desc>
         <constraint>
           <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
-            <sch:assert id="code-matches-file-name" role="warning" test="not(matches(base-uri(.),               '/(C|D|COLL|P|EP|H|EX)\.[^/]*\.xml$')) or ends-with(base-uri(.), concat('/',               encode-for-uri(normalize-space(.)), '.xml'))">A file named by a code is named by its document's code
+            <sch:assert id="code-matches-file-name" role="warning" test="not(matches(base-uri(.),               '/[A-Z]+\.[^/]*\.xml$')) or ends-with(base-uri(.), concat('/',               encode-for-uri(normalize-space(.)), '.xml'))">A file named by a code is named by its document's code
               (<sch:value-of select="normalize-space(.)"/>).</sch:assert>
           </sch:rule>
         </constraint>

@@ -323,12 +323,13 @@
         </constraint>
       </constraintSpec>
       <constraintSpec ident="code-category" scheme="schematron" corresp="#tier-required">
-        <desc>The document's code begins with its category's prefix.</desc>
+        <desc>The document's code begins with its category's prefix: COLL for both kinds of collection, the
+          category itself for the others; UNK's any.</desc>
         <constraint>
           <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
             <sch:let name="category" value="normalize-space(../tei:idno[@type = 'category'][1])"/>
             <sch:let name="prefix" value="substring-before(normalize-space(.), '.')"/>
-            <sch:assert id="code-category" test="$category = ('', 'UNK', 'LR', 'CPT', 'CHA') or $prefix = (if
+            <sch:assert id="code-category" test="$category = ('', 'UNK') or $prefix = (if
               ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category)">The document's code
               (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of
               select="if ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category"/>, for the category
@@ -348,11 +349,11 @@
         </constraint>
       </constraintSpec>
       <constraintSpec ident="code-matches-file-name" scheme="schematron" corresp="#tier-required">
-        <desc>A file named by a code is named by its document's code.</desc>
+        <desc>A file named by a code, any category's, is named by its document's code.</desc>
         <constraint>
           <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
             <sch:assert id="code-matches-file-name" role="warning" test="not(matches(base-uri(.),
-              '/(C|D|COLL|P|EP|H|EX)\.[^/]*\.xml$')) or ends-with(base-uri(.), concat('/',
+              '/[A-Z]+\.[^/]*\.xml$')) or ends-with(base-uri(.), concat('/',
               encode-for-uri(normalize-space(.)), '.xml'))">A file named by a code is named by its document's code
               (<sch:value-of select="normalize-space(.)"/>).</sch:assert>
           </sch:rule>
