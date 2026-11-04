@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.rng" type="application/xml"
+  schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.sch" type="application/xml"
+  schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- A reconstruction: the collection of Benedictus Levita, from the project's file COLL.Benedictus, which puts it
+  together from two editions, Pertz's for the whole text and Schmitz's for Additio 1, which Pertz lacks. The file
+  names both publications, says that it is a reconstruction, and lists them as the witnesses it was made from. The
+  text is the beginning of the register of the fifth book, and two of its chapters; what is left out is marked by
+  gaps. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="formal">
+          <idno>COLL.Benedictus</idno>
+          <idno type="category">SYSCOLL</idno>
+          <idno type="type">reconstruction</idno>
+        </title>
+        <title type="alias">Collection of Benedictus Levita</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts</publisher>
+        <address>
+          <orgName type="institution">Radboud University</orgName>
+          <street>Houtlaan 4</street>
+          <settlement>Nijmegen</settlement>
+          <postCode>6525 XZ</postCode>
+          <country>Netherlands</country>
+        </address>
+      </publicationStmt>
+      <sourceDesc>
+        <biblStruct xml:id="pertz-1837">
+          <analytic>
+            <title level="a">Benedicti Capitularia</title>
+          </analytic>
+          <monogr>
+            <editor>
+              <persName>
+                <forename>Georg Heinrich</forename>
+                <surname>Pertz</surname>
+              </persName>
+            </editor>
+            <title level="m">Supplementa tomi I</title>
+            <title level="m">Pars altera: Capitularia spuria. Canones ecclesiastici. Bullae pontificum</title>
+            <imprint>
+              <publisher>Hahnsche Buchhandlung</publisher>
+              <pubPlace>Hannover</pubPlace>
+              <date>1837</date>
+            </imprint>
+            <biblScope unit="page">17-158</biblScope>
+          </monogr>
+          <series>
+            <title level="s">Monumenta Germaniae Historica</title>
+            <title level="s">Leges</title>
+            <biblScope unit="volume">2.2</biblScope>
+          </series>
+          <note>A reconstruction: the collection as the project puts it together, from Pertz's edition for the whole
+            text, and from Schmitz's for Additio 1, which Pertz's lacks.</note>
+        </biblStruct>
+        <biblStruct xml:id="schmitz-2008">
+          <monogr>
+            <editor>
+              <persName>
+                <forename>Gerhard</forename>
+                <surname>Schmitz</surname>
+              </persName>
+            </editor>
+            <title level="m">Additio 1</title>
+            <idno type="url">https://www.benedictus.mgh.de/edition/aktuell/additio1.pdf</idno>
+            <imprint>
+              <publisher>Gerhard Schmitz</publisher>
+              <date>2008</date>
+            </imprint>
+          </monogr>
+        </biblStruct>
+        <listWit>
+          <witness xml:id="wit-pertz"><bibl><ptr target="#pertz-1837"/><citedRange unit="page" from="17"
+                to="158">17–158</citedRange></bibl>: the whole text but Additio 1</witness>
+          <witness xml:id="wit-schmitz"><bibl><ptr target="#schmitz-2008"/></bibl>: Additio 1</witness>
+        </listWit>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <gap reason="sampling"/>
+      <div type="register">
+        <head type="rubric"><pb n="41"/>Incipiunt capitula quinti libelli.</head>
+        <gap reason="sampling"/>
+        <div type="registerItem" n="4">
+          <head type="number">4.</head>
+          <head type="rubric">De fide catholica et primo praecepto legis.</head>
+        </div>
+        <div type="registerItem" n="5">
+          <head type="number">5.</head>
+          <head type="rubric">De pace et concordia servanda.</head>
+        </div>
+        <gap reason="sampling"/>
+      </div>
+      <gap reason="sampling"/>
+      <div type="section" n="5">
+        <head type="rubric"><pb n="45"/>Incipit libellus quintus.</head>
+        <gap reason="sampling"/>
+        <div type="chapter" n="4">
+          <head type="number"><pb n="46"/>4.</head>
+          <head type="rubric">De fide catholica et primo praecepto legis.</head>
+          <p>Primo omnium admonemus, ut fides catholica ab episcopis et presbiteris diligenter legatur, omnique populo
+            praedicetur. Hoc enim primum praeceptum domini Dei omnipotentis est in lege: Audi, Israhel, quia dominus
+            Deus tuus Deus unus est. Et ut ille diligatur ex toto corde, et ex tota mente, et ex tota anima, et ex tota
+            virtute.</p>
+        </div>
+        <div type="chapter" n="5">
+          <head type="number">5.</head>
+          <head type="rubric">De pace et concordia servanda.</head>
+          <p>Ut pax sit et concordia et unanimitas cum omni populo christiano inter episcopos, abbates, comites, iudices
+            et omnes ubique seu maiores seu minores personas; quia nihil Deo sine pace placet, nec munus sanctae
+            oblationis ad altare, sicut in euangelio ipso Domino praecipiente legimus. Et ut est illud secundum mandatum
+            in lege: Diliges proximum tuum sicut te ipsum. Item in euangelio: Beati pacifici, quoniam filii Dei
+            vocabuntur. <gap reason="sampling"/></p>
+        </div>
+        <gap reason="sampling"/>
+      </div>
+      <gap reason="sampling"/>
+    </body>
+  </text>
+</TEI>

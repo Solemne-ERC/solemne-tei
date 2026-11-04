@@ -32,6 +32,8 @@ Each release says what changed, and whether files that passed may now fail.
 - Part VI, relations: their form, the types to start with and their reverses, the levels' relations.
 - Part VII, dates: the one form, with the corpus's own wordings; calendars and eras, with the Julian day converted to
   the Gregorian in the bounds; what the checks require.
+- A template for a reconstruction, `reconstruction.xml`: the collection of Benedictus Levita, with the two editions
+  it was put together from as its witnesses.
 
 ## 0.2.0 (2026-11-04)
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: MIT -->
-<!-- Generated from solemne.odd 0.2.0 (SHA-256 a01a37ba2f89af9ab45342a36e8719ea0908769bed5a4a9f3e125c335ca8e4ff) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.2.0 (SHA-256 b07e68b6b2795d1f0de06e98171ae3f24866c2f73ebcd1a66964449e5af77b7a) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
