@@ -112,6 +112,10 @@
           record they point to is named inside them, by a name with <att>ref</att>, and the import makes the
           relation from that name. <att>key</att> and <att>corresp</att> keep TEI's other uses; a record's pointer
           in them is reported.</p>
+        <p>A manuscript is described, for now, after the Bodleian's consolidated schema, with at least one
+          codicological unit (<gi>msPart</gi>) in every description, each with its own identifier: the manuscript
+          holds its identity and its binding, a unit its physical description, its date, its hands and its
+          decoration.</p>
         <p>A node's ids in other projects (SCTA's, the Clavis canonum's keys) are given in <att>sameAs</att>, each
           with a prefix declared in the header by a <gi>prefixDef</gi> in <gi>listPrefixDef</gi>
           (<code>clavis:IS35.27</code>). The application knows four: <code>scta</code> (SCTA,
@@ -644,6 +648,20 @@
               restriction="(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?|(GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV)_[0-9]+(-[0-9]+)?(_[0-9]+(-[0-9]+)?)?|[A-Z][A-Za-z]*(-[A-Z][A-Za-z]*)*_[A-Za-z][A-Za-z0-9]*(\.[A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?)|https?://scta\.info/resource/\S+"/>
           </content>
         </macroSpec>
+
+        <!-- Manuscripts: a description has at least one codicological unit. -->
+        <elementSpec ident="msDesc" module="msdescription" mode="change">
+          <constraintSpec ident="manuscript-units" scheme="schematron">
+            <desc>A manuscript's description has at least one codicological unit.</desc>
+            <constraint>
+              <sch:rule context="tei:msDesc">
+                <sch:assert id="manuscript-unit" test="tei:msPart">A manuscript's description has at least one
+                  codicological unit (msPart), with its own identifier: the unit holds the physical description,
+                  the date, the hands and the decoration.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+        </elementSpec>
 
         <!-- The declarations a text and its parts point to: curation and inferred units. -->
         <elementSpec ident="editorialDecl" module="header" mode="change">

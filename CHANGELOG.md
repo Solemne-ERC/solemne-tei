@@ -53,3 +53,4 @@ Files written for the draft of this schema need these changes to pass.
 - **Inferred units:** `segmentation type="inferred-units"` states them for the whole file (`@default` true, or
   alone), or, with `@default` false and an id, for the divisions that point to it by `@decls`; a statement for
   divisions that none points to is a warning.
+- **Manuscripts:** a description (`msDesc`) has at least one codicological unit (`msPart`), with its own identifier.

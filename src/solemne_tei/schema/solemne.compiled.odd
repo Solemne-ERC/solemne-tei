@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.1.0 (SHA-256 690b00355029a5357a700c842dbeb289a4d8fb0839de196dd18ddff5d4022de6) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.1.0 (SHA-256 fc28b210244efc5b7c4d3c02ba0453ee8a3e2340563c26bffd414e92455df851) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -172,6 +172,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           record they point to is named inside them, by a name with <att>ref</att>, and the import makes the
           relation from that name. <att>key</att> and <att>corresp</att> keep TEI's other uses; a record's pointer
           in them is reported.</p>
+        <p>A manuscript is described, for now, after the Bodleian's consolidated schema, with at least one
+          codicological unit (<gi>msPart</gi>) in every description, each with its own identifier: the manuscript
+          holds its identity and its binding, a unit its physical description, its date, its hands and its
+          decoration.</p>
         <p>A node's ids in other projects (SCTA's, the Clavis canonum's keys) are given in <att>sameAs</att>, each
           with a prefix declared in the header by a <gi>prefixDef</gi> in <gi>listPrefixDef</gi>
           (<code>clavis:IS35.27</code>). The application knows four: <code>scta</code> (SCTA,
@@ -21872,16 +21876,16 @@ raiders and saved the town from capture.</desc>
    </attList>
    
 </classSpec><elementSpec rend="add" module="msdescription" xml:id="MSDESC" ident="msDesc"><gloss xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-07-04" xml:lang="en">manuscript description</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-12-20" xml:lang="ko">원고 기술</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-05-02" xml:lang="zh-TW"/><gloss xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2008-04-06" xml:lang="es">descripción del manuscrito</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-06-12" xml:lang="fr">description d'un manuscrit</gloss><gloss xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-11-06" xml:lang="it">decrizione del manoscritto</gloss><desc xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2022-02-23" xml:lang="en" xml:id="msdesc.desc">contains a description of a single identifiable
-    manuscript or other text-bearing object such as an early printed book.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-12-20" xml:lang="ko">하나의 식별가능한 원고에 대한 기술을 포함한다.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-05-02" xml:lang="zh-TW">包含單一份可識別手稿的描述。</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2008-04-05" xml:lang="ja">単一の識別可能な手書き資料の解説を示す。</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-06-12" xml:lang="fr">contient la description d'un manuscrit individuel.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-05-04" xml:lang="es">contiene la definición de un único manuscrito.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-01-21" xml:lang="it">contiene la descrizione di un unico manoscritto.</desc><classes xmlns:xi="http://www.w3.org/2001/XInclude">
-    <memberOf key="att.global"/>
-    <memberOf key="att.declaring"/>
-    <memberOf key="att.docStatus"/>
-    <memberOf key="att.sortable"/>
-    <memberOf key="att.typed"/>
-    <memberOf key="model.biblLike"/>
-  </classes><content xmlns:xi="http://www.w3.org/2001/XInclude">
-    <sequence minOccurs="1" maxOccurs="1"><elementRef key="msIdentifier"/><classRef key="model.headLike" minOccurs="0" maxOccurs="unbounded"/><alternate minOccurs="1" maxOccurs="1"><classRef key="model.pLike" minOccurs="1" maxOccurs="unbounded"/><alternate minOccurs="0" maxOccurs="unbounded"><elementRef key="msContents"/><elementRef key="physDesc"/><elementRef key="history"/><elementRef key="additional"/><elementRef key="msPart"/><elementRef key="msFrag"/></alternate></alternate></sequence>
-  </content><constraintSpec xmlns:xi="http://www.w3.org/2001/XInclude" scheme="schematron" ident="one_ms_singleton_max" xml:lang="en">
+    manuscript or other text-bearing object such as an early printed book.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-12-20" xml:lang="ko">하나의 식별가능한 원고에 대한 기술을 포함한다.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-05-02" xml:lang="zh-TW">包含單一份可識別手稿的描述。</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2008-04-05" xml:lang="ja">単一の識別可能な手書き資料の解説を示す。</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-06-12" xml:lang="fr">contient la description d'un manuscrit individuel.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-05-04" xml:lang="es">contiene la definición de un único manuscrito.</desc><desc xmlns:xi="http://www.w3.org/2001/XInclude" versionDate="2007-01-21" xml:lang="it">contiene la descrizione di un unico manoscritto.</desc><classes><memberOf key="att.global"/><memberOf key="att.declaring"/><memberOf key="att.docStatus"/><memberOf key="att.sortable"/><memberOf key="att.typed"/><memberOf key="model.biblLike"/></classes><content><sequence minOccurs="1" maxOccurs="1"><elementRef xmlns:xi="http://www.w3.org/2001/XInclude" key="msIdentifier"/><classRef xmlns:xi="http://www.w3.org/2001/XInclude" key="model.headLike" minOccurs="0" maxOccurs="unbounded"/><alternate minOccurs="1" maxOccurs="1"><classRef xmlns:xi="http://www.w3.org/2001/XInclude" key="model.pLike" minOccurs="1" maxOccurs="unbounded"/><alternate minOccurs="0" maxOccurs="unbounded"><elementRef xmlns:xi="http://www.w3.org/2001/XInclude" key="msContents"/><elementRef xmlns:xi="http://www.w3.org/2001/XInclude" key="physDesc"/><elementRef xmlns:xi="http://www.w3.org/2001/XInclude" key="history"/><elementRef xmlns:xi="http://www.w3.org/2001/XInclude" key="additional"/><elementRef xmlns:xi="http://www.w3.org/2001/XInclude" key="msPart"/><elementRef xmlns:xi="http://www.w3.org/2001/XInclude" key="msFrag"/></alternate></alternate></sequence></content><constraintSpec ident="manuscript-units" scheme="schematron">
+            <desc>A manuscript's description has at least one codicological unit.</desc>
+            <constraint>
+              <sch:rule context="tei:msDesc">
+                <sch:assert id="manuscript-unit" test="tei:msPart">A manuscript's description has at least one
+                  codicological unit (msPart), with its own identifier: the unit holds the physical description,
+                  the date, the hands and the decoration.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec xmlns:xi="http://www.w3.org/2001/XInclude" scheme="schematron" ident="one_ms_singleton_max" xml:lang="en">
     <constraint>
       <sch:rule context="tei:msContents|tei:physDesc|tei:history|tei:additional">
         

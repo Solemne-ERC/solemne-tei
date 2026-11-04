@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: MIT -->
-<!-- A collection as one manuscript transmits it, with the manuscript's description. Made up: the collection,
+<!-- A collection as one manuscript transmits it, with the manuscript's description, its one
+     codicological unit holding its contents, physical description and history. Made up: the collection,
      the manuscript and the library are not real. -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
   <teiHeader>
@@ -24,33 +25,40 @@
             <repository ref="#new_institution_National-Library">National Library</repository>
             <idno type="shelfmark">MS 12</idno>
           </msIdentifier>
-          <msContents>
-            <msItem>
-              <locus from="1r" to="40v">fols. 1r–40v</locus>
-              <title ref="#new_work_Collectio-Sampliensis">Collectio Sampliensis</title>
-              <textLang mainLang="la">Latin</textLang>
-            </msItem>
-          </msContents>
-          <physDesc>
-            <objectDesc form="codex">
-              <supportDesc material="perg">
-                <support>Parchment.</support>
-                <extent>40 leaves <dimensions type="leaf" unit="mm">
-                    <height>250</height>
-                    <width>170</width>
-                  </dimensions></extent>
-              </supportDesc>
-            </objectDesc>
-          </physDesc>
-          <history>
-            <origin>
-              <origDate calendar="Gregorian" notBefore="0800" notAfter="0850">first half of the ninth
-                century</origDate>
-              <origPlace ref="#new_place_North">Somewhere in the north</origPlace>
-            </origin>
-            <provenance>Owned by <orgName ref="#new_institution_Cathedral-of-Nowhere">the
-                cathedral of Nowhere</orgName> in the twelfth century.</provenance>
-          </history>
+          <msPart>
+            <msIdentifier>
+              <altIdentifier>
+                <idno>MS 12, fols. 1–40</idno>
+              </altIdentifier>
+            </msIdentifier>
+            <msContents>
+              <msItem>
+                <locus from="1r" to="40v">fols. 1r–40v</locus>
+                <title ref="#new_work_Collectio-Sampliensis">Collectio Sampliensis</title>
+                <textLang mainLang="la">Latin</textLang>
+              </msItem>
+            </msContents>
+            <physDesc>
+              <objectDesc form="codex">
+                <supportDesc material="perg">
+                  <support>Parchment.</support>
+                  <extent>40 leaves <dimensions type="leaf" unit="mm">
+                      <height>250</height>
+                      <width>170</width>
+                    </dimensions></extent>
+                </supportDesc>
+              </objectDesc>
+            </physDesc>
+            <history>
+              <origin>
+                <origDate calendar="Gregorian" notBefore="0800" notAfter="0850">first half of the ninth
+                  century</origDate>
+                <origPlace ref="#new_place_North">Somewhere in the north</origPlace>
+              </origin>
+              <provenance>Owned by <orgName ref="#new_institution_Cathedral-of-Nowhere">the
+                  cathedral of Nowhere</orgName> in the twelfth century.</provenance>
+            </history>
+          </msPart>
         </msDesc>
       </sourceDesc>
     </fileDesc>
