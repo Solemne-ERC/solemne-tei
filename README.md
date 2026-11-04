@@ -61,7 +61,9 @@ After changing the ODD, in a clone:
 solemne-tei build
 ```
 
-It writes the RelaxNG (`solemne.rng`), the Schematron (`solemne.sch`), the Schematron compiled to XSLT
+It first checks the ODD against TEI's schema for ODD files, its RelaxNG and the Schematron rules embedded in it,
+as Oxygen does, and stops with the problems listed if the ODD isn't valid. Then it writes the RelaxNG
+(`solemne.rng`), the Schematron (`solemne.sch`), the Schematron compiled to XSLT
 (`solemne-schematron.xsl`), the compiled ODD (`solemne.compiled.odd`) and its closed lists (`closed-lists.json`) into
 `src/solemne_tei/schema/`. Each names the version and the SHA-256 of the ODD it came from; a test fails when the ODD
 has changed since. The version is the ODD's `editionStmt/edition/@n`, kept equal to the package's. Running the build
@@ -73,6 +75,7 @@ SHA-256:
 | What | Version | From |
 |---|---|---|
 | TEI P5, `p5subset.xml` | 4.12.0 | <https://www.tei-c.org/Vault/P5/4.12.0/xml/tei/odd/p5subset.xml> |
+| TEI P5's schema for ODD files, `tei_odds.rng` | 4.12.0 | <https://www.tei-c.org/Vault/P5/4.12.0/xml/tei/custom/schema/relaxng/tei_odds.rng> |
 | TEI's stylesheets | 7.61.0 | <https://github.com/TEIC/Stylesheets/releases/tag/v7.61.0> |
 | The Bodleian's consolidated TEI schema, `msdesc.odd` | commit `7e8b89c` | <https://github.com/msDesc/consolidated-tei-schema> |
 | SchXslt2 | 1.11.3 | <https://codeberg.org/SchXslt/schxslt2> |
@@ -99,7 +102,8 @@ The code and the schema are under the MIT licence ([LICENSE](LICENSE)); the guid
 ## Credits
 
 - **TEI P5**, by the TEI Consortium, distributed under CC BY 3.0 and the BSD 2-Clause licence: the schema is made
-  from it.
+  from it, and the build checks the ODD against TEI P5's schema for ODD files, which it fetches and doesn't
+  distribute.
 - **SchXslt2**, by David Maus, under the MIT licence: its code is in the compiled Schematron,
   `solemne-schematron.xsl`, which carries its copyright line and licence.
 - **The Bodleian Libraries' consolidated TEI schema**, by James Cummings and the Bodleian Libraries, University of

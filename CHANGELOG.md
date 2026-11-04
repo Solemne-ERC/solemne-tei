@@ -15,9 +15,11 @@ The first release: SOLEMNE's TEI schema as a package.
 - `solemne-tei validate <paths> [--jobs N] [--json] [--strict]` checks files against the RelaxNG and the Schematron,
   in parallel; each problem has its file, line, check, severity, rule and message.
 - `solemne-tei build [--cache DIR]` regenerates the schema from the ODD in a clone, from pinned sources checked by
-  their SHA-256; it says when nothing changed.
+  their SHA-256; it says when nothing changed. It first checks the ODD against TEI's schema for ODD files, as
+  Oxygen does, and stops if the ODD isn't valid.
 - `solemne-tei lists [--json]` prints the closed lists, the categories and the codes of the Bible's 73 books.
 - From Python: `Validator`, `validate(paths, jobs)`, `Problem`, `Result`, `closed_lists()` and `SCHEMA_VERSION`.
+  `Validator` also takes another schema's RelaxNG and compiled Schematron.
 
 ### The forms
 

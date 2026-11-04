@@ -1,18 +1,21 @@
 # SPDX-License-Identifier: MIT
 """Generate the schema from the ODD.
 
-Fetches TEI P5's `p5subset.xml`, TEI's stylesheets, the Bodleian's consolidated msDesc ODD with its licence, and
-SchXslt2 at pinned versions, checked by SHA-256, into the cache. Then, with SaxonC-HE: compiles the Bodleian's ODD and
-ours with TEI's `odd2odd` (ours takes its `msdescription` module from the Bodleian's), writes the RelaxNG with
-`odd2relax`, extracts the Schematron with `extract-isosch`, and compiles it to XSLT with SchXslt2. It keeps the
-compiled ODD, and writes its closed lists as `closed-lists.json`. Each generated file names the ODD it came from by its
-version and SHA-256, and carries the notices of the material it contains.
+Fetches TEI P5's `p5subset.xml`, TEI's schema for ODD files, TEI's stylesheets, the Bodleian's consolidated msDesc
+ODD with its licence, and SchXslt2 at pinned versions, checked by SHA-256, into the cache. First it checks our ODD
+against TEI's schema for ODD files, its RelaxNG and the Schematron rules embedded in it, as Oxygen does, and stops if
+the ODD isn't valid. Then, with SaxonC-HE: compiles the Bodleian's ODD and ours with TEI's `odd2odd` (ours takes its
+`msdescription` module from the Bodleian's), writes the RelaxNG with `odd2relax`, extracts the Schematron with
+`extract-isosch`, and compiles it to XSLT with SchXslt2. It keeps the compiled ODD, and writes its closed lists as
+`closed-lists.json`. Each generated file names the ODD it came from by its version and SHA-256, and carries the
+notices of the material it contains.
 
 The build runs in a clone of the repository: it reads `guide/solemne.odd` and writes into the package's `schema/`.
 """
 
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import shutil
@@ -42,6 +45,7 @@ from solemne_tei.schema_files import (
     stamp,
     stamp_text,
 )
+from solemne_tei.validate import Validator
 
 REPOSITORY = Path(__file__).resolve().parents[2]
 ODD_PATH = REPOSITORY / "guide" / ODD
@@ -52,6 +56,7 @@ MSDESC_COMPILED = "msdesc.compiled.odd"
 
 SPDX = "<!-- SPDX-License-Identifier: MIT -->"
 SPDX_GUIDE = "<!-- SPDX-License-Identifier: CC-BY-4.0 -->"
+SCH = "http://purl.oclc.org/dsdl/schematron"
 
 
 @dataclass(frozen=True)
@@ -70,6 +75,14 @@ P5SUBSET = Source(
     "4.12.0",
     "https://www.tei-c.org/Vault/P5/4.12.0/xml/tei/odd/p5subset.xml",
     "5b89720edc6f3821ab3d0aa242aa5dc922bfbafabfb103d2de9d211001c33e26",
+    "TEI P5: BSD 2-Clause, or CC BY 3.0",
+)
+# TEI's schema for ODD files, which Oxygen checks an ODD against.
+TEI_ODDS = Source(
+    "tei_odds.rng",
+    "4.12.0",
+    "https://www.tei-c.org/Vault/P5/4.12.0/xml/tei/custom/schema/relaxng/tei_odds.rng",
+    "655113c0d40b798847d6f41b15c95a75055c0ee3e8ad6fb923c49ad7ebc87df1",
     "TEI P5: BSD 2-Clause, or CC BY 3.0",
 )
 STYLESHEETS = Source(
@@ -100,7 +113,7 @@ MSDESC_LICENCE = Source(
     "bdc76293925bdd0be036cfded22dcaa863713fb25b7b3f16be76f3735f9f394d",
     "BSD 2-Clause",
 )
-SOURCES = (P5SUBSET, STYLESHEETS, MSDESC, MSDESC_LICENCE, SCHXSLT)
+SOURCES = (P5SUBSET, TEI_ODDS, STYLESHEETS, MSDESC, MSDESC_LICENCE, SCHXSLT)
 
 
 class BuildError(RuntimeError):
@@ -143,6 +156,7 @@ class Tools:
     """The unpacked sources a build needs."""
 
     p5subset: Path
+    tei_odds: Path
     stylesheets: Path
     msdesc: Path
     transpiler: Path
@@ -162,6 +176,7 @@ class Tools:
             raise BuildError(f"no transpile.xsl or LICENSE in {schxslt}")
         return cls(
             p5subset=paths[P5SUBSET.name],
+            tei_odds=paths[TEI_ODDS.name],
             stylesheets=stylesheets,
             msdesc=paths[MSDESC.name],
             transpiler=transpilers[0],
@@ -208,6 +223,43 @@ class Saxon:
         if result is None:
             raise BuildError(f"{stylesheet.name} on {source.name} gave no output")
         return str(result)
+
+
+def embedded_schematron(rng: Path) -> bytes:
+    """The Schematron rules embedded in a RelaxNG grammar that TEI's stylesheets made, as one Schematron schema: the
+    namespaces first, then the patterns."""
+    grammar = etree.parse(str(rng))
+    embedded = [el for el in grammar.iter(f"{{{SCH}}}*") if etree.QName(el.getparent()).namespace != SCH]
+    schema = etree.Element(f"{{{SCH}}}schema", queryBinding="xslt2", nsmap={"sch": SCH})
+    for kind in ("ns", "pattern"):
+        schema.extend(copy.deepcopy(el) for el in embedded if etree.QName(el).localname == kind)
+    return etree.tostring(schema, xml_declaration=True, encoding="UTF-8")
+
+
+def odd_validator(tools: Tools, cache: Path) -> Validator:
+    """TEI's schema for ODD files, as Oxygen applies it: its RelaxNG and its embedded Schematron, compiled to XSLT
+    once into the cache. It's compiled by a Saxon of its own: Saxon numbers the documents it reads, and the
+    compiled Schematron of our ODD carries those numbers in its names."""
+    xslt = cache / f"tei_odds-{TEI_ODDS.version}-schxslt-{SCHXSLT.version}.xsl"
+    if not xslt.exists():
+        sch = xslt.with_suffix(".sch")
+        sch.write_bytes(embedded_schematron(tools.tei_odds))
+        tmp = xslt.with_suffix(".tmp")
+        tmp.write_text(Saxon().run(tools.transpiler, sch), "utf-8")
+        tmp.replace(xslt)
+    return Validator(relaxng=tools.tei_odds, schematron_xslt=xslt)
+
+
+def check_odd(odd: Path, validator: Validator) -> None:
+    """Stops the build when the ODD isn't valid against the validator's schema; its warnings are logged."""
+    problems = validator.check(odd).problems
+    for problem in problems:
+        if problem.severity != "error":
+            logger.warning("%s", problem)
+    errors = [p for p in problems if p.severity == "error"]
+    if errors:
+        listed = "\n".join(f"  {p}" for p in errors)
+        raise BuildError(f"{odd.name} isn't valid against TEI's schema for ODD files:\n{listed}")
 
 
 def comment(text: str) -> str:
@@ -271,6 +323,8 @@ def build(odd: Path = ODD_PATH, out: Path = SCHEMA_DIR, cache: Path = CACHE_DIR)
         raise BuildError(f"no ODD at {odd}: the build runs in a clone of the repository")
     tools = Tools.prepare(cache)
     saxon = Saxon()
+    logger.info("Checking %s against TEI's schema for ODD files", ODD)
+    check_odd(odd, odd_validator(tools, cache))
     work = cache / "work"
     shutil.rmtree(work, ignore_errors=True)
     work.mkdir(parents=True)

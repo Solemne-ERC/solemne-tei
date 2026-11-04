@@ -64,18 +64,27 @@ class Result:
 
 
 class Validator:
-    """The schema's two checks, compiled once."""
+    """The schema's two checks, compiled once. Another schema's can be given by its RelaxNG and compiled Schematron:
+    the build checks the ODD with TEI's schema for ODD files."""
 
-    def __init__(self, schema_dir: Path = SCHEMA_DIR) -> None:
+    def __init__(
+        self,
+        schema_dir: Path = SCHEMA_DIR,
+        *,
+        relaxng: Path | None = None,
+        schematron_xslt: Path | None = None,
+    ) -> None:
         from saxonche import PySaxonProcessor
 
-        self._grammar = etree.parse(str(schema_dir / RELAXNG))
+        relaxng = relaxng or schema_dir / RELAXNG
+        schematron_xslt = schematron_xslt or schema_dir / SCHEMATRON_XSLT
+        self._grammar = etree.parse(str(relaxng))
         self.relaxng = etree.RelaxNG(self._grammar)
         self._defines = {d.get("name") for d in self._grammar.iter(f"{{{RNG}}}define")}
         self._alone: dict[str, Any] = {}
         self._saxon = PySaxonProcessor(license=False)
         xslt = self._saxon.new_xslt30_processor()
-        self._schematron = xslt.compile_stylesheet(stylesheet_file=str(schema_dir / SCHEMATRON_XSLT))
+        self._schematron = xslt.compile_stylesheet(stylesheet_file=str(schematron_xslt))
 
     def check(self, path: str | os.PathLike[str]) -> Result:
         name = str(path)
