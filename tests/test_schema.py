@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: MIT
 """The schema: the samples that must pass and those that must fail, each on its rule; every rule has its sample; the
-generated files come from the ODD as it is now; the build's downloads are checked against their pins."""
+generated files come from the ODD as it is now; the build's downloads are checked against their pins, and the
+build stops on an ODD that isn't valid."""
 
 import hashlib
 import re
@@ -12,7 +13,7 @@ import pytest
 from lxml import etree
 
 import solemne_tei
-from solemne_tei.build import ODD_PATH, BuildError, Source, fetch, stamped
+from solemne_tei.build import ODD_PATH, BuildError, Source, check_odd, embedded_schematron, fetch, stamped
 from solemne_tei.schema_files import (
     COMPILED_ODD,
     GENERATED,
@@ -141,3 +142,32 @@ def test_fetch_refuses_a_file_whose_checksum_differs(tmp_path: Path) -> None:
     with pytest.raises(BuildError, match="SHA-256"):
         fetch(pinned(tmp_path, b"<TEI/>", "0" * 64), tmp_path / "downloads")
     assert not (tmp_path / "downloads" / "p5subset.xml").exists()
+
+
+# The ODD check takes any validator: these tests give it the package's own schema, which needs no download.
+def test_the_odd_check_passes_a_valid_file(validator: Validator) -> None:
+    check_odd(VALID[0], validator)
+
+
+def test_the_odd_check_stops_the_build_on_an_error(validator: Validator) -> None:
+    sample = next(p for p in INVALID if "checked by the RelaxNG" in p.read_text(encoding="utf-8"))
+    with pytest.raises(BuildError, match=f"{sample.name} isn't valid"):
+        check_odd(sample, validator)
+
+
+def test_the_schematron_embedded_in_a_grammar_is_gathered_namespaces_first(tmp_path: Path) -> None:
+    rng = tmp_path / "grammar.rng"
+    rng.write_text(
+        f"""<grammar xmlns="http://relaxng.org/ns/structure/1.0" xmlns:sch="{SCH}">
+          <sch:pattern id="p">
+            <sch:rule context="tei:p"><sch:assert test="text()">text</sch:assert></sch:rule>
+          </sch:pattern>
+          <sch:ns prefix="tei" uri="http://www.tei-c.org/ns/1.0"/>
+          <start><element name="p"><text/></element></start>
+        </grammar>""",
+        encoding="utf-8",
+    )
+    schema = etree.fromstring(embedded_schematron(rng))
+    assert schema.get("queryBinding") == "xslt2"
+    assert [etree.QName(el).localname for el in schema] == ["ns", "pattern"]
+    assert schema.find(f"{{{SCH}}}pattern/{{{SCH}}}rule").get("context") == "tei:p"
