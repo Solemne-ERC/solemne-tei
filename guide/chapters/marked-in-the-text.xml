@@ -492,10 +492,16 @@
   <div xml:id="marked-dates">
     <head>Dates</head>
     <p>A date in the text is marked by <gi>date</gi>, in the one form of dates that records and relations use too:
-      the wording as the text gives it, and its bounds in attributes (<ptr target="#dates"/>). The coded files mark
-      none yet; the example is made up:</p>
+      the wording as the text gives it, and its bounds in attributes; a day the text reckons in the Julian calendar
+      says so, and its bounds give the Gregorian day (<ptr target="#dates"/>). The coded files mark none yet; the
+      example is made up: V Idus Iunias is 9 June in the Julian calendar, 13 June in the Gregorian in 813.</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
-      <p>… Data <date when="0813-06-09">V Idus Iunias</date> …</p>
+      <calendarDesc>
+        <calendar xml:id="julian-mainz">
+          <p>The Julian calendar.</p>
+        </calendar>
+      </calendarDesc>
+      <p>… Data <date when="0813-06-13" calendar="#julian-mainz">V Idus Iunias</date> …</p>
     </egXML>
   </div>
 

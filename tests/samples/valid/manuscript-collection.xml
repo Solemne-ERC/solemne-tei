@@ -51,7 +51,7 @@
             </physDesc>
             <history>
               <origin>
-                <origDate calendar="Gregorian" notBefore="0800" notAfter="0850">first half of the ninth
+                <origDate notBefore="0800" notAfter="0850">first half of the ninth
                   century</origDate>
                 <origPlace ref="#new_place_North">Somewhere in the north</origPlace>
               </origin>

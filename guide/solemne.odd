@@ -104,7 +104,8 @@
               <gi>additional</gi> <gi>additions</gi> <gi>addName</gi> <gi>addrLine</gi>
               <gi>adminInfo</gi> <gi>affiliation</gi> <gi>altIdentifier</gi> <gi>anchor</gi>
               <gi>annotation</gi> <gi>authority</gi> <gi>availability</gi> <gi>binding</gi>
-              <gi>bindingDesc</gi> <gi>birth</gi> <gi>bloc</gi> <gi>catchwords</gi> <gi>catDesc</gi>
+              <gi>bindingDesc</gi> <gi>birth</gi> <gi>bloc</gi> <gi>calendarDesc</gi>
+              <gi>catchwords</gi> <gi>catDesc</gi>
               <gi>category</gi> <gi>change</gi> <gi>choice</gi> <gi>cit</gi> <gi>citedRange</gi>
               <gi>classDecl</gi> <gi>collation</gi> <gi>collection</gi> <gi>colophon</gi>
               <gi>condition</gi> <gi>corr</gi> <gi>correction</gi> <gi>creation</gi> <gi>custEvent</gi>
@@ -124,7 +125,7 @@
               <gi>msItemStruct</gi> <gi>msName</gi> <gi>msPart</gi> <gi>musicNotation</gi> <gi>name</gi>
               <gi>nameLink</gi> <gi>normalization</gi> <gi>notesStmt</gi> <gi>num</gi>
               <gi>objectDesc</gi> <gi>objectType</gi> <gi>occupation</gi> <gi>org</gi> <gi>orig</gi>
-              <gi>origDate</gi> <gi>origin</gi> <gi>physDesc</gi> <gi>place</gi> <gi>principal</gi>
+              <gi>origin</gi> <gi>physDesc</gi> <gi>place</gi> <gi>principal</gi>
               <gi>profileDesc</gi> <gi>projectDesc</gi> <gi>provenance</gi> <gi>ptr</gi>
               <gi>punctuation</gi> <gi>q</gi> <gi>quotation</gi> <gi>recordHist</gi> <gi>refsDecl</gi>
               <gi>reg</gi> <gi>resp</gi> <gi>respStmt</gi> <gi>revisionDesc</gi> <gi>roleName</gi>
@@ -155,9 +156,9 @@
               monogr name note num orig p pb postCode ptr publisher pubPlace q quote ref reg resp respStmt rs series sic
               street term textLang title unclear"/>
           <moduleRef key="header"
-            include="abstract authority availability catDesc category change citeData citeStructure classDecl
-              correction creation distributor edition editionStmt editorialDecl encodingDesc extent fileDesc funder
-              handNote idno interpretation keywords langUsage language licence listChange listPrefixDef normalization
+            include="abstract authority availability calendar calendarDesc catDesc category change citeData
+              citeStructure classDecl correction creation distributor edition editionStmt editorialDecl encodingDesc
+              extent fileDesc funder handNote idno interpretation keywords langUsage language licence listChange listPrefixDef normalization
               notesStmt prefixDef principal profileDesc projectDesc publicationStmt punctuation quotation refsDecl
               revisionDesc
               samplingDecl scriptNote segmentation seriesStmt sourceDesc sponsor stdVals taxonomy teiHeader
@@ -191,6 +192,8 @@
           <specGrpRef target="#marked-other-specs"/>
           <specGrpRef target="#records-specs"/>
           <specGrpRef target="#relations-specs"/>
+          <specGrpRef target="#dates-form-specs"/>
+          <specGrpRef target="#dates-calendars-specs"/>
           <specGrpRef target="#dates-specs"/>
           <specGrpRef target="#manuscripts-specs"/>
 
@@ -225,7 +228,8 @@
             Concilia 2.1 (Hannover and Leipzig, <date>1906</date>), pp. 56–58.</bibl>
           <bibl xml:id="source-C.CAR-0397"><idno>C.CAR-0397</idno>: <title>Council of Carthage, 397</title>, ed.
             <editor>Charles Munier</editor>, <title>Concilia Africae a. 345 – a. 525</title>, CCSL 149 (Turnhout,
-            <date>1974</date>), pp. 326–341: the file's header only.</bibl>
+            <date>1974</date>), pp. 326–341: the file's header and the records of its standOff, the project's
+            own.</bibl>
           <bibl xml:id="source-C.MAI-0813"><idno>C.MAI-0813</idno>: <title>Council of Mainz, 813</title>, ed.
             <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> I, MGH Concilia 2.1 (Hannover
             and Leipzig, <date>1906</date>), pp. 258–273.</bibl>
@@ -235,12 +239,26 @@
           <bibl xml:id="source-C.SOI-0744"><idno>C.SOI-0744</idno>: <title>Council of Soissons, 744</title>, ed.
             <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> I, MGH Concilia 2.1 (Hannover
             and Leipzig, <date>1906</date>), pp. 33–36.</bibl>
+          <bibl xml:id="source-C.VLA-0549"><idno>C.VLA-0549</idno>: <title>Council of Valencia, 549</title>, ed.
+            <editor>José Vives</editor>, <title>Concilios visigóticos e hispano-romanos</title>, España Cristiana 1
+            (Barcelona and Madrid, <date>1963</date>), pp. 61–64.</bibl>
           <bibl xml:id="source-COLL.400.ms-Mun-BSB-4592"><idno>COLL.400.ms-Mun-BSB-4592</idno>: <title>Collectio 400
               capitulorum</title>, transcribed by the project from Munich, Bayerische Staatsbibliothek, Clm
             4592.</bibl>
           <bibl xml:id="source-COLL.Dach"><idno>COLL.Dach</idno>: <title>Collectio Dacheriana</title>, ed.
             <editor>Luc d'Achery</editor>, <title>Spicilegium</title>, vol. 11 (Paris, <date>1723</date>),
             pp. 1–200.</bibl>
+          <bibl xml:id="source-COLL.Ans.ms-Par-BnF-15392"><idno>COLL.Ans.ms-Par-BnF-15392</idno>: <title>Collectio
+              Anselmo dedicata</title> in Paris, Bibliothèque nationale de France, lat. 15392: the file's description
+            of the manuscript.</bibl>
+          <bibl xml:id="source-COLL.Dach.ms-Brn-Burg-425"><idno>COLL.Dach.ms-Brn-Burg-425</idno>: <title>Collectio
+              Dacheriana</title> in Bern, Burgerbibliothek, 425: the file's description of the manuscript.</bibl>
+          <bibl xml:id="source-COLL.His.ms-Vat-BAV-Pal575"><idno>COLL.His.ms-Vat-BAV-Pal575</idno>: <title>Collectio
+              Hispana</title> in Vatican City, Biblioteca Apostolica Vaticana, Pal. lat. 575: the file's description
+            of the manuscript.</bibl>
+          <bibl xml:id="source-COLL.Laur.ms-Vat-BAV-Pal574"><idno>COLL.Laur.ms-Vat-BAV-Pal574</idno>:
+            <title>Collectio Laureshamensis</title> in Vatican City, Biblioteca Apostolica Vaticana, Pal. lat. 574:
+            the file's description of the manuscript.</bibl>
         </listBibl>
       </div>
     </back>

@@ -211,6 +211,24 @@ def test_a_formal_title_replaces_the_host_s_and_a_description_its_paragraph() ->
     assert [etree.QName(c).localname for c in source] == ["msDesc"]
 
 
+def test_a_part_of_a_description_is_placed_in_a_unit_and_edtf_is_declared() -> None:
+    tree = placed(example('<origDate when="0813" when-custom="0813~" datingMethod="#edtf">813</origDate>'))
+    unit = tree.find(f".//{{{TEI}}}sourceDesc/{{{TEI}}}msDesc/{{{TEI}}}msPart")
+    assert unit.find(f"{{{TEI}}}history/{{{TEI}}}origin/{{{TEI}}}origDate") is not None
+    assert tree.find(f".//{{{TEI}}}sourceDesc/{{{TEI}}}p") is None
+    calendars = tree.findall(f".//{{{TEI}}}profileDesc/{{{TEI}}}calendarDesc/{{{TEI}}}calendar")
+    assert [c.get(XML_ID) for c in calendars] == ["edtf"]
+
+
+def test_a_fragment_that_declares_edtf_keeps_its_own_declaration() -> None:
+    xml = (
+        '<calendarDesc><calendar xml:id="edtf"><p>EDTF.</p></calendar></calendarDesc>'
+        '<p><date when="0813" when-custom="0813~" datingMethod="#edtf">813</date></p>'
+    )
+    calendars = placed(example(xml)).findall(f".//{{{TEI}}}calendar")
+    assert [c.findtext(f"{{{TEI}}}p") for c in calendars] == ["EDTF."]
+
+
 def test_a_whole_file_is_checked_as_it_is() -> None:
     tree = placed(example("<TEI><teiHeader/><text><body/></text></TEI>"))
     assert tree.getroot().tag == f"{{{TEI}}}TEI"

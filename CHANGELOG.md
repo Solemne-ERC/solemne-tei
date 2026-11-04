@@ -3,6 +3,27 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
+## Unreleased
+
+### What changes for existing files
+
+- **Dates, in one form:** a date's bounds in TEI's W3C attributes, its EDTF in `@when-custom`, `@from-custom` and
+  `@to-custom` with `@datingMethod="#edtf"`. TEI's other forms of the same date are left out: the ISO attributes
+  (`@when-iso`, …), `@period`, `@datingPoint`, `@notBefore-custom` and `@notAfter-custom`. No file of the corpus uses
+  them.
+- **Calendars declared:** `calendarDesc` and `calendar` join the schema, and every `@calendar` and `@datingMethod`
+  points to a declared calendar (`calendar-declared`, an error). `@calendar` names the reckoning of a date's words
+  only where it isn't the Christian era; the Bodleian's rule requiring it on every `origDate` is dropped. Files that
+  give `calendar="Gregorian"` without declaring it now fail: 46 dates in the corpus's 38 manuscript descriptions.
+- **Dates checked:** no bound comes after its pair (`date-bounds-order`, an error; two dates in the corpus); an EDTF
+  value has EDTF's form (`date-edtf-form`, an error); the bounds agree with the EDTF by years
+  (`date-edtf-bounds`, a warning).
+
+### The guide
+
+- Part VII, dates: the one form, with the corpus's own wordings; calendars and eras, with the Julian day converted to
+  the Gregorian in the bounds; what the checks require.
+
 ## 0.2.0 (2026-11-04)
 
 The guide for texts: the front matter and Parts I to IV, the templates, and the guide as HTML. Encoders can use this
