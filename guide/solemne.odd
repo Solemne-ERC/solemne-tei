@@ -68,8 +68,18 @@
 
       <div>
         <head>The header</head>
-        <p>The title statement opens with a formal title holding exactly three identifiers: the document's code,
-          its category and its type. Further titles are aliases or other titles. Dates are given as one point
+        <p>The title statement opens with a formal title holding the document's identifiers, once each: its code,
+          in an <gi>idno</gi> without a type (<code>C.NIC-0325</code>); its category, typed
+          <val>category</val> (<val>SYSCOLL</val>, <val>CHRCOLL</val>, <val>C</val>, <val>D</val>, <val>P</val>,
+          <val>H</val>, <val>EX</val>, <val>EP</val>, <val>LR</val>, <val>CPT</val>, <val>CHA</val> or
+          <val>UNK</val>); and its type, typed <val>type</val> (<val>edition</val>, <val>manuscript</val>,
+          <val>reconstruction</val>, <val>hypothesis</val> or <val>placeholder</val>). The code begins with its
+          category's prefix: <code>COLL</code> for both kinds of collection, the category itself for the others;
+          <val>UNK</val>, and <val>LR</val>, <val>CPT</val> and <val>CHA</val>, whose prefixes aren't decided yet,
+          take any. A manuscript's code (<code>COLL.Dach.ms-Brn-Burg-425</code>), like a document typed
+          <val>manuscript</val>, goes with the manuscript's description in the <gi>sourceDesc</gi>. An export adds
+          the permalink of each level the file belongs to, typed <val>work</val>, <val>version</val>,
+          <val>witness</val> or <val>transcription</val>. Further titles are aliases or other titles. Dates are given as one point
           (<att>when</att>) or as a span with both bounds. Persons, places and events listed in the standOff
           either point to a record or describe one.</p>
       </div>
@@ -482,40 +492,59 @@
 
         <elementSpec ident="idno" module="header" mode="change">
           <constraintSpec ident="formal-title" scheme="schematron">
-            <desc>The formal title holds the document's code, category and type, once each.</desc>
+            <desc>The formal title holds the document's code (an identifier without a type), its category and its
+              type, once each; an export adds the permalinks of the levels the file belongs to.</desc>
             <constraint>
               <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']">
-                <sch:assert id="formal-title-idnos" test="count(tei:idno) = 3 and count(tei:idno[@type =
-                  'collCode']) = 1 and count(tei:idno[@type = 'collCat']) = 1 and count(tei:idno[@type =
-                  'collType']) = 1">The formal title holds three identifiers: one each typed collCode, collCat and
-                  collType.</sch:assert>
+                <sch:assert id="formal-title-idnos" test="count(tei:idno[not(@type)]) = 1 and count(tei:idno[@type =
+                  'category']) = 1 and count(tei:idno[@type = 'type']) = 1 and (every $level in ('work', 'version',
+                  'witness', 'transcription') satisfies count(tei:idno[@type = $level]) le 1)">The formal title holds
+                  the document's code (an identifier without a type), its category and its type, once each, and at
+                  most one permalink for each level the file belongs to.</sch:assert>
               </sch:rule>
               <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title/tei:idno">
                 <sch:assert id="idno-in-formal-title" test="parent::tei:title[@type = 'formal']">An identifier in
                   the title statement stands in the formal title.</sch:assert>
-                <sch:assert id="idno-type" test="@type = ('collCode', 'collCat', 'collType')">An identifier in the
-                  formal title is typed collCode, collCat or collType.</sch:assert>
+                <sch:assert id="idno-type" test="not(@type) or @type = ('category', 'type', 'work', 'version',
+                  'witness', 'transcription')">An identifier in the formal title is the code (without a type), the
+                  category, the type, or the permalink of a level (work, version, witness,
+                  transcription).</sch:assert>
               </sch:rule>
-              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title/tei:idno[@type = 'collCode']">
+              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
+                <sch:let name="category" value="normalize-space(../tei:idno[@type = 'category'][1])"/>
+                <sch:let name="prefix" value="substring-before(normalize-space(.), '.')"/>
                 <sch:assert id="code-format" test="matches(normalize-space(.),
-                  '^(C|D|COLL|P|EP|H|EX)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*$')">The document's code
-                  (<sch:value-of select="normalize-space(.)"/>) begins with its category and a dot, and holds only
-                  letters, digits, dots and hyphens.</sch:assert>
+                  '^[A-Z]+\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*$')">The document's code (<sch:value-of
+                  select="normalize-space(.)"/>) begins with its category's prefix and a dot, and holds only letters,
+                  digits, dots and hyphens.</sch:assert>
+                <sch:assert id="code-category" test="$category = ('', 'UNK', 'LR', 'CPT', 'CHA') or $prefix = (if
+                  ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category)">The document's code
+                  (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of
+                  select="if ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category"/>, for the category
+                  <sch:value-of select="$category"/>).</sch:assert>
+                <sch:assert id="code-manuscript" test="not(contains(normalize-space(.), '.ms-')) or
+                  ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A manuscript's code (<sch:value-of
+                  select="normalize-space(.)"/>) goes with the manuscript's description (msDesc) in the
+                  sourceDesc.</sch:assert>
                 <sch:assert id="code-matches-file-name" role="warning" test="not(matches(base-uri(.),
                   '/(C|D|COLL|P|EP|H|EX)\.[^/]*\.xml$')) or ends-with(base-uri(.), concat('/',
                   encode-for-uri(normalize-space(.)), '.xml'))">A file named by a code is named by its document's
                   code (<sch:value-of select="normalize-space(.)"/>).</sch:assert>
               </sch:rule>
-              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title/tei:idno[@type = 'collCat']">
-                <sch:assert id="category-value" test="normalize-space(.) = ('C', 'D', 'EP', 'P', 'H', 'EX',
-                  'CHRCOLL', 'SYSCOLL', 'UNK')">The document's category (<sch:value-of select="normalize-space(.)"/>)
-                  is one of C, D, EP, P, H, EX, CHRCOLL, SYSCOLL, UNK.</sch:assert>
+              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'category']">
+                <sch:assert id="category-value" test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'C', 'D', 'P', 'H',
+                  'EX', 'EP', 'LR', 'CPT', 'CHA', 'UNK')">The document's category (<sch:value-of
+                  select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, C, D, P, H, EX, EP, LR, CPT, CHA,
+                  UNK.</sch:assert>
               </sch:rule>
-              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title/tei:idno[@type = 'collType']">
+              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type']">
                 <sch:assert id="document-type-value" test="normalize-space(.) = ('edition', 'manuscript',
                   'reconstruction', 'hypothesis', 'placeholder')">The document's type (<sch:value-of
                   select="normalize-space(.)"/>) is one of edition, manuscript, reconstruction, hypothesis,
                   placeholder.</sch:assert>
+                <sch:assert id="type-manuscript" test="not(normalize-space(.) = 'manuscript') or
+                  ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A document typed manuscript has the
+                  manuscript's description (msDesc) in its sourceDesc.</sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: MIT -->
-<!-- Breaks one rule: idno-type (an identifier in the formal title is typed collCode, collCat or collType), checked by the Schematron. Otherwise the skeleton of a valid file. -->
+<!-- Breaks one rule: idno-type (an identifier in the formal title is the code, the category, the type, or a level's permalink), checked by the Schematron. Otherwise the skeleton of a valid file. -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
   <teiHeader>
     <fileDesc>
       <titleStmt>
         <title type="formal">
-          <idno type="collCode">C.SAM-0600</idno>
-          <idno type="collCat">C</idno>
-          <idno type="collKind">edition</idno>
+          <idno>C.SAM-0600</idno>
+          <idno type="category">C</idno>
+          <idno type="type">edition</idno>
+          <idno type="shelfmark">MS 12</idno>
         </title>
         <title type="alias">Council of Samplia, 600</title>
       </titleStmt>

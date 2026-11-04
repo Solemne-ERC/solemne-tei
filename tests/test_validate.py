@@ -21,9 +21,9 @@ HEAD = """<?xml version="1.0" encoding="UTF-8"?>
     <fileDesc>
       <titleStmt>
         <title type="formal">
-          <idno type="collCode">C.SAM-0600</idno>
-          <idno type="collCat">C</idno>
-          <idno type="collType">edition</idno>
+          <idno>C.SAM-0600</idno>
+          <idno type="category">C</idno>
+          <idno type="type">edition</idno>
         </title>
       </titleStmt>
       <publicationStmt>

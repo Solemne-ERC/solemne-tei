@@ -8,9 +8,9 @@
     <fileDesc>
       <titleStmt>
         <title type="formal">
-          <idno type="collCode">P.SAM</idno>
-          <idno type="collCat">P</idno>
-          <idno type="collType">edition</idno>
+          <idno>P.SAM</idno>
+          <idno type="category">P</idno>
+          <idno type="type">edition</idno>
         </title>
         <title type="alias">Paenitentiale Sampliense</title>
       </titleStmt>

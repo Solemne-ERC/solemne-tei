@@ -7,9 +7,9 @@
     <fileDesc>
       <titleStmt>
         <title type="formal">
-          <idno type="collCode">COLL.Samp.ms-Now-NL-12</idno>
-          <idno type="collCat">SYSCOLL</idno>
-          <idno type="collType">manuscript</idno>
+          <idno>COLL.Samp.ms-Now-NL-12</idno>
+          <idno type="category">SYSCOLL</idno>
+          <idno type="type">manuscript</idno>
         </title>
         <title type="alias">Collectio Sampliensis in Nowhere, National Library, 12</title>
       </titleStmt>

@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from importlib import resources
 
 # The categories a document's code begins with, as the schema checks them on the formal title's category.
-CATEGORIES = ("C", "CHRCOLL", "D", "EP", "EX", "H", "P", "SYSCOLL", "UNK")
+CATEGORIES = ("SYSCOLL", "CHRCOLL", "C", "D", "P", "H", "EX", "EP", "LR", "CPT", "CHA", "UNK")
 
 
 @dataclass(frozen=True)

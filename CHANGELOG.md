@@ -18,3 +18,14 @@ The first release: SOLEMNE's TEI schema as a package.
   their SHA-256; it says when nothing changed.
 - `solemne-tei lists [--json]` prints the closed lists, the categories and the codes of the Bible's 73 books.
 - From Python: `Validator`, `validate(paths, jobs)`, `Problem`, `Result`, `closed_lists()` and `SCHEMA_VERSION`.
+
+### The forms
+
+Files written for the draft of this schema need these changes to pass.
+
+- **The formal title's identifiers:** the document's code in an `idno` without a type, its category in
+  `idno type="category"` and its type in `idno type="type"`, once each; `collCode`, `collCat` and `collType` are no
+  longer accepted. The code begins with its category's prefix (`COLL` for `SYSCOLL` and `CHRCOLL`); the categories
+  gain `LR`, `CPT` and `CHA`, which take any prefix for now, as `UNK` does. A manuscript's code (`.ms-`) and the type
+  `manuscript` go with the manuscript's description in the `sourceDesc`. An export adds there the permalinks of the
+  levels the file belongs to, typed `work`, `version`, `witness` and `transcription`.
