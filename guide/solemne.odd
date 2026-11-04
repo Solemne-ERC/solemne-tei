@@ -198,6 +198,13 @@
       </div>
     </body>
     <back>
+      <!-- solemne-tei docs generates the appendices in place of these placeholders, from the specifications. -->
+      <divGen xml:id="appendix-elements" type="elements">
+        <head>The elements and attributes</head>
+      </divGen>
+      <divGen xml:id="appendix-rules" type="rules">
+        <head>The rules</head>
+      </divGen>
       <div xml:id="example-sources">
         <head>The sources of the examples</head>
         <p>The guide's examples quote short excerpts of the project's corpus, cut where the point is made and revised to

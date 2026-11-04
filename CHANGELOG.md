@@ -36,6 +36,13 @@ segments with terms.
   beside the specification. Each Schematron rule has a `constraintSpec` of its own, and each restriction the RelaxNG
   checks (a closed list, a required attribute, a pattern) an `xml:id` on the specification that makes it. Nothing
   changes for files.
+- The guide's front matter and Parts I to IV are written: what a file describes; the file and its header, the coding
+  rules among them; the text and its transcription; what is marked in the text. Each section has examples from the
+  corpus, credited in a list of the examples' sources, and the counter-examples of its rules. Parts V to X hold their
+  rules and counter-examples; their prose comes later.
+- `solemne-tei docs --html [--out DIR]` writes the guide as one HTML page, by TEI's `odd2html`, with appendix A (the
+  elements and attributes) and appendix B (every rule, with its check, severity, tier and part) generated from the
+  specifications, and each counter-example labelled with the rule it breaks.
 - The templates, in `guide/templates/`, are whole files to start from, each a short text of the corpus: a minimal
   file, a rich one, a council and a collection from editions, a decretal and a penitential. Each declares the schema
   by two `<?xml-model?>` lines, at its version's address on GitHub Pages, and passes both checks.

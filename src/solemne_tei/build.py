@@ -394,6 +394,23 @@ def closed_lists_json(compiled_odd: Path, version: str, odd_sha256: str) -> str:
     return json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
 
 
+def stylesheet_params(tools: Tools) -> dict[str, str]:
+    """The parameters every run of TEI's stylesheets takes: TEI P5 from the cache, and no date of the day."""
+    return {"defaultSource": tools.p5subset.as_uri(), "useFixedDate": "true", "verbose": "false"}
+
+
+def compile_odd(saxon: Saxon, tools: Tools, source: Path, compiled: Path) -> None:
+    """Compile an ODD with TEI's `odd2odd`, after the Bodleian's, which it takes its `msdescription` module from:
+    the Bodleian's compiled ODD is written beside the source, under the name the source's `moduleRef` gives."""
+    odd2odd = tools.stylesheets / "odds" / "odd2odd.xsl"
+    common = stylesheet_params(tools)
+    logger.info("Compiling the Bodleian's ODD")
+    shutil.copy(tools.msdesc, source.parent / "msdesc.odd")
+    (source.parent / MSDESC_COMPILED).write_text(saxon.run(odd2odd, source.parent / "msdesc.odd", **common), "utf-8")
+    logger.info("Compiling %s", source.name)
+    compiled.write_text(saxon.run(odd2odd, source, **common), "utf-8")
+
+
 def build(odd: Path = ODD_PATH, out: Path = SCHEMA_DIR, cache: Path = CACHE_DIR) -> list[Path]:
     """Generate the schema's files from the ODD into `out`; returns those it wrote, which are those that changed."""
     if not odd.exists():
@@ -408,18 +425,12 @@ def build(odd: Path = ODD_PATH, out: Path = SCHEMA_DIR, cache: Path = CACHE_DIR)
     (work / ODD).write_bytes(expanded.text)
     logger.info("Checking %s, its parts included, against TEI's schema for ODD files", ODD)
     check_odd(work / ODD, odd_validator(tools, cache), expanded.places)
-    common = {"defaultSource": tools.p5subset.as_uri(), "useFixedDate": "true", "verbose": "false"}
+    common = stylesheet_params(tools)
     odds = tools.stylesheets / "odds"
-
-    logger.info("Compiling the Bodleian's ODD")
-    shutil.copy(tools.msdesc, work / "msdesc.odd")
-    (work / MSDESC_COMPILED).write_text(saxon.run(odds / "odd2odd.xsl", work / "msdesc.odd", **common), "utf-8")
-
-    logger.info("Compiling %s", ODD)
     odd_sha256 = expanded.sha256
     version = odd_version(odd)
     compiled = work / COMPILED_ODD
-    compiled.write_text(saxon.run(odds / "odd2odd.xsl", work / ODD, **common), "utf-8")
+    compile_odd(saxon, tools, work / ODD, compiled)
 
     logger.info("Writing the RelaxNG, the Schematron and its XSLT, and the closed lists")
     outputs = {RELAXNG: saxon.run(odds / "odd2relax.xsl", compiled, **common)}

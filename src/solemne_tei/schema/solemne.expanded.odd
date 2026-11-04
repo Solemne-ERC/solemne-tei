@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.2.0 (SHA-256 0117d80cb3d10d00fc5f5b950c19f30b5024dd1ca0f02d5294b61e4c592012c9) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.2.0 (SHA-256 83c29329bb40f830b20f701ee1a0b1c27bcd8e11466d2f4262c6ea88fdcc040a) by solemne-tei build. Edit the ODD, not this file. -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:lang="en">
   <teiHeader>
     <fileDesc>
@@ -2952,6 +2952,13 @@
       </div>
     </body>
     <back>
+      <!-- solemne-tei docs generates the appendices in place of these placeholders, from the specifications. -->
+      <divGen xml:id="appendix-elements" type="elements">
+        <head>The elements and attributes</head>
+      </divGen>
+      <divGen xml:id="appendix-rules" type="rules">
+        <head>The rules</head>
+      </divGen>
       <div xml:id="example-sources">
         <head>The sources of the examples</head>
         <p>The guide's examples quote short excerpts of the project's corpus, cut where the point is made and revised to

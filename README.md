@@ -54,6 +54,21 @@ It prints the schema's closed lists (the types of divisions, headings, notes and
 the categories a document's code begins with, and the codes of the Bible's 73 books with their Vulgate names; `--json`
 gives the same as data.
 
+## The guide
+
+The guide is the ODD itself: `guide/solemne.odd` holds the header, the front matter and the parts by XInclude, from
+`guide/chapters/`, and the specification. Each part explains its forms with examples from the project's corpus, and
+holds the specifications of the rules it explains, with a counter-example of each. `guide/templates/` holds whole
+files to start from. To read it:
+
+```
+solemne-tei docs --html
+```
+
+It writes `build/html/guide.html`, one page made by TEI's `odd2html`, with appendix A (the elements and attributes)
+and appendix B (every rule, with its check, severity and tier) generated from the specifications. The HTML is plain;
+it isn't committed. In a clone, the command runs offline once `solemne-tei build` has cached the sources.
+
 ## Regenerating the schema
 
 After changing the ODD or one of its parts, in a clone:
