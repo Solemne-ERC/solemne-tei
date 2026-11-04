@@ -79,7 +79,8 @@ SHA-256:
 
 The build runs with SaxonC-HE: TEI's `odd2odd` compiles the Bodleian's ODD, then ours, which takes its manuscript
 description module from the Bodleian's; `odd2relax` writes the RelaxNG; `extract-isosch` extracts the Schematron;
-SchXslt2 compiles it to XSLT.
+SchXslt2 compiles it to XSLT. The development install pins SaxonC-HE's version, since the compiled Schematron
+differs between versions; the package itself works with a range of them.
 
 A new rule goes into the ODD as a Schematron assertion with an `id`, or as a RelaxNG constraint, with an invalid
 sample in `tests/samples/invalid/` named by the rule; the tests check that every assertion of the ODD has its sample.
