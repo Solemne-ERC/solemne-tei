@@ -35,6 +35,14 @@ def parser() -> argparse.ArgumentParser:
         "pinned sources; later runs are offline.",
     )
     b.add_argument("--cache", type=Path, help="where the fetched sources are kept (default: build/tei)")
+
+    li = commands.add_parser(
+        "lists",
+        help="the closed lists, the categories and the Bible's codes",
+        description="The schema's closed lists (by element and attribute, or attribute class), the categories a "
+        "document's code begins with, and the codes of the Bible's 73 books.",
+    )
+    li.add_argument("--json", action="store_true", help="print them as JSON")
     return p
 
 
@@ -73,11 +81,38 @@ def build_command(args: argparse.Namespace) -> int:
     return 0
 
 
+def lists_command(args: argparse.Namespace) -> int:
+    from solemne_tei.codes import CATEGORIES, bible_books
+    from solemne_tei.schema_files import closed_lists, schema_version
+
+    lists = closed_lists()
+    books = bible_books()
+    if args.json:
+        payload = {
+            "version": schema_version(),
+            "closed_lists": lists,
+            "categories": list(CATEGORIES),
+            "bible": [asdict(book) for book in books],
+        }
+        json.dump(payload, sys.stdout, ensure_ascii=False, indent=1)
+        print()
+        return 0
+    print(f"The closed lists of the schema {schema_version()}, by element (or attribute class) and attribute:")
+    for key, attributes in lists.items():
+        for attribute, values in attributes.items():
+            print(f"  {key}/@{attribute}: {' '.join(values)}")
+    print("\nThe categories a document's code begins with:")
+    print(f"  {' '.join(CATEGORIES)}")
+    print("\nThe Bible's books, as source pointers name them (MAT_18_19):")
+    for book in books:
+        print(f"  {book.code}  {book.name}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
-    if args.command == "validate":
-        return validate_command(args)
-    return build_command(args)
+    commands = {"validate": validate_command, "build": build_command, "lists": lists_command}
+    return commands[args.command](args)
 
 
 if __name__ == "__main__":

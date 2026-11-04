@@ -29,7 +29,7 @@ where = ["src"]
 include = ["solemne_tei*"]
 
 [tool.setuptools.package-data]
-solemne_tei = ["schema/*"]
+solemne_tei = ["schema/*", "tables/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
