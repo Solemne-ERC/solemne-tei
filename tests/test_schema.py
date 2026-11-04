@@ -5,13 +5,24 @@ generated files come from the ODD as it is now; the build's downloads are checke
 import hashlib
 import re
 import shutil
+import tomllib
 from pathlib import Path
 
 import pytest
 from lxml import etree
 
+import solemne_tei
 from solemne_tei.build import ODD_PATH, BuildError, Source, fetch, stamped
-from solemne_tei.schema_files import GENERATED, ODD, SCHEMA_DIR, sha256, stamp, stamped_sha256
+from solemne_tei.schema_files import (
+    GENERATED,
+    ODD,
+    SCHEMA_DIR,
+    odd_version,
+    read_stamp,
+    schema_version,
+    sha256,
+    stamp,
+)
 from solemne_tei.validate import Result, Validator
 
 SAMPLES = Path(__file__).parent / "samples"
@@ -73,24 +84,30 @@ def test_every_rule_of_the_odd_has_an_invalid_sample() -> None:
 
 
 def test_generated_files_come_from_the_odd_as_it_is() -> None:
-    odd = sha256(ODD_PATH)
+    odd = (odd_version(ODD_PATH), sha256(ODD_PATH))
     for name in GENERATED:
-        assert stamped_sha256(SCHEMA_DIR / name) == odd, (
+        assert read_stamp(SCHEMA_DIR / name) == odd, (
             f"{name} was generated from another version of {ODD}: run solemne-tei build"
         )
 
 
+def test_the_versions_agree() -> None:
+    with (ODD_PATH.parents[1] / "pyproject.toml").open("rb") as f:
+        project = tomllib.load(f)["project"]["version"]
+    assert odd_version(ODD_PATH) == project == solemne_tei.__version__ == schema_version()
+
+
 def test_stamp_follows_the_xml_declaration(tmp_path: Path) -> None:
-    text = stamped('<?xml version="1.0" encoding="UTF-8"?><grammar/>', "ab" * 32)
+    text = stamped('<?xml version="1.0" encoding="UTF-8"?><grammar/>', "1.2.3", "ab" * 32)
     assert text.splitlines() == [
         '<?xml version="1.0" encoding="UTF-8"?>',
         "<!-- SPDX-License-Identifier: MIT -->",
-        stamp("ab" * 32),
+        stamp("1.2.3", "ab" * 32),
         "<grammar/>",
     ]
     path = tmp_path / "solemne.rng"
     path.write_text(text, encoding="utf-8")
-    assert stamped_sha256(path) == "ab" * 32
+    assert read_stamp(path) == ("1.2.3", "ab" * 32)
 
 
 def pinned(tmp_path: Path, content: bytes, checksum: str) -> Source:

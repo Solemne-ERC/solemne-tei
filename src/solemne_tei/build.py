@@ -24,7 +24,18 @@ from pathlib import Path
 from lxml import etree
 
 from solemne_tei.logs import logger
-from solemne_tei.schema_files import GENERATED, ODD, RELAXNG, SCHEMA_DIR, SCHEMATRON, SCHEMATRON_XSLT, sha256, stamp
+from solemne_tei.schema_files import (
+    GENERATED,
+    ODD,
+    RELAXNG,
+    SCHEMA_DIR,
+    SCHEMATRON,
+    SCHEMATRON_XSLT,
+    TEI,
+    odd_version,
+    sha256,
+    stamp,
+)
 
 REPOSITORY = Path(__file__).resolve().parents[2]
 ODD_PATH = REPOSITORY / "guide" / ODD
@@ -34,7 +45,6 @@ CACHE_DIR = REPOSITORY / "build" / "tei"
 MSDESC_COMPILED = "msdesc.compiled.odd"
 
 SPDX = "<!-- SPDX-License-Identifier: MIT -->"
-TEI = "http://www.tei-c.org/ns/1.0"
 
 
 @dataclass(frozen=True)
@@ -221,10 +231,10 @@ def schxslt_notice(tools: Tools) -> str:
     )
 
 
-def stamped(text: str, odd_sha256: str, notice: str = "") -> str:
+def stamped(text: str, version: str, odd_sha256: str, notice: str = "") -> str:
     """The generated text with the SPDX line, the stamp and a notice after its XML declaration."""
     head, sep, rest = text.partition("?>") if text.startswith("<?xml") else ("", "", text)
-    lines = [f"{head}{sep}".strip(), SPDX, stamp(odd_sha256), notice, rest.lstrip()]
+    lines = [f"{head}{sep}".strip(), SPDX, stamp(version, odd_sha256), notice, rest.lstrip()]
     text = "\n".join(line for line in lines if line)
     return text if text.endswith("\n") else text + "\n"
 
@@ -247,6 +257,7 @@ def build(odd: Path = ODD_PATH, out: Path = SCHEMA_DIR, cache: Path = CACHE_DIR)
 
     logger.info("Compiling %s", ODD)
     odd_sha256 = sha256(odd)
+    version = odd_version(odd)
     shutil.copy(odd, work / ODD)
     compiled = work / "solemne.compiled.odd"
     compiled.write_text(saxon.run(odds / "odd2odd.xsl", work / ODD, **common), "utf-8")
@@ -263,7 +274,7 @@ def build(odd: Path = ODD_PATH, out: Path = SCHEMA_DIR, cache: Path = CACHE_DIR)
     written = []
     for name in GENERATED:
         text = outputs[name].replace(work.as_uri(), "").replace(str(work), "")
-        text = stamped(text, odd_sha256, notices.get(name, ""))
+        text = stamped(text, version, odd_sha256, notices.get(name, ""))
         path = out / name
         if not path.exists() or path.read_text("utf-8") != text:
             path.write_text(text, "utf-8")

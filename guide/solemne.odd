@@ -10,6 +10,9 @@
         <author>Friederike Voit</author>
         <author>Sven Meeder</author>
       </titleStmt>
+      <editionStmt>
+        <edition n="0.1.0">Version 0.1.0</edition>
+      </editionStmt>
       <publicationStmt>
         <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University</publisher>
         <availability>
