@@ -1,0 +1,188 @@
+{
+  "SPDX-License-Identifier": "MIT",
+  "generated": "Generated from solemne.odd 0.1.0 (SHA-256 88e2d0b296037354b81ca94cfbfdda0041abd33da08397450a2c9830090d7234) by solemne-tei build. Edit the ODD, not this file.",
+  "lists": {
+    "annotation": {
+      "motivation": [
+        "assessing",
+        "bookmarking",
+        "classifying",
+        "commenting",
+        "describing",
+        "editing",
+        "highlighting",
+        "identifying",
+        "linking",
+        "moderating",
+        "questioning",
+        "replying",
+        "tagging"
+      ]
+    },
+    "att.declarable": {
+      "default": [
+        "false",
+        "true"
+      ]
+    },
+    "att.divLike": {
+      "org": [
+        "composite",
+        "parallel",
+        "uniform"
+      ],
+      "sample": [
+        "complete",
+        "final",
+        "initial",
+        "medial",
+        "unknown"
+      ]
+    },
+    "att.fragmentable": {
+      "part": [
+        "F",
+        "I",
+        "M",
+        "N",
+        "Y"
+      ]
+    },
+    "att.global": {
+      "xml:space": [
+        "default",
+        "preserve"
+      ]
+    },
+    "att.personal": {
+      "full": [
+        "abb",
+        "init",
+        "yes"
+      ]
+    },
+    "att.pointing": {
+      "evaluate": [
+        "all",
+        "none",
+        "one"
+      ]
+    },
+    "availability": {
+      "status": [
+        "free",
+        "restricted",
+        "unknown"
+      ]
+    },
+    "correction": {
+      "method": [
+        "markup",
+        "silent"
+      ],
+      "status": [
+        "high",
+        "low",
+        "medium",
+        "unknown"
+      ]
+    },
+    "div": {
+      "type": [
+        "capitulum",
+        "causa",
+        "chapter",
+        "closer",
+        "dictum",
+        "distinctio",
+        "part",
+        "preface",
+        "quaestio",
+        "register",
+        "registerItem",
+        "section",
+        "subscriptions",
+        "unit"
+      ]
+    },
+    "head": {
+      "type": [
+        "inscription",
+        "number",
+        "rubric"
+      ]
+    },
+    "layout": {
+      "topLine": [
+        "above",
+        "below",
+        "mixed"
+      ]
+    },
+    "normalization": {
+      "method": [
+        "markup",
+        "silent"
+      ]
+    },
+    "note": {
+      "type": [
+        "authorities",
+        "editorial",
+        "extra",
+        "links",
+        "parallel",
+        "source"
+      ]
+    },
+    "punctuation": {
+      "marks": [
+        "all",
+        "none",
+        "some"
+      ],
+      "placement": [
+        "external",
+        "internal"
+      ]
+    },
+    "quotation": {
+      "marks": [
+        "all",
+        "none",
+        "some"
+      ]
+    },
+    "ref": {
+      "type": [
+        "from_paratext"
+      ]
+    },
+    "relation": {
+      "type": [
+        "judgement",
+        "observation"
+      ]
+    },
+    "seg": {
+      "type": [
+        "corr",
+        "formula"
+      ]
+    },
+    "segmentation": {
+      "type": [
+        "inferred-units"
+      ]
+    },
+    "title": {
+      "level": [
+        "a",
+        "j",
+        "m",
+        "s",
+        "u"
+      ]
+    }
+  }
+}

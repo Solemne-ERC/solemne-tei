@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: MIT
 """Generate the schema from the ODD.
 
-Fetches TEI P5's `p5subset.xml`, TEI's stylesheets, the Bodleian's consolidated msDesc ODD and SchXslt2 at pinned
-versions, checked by SHA-256, into the cache. Then, with SaxonC-HE: compiles the Bodleian's ODD and ours with TEI's
-`odd2odd` (ours takes its `msdescription` module from the Bodleian's), writes the RelaxNG with `odd2relax`, extracts
-the Schematron with `extract-isosch`, and compiles it to XSLT with SchXslt2. Each generated file names the ODD it came
-from by its SHA-256, and the compiled Schematron carries SchXslt2's licence.
+Fetches TEI P5's `p5subset.xml`, TEI's stylesheets, the Bodleian's consolidated msDesc ODD with its licence, and
+SchXslt2 at pinned versions, checked by SHA-256, into the cache. Then, with SaxonC-HE: compiles the Bodleian's ODD and
+ours with TEI's `odd2odd` (ours takes its `msdescription` module from the Bodleian's), writes the RelaxNG with
+`odd2relax`, extracts the Schematron with `extract-isosch`, and compiles it to XSLT with SchXslt2. It keeps the
+compiled ODD, and writes its closed lists as `closed-lists.json`. Each generated file names the ODD it came from by its
+version and SHA-256, and carries the notices of the material it contains.
 
 The build runs in a clone of the repository: it reads `guide/solemne.odd` and writes into the package's `schema/`.
 """
@@ -13,6 +14,7 @@ The build runs in a clone of the repository: it reads `guide/solemne.odd` and wr
 from __future__ import annotations
 
 import hashlib
+import json
 import shutil
 import tempfile
 import textwrap
@@ -25,6 +27,8 @@ from lxml import etree
 
 from solemne_tei.logs import logger
 from solemne_tei.schema_files import (
+    CLOSED_LISTS,
+    COMPILED_ODD,
     GENERATED,
     ODD,
     RELAXNG,
@@ -32,9 +36,11 @@ from solemne_tei.schema_files import (
     SCHEMATRON,
     SCHEMATRON_XSLT,
     TEI,
+    closed_lists_of,
     odd_version,
     sha256,
     stamp,
+    stamp_text,
 )
 
 REPOSITORY = Path(__file__).resolve().parents[2]
@@ -45,6 +51,7 @@ CACHE_DIR = REPOSITORY / "build" / "tei"
 MSDESC_COMPILED = "msdesc.compiled.odd"
 
 SPDX = "<!-- SPDX-License-Identifier: MIT -->"
+SPDX_GUIDE = "<!-- SPDX-License-Identifier: CC-BY-4.0 -->"
 
 
 @dataclass(frozen=True)
@@ -231,12 +238,31 @@ def schxslt_notice(tools: Tools) -> str:
     )
 
 
-def stamped(text: str, version: str, odd_sha256: str, notice: str = "") -> str:
+def stamped(text: str, version: str, odd_sha256: str, notice: str = "", spdx: str = SPDX) -> str:
     """The generated text with the SPDX line, the stamp and a notice after its XML declaration."""
     head, sep, rest = text.partition("?>") if text.startswith("<?xml") else ("", "", text)
-    lines = [f"{head}{sep}".strip(), SPDX, stamp(version, odd_sha256), notice, rest.lstrip()]
+    lines = [f"{head}{sep}".strip(), spdx, stamp(version, odd_sha256), notice, rest.lstrip()]
     text = "\n".join(line for line in lines if line)
     return text if text.endswith("\n") else text + "\n"
+
+
+def _without_paths(text: str, work: Path, p5subset: Path) -> str:
+    """Generated text without the paths of the machine it was made on: the folder it was made in goes, and TEI P5's
+    cached copy becomes its pinned address."""
+    text = text.replace(p5subset.as_uri(), P5SUBSET.url)
+    for path in (f"{work.as_uri()}/", f"file:{work}/", work.as_uri(), f"file:{work}", str(work)):
+        text = text.replace(path, "")
+    return text
+
+
+def closed_lists_json(compiled_odd: Path, version: str, odd_sha256: str) -> str:
+    """`closed-lists.json`: the compiled ODD's closed lists, with the licence and the stamp as keys of their own."""
+    payload = {
+        "SPDX-License-Identifier": "MIT",
+        "generated": stamp_text(version, odd_sha256),
+        "lists": closed_lists_of(compiled_odd),
+    }
+    return json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
 
 
 def build(odd: Path = ODD_PATH, out: Path = SCHEMA_DIR, cache: Path = CACHE_DIR) -> list[Path]:
@@ -259,22 +285,35 @@ def build(odd: Path = ODD_PATH, out: Path = SCHEMA_DIR, cache: Path = CACHE_DIR)
     odd_sha256 = sha256(odd)
     version = odd_version(odd)
     shutil.copy(odd, work / ODD)
-    compiled = work / "solemne.compiled.odd"
+    compiled = work / COMPILED_ODD
     compiled.write_text(saxon.run(odds / "odd2odd.xsl", work / ODD, **common), "utf-8")
 
-    logger.info("Writing the RelaxNG, the Schematron and its XSLT")
+    logger.info("Writing the RelaxNG, the Schematron and its XSLT, and the closed lists")
     outputs = {RELAXNG: saxon.run(odds / "odd2relax.xsl", compiled, **common)}
     outputs[SCHEMATRON] = saxon.run(odds / "extract-isosch.xsl", compiled, **common)
     (work / SCHEMATRON).write_text(outputs[SCHEMATRON], "utf-8")
     outputs[SCHEMATRON_XSLT] = saxon.run(tools.transpiler, work / SCHEMATRON)
+    outputs[COMPILED_ODD] = compiled.read_text("utf-8")
     credits = credits_notice(tools)
-    notices = {RELAXNG: credits, SCHEMATRON: credits, SCHEMATRON_XSLT: f"{credits}\n{schxslt_notice(tools)}"}
+    notices = {SCHEMATRON_XSLT: f"{credits}\n{schxslt_notice(tools)}"}
+    # The compiled ODD is the guide's, so under its licence.
+    spdx = {COMPILED_ODD: SPDX_GUIDE}
+    files = {
+        name: stamped(
+            _without_paths(text, work, tools.p5subset),
+            version,
+            odd_sha256,
+            notices.get(name, credits),
+            spdx.get(name, SPDX),
+        )
+        for name, text in outputs.items()
+    }
+    files[CLOSED_LISTS] = closed_lists_json(compiled, version, odd_sha256)
 
     out.mkdir(parents=True, exist_ok=True)
     written = []
     for name in GENERATED:
-        text = outputs[name].replace(work.as_uri(), "").replace(str(work), "")
-        text = stamped(text, version, odd_sha256, notices.get(name, ""))
+        text = files[name]
         path = out / name
         if not path.exists() or path.read_text("utf-8") != text:
             path.write_text(text, "utf-8")

@@ -3,6 +3,7 @@
 from."""
 
 import hashlib
+import json
 import re
 from importlib import resources
 from pathlib import Path
@@ -15,7 +16,9 @@ ODD = "solemne.odd"
 RELAXNG = "solemne.rng"
 SCHEMATRON = "solemne.sch"
 SCHEMATRON_XSLT = "solemne-schematron.xsl"
-GENERATED = (RELAXNG, SCHEMATRON, SCHEMATRON_XSLT)
+COMPILED_ODD = "solemne.compiled.odd"
+CLOSED_LISTS = "closed-lists.json"
+GENERATED = (RELAXNG, SCHEMATRON, SCHEMATRON_XSLT, COMPILED_ODD, CLOSED_LISTS)
 
 TEI = "http://www.tei-c.org/ns/1.0"
 STAMP = re.compile(r"Generated from solemne\.odd (\S+) \(SHA-256 ([0-9a-f]{64})\)")
@@ -61,3 +64,25 @@ def schema_version() -> str:
     if stamped is None:
         raise ValueError(f"{SCHEMA_DIR / RELAXNG} has no stamp")
     return stamped[0]
+
+
+ClosedLists = dict[str, dict[str, list[str]]]
+
+
+def closed_lists_of(compiled_odd: Path) -> ClosedLists:
+    """Every closed list of a compiled ODD: by element and attribute, and by class and attribute for the lists an
+    attribute class defines (`att.global`), all sorted."""
+    lists: ClosedLists = {}
+    tree = etree.parse(str(compiled_odd))
+    for spec in tree.iter(f"{{{TEI}}}elementSpec", f"{{{TEI}}}classSpec"):
+        for att in spec.iter(f"{{{TEI}}}attDef"):
+            for val_list in att.iterfind(f"{{{TEI}}}valList[@type='closed']"):
+                values = sorted(item.get("ident") for item in val_list.iterfind(f"{{{TEI}}}valItem"))
+                lists.setdefault(spec.get("ident"), {})[att.get("ident")] = values
+    return {key: dict(sorted(atts.items())) for key, atts in sorted(lists.items())}
+
+
+def closed_lists() -> ClosedLists:
+    """The schema's closed lists, as the package holds them: `{"div": {"type": ["capitulum", …]}, …}`."""
+    with (SCHEMA_DIR / CLOSED_LISTS).open(encoding="utf-8") as f:
+        return json.load(f)["lists"]

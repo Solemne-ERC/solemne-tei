@@ -14,9 +14,12 @@ from lxml import etree
 import solemne_tei
 from solemne_tei.build import ODD_PATH, BuildError, Source, fetch, stamped
 from solemne_tei.schema_files import (
+    COMPILED_ODD,
     GENERATED,
     ODD,
     SCHEMA_DIR,
+    closed_lists,
+    closed_lists_of,
     odd_version,
     read_stamp,
     schema_version,
@@ -91,10 +94,22 @@ def test_generated_files_come_from_the_odd_as_it_is() -> None:
         )
 
 
+def test_generated_files_hold_no_paths_of_the_machine_they_were_made_on() -> None:
+    for name in GENERATED:
+        assert "file:/" not in (SCHEMA_DIR / name).read_text("utf-8"), name
+
+
 def test_the_versions_agree() -> None:
     with (ODD_PATH.parents[1] / "pyproject.toml").open("rb") as f:
         project = tomllib.load(f)["project"]["version"]
     assert odd_version(ODD_PATH) == project == solemne_tei.__version__ == schema_version()
+
+
+def test_the_closed_lists_are_those_of_the_compiled_odd() -> None:
+    lists = closed_lists()
+    assert lists == closed_lists_of(SCHEMA_DIR / COMPILED_ODD)
+    assert lists["div"]["type"] == sorted(lists["div"]["type"])
+    assert {"section", "chapter", "unit"} <= set(lists["div"]["type"])
 
 
 def test_stamp_follows_the_xml_declaration(tmp_path: Path) -> None:
