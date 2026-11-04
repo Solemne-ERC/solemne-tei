@@ -77,7 +77,7 @@
         </div>
         <div type="unit">
           <p><persName ref="#new_person_Specimen">Specimen</persName> episcopus <unclear
-              reason="damage">subscripsi</unclear>.<gap reason="omitted"/></p>
+              reason="damage">subscripsi</unclear>.<gap reason="damage" quantity="3" unit="words"/></p>
         </div>
       </div>
       <div type="closer">

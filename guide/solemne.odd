@@ -64,6 +64,14 @@
           Gryson siglum, with the place cited (<code>IS_ety_1.2.3</code>); or an SCTA resource. A loose reference
           starts with <code>cf_</code>. Names point to their records by placeholders (<code>#new_person_…</code>)
           until the import resolves them, then by permalinks.</p>
+        <p>A gap may say why the text is missing, in <att>reason</att>: <val>lacuna</val> (the witness lacks
+          it: lost leaves, or a lacuna in the edition it comes from), <val>damage</val>, <val>illegible</val>
+          (<gi>unclear</gi> is for what can be half read), <val>reproduction</val> (not readable in the images or
+          the film used), <val>deleted</val> (struck out and not readable), <val>sampling</val> (not transcribed,
+          by the encoder's choice: an incipit and an explicit only) or <val>editorial</val> (left out for another
+          reason, given in a note); without a reason, it's unknown. Its extent, where known, is a
+          <att>quantity</att> with its <att>unit</att> (<val>leaves</val>, <val>lines</val>, <val>words</val>,
+          <val>chars</val>), or <att>extent</att> in words.</p>
       </div>
 
       <div>
@@ -394,6 +402,58 @@
               <valList type="closed" mode="replace">
                 <valItem ident="from_paratext">
                   <desc>a statement's reference whose claim sits in a heading</desc>
+                </valItem>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+
+        <!-- Gaps: why the text is missing, and how much, where known. -->
+        <elementSpec ident="gap" module="core" mode="change">
+          <constraintSpec ident="gap-extent" scheme="schematron">
+            <desc>A gap's quantity is given with its unit.</desc>
+            <constraint>
+              <sch:rule context="tei:gap[@quantity or @unit]">
+                <sch:assert id="gap-quantity-unit" test="@quantity and @unit">A gap's quantity is given with its
+                  unit (leaves, lines, words or chars), and a unit with its quantity.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <attList>
+            <attDef ident="reason" mode="change" usage="opt">
+              <desc>why the text is missing; without a reason, it's unknown</desc>
+              <valList type="closed" mode="replace">
+                <valItem ident="lacuna">
+                  <desc>the witness lacks the text: lost leaves, or a lacuna in the edition it comes from</desc>
+                </valItem>
+                <valItem ident="damage">
+                  <desc>the support is damaged where the text stood</desc>
+                </valItem>
+                <valItem ident="illegible">
+                  <desc>the text can't be read (unclear is for what can be half read)</desc>
+                </valItem>
+                <valItem ident="reproduction">
+                  <desc>the text can't be read in the images or the film used</desc>
+                </valItem>
+                <valItem ident="deleted">
+                  <desc>struck out, and not readable</desc>
+                </valItem>
+                <valItem ident="sampling">
+                  <desc>not transcribed, by the encoder's choice: an incipit and an explicit only</desc>
+                </valItem>
+                <valItem ident="editorial">
+                  <desc>left out for another reason, given in a note</desc>
+                </valItem>
+              </valList>
+            </attDef>
+            <attDef ident="unit" mode="change">
+              <desc>the unit of the gap's quantity</desc>
+              <valList type="closed" mode="replace">
+                <valItem ident="leaves"/>
+                <valItem ident="lines"/>
+                <valItem ident="words"/>
+                <valItem ident="chars">
+                  <desc>characters</desc>
                 </valItem>
               </valList>
             </attDef>

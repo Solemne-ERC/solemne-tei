@@ -40,3 +40,6 @@ Files written for the draft of this schema need these changes to pass.
   `hmml`, `bodleian`, `manusOnline`, the Bodleian's `ieArk`, `crArk` and `SCN`), the formal title's `category` and
   `type`, the levels' `work`, `version`, `witness` and `transcription`, and `shelfmark`, `ISBN`, `url` and
   `biblatex`.
+- **Gaps:** `@reason` is optional (without one, the reason is unknown) and closed: `lacuna`, `damage`, `illegible`,
+  `reproduction`, `deleted`, `sampling`, `editorial`; the files' `missing` is `lacuna`. The extent, where known, is
+  `@quantity` with `@unit` (`leaves`, `lines`, `words`, `chars`), which go together, or `@extent`.

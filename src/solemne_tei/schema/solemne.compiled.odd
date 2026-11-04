@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.1.0 (SHA-256 c708cacfbc4621a42297e5b32e84cd5f6f20eae719b2125d9f17867f074bab3d) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.1.0 (SHA-256 d55ecaf88667c8de1ae49575f0f0d9919b471344c0620e84c28c6d3c816a51e3) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -124,6 +124,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           Gryson siglum, with the place cited (<code>IS_ety_1.2.3</code>); or an SCTA resource. A loose reference
           starts with <code>cf_</code>. Names point to their records by placeholders (<code>#new_person_…</code>)
           until the import resolves them, then by permalinks.</p>
+        <p>A gap may say why the text is missing, in <att>reason</att>: <val>lacuna</val> (the witness lacks
+          it: lost leaves, or a lacuna in the edition it comes from), <val>damage</val>, <val>illegible</val>
+          (<gi>unclear</gi> is for what can be half read), <val>reproduction</val> (not readable in the images or
+          the film used), <val>deleted</val> (struck out and not readable), <val>sampling</val> (not transcribed,
+          by the encoder's choice: an incipit and an explicit only) or <val>editorial</val> (left out for another
+          reason, given in a note); without a reason, it's unknown. Its extent, where known, is a
+          <att>quantity</att> with its <att>unit</att> (<val>leaves</val>, <val>lines</val>, <val>words</val>,
+          <val>chars</val>), or <att>extent</att> in words.</p>
       </div>
 
       <div>
@@ -8633,111 +8641,54 @@ Normalization</ref>
 Normalization</ref>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/TC.html#TC">13. Critical Apparatus</ref>
   </listRef>
-</elementSpec><elementSpec module="core" xml:id="gi-gap" ident="gap">
-  <gloss versionDate="2008-12-09" xml:lang="en">gap</gloss>
-  <gloss versionDate="2008-12-09" xml:lang="fr">omission</gloss>
-  <gloss versionDate="2016-11-25" xml:lang="de">Auslassung</gloss>
-  <desc versionDate="2008-01-24" xml:lang="en">indicates a point where material has been omitted in a transcription, whether for editorial
+</elementSpec><elementSpec rend="change" module="core" xml:id="gi-gap" ident="gap"><gloss versionDate="2008-12-09" xml:lang="en">gap</gloss><gloss versionDate="2008-12-09" xml:lang="fr">omission</gloss><gloss versionDate="2016-11-25" xml:lang="de">Auslassung</gloss><desc versionDate="2008-01-24" xml:lang="en">indicates a point where material has been omitted in a transcription, whether for editorial
     reasons described in the TEI header, as part of sampling practice, or because the material is
-    illegible, invisible, or inaudible.</desc>
-  <desc versionDate="2007-12-20" xml:lang="ko">텍스트 선정 시 TEI 헤더에 기술된 편집 기준 때문에, 또는 읽고 듣기 어렵기 때문에 사본에서 누락된
-    지점을 가리킨다.</desc>
-  <desc versionDate="2007-05-02" xml:lang="zh-TW">指出轉錄時被省略部分的位置，省略也許是出於
-    TEI標頭裡描述的編輯上的理由、也許是因為抽樣轉錄而省略、或是因為資料不明難以辨認或聽懂。</desc>
-  <desc versionDate="2008-04-05" xml:lang="ja">TEIヘダーにある編集上の理由、または当該資料が判読できない・聞こえな
-    いことを理由に、転記の際に省略された部分の場所を示す。</desc>
-  <desc versionDate="2007-06-12" xml:lang="fr">indique une omission dans une transcription, soit pour
+    illegible, invisible, or inaudible.</desc><desc versionDate="2007-12-20" xml:lang="ko">텍스트 선정 시 TEI 헤더에 기술된 편집 기준 때문에, 또는 읽고 듣기 어렵기 때문에 사본에서 누락된
+    지점을 가리킨다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">指出轉錄時被省略部分的位置，省略也許是出於
+    TEI標頭裡描述的編輯上的理由、也許是因為抽樣轉錄而省略、或是因為資料不明難以辨認或聽懂。</desc><desc versionDate="2008-04-05" xml:lang="ja">TEIヘダーにある編集上の理由、または当該資料が判読できない・聞こえな
+    いことを理由に、転記の際に省略された部分の場所を示す。</desc><desc versionDate="2007-06-12" xml:lang="fr">indique une omission dans une transcription, soit pour
     des raisons éditoriales décrites dans l'en-tête TEI au cours d’un échantillonnage, soit parce
-    que le matériau est illisible ou inaudible.</desc>
-  <desc versionDate="2007-05-04" xml:lang="es">indicada un punto donde algún material ha sido omitido en
+    que le matériau est illisible ou inaudible.</desc><desc versionDate="2007-05-04" xml:lang="es">indicada un punto donde algún material ha sido omitido en
     una transcripción, bien por criterios de edición descritos en el cabezado TEI, bien como parte
-    de una práctica habitual, o bien porqué el material es ilegible o incomprensible.</desc>
-  <desc versionDate="2007-01-21" xml:lang="it">indica un punto in cui del materiale è stato omesso dalla
+    de una práctica habitual, o bien porqué el material es ilegible o incomprensible.</desc><desc versionDate="2007-01-21" xml:lang="it">indica un punto in cui del materiale è stato omesso dalla
     trascrizione, sia per ragioni editoriali descritte nell'intestazione TEI, come pratica di
-    campionatura, sia perché il materiale è illegibile o incomprensibile.</desc>
-  <desc versionDate="2016-11-25" xml:lang="de">weist in einer Transkription auf eine Stelle hin, 
+    campionatura, sia perché il materiale è illegibile o incomprensibile.</desc><desc versionDate="2016-11-25" xml:lang="de">weist in einer Transkription auf eine Stelle hin, 
     in der Text aus der Vorlage ausgelassen worden ist, sei es aus editorischen Gründen, die im TEI-Header beschrieben werden, 
-    sei es auf Grund der Auswahlpraxis, sei es weil das Material nicht lesbar, nicht sichtbar oder nicht hörbar ist.</desc>
-  <classes>
-    <memberOf key="att.global"/>
-    <memberOf key="att.cmc"/>
-    <memberOf key="att.dimensions"/>
-    <memberOf key="att.editLike"/>
-    <memberOf key="att.timed"/>
-    <memberOf key="model.global.edit"/>
-  </classes>
-  <content>
-        <alternate minOccurs="0" maxOccurs="unbounded">
-        <classRef key="model.descLike"/>
-        <classRef key="model.certLike"/>
-      </alternate>
-  </content>
-  <attList>
-    <attDef ident="reason" usage="opt">
-      <gloss versionDate="2016-11-25" xml:lang="en">reason</gloss>
-      <gloss versionDate="2016-11-25" xml:lang="de">Grund</gloss>
-      <desc versionDate="2017-02-06" xml:lang="en">gives the reason for omission.</desc>
-      <desc versionDate="2007-12-20" xml:lang="ko">누락의 이유를 제시한다. 그 값의 예들은 다음과 같다: <val>sampling</val>,
-          <val>illegible</val>, <val>inaudible</val>, <val>irrelevant</val>, <val>cancelled</val>,
-          <val>cancelled and illegible</val></desc>
-      <desc versionDate="2025-03-31" xml:lang="zh-TW">說明省略的原因。</desc>
-      <desc versionDate="2008-04-05" xml:lang="ja">省略の理由を示す。例えば、 <val>見本</val>、<val>聞こえない</val>、
-          <val>無関係</val>、<val>取り消し</val>、<val>取り消しがありかつ判読できない</val>、など。</desc>
-      <desc versionDate="2017-02-06" xml:lang="fr">donne la raison de l'omission.</desc>
-      <desc versionDate="2007-05-04" xml:lang="es">declara la causa de la omisión</desc>
-      <desc versionDate="2007-01-21" xml:lang="it">indica il motivo dell'omisione.</desc>
-      <desc versionDate="2017-02-07" xml:lang="de">gibt den Grund für die Auslassung an.</desc>
-      <datatype maxOccurs="unbounded">
+    sei es auf Grund der Auswahlpraxis, sei es weil das Material nicht lesbar, nicht sichtbar oder nicht hörbar ist.</desc><classes><memberOf key="att.global"/><memberOf key="att.cmc"/><memberOf key="att.dimensions"/><memberOf key="att.editLike"/><memberOf key="att.timed"/><memberOf key="model.global.edit"/></classes><content><alternate minOccurs="0" maxOccurs="unbounded"><classRef key="model.descLike"/><classRef key="model.certLike"/></alternate></content><constraintSpec ident="gap-extent" scheme="schematron">
+            <desc>A gap's quantity is given with its unit.</desc>
+            <constraint>
+              <sch:rule context="tei:gap[@quantity or @unit]">
+                <sch:assert id="gap-quantity-unit" test="@quantity and @unit">A gap's quantity is given with its
+                  unit (leaves, lines, words or chars), and a unit with its quantity.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><attList><attDef ident="unit" mode="change">
+              <desc>the unit of the gap's quantity</desc>
+              <valList type="closed" mode="replace">
+                <valItem ident="leaves"/>
+                <valItem ident="lines"/>
+                <valItem ident="words"/>
+                <valItem ident="chars">
+                  <desc>characters</desc>
+                </valItem>
+              </valList>
+            </attDef><attDef ident="reason" usage="opt"><gloss versionDate="2016-11-25" xml:lang="en">reason</gloss><gloss versionDate="2016-11-25" xml:lang="de">Grund</gloss><desc rend="replace">why the text is missing; without a reason, it's unknown</desc><datatype maxOccurs="unbounded">
         <dataRef key="teidata.enumerated"/>
-      </datatype>
-      <valList type="semi">
-	<valItem ident="cancelled">
-	  <gloss versionDate="2017-02-06" xml:lang="en">cancelled</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="de">abgebrochen</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="it">cancellato</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="es">cancelado</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="fr">biffé</gloss>
-	</valItem>
-	<valItem ident="deleted">
-	  <gloss versionDate="2017-02-07" xml:lang="en">deleted</gloss>
-	  <gloss versionDate="2017-02-07" xml:lang="de">getilgt</gloss>
-	</valItem>
-	<valItem ident="editorial">
-	  <gloss versionDate="2021-02-01" xml:lang="en">editorial</gloss>
-	  <desc versionDate="2017-02-06" xml:lang="en">for features omitted from transcription due to editorial policy</desc>
-	  <desc versionDate="2017-02-07" xml:lang="de">für Bestandteile, die aus editorischen Gründen nicht übertragen wurden</desc>
-	</valItem>
-	<valItem ident="illegible">
-	  <gloss versionDate="2017-02-06" xml:lang="en">illegible</gloss>
-	  <gloss versionDate="2017-02-07" xml:lang="de">unleserlich</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="it">illegibile</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="es">ilegible</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="fr">illisible</gloss>
-	</valItem>
-	<valItem ident="inaudible">
-	  <gloss versionDate="2017-02-06" xml:lang="en">inaudible</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="de">nicht hörbar</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="it">incomprensibile</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="es">inaudible</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="fr">inaudible</gloss>
-	</valItem>
-	<valItem ident="irrelevant">
-	  <gloss versionDate="2017-02-06" xml:lang="en">irrelevant</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="de">irrelevant</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="it">irrilevante</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="es">irrelevante</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="fr">non pertinent</gloss>
-	</valItem>
-	<valItem ident="sampling">
-	  <gloss versionDate="2017-02-06" xml:lang="en">sampling</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="de">Auswahl</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="it">campionatura</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="es">ejemplificación</gloss>
-	  <gloss versionDate="2017-02-06" xml:lang="fr">échantillonnage</gloss>
-	</valItem>
-      </valList>
-    </attDef>
-    <attDef ident="agent" usage="opt">
+      </datatype><valList type="closed"><valItem ident="lacuna">
+                  <desc>the witness lacks the text: lost leaves, or a lacuna in the edition it comes from</desc>
+                </valItem><valItem ident="damage">
+                  <desc>the support is damaged where the text stood</desc>
+                </valItem><valItem ident="illegible">
+                  <desc>the text can't be read (unclear is for what can be half read)</desc>
+                </valItem><valItem ident="reproduction">
+                  <desc>the text can't be read in the images or the film used</desc>
+                </valItem><valItem ident="deleted">
+                  <desc>struck out, and not readable</desc>
+                </valItem><valItem ident="sampling">
+                  <desc>not transcribed, by the encoder's choice: an incipit and an explicit only</desc>
+                </valItem><valItem ident="editorial">
+                  <desc>left out for another reason, given in a note</desc>
+                </valItem></valList></attDef><attDef ident="agent" usage="opt">
       <gloss versionDate="2016-11-25" xml:lang="en">agent</gloss>
       <gloss versionDate="2016-11-25" xml:lang="de">Ursache</gloss>
       <desc versionDate="2005-08-03" xml:lang="en">in the case of text omitted because of damage, categorizes the cause of the damage, if it can be identified.</desc>
@@ -8787,51 +8738,41 @@ Normalization</ref>
           <desc versionDate="2016-11-25" xml:lang="de">Schaden, verursacht durch Ruß/Rauch</desc>
         </valItem>
       </valList>
-    </attDef>
-  </attList>
-  <exemplum xml:lang="en">
+    </attDef></attList><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-gap-egXML-jq" source="#UND">
       <gap quantity="4" unit="chars" reason="illegible"/>
     </egXML>
-  </exemplum>
-  <exemplum versionDate="2008-04-06" xml:lang="fr">
+  </exemplum><exemplum versionDate="2008-04-06" xml:lang="fr">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-gap-egXML-zq" source="#UND">
       <gap quantity="4" unit="chars" reason="illegible"/>
     </egXML>
-  </exemplum>
-  <exemplum versionDate="2008-04-06" xml:lang="fr">
+  </exemplum><exemplum versionDate="2008-04-06" xml:lang="fr">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-gap-egXML-md" source="#UND">
       <gap quantity="1" unit="essay" reason="sampling"/>
     </egXML>
-  </exemplum>
-  <exemplum xml:lang="zh-TW">
+  </exemplum><exemplum xml:lang="zh-TW">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-gap-egXML-bf" source="#UND">
       <gap quantity="4" unit="字" reason="無法識讀"/>
     </egXML>
-  </exemplum>
-  <exemplum xml:lang="zh-TW">
+  </exemplum><exemplum xml:lang="zh-TW">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-gap-egXML-oj" source="#UND">
       <gap quantity="1" unit="文章" reason="抽樣"/>
     </egXML>
-  </exemplum>
-  <exemplum xml:lang="en">
+  </exemplum><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-gap-egXML-mb" source="#UND">
       <gap quantity="1" unit="essay" reason="sampling"/>
     </egXML>
-  </exemplum>
-  <exemplum xml:lang="en">
+  </exemplum><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-gap-egXML-mo" source="#UND">
       <del>
         <gap atLeast="4" atMost="8" unit="chars" reason="illegible"/>
       </del>
     </egXML>
-  </exemplum>
-  <exemplum xml:lang="en">
+  </exemplum><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-gap-egXML-am" source="#UND">
       <gap extent="several lines" reason="lost"/>
     </egXML>
-  </exemplum>
-  <remarks ident="gap-remarks" versionDate="2011-12-09" xml:lang="en">
+  </exemplum><remarks ident="gap-remarks" versionDate="2011-12-09" xml:lang="en">
     <p>The <gi>gap</gi>, <gi>unclear</gi>, and <gi>del</gi> core tag elements may be closely allied
       in use with the <gi>damage</gi> and <gi>supplied</gi> elements, available when using the
       additional tagset for transcription of primary sources. See section <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/PH.html#PHCOMB">12.3.3.2. Use of the gap, del, damage, unclear, and
@@ -8840,28 +8781,24 @@ Normalization</ref>
     <p>The <gi>gap</gi> tag simply signals the editors decision to omit or inability to transcribe a span of
     text. Other information, such as the interpretation that text was deliberately erased or covered, should be
     indicated using the relevant tags, such as <gi>del</gi> in the case of deliberate deletion.</p>
-  </remarks>
-  <remarks ident="gap-remarks" versionDate="2008-12-09" xml:lang="fr">
+  </remarks><remarks ident="gap-remarks" versionDate="2008-12-09" xml:lang="fr">
     <p>Les éléments du jeu de balises de base <gi>gap</gi>, <gi>unclear</gi>, et <gi>del</gi>
       peuvent être étroitement associés avec l'utilisation des éléments <gi>damage</gi> et
         <gi>supplied</gi> qui sont disponibles si l'on utilise le jeu de balises additionnel pour la
       transcription des sources primaires. Voir la section <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/PH.html#PHCOMB">12.3.3.2. Use of the gap, del, damage, unclear, and
                   supplied Elements in Combination</ref> pour plus de
       détails sur l'élément le plus pertinent suivant les circonstances.</p>
-  </remarks>
-  <remarks ident="gap-remarks" versionDate="2008-04-06" xml:lang="es">
+  </remarks><remarks ident="gap-remarks" versionDate="2008-04-06" xml:lang="es">
     <p> El <gi>gap</gi>, <gi>unclear</gi>, y los elementos de la etiqueta base pueden funcionar
       con los elementos de <gi>daño</gi> y elementos de <gi>supresión</gi>, disponibles al usar el
       conjunto de etiquetas adicional para la transcripción de las fuentes primarias. Ver la sección
         <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/PH.html#PHCOMB">12.3.3.2. Use of the gap, del, damage, unclear, and
                   supplied Elements in Combination</ref> para la discusión cuyo el elemento es apropiado para qué
       circunstancia.</p>
-  </remarks>
-  <remarks ident="gap-remarks" versionDate="2008-04-05" xml:lang="ja">
+  </remarks><remarks ident="gap-remarks" versionDate="2008-04-05" xml:lang="ja">
     <p> コアモジュールの要素<gi>gap</gi>、<gi>unclear</gi>、<gi>del</gi>は、 転記モジュールの要素<gi>damage</gi>、<gi>supplied</gi>と連携するこ とができる。どのタグを使用すべきかについては、詳細については、 <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/PH.html#PHCOMB">12.3.3.2. Use of the gap, del, damage, unclear, and
                   supplied Elements in Combination</ref>を参照のこと。 </p>
-  </remarks>
-  <remarks ident="gap-remarks" versionDate="2016-11-25" xml:lang="de">
+  </remarks><remarks ident="gap-remarks" versionDate="2016-11-25" xml:lang="de">
     <p>Die Elemente <gi>gap</gi>, <gi>unclear</gi> und <gi>del</gi> aus dem Core-Modul sind eng verwandt mit den 
       Elementen <gi>damage</gi> und <gi>supplied</gi>, die mit dem <ident type="module">transcr</ident> zur Verfügung 
       gestellt werden. Die Unterschiede im Gebrauch dieser Elemente werden in <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/PH.html#PHCOMB">12.3.3.2. Use of the gap, del, damage, unclear, and
@@ -8870,11 +8807,9 @@ Normalization</ref>
       eine Textpassage auszulassen oder sie nicht transkribieren konnten. 
       Ergänzende Informationen, wie die Interpretation, dass der Text absichtlich unlesbar gemacht wurde, 
       sollten über die einschlägigen Elemente, wie z. B. <gi>del</gi> im Fall einer bewussten Tilgung ausgezeichnet werden.</p>
-  </remarks>
-  <listRef>
+  </remarks><listRef>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#COEDADD">3.5.3. Additions, Deletions, and Omissions</ref>
-  </listRef>
-</elementSpec><elementSpec module="core" xml:id="gi-add" ident="add">
+  </listRef></elementSpec><elementSpec module="core" xml:id="gi-add" ident="add">
   <gloss versionDate="2005-01-14" xml:lang="en">addition</gloss>
   <gloss versionDate="2007-12-20" xml:lang="ko">삽입, 첨가</gloss>
   <gloss versionDate="2007-05-02" xml:lang="zh-TW">插入</gloss>
