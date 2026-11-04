@@ -7,7 +7,7 @@
     parallels an edition gives, editorial remarks, dates and other languages, beside the scribal changes, gaps and
     unclear words of <ptr target="#text-transcription"/>. In the application a node's text is plain text, and each
     mark is an annotation of a layer, anchored to a span of the text or a point in it (<ptr
-      target="#what-a-file-describes"/>). The import splits the marked text into its plain text and its annotations; an export
+      target="#annotations"/>). The import splits the marked text into its plain text and its annotations; an export
     writes each annotation back in the same form, inline where it nests in the others, and in the standOff where it
     doesn't (<ptr target="#exports"/>).</p>
   <p>Nothing in this part is required. Names of persons are <hi>common</hi>, since most files mark them; the rest is
@@ -244,7 +244,7 @@
     <p>A quotation's <att>source</att>, and a source note's, hold one pointer or more, separated by spaces, each in
       one of these forms:</p>
     <list>
-      <item>a document's code (<ptr target="#what-a-file-describes"/>), alone (<code>C.NIC-0325</code>) or with a citation
+      <item>a document's code (<ptr target="#codes-and-ids"/>), alone (<code>C.NIC-0325</code>) or with a citation
         after an underscore, the canon or chapter of that document (<code>C.NIC-0325_3</code>,
         <code>D.LEO-0447-414_11</code>, <code>COLL.Dach.ms-Brn-Burg-425_2.49</code>); an underscore stands only
         there;</item>

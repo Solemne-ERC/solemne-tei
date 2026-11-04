@@ -3,7 +3,7 @@
 <div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="text" n="III">
   <head>The text</head>
   <p>The text of a file is its <gi>body</gi>: the document as the source gives it, its divisions, their headings and
-    their paragraphs. The import makes each of them a node of the document's tree (<ptr target="#what-a-file-describes"/>)
+    their paragraphs. The import makes each of them a node of the document's tree (<ptr target="#documents-and-nodes"/>)
     and keeps the order the file gives; an export writes them back in the same form, each with the id the node got at
     import. This part says how the text is divided and how it is transcribed; <ptr target="#marked-in-the-text"/> says
     what may be marked inside it.</p>
@@ -281,7 +281,7 @@
       </div>
     </egXML>
     <p>An inscription is also a claim about the text's source: the application reads it as an attribution, the source
-      the text claims (<ptr target="#marked-in-the-text"/>).</p>
+      the text claims (<ptr target="#marked-statements"/>).</p>
     <specGrp xml:id="text-headings-specs">
       <elementSpec ident="head" module="core" mode="change" corresp="#tier-common">
         <attList>
@@ -327,7 +327,7 @@
       </div>
     </egXML>
     <p>The import keeps the value as the node's number, and the citation of a chapter or a register item is made from
-      it (<ptr target="#what-a-file-describes"/>). A division without a number heading may still have
+      it (<ptr target="#citations-and-permalinks"/>). A division without a number heading may still have
       <att>n</att>, where the numbering of the file gives one.</p>
   </div>
 
@@ -381,7 +381,7 @@
     <p>The text of a division that holds no divisions, a unit or a chapter of paragraphs, is one unit of reception:
       what a reader, a search or the detection of text reuse takes as one piece. Where the encoder didn't mark the
       units, so that a chapter's paragraphs may be several units, the header says so, for the whole file or for some
-      divisions (<ptr target="#file-and-header"/>).</p>
+      divisions (<ptr target="#header-inferred-units"/>).</p>
   </div>
 
   <div xml:id="text-registers">
@@ -541,7 +541,7 @@
         capitals where the manuscript has them. The transcription isn't diplomatic: no special characters for the
         letters' forms. A manuscript's punctuation may be simplified: a point as <q>.</q>, a punctus elevatus and
         other double signs as <q>;</q>, a comma as <q>,</q>. An edition's punctuation is kept. What the file
-        normalises, it says once in the header (<ptr target="#file-and-header"/>).</p>
+        normalises, it says once in the header (<ptr target="#header-encoding"/>).</p>
     </div>
 
     <div xml:id="transcription-gaps">
@@ -639,7 +639,7 @@
       </egXML>
       <p>An error of the source is kept, and may be marked by <gi>sic</gi>, alone or in a <gi>choice</gi> with its
         correction, <gi>corr</gi>. For the rare cases where the editor of the file adds what the source lacks, the
-        addition is <gi>supplied</gi>. Both are editorial notes on the text (<ptr target="#marked-in-the-text"/>).</p>
+        addition is <gi>supplied</gi>. Both are editorial notes on the text (<ptr target="#marked-notes"/>).</p>
     </div>
 
     <div xml:id="transcription-changes">

@@ -70,7 +70,7 @@
     </egXML>
     <p>Identifiers in the title statement stand in the formal title, and are its code, its category, its type, or,
       in an export, the permalinks of the levels the document belongs to: one each for its <val>work</val>, its
-      <val>version</val>, its <val>witness</val> and its <val>transcription</val> (<ptr target="#what-a-file-describes"/>). Those
+      <val>version</val>, its <val>witness</val> and its <val>transcription</val> (<ptr target="#levels"/>). Those
       are <hi>export only</hi>: the application writes them.</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="idno-in-formal-title">
       <title type="alias">Council of Samplia, 600 <idno>C.SAM-0600</idno></title>
@@ -224,7 +224,7 @@
           </text>
         </TEI>
       </egXML>
-      <p>The import gives the document the code as its id, read with its kind (<ptr target="#what-a-file-describes"/>).</p>
+      <p>The import gives the document the code as its id, read with its kind (<ptr target="#codes-and-ids"/>).</p>
       <specGrp xml:id="header-title-specs">
         <!-- The title statement: the formal title first, then aliases and other titles. -->
         <elementSpec ident="titleStmt" module="header" mode="change" corresp="#tier-required">

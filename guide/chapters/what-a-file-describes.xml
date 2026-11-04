@@ -2,5 +2,200 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 <div xmlns="http://www.tei-c.org/ns/1.0" xml:id="what-a-file-describes" n="I">
   <head>What a file describes</head>
-  <p>This part's prose comes in a later version of the guide.</p>
+  <p>This part says what a file describes, in the terms the rest of the guide uses: documents and their nodes, the
+    levels of a text, codes, ids, citations and permalinks, annotations, records and relations. They're the terms of
+    the application the files are made for, SOLEMNE's, which imports them and exports them again. A file uses them
+    without having to name them.</p>
+  <p>Every bearer of the texts of early medieval canon law is described in the same way: a council as an edition
+    prints it, a collection as a manuscript gives it, a collection as scholars have reconstructed it. Each keeps its
+    own structure and its own text. How they relate, that one collection copies another or that a chapter quotes a
+    council, is evidence, stated with its grounds by scholars and found by the application's tools; it isn't the
+    frame a file is written in.</p>
+
+  <div xml:id="documents-and-nodes">
+    <head>Documents and nodes</head>
+    <p>A file describes one document. A document is a tree of nodes, whose root stands for the document itself: the
+      file's <gi>body</gi>. There are three kinds of node:</p>
+    <list>
+      <item>a <term>division</term>, which has a type and holds other nodes, never text;</item>
+      <item>a <term>heading</term>, which has a type and a text of its own;</item>
+      <item>a <term>paragraph</term>, which holds text.</item>
+    </list>
+    <p>A division holds headings, and either paragraphs or divisions, never both; its headings stand where the
+      source puts them, usually first. A node knows its parent, its place among its siblings, its kind, its type, its
+      number (a division's as a value, 49 for "XLVIIII"; the heading keeps what the source writes), its citation and
+      its text. <ptr target="#text"/> gives the forms.</p>
+    <p>The text of a division that holds no divisions is one unit of reception: what a reader, a search or the
+      detection of text reuse takes as one piece. Where a source sets several units side by side without headings,
+      each is a division of the type <val>unit</val>. Where an encoder didn't mark the units, the application infers
+      them, and the file says so (<ptr target="#header-inferred-units"/>).</p>
+    <p>Each version of a node's text has two statuses: its curation, how far it has been checked (<val>high</val>,
+      <val>medium</val>, <val>low</val>, <val>unknown</val>), which a file may state (<ptr
+        target="#header-curation"/>); and its completeness, which the application counts from its gaps.</p>
+  </div>
+
+  <div xml:id="levels">
+    <head>The levels of a text</head>
+    <p>A text has levels, after SCTA's model:</p>
+    <list>
+      <item>a <term>work</term>: a council's canons, a decretal, a collection;</item>
+      <item>its <term>versions</term>: a translation, a recension, one of them canonical, each with its
+        <term>canons</term>, the units by which it is cited, without text of their own;</item>
+      <item>its <term>witnesses</term>: a copy in a manuscript, or an edition in a publication;</item>
+      <item>their <term>transcriptions</term>: texts with structure.</item>
+    </list>
+    <p>A file is the transcription of one witness: of a manuscript's copy, or of an edition. Which version is
+      canonical is a default, not a fact. A witness keeps its own structure, which the application maps to its
+      version's canons. A manuscript and a publication are records (<ptr target="#records"/>); a witness is "in"
+      one of them, at its folios or its pages.</p>
+    <p>The Council of Nicaea is a work, <code>C.NIC-0325</code>; its canonical version takes the same code, and its
+      third canon is <code>C.NIC-0325_3</code>; the first Dionysiana's translation is another version,
+      <code>C.NIC-0325-vDIO1</code>; its edition by Turner is a witness, and the file that transcribes it, of the same
+      code, its transcription. A file doesn't encode these levels: its header gives its code, and an export adds the
+      permalinks of the levels it belongs to, in its formal title. The application's domain isn't fixed yet; the
+      example uses <code>example.org</code>:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <title type="formal">
+        <idno>C.NIC-0325-vDIO1</idno>
+        <idno type="category">C</idno>
+        <idno type="type">edition</idno>
+        <idno type="work">https://example.org/id/work/C.NIC-0325</idno>
+        <idno type="version">https://example.org/id/version/C.NIC-0325-vDIO1</idno>
+        <idno type="witness">https://example.org/id/witness/C.NIC-0325-vDIO1</idno>
+        <idno type="transcription">https://example.org/id/transcription/C.NIC-0325-vDIO1</idno>
+      </title>
+    </egXML>
+  </div>
+
+  <div xml:id="codes-and-ids">
+    <head>Codes and ids</head>
+    <p>A document's id is its code (<ptr target="#header-codes"/>), read with its kind: a work takes the code its
+      texts share; its canonical version the work's code, and its canons the citations that source notes use
+      (<code>C.NIC-0325_3</code>); other versions a suffix (<code>C.NIC-0325-vDIO1</code>); a witness its
+      transcription's code. A text of the Patrologia Latina takes <code>.ed-PL</code> and the volume
+      (<code>COLL.Burch.ed-PL140</code>), SCTA's Gratian <code>COLL.Grat.ed-SCTA</code>. Codes are valid XML ids and
+      identifiers of the Distributed Text Services: a letter first, then letters, digits, <code>.</code> and
+      <code>-</code>; <code>_</code> only before a citation. A manuscript's short code is made from its full
+      shelfmark: <code>Mun-BSB-4592</code>. A record's id is its kind and a number: <code>PERS.1234</code>.</p>
+    <p>A file's own <att>xml:id</att>s are its encoder's, for the pointers inside it: fragments, declarations,
+      records listed in the file. The import gives each node an id of its own, for good, which an export writes as
+      the node's <att>xml:id</att>. Other projects' ids are kept beside the project's, as external ids (<ptr
+        target="#header-external-ids"/>).</p>
+  </div>
+
+  <div xml:id="citations-and-permalinks">
+    <head>Citations and permalinks</head>
+    <p>A node's citation is the path of steps from the root to it, joined by dots:</p>
+    <list>
+      <item>a chapter or a register item by its number, as a value (<code>49</code>); one without a number takes the
+        number before it and a letter (<code>11a</code>), and a number repeated takes the next letter;</item>
+      <item>a section by its own number or name, or its position;</item>
+      <item>the other divisions by a prefix and their position: <code>pr</code> for a preface, <code>cl</code> for a
+        closer, <code>sub</code> for subscriptions, <code>r</code> for a register, <code>u</code> for a unit
+        (<code>u1</code>).</item>
+    </list>
+    <p>So the forty-ninth chapter of a collection's second book is <code>2.49</code>, and a pointer to it, the
+      document's code and the citation (<code>COLL.Dach.ms-Brn-Burg-425_2.49</code>; <ptr
+        target="#marked-pointers"/>). Readers see the document's own terms: "lib. 2 c. 49", "C. 16 q. 6 c. 2". A
+      node keeps its id for good; its citation follows its place.</p>
+    <p>A permalink is <code>https://</code>, the application's domain, <code>/id/</code>, the kind and the id: a
+      record, a document, a node, a level. A text as it stood at a time adds <code>@</code> and its version
+      (<code>…@t3</code>); a release is named by its name. Inside the project only the project's ids are used.</p>
+  </div>
+
+  <div xml:id="annotations">
+    <head>Annotations</head>
+    <p>A node's text is plain text. Everything marked in it is an annotation, anchored to a span of the text, a
+      point, the whole node, or other annotations; spans may nest and overlap. Each kind of annotation is a layer,
+      which says what an annotation of that kind keeps, and how it's written to TEI. The layers, and the forms a file
+      marks them by (<ptr target="#marked-in-the-text"/>, <ptr target="#text-transcription"/>):</p>
+    <table xml:id="layers">
+      <head>The layers of annotation</head>
+      <row role="label">
+        <cell>Layer</cell>
+        <cell>Marked by</cell>
+        <cell>Anchored to</cell>
+      </row>
+      <row>
+        <cell>person, place, event</cell>
+        <cell><gi>persName</gi>, <gi>placeName</gi>, <gi>eventName</gi></cell>
+        <cell>a span</cell>
+      </row>
+      <row>
+        <cell>work named</cell>
+        <cell><gi>bibl</gi></cell>
+        <cell>a span</cell>
+      </row>
+      <row>
+        <cell>statement, reference, quotation</cell>
+        <cell><gi>cit</gi>, <gi>ref</gi>, <gi>quote</gi></cell>
+        <cell>its reference and its quotation; a span each</cell>
+      </row>
+      <row>
+        <cell>formula</cell>
+        <cell><gi>seg</gi> typed <val>formula</val></cell>
+        <cell>a span</cell>
+      </row>
+      <row>
+        <cell>date</cell>
+        <cell><gi>date</gi></cell>
+        <cell>a span</cell>
+      </row>
+      <row>
+        <cell>attribution</cell>
+        <cell>an inscription; a statement's reference</cell>
+        <cell>the inscription; the reference</cell>
+      </row>
+      <row>
+        <cell>source note, parallel, editorial note</cell>
+        <cell><gi>note</gi> typed <val>source</val>, <val>parallel</val>, <val>editorial</val>; <gi>sic</gi></cell>
+        <cell>a point, or the node</cell>
+      </row>
+      <row>
+        <cell>scribal change</cell>
+        <cell><gi>add</gi>, <gi>del</gi>, <gi>subst</gi>, <gi>seg</gi> typed <val>corr</val></cell>
+        <cell>a span; a point for a deletion</cell>
+      </row>
+      <row>
+        <cell>unclear, gap</cell>
+        <cell><gi>unclear</gi>, <gi>gap</gi></cell>
+        <cell>a span; a point</cell>
+      </row>
+      <row>
+        <cell>page break</cell>
+        <cell><gi>pb</gi></cell>
+        <cell>a point</cell>
+      </row>
+      <row>
+        <cell>language</cell>
+        <cell><gi>foreign</gi></cell>
+        <cell>a span</cell>
+      </row>
+      <row>
+        <cell>editor's addition; abbreviation and expansion</cell>
+        <cell><gi>supplied</gi>; <gi>choice</gi> with <gi>abbr</gi> and <gi>expan</gi></cell>
+        <cell>a span</cell>
+      </row>
+    </table>
+    <p>Where a scribe corrected a word, the corrected reading is the text, and the change is an annotation. A note
+      outside a division's paragraphs annotates the division; gaps, page breaks and notes between divisions anchor at
+      the start of the next node. An annotation that can't nest where it stands is written as fragments, or by
+      anchors and a stand-off annotation (<ptr target="#marked-other"/>).</p>
+  </div>
+
+  <div xml:id="records-and-relations">
+    <head>Records, relations, observations and judgements</head>
+    <p>A record describes a person, a place, an institution, an event, a manuscript or a publication. A file points
+      to records from its names (<ptr target="#marked-names"/>), and may list them in its standOff (<ptr
+        target="#records"/>). A placeholder becomes a provisional record at import. Every record, text and annotation
+      names its source: where it comes from, its id there, a link, the date it was retrieved, and its licence.</p>
+    <p>A relation is a typed statement from one thing to another, records, nodes or relations, with a type and its
+      reverse, a date, a certainty (certain, probable, possible), a role and a place where its type needs them, its
+      evidence, and its author. An <term>observation</term> is what a witness shows: that a chapter's inscription
+      names the council of Nicaea, that a source note gives a canon. A <term>judgement</term> holds of a version or
+      a work, and names its evidence and its method: that a collection draws on the Hispana. A file may state either,
+      signed (<ptr target="#relations"/>); an edition's source notes are kept as observations until the project
+      resolves them into relations. A family of texts is a view the application works out from the relations; it is
+      never encoded.</p>
+  </div>
 </div>
