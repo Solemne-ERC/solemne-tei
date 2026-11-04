@@ -1,0 +1,80 @@
+# SPDX-License-Identifier: MIT
+# The 73 books of the Bible, in the Vulgate's order, with the codes source pointers use. The names and the testaments
+# (ot, nt, and ap for the deuterocanonical books) are those of the Biblia Sacra Vulgata as BibleGateway gives it
+# (version VULGATE), from which the project's table of verses was made.
+# The older Vulgate names four books otherwise: I and II Samuelis are I and II Regum there, and I and II Regum
+# are III and IV Regum.
+code	name	testament
+GEN	Genesis	ot
+EXO	Exodus	ot
+LEV	Leviticus	ot
+NUM	Numeri	ot
+DEU	Deuteronomium	ot
+JOS	Iosue	ot
+JDG	Iudicum	ot
+RUT	Ruth	ot
+1SA	I Samuelis	ot
+2SA	II Samuelis	ot
+1KI	I Regum	ot
+2KI	II Regum	ot
+1CH	I Paralipomenon	ot
+2CH	II Paralipomenon	ot
+EZR	Esdrae	ot
+NEH	Nehemiae	ot
+TOB	Tobiae	ap
+JDT	Iudith	ap
+EST	Esther	ot
+1MA	I Machabaeorum	ap
+2MA	II Machabaeorum	ap
+JOB	Iob	ot
+PSA	Psalmi	ot
+PRO	Proverbia	ot
+ECC	Ecclesiastes	ot
+SOS	Canticum Canticorum	ot
+WIS	Sapientia	ap
+SIR	Ecclesiasticus	ap
+ISA	Isaias	ot
+JER	Ieremias	ot
+LAM	Lamentationes	ot
+BAR	Baruch	ap
+EZE	Ezechiel	ot
+DAN	Daniel	ot
+HOS	Osee	ot
+JOE	Ioel	ot
+AMO	Amos	ot
+OBA	Abdias	ot
+JON	Ionas	ot
+MIC	Michaeas	ot
+NAH	Nahum	ot
+HAB	Habacuc	ot
+ZEP	Sophonias	ot
+HAG	Aggaeus	ot
+ZEC	Zacharias	ot
+MAL	Malachias	ot
+MAT	Matthaeus	nt
+MAR	Marcus	nt
+LUK	Lucas	nt
+JOH	Ioannes	nt
+ACT	Actus Apostolorum	nt
+ROM	Romanos	nt
+1CO	I Corinthios	nt
+2CO	II Corinthios	nt
+GAL	Galatas	nt
+EPH	Ephesios	nt
+PHP	Philippenses	nt
+COL	Colossenses	nt
+1TH	I Thessalonicenses	nt
+2TH	II Thessalonicenses	nt
+1TI	I Timotheum	nt
+2TI	II Timotheum	nt
+TIT	Titum	nt
+PHM	Philemonem	nt
+HEB	Hebraeos	nt
+JAM	Iacobi	nt
+1PE	I Petri	nt
+2PE	II Petri	nt
+1JO	I Ioannis	nt
+2JO	II Ioannis	nt
+3JO	III Ioannis	nt
+JUD	Iudae	nt
+REV	Apocalypsis	nt

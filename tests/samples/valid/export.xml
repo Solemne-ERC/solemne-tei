@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: MIT -->
+<!-- An export of a transcription, with what the exports add: the citation structure, annotations and relations
+     in the standOff, text reuse, the revision history and the records referred to. Made up: the texts, persons,
+     places and permalinks are not real. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="formal">
+          <idno>P.SAM</idno>
+          <idno type="category">P</idno>
+          <idno type="type">edition</idno>
+          <idno type="transcription">https://example.org/id/transcription/P.SAM</idno>
+        </title>
+        <title type="alias">Paenitentiale Sampliense</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>A sample of the project's schema</publisher>
+        <availability>
+          <licence target="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</licence>
+        </availability>
+        <date when="2026-06-01">2026-06-01</date>
+      </publicationStmt>
+      <sourceDesc>
+        <biblStruct>
+          <monogr>
+            <title level="m">Paenitentialia exempli gratia</title>
+            <imprint>
+              <publisher>Nowhere Press</publisher>
+              <date when="2001">2001</date>
+            </imprint>
+          </monogr>
+        </biblStruct>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <editorialDecl>
+        <segmentation type="inferred-units">
+          <p>The units of reception aren't marked in this text: each division that holds paragraphs is
+            one.</p>
+        </segmentation>
+      </editorialDecl>
+      <refsDecl>
+        <citeStructure unit="chapter" match="/TEI/text/body/div[@type = 'chapter']" use="@n">
+          <citeStructure unit="paragraph" match="p" use="position()" delim="."/>
+        </citeStructure>
+      </refsDecl>
+    </encodingDesc>
+    <revisionDesc>
+      <change when="2026-05-02" who="https://example.org/id/person/PERS.12"
+        target="#P.SAM_2.p1">A reading corrected.</change>
+      <change when="2026-06-01" type="release">The first release.</change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="chapter" n="1" xml:id="P.SAM_1">
+        <head type="number" xml:id="P.SAM_1.h1">I.</head>
+        <p xml:id="P.SAM_1.p1">Si quis <persName ref="https://example.org/id/person/PERS.7">clericus</persName>
+          homicidium fecerit, decem annos paeniteat.<note type="source" source="P.EXE_4">(Exe. 4)</note></p>
+      </div>
+      <div type="chapter" n="2" xml:id="P.SAM_2">
+        <head type="number" xml:id="P.SAM_2.h1">II.</head>
+        <p xml:id="P.SAM_2.p1">Si quis periurium fecerit in <placeName ref="#PLACE.3">ecclesia</placeName>,
+          <date when="0816">anno domini DCCCXVI</date> statutum est ut <foreign xml:lang="grc">ἀναθέμα</foreign>
+          sit.</p>
+        <p xml:id="P.SAM_2.p2"><choice><sic>paenitead</sic><corr>paeniteat</corr></choice> tres annos.</p>
+      </div>
+    </body>
+  </text>
+  <standOff>
+    <listAnnotation>
+      <annotation xml:id="ann-1" target="#P.SAM_1.p1" motivation="commenting">
+        <respStmt>
+          <resp>annotated by</resp>
+          <persName ref="https://example.org/id/person/PERS.12">An editor</persName>
+        </respStmt>
+        <note>The penance agrees with the older penitentials.</note>
+      </annotation>
+    </listAnnotation>
+    <listRelation>
+      <relation name="isTextOf" ref="https://example.org/id/relationType/isTextOf" type="observation"
+        active="#P.SAM_1" passive="https://example.org/id/canon/P.EXE_4" cert="high"
+        resp="https://example.org/id/person/PERS.12" source="#P.SAM_1.p1"/>
+      <relation name="isTextOf" ref="https://example.org/id/relationType/isTextOf" type="judgement"
+        active="https://example.org/id/canon/P.SAM_1" passive="https://example.org/id/canon/P.EXE_4"
+        cert="medium" resp="https://example.org/id/person/PERS.12" notBefore="2026-05-01"
+        notAfter="2026-05-31">
+        <desc>in all witnesses</desc>
+      </relation>
+    </listRelation>
+    <linkGrp type="reuse" resp="https://example.org/id/run/3">
+      <link xml:id="hit-41"
+        target="#string-range(P.SAM_1.p1,0,22) https://example.org/id/node/P.EXE_4.p1#char=10,32"/>
+    </linkGrp>
+    <listBibl>
+      <biblStruct xml:id="PUB.5">
+        <monogr>
+          <author>
+            <persName>Anna Editrix</persName>
+          </author>
+          <title level="m">De paenitentialibus</title>
+          <imprint>
+            <date when="2010">2010</date>
+          </imprint>
+        </monogr>
+      </biblStruct>
+    </listBibl>
+    <listPerson>
+      <person xml:id="PERS.7">
+        <persName type="main">A cleric</persName>
+        <floruit notBefore="0800" notAfter="0850"/>
+      </person>
+    </listPerson>
+    <listPlace>
+      <place xml:id="PLACE.3">
+        <placeName>Samplia</placeName>
+        <location>
+          <geo>51.84 5.86</geo>
+        </location>
+      </place>
+    </listPlace>
+    <listEvent>
+      <event xml:id="EVENT.2" when="0600">
+        <eventName>The council of Samplia</eventName>
+      </event>
+    </listEvent>
+    <listOrg>
+      <org xml:id="ORG.1">
+        <orgName>The church of Samplia</orgName>
+      </org>
+    </listOrg>
+  </standOff>
+</TEI>

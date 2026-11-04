@@ -13,10 +13,11 @@ license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Gleb Schmidt" }, { name = "Friederike Voit" }, { name = "Sven Meeder" }, { name = "Radboud University" }]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = ["lxml>=4.9.4", "saxonche>=12.4.2"]
 
 [project.optional-dependencies]
-dev = ["pytest==9.2.0", "ruff==0.17.3"]
+# The build pins Saxon: the compiled Schematron it writes differs, byte for byte, between Saxon versions.
+dev = ["pytest==9.2.0", "ruff==0.17.3", "saxonche==13.1.1"]
 
 [project.urls]
 Repository = "https://github.com/Solemne-ERC/solemne-tei"
@@ -27,6 +28,9 @@ solemne-tei = "solemne_tei.cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["solemne_tei*"]
+
+[tool.setuptools.package-data]
+solemne_tei = ["schema/*", "tables/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

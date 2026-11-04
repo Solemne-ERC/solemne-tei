@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: MIT -->
+<!-- A council's canons in a printed edition. Made up: the council, its text and its edition are not real. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="formal">
+          <idno>C.SAM-0600</idno>
+          <idno type="category">C</idno>
+          <idno type="type">edition</idno>
+        </title>
+        <title type="alias">Council of Samplia, 600</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>A sample of the project's schema</publisher>
+      </publicationStmt>
+      <sourceDesc>
+        <biblStruct>
+          <analytic>
+            <title level="a">Concilium Sampliense a. 600</title>
+          </analytic>
+          <monogr>
+            <editor>
+              <persName>
+                <forename>Anna</forename>
+                <surname>Editrix</surname>
+              </persName>
+            </editor>
+            <title level="m">Concilia exempli gratia</title>
+            <imprint>
+              <publisher>Nowhere Press</publisher>
+              <pubPlace>Nowhere</pubPlace>
+              <date when="1999">1999</date>
+            </imprint>
+            <biblScope unit="page">1-4</biblScope>
+          </monogr>
+        </biblStruct>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <head type="inscription"><pb n="1"/>INCIPIT CONCILIVM SAMPLIENSE</head>
+      <div type="preface">
+        <p>Cum in nomine domini conuenissent episcopi in ciuitate <placeName ref="#new_place_Samplia"
+            >Sampliensi</placeName>, haec statuerunt.</p>
+      </div>
+      <div type="chapter" n="1">
+        <head type="number">I.</head>
+        <head type="rubric">De episcopis.</head>
+        <p>Placuit ut episcopi in ciuitatibus suis maneant, <cit><ref>sicut <persName
+                ref="#new_person_Paul">apostolus</persName> ait:</ref> <quote source="1TI_3_2">oportet
+              episcopum inreprehensibilem esse</quote></cit>.<note type="source"
+            source="C.NIC-0325_15"/></p>
+      </div>
+      <div type="chapter" n="2">
+        <head type="number">Cap. II.</head>
+        <head type="rubric">De clericis peregrinis.</head>
+        <div type="unit">
+          <p>Clerici sine litteris episcopi sui non suscipiantur.</p>
+        </div>
+        <div type="unit">
+          <p><seg type="formula">Si quis autem</seg> fecerit, communione priuetur.<note type="source"
+              source="cf_C.ANT-0341_6">(cf. Antioch. c. 6)</note></p>
+        </div>
+      </div>
+      <div type="chapter" n="2a">
+        <head type="rubric">De eadem re.</head>
+        <p>Idem de <del>diaconibus</del> <subst><del>monachis</del><add place="above"
+            >monachis</add></subst> seruetur.<note type="editorial">A chapter without a number in the
+            edition.</note></p>
+      </div>
+      <div type="subscriptions">
+        <div type="unit">
+          <p><persName ref="#new_person_Exemplus">Exemplus</persName> episcopus subscripsi.</p>
+        </div>
+        <div type="unit">
+          <p><persName ref="#new_person_Specimen">Specimen</persName> episcopus <unclear
+              reason="damage">subscripsi</unclear>.<gap reason="damage" quantity="3" unit="words"/></p>
+        </div>
+      </div>
+      <div type="closer">
+        <head type="rubric">EXPLICIT CONCILIVM SAMPLIENSE</head>
+      </div>
+    </body>
+  </text>
+</TEI>
