@@ -56,7 +56,11 @@
         <p>Inside the body, only the elements of the annotation layers appear: names of persons, places and
           events; works named; statements with their reference and quotation; formulas; dates; notes of three
           types (sources, parallels, editorial remarks); scribal changes; what is unclear or missing; page and
-          line breaks; other languages; and editorial corrections.</p>
+          line breaks; other languages; and editorial corrections. For the rare doubtful cases, an editor's
+          addition is <gi>supplied</gi>, and an abbreviation with its expansion a <gi>choice</gi> of
+          <gi>abbr</gi> and <gi>expan</gi>. A record of a kind no name element fits is <gi>rs</gi>, its kind in
+          <att>type</att> and its record in <att>ref</att>, in the names' forms; a point that a stand-off
+          annotation refers to is an <gi>anchor</gi>.</p>
         <p>A quotation and a note point to their sources in <att>source</att>, in one of these forms: a document's
           code (<code>C.NIC-0325</code>), alone or with a citation after an underscore
           (<code>C.NIC-0325_3</code>, <code>COLL.Dach.ms-Brn-Burg-425_2.49</code>); a Bible reference, by one
@@ -125,7 +129,7 @@
         <moduleRef key="core"
           include="abbr add addrLine address analytic author bibl biblScope biblStruct choice cit citedRange corr
             date del desc editor email expan foreign gap graphic head imprint item label lb list listBibl measure
-            monogr name note num orig p pb postCode ptr publisher pubPlace q quote ref reg resp respStmt series sic
+            monogr name note num orig p pb postCode ptr publisher pubPlace q quote ref reg resp respStmt rs series sic
             street term textLang title unclear"/>
         <moduleRef key="header"
           include="abstract authority availability catDesc category change citeData citeStructure classDecl
@@ -143,8 +147,8 @@
         <!-- Manuscript descriptions follow the Bodleian's consolidated schema: the build compiles its ODD and puts
              it next to this one under this name. -->
         <moduleRef key="msdescription" source="msdesc.compiled.odd"/>
-        <moduleRef key="linking" include="annotation link linkGrp listAnnotation seg standOff"/>
-        <moduleRef key="transcr" include="subst"/>
+        <moduleRef key="linking" include="anchor annotation link linkGrp listAnnotation seg standOff"/>
+        <moduleRef key="transcr" include="subst supplied"/>
         <moduleRef key="textcrit" include="listWit witness"/>
 
         <!-- The structure of the text. -->
@@ -187,7 +191,8 @@
               <sch:rule context="tei:body//tei:*">
                 <sch:assert id="text-elements" test="local-name() = ('div', 'head', 'p', 'note', 'pb', 'lb', 'gap',
                   'persName', 'placeName', 'eventName', 'bibl', 'cit', 'quote', 'ref', 'seg', 'date', 'subst',
-                  'add', 'del', 'unclear', 'foreign', 'choice', 'corr', 'sic')">&lt;<sch:name/>&gt; isn't one of
+                  'add', 'del', 'unclear', 'foreign', 'choice', 'corr', 'sic', 'abbr', 'expan', 'supplied', 'rs',
+                  'anchor')">&lt;<sch:name/>&gt; isn't one of
                   the text's elements.</sch:assert>
               </sch:rule>
             </constraint>
@@ -516,6 +521,15 @@
         <!-- The header points to records the same way: titles to works, authors and editors to persons, places
              and institutions to theirs. provenance, acquisition and origin have no @ref in TEI: the record they
              point to is named inside them, by a name with @ref. -->
+        <elementSpec ident="rs" module="core" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <macroRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
         <elementSpec ident="title" module="core" mode="change">
           <attList>
             <attDef ident="ref" mode="change">

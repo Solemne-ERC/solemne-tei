@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: MIT -->
+<!-- A decretal in a printed edition, with the text's rarer elements: a record of another kind (rs), a point for a
+     stand-off annotation (anchor), an editor's addition (supplied), an abbreviation with its expansion (choice with
+     abbr and expan), and a gap without a reason. Made up: the letter, its edition and its persons are not real. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="formal">
+          <idno>D.EXE-0600</idno>
+          <idno type="category">D</idno>
+          <idno type="type">edition</idno>
+        </title>
+        <title type="alias">Exemplus to the bishops of Samplia</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>A sample of the project's schema</publisher>
+      </publicationStmt>
+      <sourceDesc>
+        <bibl>
+          <author ref="#new_person_Exemplus">Exemplus</author>
+          <title ref="#new_work_Epistolae-Exempli">Epistolae</title>
+        </bibl>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="preface">
+        <p><persName ref="#new_person_Exemplus">Exemplus</persName> <choice><abbr>epc</abbr><expan>episcopus</expan></choice>
+          episcopis per <rs type="diocese" ref="#new_diocese_Samplia">dioecesim Sampliensem</rs>
+          constitutis.</p>
+      </div>
+      <div type="chapter" n="1">
+        <head type="number">I.</head>
+        <p>Placuit ut <supplied reason="omitted">omnes</supplied> episcopi in ciuitatibus suis
+          maneant,<anchor xml:id="point-1"/> et <gap/> non transeant.</p>
+      </div>
+      <div type="closer">
+        <p>Data idibus Maiis.</p>
+      </div>
+    </body>
+  </text>
+</TEI>

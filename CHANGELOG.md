@@ -43,3 +43,6 @@ Files written for the draft of this schema need these changes to pass.
 - **Gaps:** `@reason` is optional (without one, the reason is unknown) and closed: `lacuna`, `damage`, `illegible`,
   `reproduction`, `deleted`, `sampling`, `editorial`; the files' `missing` is `lacuna`. The extent, where known, is
   `@quantity` with `@unit` (`leaves`, `lines`, `words`, `chars`), which go together, or `@extent`.
+- **The text's elements** gain `rs` (a record of a kind no name element fits, its kind in `@type`, its record in
+  `@ref` in the names' forms), `anchor` (a point a stand-off annotation refers to), `supplied`, and `choice` with
+  `abbr` and `expan`, for the rare doubtful cases.

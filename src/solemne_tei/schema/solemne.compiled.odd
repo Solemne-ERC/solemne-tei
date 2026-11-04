@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.1.0 (SHA-256 d55ecaf88667c8de1ae49575f0f0d9919b471344c0620e84c28c6d3c816a51e3) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.1.0 (SHA-256 f81caff8897db4b30ea692e808c6eda05e42deb9b601bfb54cbf778c2bc18953) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -116,7 +116,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <p>Inside the body, only the elements of the annotation layers appear: names of persons, places and
           events; works named; statements with their reference and quotation; formulas; dates; notes of three
           types (sources, parallels, editorial remarks); scribal changes; what is unclear or missing; page and
-          line breaks; other languages; and editorial corrections.</p>
+          line breaks; other languages; and editorial corrections. For the rare doubtful cases, an editor's
+          addition is <gi>supplied</gi>, and an abbreviation with its expansion a <gi>choice</gi> of
+          <gi>abbr</gi> and <gi>expan</gi>. A record of a kind no name element fits is <gi>rs</gi>, its kind in
+          <att>type</att> and its record in <att>ref</att>, in the names' forms; a point that a stand-off
+          annotation refers to is an <gi>anchor</gi>.</p>
         <p>A quotation and a note point to their sources in <att>source</att>, in one of these forms: a document's
           code (<code>C.NIC-0325</code>), alone or with a citation after an underscore
           (<code>C.NIC-0325_3</code>, <code>COLL.Dach.ms-Brn-Burg-425_2.49</code>); a Bible reference, by one
@@ -9342,7 +9346,32 @@ concerned, as further discussed in section <ref target="https://www.tei-c.org/re
   <listRef>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#CONARS">3.6.1. Referring Strings</ref>
   </listRef>
-</elementSpec><elementSpec module="core" xml:id="gi-email" ident="email">
+</elementSpec><elementSpec rend="change" module="core" xml:id="gi-rs" ident="rs"><gloss versionDate="2005-01-14" xml:lang="en">referencing string</gloss><gloss versionDate="2009-01-06" xml:lang="fr">chaîne de référence</gloss><gloss versionDate="2007-05-04" xml:lang="es">serie referencial</gloss><gloss versionDate="2007-05-02" xml:lang="zh-TW">參照字串</gloss><gloss versionDate="2007-01-21" xml:lang="it">stringa di riferimento</gloss><gloss versionDate="2006-10-28" xml:lang="ja">参照文字列</gloss><gloss versionDate="2016-11-24" xml:lang="de">verweisende Zeichenkette</gloss><desc versionDate="2005-01-14" xml:lang="en">contains a general purpose name or referring string.</desc><desc versionDate="2009-01-06" xml:lang="fr">contient un nom générique ou une chaîne permettant de
+        s'y référer.</desc><desc versionDate="2007-05-04" xml:lang="es">contiene un nombre de intención general o una serie
+        referencial.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">包含一般名稱或參照字串。</desc><desc versionDate="2007-01-21" xml:lang="it">contiene un nome generico o una stringa di riferimento.</desc><desc versionDate="2006-10-28" xml:lang="ja">一般的な意味での名前や参照文字列。</desc><desc versionDate="2016-11-24" xml:lang="de">enthält eine allgemeine Benennung oder eine verweisende Zeichenkette.</desc><classes><memberOf key="att.global"/><memberOf key="att.cmc"/><memberOf key="att.naming"/><memberOf key="att.typed"/><memberOf key="model.nameLike"/></classes><content><macroRef key="macro.phraseSeq"/></content><attList><attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <macroRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef></attList><exemplum xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-rs-egXML-pk"><q>My dear <rs type="person">Mr. Bennet</rs>, </q> said <rs type="person">his lady</rs>
+            to him one day, <q>have you heard that <rs type="place">Netherfield Park</rs> is let at
+                last?</q>
+      </egXML>
+  </exemplum><exemplum versionDate="2008-04-06" xml:lang="fr">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-rs-egXML-zh" source="#fr-ex-Ollagnier_Main">
+      <p>La famille s'était alors retirée en banlieue, à <rs type="place">Villemomble</rs>, mais
+            <rs type="person">Alfred </rs>aimait se rendre à <rs type="place">Paris</rs> et un jour de 1917 alors qu'il sortait de <rs type="place">la maison des
+            Arts et Métiers</rs> il était tombé inanimé dans la rue.</p>
+    </egXML>
+  </exemplum><exemplum xml:lang="zh-TW">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-rs-egXML-pq" source="#biblzh-tw_n19"><q>我親愛的 <rs type="person">
+      班納特先生</rs>，
+    </q>一天，<rs type="person">班納特太太</rs> 對她的丈夫說：<q>你聽說過<rs type="place">尼日斐花園</rs> 終於租出去了嗎?</q>
+      </egXML>
+  </exemplum><listRef>
+    <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ND.html#NDPER">14.2.1. Personal Names</ref>
+    <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#CONARS">3.6.1. Referring Strings</ref>
+  </listRef></elementSpec><elementSpec module="core" xml:id="gi-email" ident="email">
   <gloss versionDate="2007-07-04" xml:lang="en">electronic mail address</gloss>
   <gloss versionDate="2007-12-20" xml:lang="ko">전자우편 주소</gloss>
   <gloss versionDate="2007-05-02" xml:lang="zh-TW"/>
@@ -18862,7 +18891,7 @@ during the evolution of the encoded representation of that text.</p>
             <desc>Inside the text, only the annotation layers' elements.</desc>
             <constraint>
               <sch:rule context="tei:body//tei:*">
-                <sch:assert id="text-elements" test="local-name() = ('div', 'head', 'p', 'note', 'pb', 'lb', 'gap',                   'persName', 'placeName', 'eventName', 'bibl', 'cit', 'quote', 'ref', 'seg', 'date', 'subst',                   'add', 'del', 'unclear', 'foreign', 'choice', 'corr', 'sic')">&lt;<sch:name/>&gt; isn't one of
+                <sch:assert id="text-elements" test="local-name() = ('div', 'head', 'p', 'note', 'pb', 'lb', 'gap',                   'persName', 'placeName', 'eventName', 'bibl', 'cit', 'quote', 'ref', 'seg', 'date', 'subst',                   'add', 'del', 'unclear', 'foreign', 'choice', 'corr', 'sic', 'abbr', 'expan', 'supplied', 'rs',                   'anchor')">&lt;<sch:name/>&gt; isn't one of
                   the text's elements.</sch:assert>
               </sch:rule>
             </constraint>
@@ -25833,6 +25862,71 @@ deprecated.
   <listRef>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/SA.html#SAPT">17.1. Links</ref>
   </listRef>
+</elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" module="linking" xml:id="gi-anchor" ident="anchor">
+  <gloss versionDate="2005-01-14" xml:lang="en">anchor point</gloss>
+  <gloss versionDate="2007-12-20" xml:lang="ko">앵커 지점</gloss>
+  <gloss versionDate="2007-05-02" xml:lang="zh-TW">錨點</gloss>
+  <gloss versionDate="2007-06-12" xml:lang="fr">point d'ancrage</gloss>
+  <gloss versionDate="2007-05-04" xml:lang="es">punto de anclaje</gloss>
+  <gloss versionDate="2007-01-21" xml:lang="it">punto di ancoraggio</gloss>
+  <gloss versionDate="2017-06-19" xml:lang="de">Ankerpunkt</gloss>
+  <gloss versionDate="2018-12-28" xml:lang="ja">アンカーポイント</gloss>
+  <desc versionDate="2005-01-14" xml:lang="en">attaches an identifier to a point within a text, whether or not it corresponds with a textual element.</desc>
+  <desc versionDate="2007-12-20" xml:lang="ko">텍스트적 요소와의 일치여부와 상관없이 텍스트 내의 특정 지점에 확인소를 부착한다.</desc>
+  <desc versionDate="2007-05-02" xml:lang="zh-TW">在文件中某一位置附上識別符碼，無論該位置是否符合一個文字性元素。</desc>
+  <desc versionDate="2022-05-09" xml:lang="ja">テキスト中のある地点に対して識別子を付与する。テキスト要素と対応するかは問われない。</desc>
+  <desc versionDate="2009-10-06" xml:lang="fr">attache un identifiant à un point du texte, que ce point corresponde ou non à un élément textuel.</desc>
+  <desc versionDate="2022-06-30" xml:lang="es">enlanza un indentificador con una posición al interno del texto, independientemente del hecho que esta corresponda o no a un elemento textual.</desc>
+  <desc versionDate="2007-01-21" xml:lang="it">aggancia un indentificatore a una posizione all'interno del testo indipendentemente dal fatto che questa corrisponda o meno a un elemento testuale.</desc>
+  <desc versionDate="2017-06-19" xml:lang="de">fügt an einer Stelle im Text eine Kennung ein, unabhängig von der Textstruktur.</desc>
+  <classes>
+    <memberOf key="att.global"/>
+    <memberOf key="att.cmc"/>
+    <memberOf key="att.typed"/>
+    <memberOf key="model.milestoneLike"/>
+  </classes>
+  <content><empty/></content>
+  <exemplum xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-anchor-egXML-ws" source="#NONE">
+      <s>The anchor is he<anchor xml:id="A234"/>re somewhere.</s>
+      <s>Help me find it.<ptr target="#A234"/>
+         </s>
+    </egXML>
+  </exemplum>
+  <exemplum versionDate="2008-04-06" xml:lang="fr" source="#NONE">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-anchor-egXML-pk">
+      <s>L'ancre est i<anchor xml:id="fr_A234"/>ci quelque part.</s>
+      <s>Aidez-moi à la trouver.<ptr target="#fr_A234"/>
+         </s>
+    </egXML>
+  </exemplum>
+  <exemplum xml:lang="zh-TW">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-anchor-egXML-ha" source="#NONE">
+      <s>此錨點指向這<anchor xml:id="zh-tw_A234"/>裡</s>
+      <s>請搜尋此處<ptr target="#zh-tw_A234"/>
+         </s>
+    </egXML>
+  </exemplum>
+  <remarks ident="anchor-remarks" versionDate="2005-01-14" xml:lang="en">
+    <p>On this element, the global <att>xml:id</att> attribute must be supplied to specify an identifier for the point at which this element occurs within a document. The value used may be chosen freely provided that it is unique within the document and is a syntactically valid name. There is no requirement for values containing numbers to be in sequence.</p>
+  </remarks>
+  <remarks ident="anchor-remarks" versionDate="2009-10-05" xml:lang="fr">
+    <p>Il faut donner à cet élément un attribut global <att>xml:id</att> afin de spécifier un identifiant pour le point où l'élément intervient dans un document TEI. La valeur utilisée peut être choisie librement, pourvu qu'elle soit unique dans le document TEI et que le nom soit syntaxiquement valide. Les valeurs contenant des nombres ne doivent pas nécessairement former une séquence.</p>
+  </remarks>
+  <remarks ident="anchor-remarks" versionDate="2008-04-05" xml:lang="ja">
+    <p> 当該要素において、グローバル属性<att>xml:id</att>の値としてIDを付 与する必要がある。この値は、該当する文書中でユニークであり、かつ統語 上妥当な名前であれば、自由に決めてよい。必ずしも連続する番号を振る必 要はない。 </p>
+  </remarks>
+  <remarks ident="anchor-remarks" versionDate="2017-06-19" xml:lang="de">
+    <p>In diesem Element muss das globale <att>xml:id</att>-Attribut gesetzt werden, um eine Kennung für
+      genau diese Stelle innerhalb des Dokuments angeben zu können. Der Wert kann frei gewählt werden,
+      solange er innerhalb des Dokuments eindeutig ist und es sich um einen syntaktisch validen Namen
+      handelt. Werden innerhalb des <att>xml:id</att>-Attributs Zahlen verwendet, müssen die Werte nicht
+      sequenziell verwendet werden.</p>
+  </remarks>
+  <listRef>
+    <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/TS.html#TSSAPA">8.4.2. Synchronization and Overlap</ref>
+    <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/SA.html#SACS">17.5. Correspondence and Alignment</ref>
+  </listRef>
 </elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="linking" xml:id="gi-seg" ident="seg"><gloss versionDate="2005-01-14" xml:lang="en">arbitrary segment</gloss><gloss versionDate="2007-12-20" xml:lang="ko">임의의 분절</gloss><gloss versionDate="2007-05-02" xml:lang="zh-TW">隨機分割</gloss><gloss versionDate="2007-06-12" xml:lang="fr">segment quelconque</gloss><gloss versionDate="2007-05-04" xml:lang="es">segmento arbitrario</gloss><gloss versionDate="2007-01-21" xml:lang="it">segmento arbitrario</gloss><gloss versionDate="2017-06-19" xml:lang="de">arbiträres Segment</gloss><desc versionDate="2008-01-31" xml:lang="en">represents any segmentation of text below the <soCalled>chunk</soCalled> level.</desc><desc versionDate="2007-12-20" xml:lang="ko">(다른 분절 요소를 포함하여) 텍스트의 임의의 구-층위 단위를 포함한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">包含文件中任何隨機字詞層次的單元 (包括其他分割元素)。</desc><desc versionDate="2008-04-05" xml:lang="ja">任意の句レベルのテキスト単位を示す(要素segを含む)。</desc><desc versionDate="2009-10-06" xml:lang="fr">contient une unité de texte quelconque de niveau <soCalled>segment</soCalled>.</desc><desc versionDate="2007-05-04" xml:lang="es">contiene cualquier unidad textual a nivel sintagmático (inclusive otros elementos de tipo seg.)</desc><desc versionDate="2007-01-21" xml:lang="it">contiene una qualsiasi unità testuale a livello sintagmatico (ivi compresi altri elementi del tipo seg).</desc><desc versionDate="2017-06-19" xml:lang="de">beschreibt Segmente eines Texts unterhalb des <soCalled>Chunk-Level</soCalled>.</desc><classes><memberOf key="att.global"/><memberOf key="att.cmc"/><memberOf key="att.notated"/><memberOf key="att.segLike"/><memberOf key="att.typed"/><memberOf key="att.written"/><memberOf key="model.choicePart"/><memberOf key="model.segLike"/><memberOf key="model.standOffPart"/></classes><content><macroRef key="macro.paraContent"/></content><attList><attDef ident="type" mode="change" usage="req">
               <valList type="closed" mode="replace">
                 <valItem ident="formula">
@@ -26396,6 +26490,83 @@ associated.</desc>
   </exemplum>
   <listRef>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/PH.html#PHSU">12.3.1.5. Substitutions</ref>
+  </listRef>
+</elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" module="transcr" xml:id="gi-supplied" ident="supplied">
+  <gloss versionDate="2009-11-16" xml:lang="en">supplied</gloss>
+  <gloss versionDate="2009-11-16" xml:lang="fr">texte restitué</gloss>
+  <desc versionDate="2014-12-24" xml:lang="en">signifies text supplied by the transcriber or editor for any
+  reason; for example because the original cannot be read due to
+  physical damage, or because of an obvious omission by the author or scribe.</desc>
+  <desc versionDate="2007-12-20" xml:lang="ko">일반적으로 원본은 물리적 손상 또는 손실로 인해 읽을 수 없기 때문에 전사자 또는 편집자에 의해 제공된 텍스트를 표시한다.</desc>
+  <desc versionDate="2007-05-02" xml:lang="zh-TW">指出一段由轉錄者或編者添加的補充文字，添加的原因是該位置的文字無法被辨認，也許是因為來源文件的損壞或內容遺失、或是任何其他原因導致難以辨認。</desc>
+  <desc versionDate="2008-04-05" xml:lang="ja">転記者や編集者にひょって付加されたテキストを示す。例えば、元のテキス
+  トが物理的損傷や欠損から判読できない場合などに付加されるもの。</desc>
+  <desc versionDate="2009-11-16" xml:lang="fr">permet d'encoder du texte restitué par l'auteur de la transcription ou par l'éditeur pour une raison quelconque, le plus souvent parce que le texte du document original ne peut être lu, par suite de dommages matériels ou de lacunes.</desc>
+  <desc versionDate="2007-05-04" xml:lang="es">indica fragmentos de texto añadidos por el transcriptor o por el revisor en el lugar donde el original es ilegible, porqué presenta daños físicos, lagunas o por otros motivos.</desc>
+  <desc versionDate="2007-01-21" xml:lang="it">indica porzioni di testo inserite dal trascrittore o dal revisore al posto di porzioni di testo illegibili per danneggiamento, lacune nell'originale o altri motivi.</desc>
+  <classes>
+    <memberOf key="att.global"/>
+    <memberOf key="att.dimensions"/>
+    <memberOf key="att.editLike"/>
+    <memberOf key="model.choicePart"/>
+    <memberOf key="model.pPart.transcriptional"/>
+  </classes>
+  <content>
+    <macroRef key="macro.paraContent"/>
+  </content>
+  <attList>
+    <attDef ident="reason" usage="opt">
+      <desc versionDate="2013-12-06" xml:lang="en">one or more words indicating why the text has had to be supplied, e.g.
+      <mentioned>overbinding</mentioned>, <mentioned>faded-ink</mentioned>, <mentioned>lost-folio</mentioned>, <mentioned>omitted-in-original</mentioned>.</desc>
+      <desc versionDate="2007-12-20" xml:lang="ko">그 텍스트가 제시된 이유를 표시한다.</desc>
+      <desc versionDate="2007-05-02" xml:lang="zh-TW">說明該文件當時必須補充的原因。</desc>
+      <desc versionDate="2008-04-05" xml:lang="ja">該テキストが付加された理由を示す。</desc>
+      <desc versionDate="2007-06-12" xml:lang="fr">donne la raison pour laquelle on a dû restituer le texte.</desc>
+
+      <desc versionDate="2007-05-04" xml:lang="es">explica los motivos de dicha inserción.</desc>
+      <desc versionDate="2007-01-21" xml:lang="it">spiega i motivi di tale inserimento.</desc>
+      <datatype maxOccurs="unbounded">
+        <dataRef key="teidata.enumerated"/>
+      </datatype>
+    </attDef>
+  </attList>
+  <exemplum xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-supplied-egXML-mr">I am dr Sr yr
+<supplied reason="illegible" source="#amanuensis_copy">very humble Servt</supplied>
+Sydney Smith</egXML>
+  </exemplum>
+  <exemplum versionDate="2008-04-06" xml:lang="fr">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-supplied-egXML-od">Je reste votre ts he de svt <supplied reason="illegible" source="#amanuensis_copy">très humble et très dévoué serviteur
+        </supplied>Jean Martin </egXML>
+  </exemplum>
+  <exemplum xml:lang="zh-TW">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-supplied-egXML-fj" source="#biblzh-tw_n63">
+       回首向來蕭瑟處，歸<supplied reason="faded-ink" source="#amanuensis_copy">去，</supplied>
+       也無風雨也無晴。</egXML>
+  </exemplum>
+  <exemplum xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-supplied-egXML-fr"><supplied reason="omitted-in-original">Dedication</supplied> to the duke of Bejar</egXML>
+  </exemplum>
+  <remarks ident="supplied-remarks" versionDate="2005-01-14" xml:lang="en">
+    <p>The <gi>damage</gi>, <gi>gap</gi>, <gi>del</gi>,
+<gi>unclear</gi> and <gi>supplied</gi> elements may be closely allied
+in use.  See section <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/PH.html#PHCOMB">12.3.3.2. Use of the gap, del, damage, unclear, and
+                  supplied Elements in Combination</ref> for discussion of which
+element is appropriate for which circumstance.</p>
+  </remarks>
+  <remarks ident="supplied-remarks" versionDate="2009-11-16" xml:lang="fr">
+    <p>Les éléments <gi>damage</gi>, <gi>gap</gi>, <gi>del</gi>, <gi>unclear</gi> et <gi>supplied</gi> peuvent être étroitement associés. Voir la section <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/PH.html#PHCOMB">12.3.3.2. Use of the gap, del, damage, unclear, and
+                  supplied Elements in Combination</ref> pour savoir quel élément est approprié à chaque circonstance.</p>
+  </remarks>
+  <remarks ident="supplied-remarks" versionDate="2008-04-05" xml:lang="ja">
+    <p>
+      要素<gi>damage</gi>、<gi>gap</gi>、<gi>del</gi>、<gi>unclear</gi>、<gi>supplied</gi>と共に使用されるかもしれない。これらのどの要素を
+    使用するかについての詳細は、<ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/PH.html#PHCOMB">12.3.3.2. Use of the gap, del, damage, unclear, and
+                  supplied Elements in Combination</ref>を参照のこと。
+    </p>
+  </remarks>
+  <listRef>
+    <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/PH.html#PHDA">12.3.3.1. Damage, Illegibility, and Supplied Text</ref>
   </listRef>
 </elementSpec><elementSpec module="textcrit" xml:id="gi-listWit" ident="listWit">
   <gloss versionDate="2007-09-16" xml:lang="en">witness list</gloss>
