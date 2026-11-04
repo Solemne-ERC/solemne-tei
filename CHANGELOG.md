@@ -18,9 +18,18 @@ Each release says what changed, and whether files that passed may now fail.
 - **Dates checked:** no bound comes after its pair (`date-bounds-order`, an error; two dates in the corpus); an EDTF
   value has EDTF's form (`date-edtf-form`, an error); the bounds agree with the EDTF by years
   (`date-edtf-bounds`, a warning).
+- **Relations:** `@cert` on a relation is `high`, `medium` or `low` (`relation-certainty`, closed); a relation's
+  `@name` outside the guide's types is a warning (`relation-term`). No file of the corpus has relations.
+- **Pointers typed:** `ptr/@type` is `canonical` or `stand-in` (a work's choices of versions) or `via` (what a text
+  came through, in a relation), closed (`pointer-type`). No file of the corpus types a `ptr`.
+- **Extra fields:** `fs` and `f` join the schema, for a record's fields that no element holds.
 
 ### The guide
 
+- Part V, records: placeholders, ids and permalinks; persons, places, institutions, events, works and versions,
+  witnesses, work groups, rare kinds and their extra fields; ids elsewhere; sources. A work names its canonical
+  version, and the version that stands in for it.
+- Part VI, relations: their form, the types to start with and their reverses, the levels' relations.
 - Part VII, dates: the one form, with the corpus's own wordings; calendars and eras, with the Julian day converted to
   the Gregorian in the bounds; what the checks require.
 

@@ -2,32 +2,240 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 <div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="relations" n="VI">
   <head>Relations</head>
-  <p>This part's prose comes in a later version of the guide.</p>
+  <p>A relation is a typed statement from one thing to another: a chapter is a text of a council's canon, a
+    manuscript was owned by an abbey, a hand was a scribe's, a bishop held office in a church. It joins records,
+    nodes of texts, or other relations, and may carry a date, a certainty, a role and a place, its evidence, its
+    author, and, for a judgement, its method. Facts that belong to one record alone are its fields (<ptr
+      target="#records"/>); what joins two things, may be uncertain or disputed, or needs evidence, is a
+    relation.</p>
+  <p>A file writes its relations in the standOff's <gi>listRelation</gi>, one <gi>relation</gi> each. The import reads
+    them as the encoder's statements, beside the observations it makes itself from the source notes (<ptr
+      target="#marked-notes"/>) and the relations it makes from a description's history (<ptr
+      target="#manuscripts"/>). Relations are <hi>full</hi>.</p>
 
-  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-without-name">
-    <relation type="observation" active="#ch1" passive="https://example.org/id/canon/C.NIC-0325_3"/><!-- breaks the rule -->
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-type-unknown">
-    <relation name="isTextOf" type="opinion" active="#ch1" passive="https://example.org/id/canon/C.NIC-0325_3"/><!-- breaks the rule -->
-  </egXML>
+  <div xml:id="relations-form">
+    <head>The form of a relation</head>
+    <list>
+      <item><hi>its type</hi>: <att>name</att>, the type's name (<val>isTextOf</val>), and, in exports, <att>ref</att>,
+        the type's permalink;</item>
+      <item><hi>its ends</hi>: <att>active</att>, what it is from, and <att>passive</att>, what it is to; for a
+        symmetric type, <att>mutual</att>, both ends, once. An end is an id in the file (<code>#hand-A</code>), a
+        placeholder, a permalink, or the code of a document or a canon, as <att>source</att> names them (<ptr
+          target="#marked-pointers"/>);</item>
+      <item><hi>observation or judgement</hi>: <att>type</att>, <val>observation</val> for what a witness shows,
+        <val>judgement</val> for what holds of a version or a work, naming its evidence;</item>
+      <item><hi>its certainty</hi>: <att>cert</att>, <val>high</val>, <val>medium</val> or <val>low</val>, for
+        certain, probable and possible; none means certain. A disagreement is two relations, not a fourth
+        value;</item>
+      <item><hi>its author</hi>: <att>resp</att>, pointing to the person who states it;</item>
+      <item><hi>its date</hi>, where the type has one (an owner's years, an office's), in the relation's own
+        attributes, in the one form (<ptr target="#dates"/>);</item>
+      <item><hi>its evidence</hi>: the passages it rests on, by pointers in <att>source</att>, and the publications,
+        with their pages, in its description.</item>
+    </list>
+    <p>TEI 4.12 lets a relation hold one <gi>desc</gi>, and nothing else. What the type needs beyond its ends goes
+      there, each in its element:</p>
+    <list>
+      <item>a role (bishop, abbot, owner), by <gi>roleName</gi>;</item>
+      <item>a place (an office held in a diocese), by <gi>placeName</gi> with <att>ref</att>;</item>
+      <item>a judgement's method ("in all witnesses", "in the canonical witness", "the editor's text", "the
+        register"), by <gi>term</gi> typed <val>method</val>;</item>
+      <item>what a text came through, for <val>derivedFrom</val>, by <gi>ptr</gi> typed <val>via</val>, pointing to the
+        work, version or transcription;</item>
+      <item>a publication as evidence, by a <gi>bibl</gi> holding a <gi>ptr</gi> to it and its pages in
+        <gi>citedRange</gi>.</item>
+    </list>
+    <p>A made-up judgement: a collection's chapter derives, probably, from a council's canon through another
+      collection, in all the witnesses its encoder checked, after an edition's note:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listRelation>
+        <relation name="derivedFrom" type="judgement" cert="medium" resp="#new_person_encoder"
+          active="COLL.Dach_1_12" passive="C.NIC-0325_3">
+          <desc><term type="method">in all witnesses</term>, via <ptr type="via" target="#new_work_hispana"/>,
+            after <bibl><ptr target="#new_bibl_edition"/><citedRange unit="page" from="12"
+              to="13">12–13</citedRange></bibl></desc>
+        </relation>
+      </listRelation>
+    </egXML>
+    <p>An office, with its role and its years, and a symmetric relation between two hands, both made up:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listRelation>
+        <relation name="holdsOfficeIn" type="observation" active="#new_person_exemplus"
+          passive="#new_org_ecclesia_exemplensis" from="0801" to="0814">
+          <desc><roleName>episcopus</roleName></desc>
+        </relation>
+        <relation name="sameHandAs" type="judgement" cert="low" mutual="#hand-A #hand-C"/>
+      </listRelation>
+    </egXML>
+    <p>A relation has a name, its type is one of the two, and its certainty one of the three:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-without-name">
+      <relation type="observation" active="#ch1" passive="C.NIC-0325_3"/><!-- breaks the rule -->
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-type-unknown">
+      <relation name="isTextOf" type="opinion" active="#ch1" passive="C.NIC-0325_3"/><!-- breaks the rule -->
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-certainty">
+      <relation name="isTextOf" type="observation" cert="unknown" active="#ch1" passive="C.NIC-0325_3"/><!-- breaks the rule -->
+    </egXML>
+    <specGrp xml:id="relations-specs">
+      <!-- Relations are observations or judgements, certain, probable or possible; what they need beyond their ends
+           stands in their one desc. -->
+      <elementSpec ident="relation" module="namesdates" mode="change" corresp="#tier-full">
+        <attList>
+          <attDef ident="name" mode="change" usage="req" xml:id="relation-without-name" corresp="#tier-full">
+            <valList type="semi" mode="add">
+              <valItem ident="isTextOf"><desc>a unit is a text of another (fixed)</desc></valItem>
+              <valItem ident="derivedFrom"><desc>a unit derives from another, through a work, version or
+                  transcription, the via (fixed)</desc></valItem>
+              <valItem ident="versionOf"><desc>a version is a version of a work (fixed)</desc></valItem>
+              <valItem ident="witnessOf"><desc>a witness is a witness of a version or a work (fixed)</desc></valItem>
+              <valItem ident="transcriptionOf"><desc>a transcription is a transcription of a witness
+                  (fixed)</desc></valItem>
+              <valItem ident="in"><desc>a witness is in a manuscript or a publication, at folios or pages
+                  (fixed)</desc></valItem>
+              <valItem ident="isVerbatimOf"><desc>a unit is a text of another, word for word</desc></valItem>
+              <valItem ident="isVariantOf"><desc>a unit is a text of another, with variants</desc></valItem>
+              <valItem ident="isShorterVersionOf"><desc>a unit is a text of another, shortened</desc></valItem>
+              <valItem ident="translationOf"><desc>a version translates another</desc></valItem>
+              <valItem ident="revisionOf"><desc>a version revises another</desc></valItem>
+              <valItem ident="abridgementOf"><desc>a version abridges another</desc></valItem>
+              <valItem ident="augmentationOf"><desc>a version augments another</desc></valItem>
+              <valItem ident="adaptationOf"><desc>a work adapts another</desc></valItem>
+              <valItem ident="basedOn"><desc>a work is based on another</desc></valItem>
+              <valItem ident="origin"><desc>a manuscript or unit was made at a place or institution</desc></valItem>
+              <valItem ident="ownedBy"><desc>a manuscript or unit was owned by a person or institution, with
+                  dates</desc></valItem>
+              <valItem ident="scribe"><desc>a hand was a person's</desc></valItem>
+              <valItem ident="artist"><desc>a decoration was a person's or a workshop's</desc></valItem>
+              <valItem ident="author"><desc>a work's author was a person</desc></valItem>
+              <valItem ident="enactedAt"><desc>a work was enacted at an event, a council's canons at the
+                  council</desc></valItem>
+              <valItem ident="tookPlaceAt"><desc>an event took place at a place</desc></valItem>
+              <valItem ident="holdsOfficeIn"><desc>a person held office in an institution, with a role and
+                  dates</desc></valItem>
+              <valItem ident="lists"><desc>a register item lists a chapter</desc></valItem>
+              <valItem ident="sameScribeAs"><desc>two hands are the same scribe's (symmetric)</desc></valItem>
+              <valItem ident="sameHandAs"><desc>two hands are the same (symmetric)</desc></valItem>
+            </valList>
+          </attDef>
+          <attDef ident="type" mode="change" corresp="#tier-full">
+            <valList type="closed" mode="replace" xml:id="relation-type-unknown" corresp="#tier-full">
+              <valItem ident="observation">
+                <desc>what a witness shows</desc>
+              </valItem>
+              <valItem ident="judgement">
+                <desc>what holds of a version or a work, with its method</desc>
+              </valItem>
+            </valList>
+          </attDef>
+          <attDef ident="cert" mode="change" corresp="#tier-full">
+            <valList type="closed" mode="replace" xml:id="relation-certainty" corresp="#tier-full">
+              <valItem ident="high">
+                <desc>certain</desc>
+              </valItem>
+              <valItem ident="medium">
+                <desc>probable</desc>
+              </valItem>
+              <valItem ident="low">
+                <desc>possible</desc>
+              </valItem>
+            </valList>
+          </attDef>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
 
-  <specGrp xml:id="relations-specs">
-    <!-- Relations are observations or judgements. -->
-    <elementSpec ident="relation" module="namesdates" mode="change" corresp="#tier-full">
-      <attList>
-        <attDef ident="name" mode="change" usage="req" xml:id="relation-without-name" corresp="#tier-full"/>
-        <attDef ident="type" mode="change" corresp="#tier-full">
-          <valList type="closed" mode="replace" xml:id="relation-type-unknown" corresp="#tier-full">
-            <valItem ident="observation">
-              <desc>what a witness shows</desc>
-            </valItem>
-            <valItem ident="judgement">
-              <desc>what holds of a version or a work, with its method</desc>
-            </valItem>
-          </valList>
-        </attDef>
-      </attList>
-    </elementSpec>
-  </specGrp>
+  <div xml:id="relations-types">
+    <head>The types</head>
+    <p>Each type says what it joins, and has a reverse: "a version of" reads back as "has as a version". The six types
+      of the texts' levels and units are fixed; the others are a vocabulary of the application, which grows as the
+      project needs, each type mapped later to SAWS or another ontology. The guide holds the types to start with;
+      a name outside them is reported, so that a slip is seen and a new type is added to the vocabulary on
+      purpose.</p>
+    <table xml:id="relation-types-table">
+      <head>The relation types to start with</head>
+      <row role="label">
+        <cell>Name</cell>
+        <cell>From, to</cell>
+        <cell>Reverse</cell>
+      </row>
+      <row><cell><val>isTextOf</val> (fixed)</cell><cell>unit, unit: a node or a canon</cell><cell>has as a text</cell></row>
+      <row><cell><val>derivedFrom</val> (fixed)</cell><cell>unit, unit; via a work, version or
+          transcription</cell><cell>used in</cell></row>
+      <row><cell><val>versionOf</val> (fixed)</cell><cell>version, work</cell><cell>has as a version</cell></row>
+      <row><cell><val>witnessOf</val> (fixed)</cell><cell>witness, version or work</cell><cell>has as a
+          witness</cell></row>
+      <row><cell><val>transcriptionOf</val> (fixed)</cell><cell>transcription, witness</cell><cell>has as a
+          transcription</cell></row>
+      <row><cell><val>in</val> (fixed)</cell><cell>witness, manuscript or publication; at folios or
+          pages</cell><cell>holds</cell></row>
+      <row><cell><val>isVerbatimOf</val>, <val>isVariantOf</val>, <val>isShorterVersionOf</val></cell><cell>unit,
+          unit: narrower terms of <val>isTextOf</val>, after SAWS</cell><cell>as SAWS has them</cell></row>
+      <row><cell><val>translationOf</val>, <val>revisionOf</val>, <val>abridgementOf</val>,
+          <val>augmentationOf</val></cell><cell>version, version</cell><cell>translated as, revised as, abridged as,
+          augmented as</cell></row>
+      <row><cell><val>adaptationOf</val>, <val>basedOn</val></cell><cell>work, work</cell><cell>adapted as, basis
+          of</cell></row>
+      <row><cell><val>origin</val></cell><cell>manuscript or unit, place or institution</cell><cell>origin
+          of</cell></row>
+      <row><cell><val>ownedBy</val></cell><cell>manuscript or unit, person or institution; with
+          dates</cell><cell>owner of</cell></row>
+      <row><cell><val>scribe</val></cell><cell>hand, person</cell><cell>scribe of</cell></row>
+      <row><cell><val>artist</val></cell><cell>decoration, person or workshop</cell><cell>artist of</cell></row>
+      <row><cell><val>author</val></cell><cell>work, person</cell><cell>author of</cell></row>
+      <row><cell><val>enactedAt</val></cell><cell>work, event: a council's canons, the council</cell><cell>enacted</cell></row>
+      <row><cell><val>tookPlaceAt</val></cell><cell>event, place</cell><cell>place of</cell></row>
+      <row><cell><val>holdsOfficeIn</val></cell><cell>person, institution; with a role and dates</cell><cell>office held
+          by</cell></row>
+      <row><cell><val>lists</val></cell><cell>register item, chapter</cell><cell>listed in</cell></row>
+      <row><cell><val>sameScribeAs</val>, <val>sameHandAs</val></cell><cell>hand, hand</cell><cell>symmetric: by
+          <att>mutual</att></cell></row>
+    </table>
+    <p>A family of texts is never encoded: the application works it out from the relations.</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-term">
+      <relation name="isQuotedIn" type="observation" active="#ch1" passive="C.NIC-0325_3"/>
+    </egXML>
+    <specGrp xml:id="relations-types-specs">
+      <!-- The relation types to start with, which the Schematron warns outside of; the same list as the name's
+           values, which a test keeps equal. -->
+      <elementSpec ident="listRelation" module="namesdates" mode="change" corresp="#tier-full">
+        <constraintSpec ident="relation-term" scheme="schematron" corresp="#tier-full">
+          <desc>A relation's type is one of the types to start with, or a new term of the vocabulary.</desc>
+          <constraint>
+            <sch:rule context="tei:relation[@name]">
+              <sch:let name="terms" value="('isTextOf', 'derivedFrom', 'versionOf', 'witnessOf', 'transcriptionOf',
+                'in', 'isVerbatimOf', 'isVariantOf', 'isShorterVersionOf', 'translationOf', 'revisionOf',
+                'abridgementOf', 'augmentationOf', 'adaptationOf', 'basedOn', 'origin', 'ownedBy', 'scribe',
+                'artist', 'author', 'enactedAt', 'tookPlaceAt', 'holdsOfficeIn', 'lists', 'sameScribeAs',
+                'sameHandAs')"/>
+              <sch:assert id="relation-term" role="warning" test="@name = $terms">The relation type <sch:value-of
+                  select="@name"/> isn't among the guide's types: check its spelling, or add it to the application's
+                vocabulary.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="relations-levels">
+    <head>The levels' relations</head>
+    <p>The four relations between the levels, <val>versionOf</val>, <val>witnessOf</val>,
+      <val>transcriptionOf</val> and <val>in</val>, are the ones an imported file needs least: the import makes them
+      from the header. A file's text is a transcription of its witness; the witness is in the manuscript or the
+      publication its source description gives (<ptr target="#records-witnesses"/>), at its folios or pages, and is a
+      witness of the work its code names. An encoder writes them only to say more: that a version listed in the file
+      is a version of a work, or that a witness is of a version and not only of its work. An export writes the
+      levels' ids in the formal title (<ptr target="#header-title"/>), and their relations in its
+      standOff.</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listRelation>
+        <relation name="versionOf" type="judgement" active="#new_version_nicaea_dionysius_ii" passive="C.NIC-0325"/>
+      </listRelation>
+    </egXML>
+    <p><val>isTextOf</val> joins a node of a witness to its version's canon: it is how a witness's own structure is
+      mapped to the canons (<ptr target="#levels"/>). The import makes it as an observation from each source note
+      that names a canon; an encoder writes it where no note does.</p>
+  </div>
 </div>

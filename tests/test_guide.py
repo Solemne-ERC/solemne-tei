@@ -3,6 +3,7 @@
 element, attribute and rule with one tier; every example passing or failing as it says, and every rule with a
 counter-example; the build reports an error in a part at that part's file and line."""
 
+import re
 from pathlib import Path
 
 import pytest
@@ -16,6 +17,7 @@ from solemne_tei.validate import Validator
 
 TEI = "http://www.tei-c.org/ns/1.0"
 XI = "http://www.w3.org/2001/XInclude"
+SCH_NS = "http://purl.oclc.org/dsdl/schematron"
 GUIDE = ODD_PATH.parent
 TIERS = ("required", "common", "full", "export only")
 XML_ID = "{http://www.w3.org/XML/1998/namespace}id"
@@ -209,6 +211,24 @@ def test_a_formal_title_replaces_the_host_s_and_a_description_its_paragraph() ->
     assert len(titles) == 1 and titles[0].findtext(f"{{{TEI}}}idno") == "C.NIC-0325"
     source = tree.find(f".//{{{TEI}}}sourceDesc")
     assert [etree.QName(c).localname for c in source] == ["msDesc"]
+
+
+# The vocabularies a Schematron rule warns outside of: the rule, and the element and attribute whose semi-open list
+# holds the same terms.
+VOCABULARIES = {"relation-term": ("relation", "name")}
+
+
+@pytest.mark.parametrize("rule", sorted(VOCABULARIES))
+def test_a_vocabulary_s_rule_holds_the_terms_of_its_list(odd: etree._Element, rule: str) -> None:
+    element, attribute = VOCABULARIES[rule]
+    listed = odd.xpath(
+        f"//tei:elementSpec[@ident='{element}']//tei:attDef[@ident='{attribute}']/tei:valList[@type='semi']"
+        "/tei:valItem/@ident",
+        namespaces={"tei": TEI},
+    )
+    terms = odd.xpath(f"//sch:assert[@id='{rule}']/../sch:let[@name='terms']/@value", namespaces={"sch": SCH_NS})
+    assert listed and len(terms) == 1
+    assert sorted(re.findall(r"'([^']+)'", terms[0])) == sorted(listed)
 
 
 def test_a_part_of_a_description_is_placed_in_a_unit_and_edtf_is_declared() -> None:

@@ -113,20 +113,20 @@
               <gi>depth</gi> <gi>desc</gi> <gi>dim</gi> <gi>dimensions</gi> <gi>district</gi>
               <gi>edition</gi> <gi>editionStmt</gi> <gi>encodingDesc</gi> <gi>expan</gi>
               <gi>explicit</gi> <gi>extent</gi> <gi>filiation</gi> <gi>finalRubric</gi>
-              <gi>foliation</gi> <gi>foreign</gi> <gi>funder</gi> <gi>genName</gi> <gi>geo</gi>
+              <gi>foliation</gi> <gi>foreign</gi> <gi>fs</gi> <gi>f</gi> <gi>funder</gi> <gi>genName</gi> <gi>geo</gi>
               <gi>geogName</gi> <gi>graphic</gi> <gi>handDesc</gi> <gi>handNote</gi> <gi>height</gi>
               <gi>heraldry</gi> <gi>history</gi> <gi>incipit</gi> <gi>interpretation</gi> <gi>item</gi>
               <gi>keywords</gi> <gi>label</gi> <gi>language</gi> <gi>langUsage</gi> <gi>layout</gi>
-              <gi>layoutDesc</gi> <gi>lb</gi> <gi>licence</gi> <gi>list</gi> <gi>listAnnotation</gi>
+              <gi>layoutDesc</gi> <gi>lb</gi> <gi>licence</gi> <gi>listAnnotation</gi>
               <gi>listBibl</gi> <gi>listChange</gi> <gi>listEvent</gi> <gi>listOrg</gi>
-              <gi>listPlace</gi> <gi>listPrefixDef</gi> <gi>listRelation</gi> <gi>listWit</gi>
+              <gi>listPlace</gi> <gi>listPrefixDef</gi> <gi>listWit</gi>
               <gi>location</gi> <gi>locus</gi> <gi>locusGrp</gi> <gi>material</gi> <gi>measure</gi>
               <gi>msContents</gi> <gi>msFrag</gi> <gi>msIdentifier</gi> <gi>msItem</gi>
               <gi>msItemStruct</gi> <gi>msName</gi> <gi>msPart</gi> <gi>musicNotation</gi> <gi>name</gi>
               <gi>nameLink</gi> <gi>normalization</gi> <gi>notesStmt</gi> <gi>num</gi>
               <gi>objectDesc</gi> <gi>objectType</gi> <gi>occupation</gi> <gi>org</gi> <gi>orig</gi>
               <gi>origin</gi> <gi>physDesc</gi> <gi>place</gi> <gi>principal</gi>
-              <gi>profileDesc</gi> <gi>projectDesc</gi> <gi>provenance</gi> <gi>ptr</gi>
+              <gi>profileDesc</gi> <gi>projectDesc</gi> <gi>provenance</gi>
               <gi>punctuation</gi> <gi>q</gi> <gi>quotation</gi> <gi>recordHist</gi> <gi>refsDecl</gi>
               <gi>reg</gi> <gi>resp</gi> <gi>respStmt</gi> <gi>revisionDesc</gi> <gi>roleName</gi>
               <gi>rubric</gi> <gi>samplingDecl</gi> <gi>scriptDesc</gi> <gi>scriptNote</gi>
@@ -174,6 +174,7 @@
           <moduleRef key="linking" include="anchor annotation link linkGrp listAnnotation seg standOff"/>
           <moduleRef key="transcr" include="subst supplied"/>
           <moduleRef key="textcrit" include="listWit witness"/>
+          <moduleRef key="iso-fs" include="fs f"/>
 
           <!-- Each part's specifications, in the parts' order. -->
           <specGrpRef target="#header-title-specs"/>
@@ -190,8 +191,13 @@
           <specGrpRef target="#marked-pointers-specs"/>
           <specGrpRef target="#marked-notes-specs"/>
           <specGrpRef target="#marked-other-specs"/>
-          <specGrpRef target="#records-specs"/>
+          <specGrpRef target="#records-persons-specs"/>
+          <specGrpRef target="#records-institutions-specs"/>
+          <specGrpRef target="#records-events-specs"/>
+          <specGrpRef target="#records-works-specs"/>
+          <specGrpRef target="#records-external-ids-specs"/>
           <specGrpRef target="#relations-specs"/>
+          <specGrpRef target="#relations-types-specs"/>
           <specGrpRef target="#dates-form-specs"/>
           <specGrpRef target="#dates-calendars-specs"/>
           <specGrpRef target="#dates-specs"/>

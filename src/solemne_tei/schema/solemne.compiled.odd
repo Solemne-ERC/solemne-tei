@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.2.0 (SHA-256 bb062f23cd887be7491ce6a19b4908535d6e032fe8d78ffe017aec3ff51ba0d4) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.2.0 (SHA-256 a01a37ba2f89af9ab45342a36e8719ea0908769bed5a4a9f3e125c335ca8e4ff) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -1818,74 +1818,468 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 </div>
       <div xml:id="records" n="V">
   <head>Records</head>
-  <p>This part's prose comes in a later version of the guide.</p>
+  <p>A record is a thing the texts are about, or come from, which the application keeps once and every file points
+    to: a person, a place, an institution, an event, a manuscript, a publication, a work and its versions. A file
+    names records where its text names them (<ptr target="#marked-names"/>), and may list them, with what it knows of
+    them, in its <gi>standOff</gi>: persons in <gi>listPerson</gi>, places in <gi>listPlace</gi>, institutions in
+    <gi>listOrg</gi>, events in <gi>listEvent</gi>, works, versions and publications in <gi>listBibl</gi>. Every
+    record may have its names, its dates in the one form (<ptr target="#dates"/>), its ids elsewhere, its sources,
+    notes, and its relations to other records (<ptr target="#relations"/>). Manuscripts have a part of their own
+    (<ptr target="#manuscripts"/>), and publications will (<ptr target="#editions-and-literature"/>).</p>
+  <p>Persons are <hi>common</hi>, since most files list those they name; the rest is <hi>full</hi>.</p>
 
-  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="person-id">
-    <person xml:id="person_7">
-      <persName type="main">Exemplus</persName>
-    </person>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="person-main-name">
-    <person xml:id="new_person_Secundus">
-      <persName type="alternative">Secundus</persName>
-    </person>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="links-list">
-    <person xml:id="new_person_Tertius">
-      <persName type="main">Tertius</persName>
-      <note type="links">See the catalogue.</note>
-    </person>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="link-target">
-    <person xml:id="new_person_Quartus">
-      <persName type="main">Quartus</persName>
-      <note type="links">
-        <list type="links">
-          <item>
-            <ref target="https://example.org/person/7"/>
-          </item>
-        </list>
-      </note>
-    </person>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="floruit-dates">
-    <person xml:id="new_person_Quintus">
-      <persName type="main">Quintus</persName>
-      <floruit/>
-    </person>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="event-described">
-    <event when="0600">
-      <desc>A council.</desc>
-    </event>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="event-words">
-    <event when="0601">
-      <p/>
-    </event>
-  </egXML>
+  <div xml:id="records-ids">
+    <head>Placeholders, ids and permalinks</head>
+    <p>A record listed in a file has an <att>xml:id</att>, which the file's names point to by <att>ref</att>
+      (<code>#new_person_Arno</code>):</p>
+    <list>
+      <item>a placeholder's, for a record the application doesn't have yet: <code>new_</code>, the kind, and a name of
+        the encoder's own (<code>new_person_Arno</code>, <code>new_place_Mainz</code>); the import makes a
+        provisional record of it, with what the entry holds, for the project to identify;</item>
+      <item>a record's, for one it has: its kind and its number (<code>PERS.1234</code>); a work's or a version's is
+        its code (<code>C.NIC-0325</code>).</item>
+    </list>
+    <p>A name may also point to a record the file doesn't list, by its permalink
+      (<code>https://…/id/person/PERS.1234</code>), which the import uses as given. An export points by permalinks,
+      and lists the records it points to, with their names, so that the file reads on its own (<ptr target="#exports"/>). The records of the Council of Carthage of 397 list its two councils by placeholders,
+      with their dates:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.CAR-0397">
+      <listEvent>
+        <event xml:id="new_event_carthage_0397" when="0397">
+          <eventName>Council of Carthage, 397</eventName>
+        </event>
+        <event xml:id="new_event_hippo_0393" when="0393">
+          <eventName>Council of Hippo, 393</eventName>
+        </event>
+      </listEvent>
+    </egXML>
+  </div>
 
-  <table rend="specGrpSummary"><row><cell>
-                Element <gi>event</gi></cell><cell>change</cell></row><row><cell>
+  <div xml:id="records-persons">
+    <head>Persons</head>
+    <p>A person is a <gi>person</gi>, with one main name, <gi>persName</gi> typed <val>main</val>, and any number
+      typed <val>alternative</val>: the spellings and forms the sources use. A person's life is dated by
+      <gi>birth</gi>, <gi>death</gi> and <gi>floruit</gi>, in the one form. Simplician of Milan, in the records of the
+      Council of Carthage of 397, revised to the one form: born about 320, died in 400 or 401:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.CAR-0397">
+      <person xml:id="new_person_simplicianus">
+        <persName type="main">Simplician, bishop of Milan (?)</persName>
+        <birth notBefore="0315" notAfter="0325" when-custom="0320~" datingMethod="#edtf">c. 320</birth>
+        <death notBefore="0400" notAfter="0401" when-custom="[0400,0401]" datingMethod="#edtf">400 or 401</death>
+      </person>
+    </egXML>
+    <p>A person in the standOff has a record's id or a placeholder's; a placeholder's person has one main name; a
+      floruit gives its dates. Each is checked:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="person-id">
+      <person xml:id="person_7">
+        <persName type="main">Exemplus</persName>
+      </person>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="person-main-name">
+      <person xml:id="new_person_Secundus">
+        <persName type="alternative">Secundus</persName>
+      </person>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="floruit-dates">
+      <person xml:id="new_person_Quintus">
+        <persName type="main">Quintus</persName>
+        <floruit/>
+      </person>
+    </egXML>
+    <p>Offices and roles, a scribe's hand, an author's works, are relations from the person (<ptr target="#relations"/>), not parts of the record.</p>
+    <table rend="specGrpSummary"><row><cell>
                 Element <gi>person</gi></cell><cell>change</cell></row><row><cell>
-                Element <gi>floruit</gi></cell><cell>change</cell></row><row><cell>
+                Element <gi>floruit</gi></cell><cell>change</cell></row></table>
+  </div>
+
+  <div xml:id="records-places">
+    <head>Places</head>
+    <p>A place is a <gi>place</gi>, with its name, <gi>placeName</gi>, and, where known, its <gi>location</gi>: the
+      country, region and settlement it lies in, and its coordinates in <gi>geo</gi> (latitude, then longitude).
+      Benediktbeuern, which owned a manuscript in Munich, as Mirabile gives it:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+      <place xml:id="new_place_benediktbeuern">
+        <placeName>Benediktbeuern</placeName>
+        <location>
+          <country>Germania</country>
+          <region>Bayern</region>
+          <settlement>Benediktbeuern</settlement>
+        </location>
+      </place>
+    </egXML>
+    <p>A diocese, a province, a kingdom: each a place, its kind in <att>type</att> (<ptr target="#records-rare"/>).</p>
+  </div>
+
+  <div xml:id="records-institutions">
+    <head>Institutions</head>
+    <p>An institution, a religious house, a chapter, a library, is an <gi>org</gi>, its kind in <att>type</att>, with
+      one main name, <gi>orgName</gi> typed <val>main</val>. Where it stands is a relation to a place, as an owner's
+      is (<ptr target="#relations"/>). A name of an institution elsewhere in the file points to its record by
+      <att>ref</att>, as other names do. The abbey of Benediktbeuern, with its id in Mirabile:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+      <org xml:id="new_org_benediktbeuern" type="religiousHouse">
+        <orgName type="main">SS. Benedikt und Jakob, abbazia OSB</orgName>
+        <idno type="mirabile">6074</idno>
+      </org>
+    </egXML>
+    <table rend="specGrpSummary"><row><cell>
                 Element <gi>orgName</gi></cell><cell>change</cell></row></table>
+  </div>
+
+  <div xml:id="records-events">
+    <head>Events</head>
+    <p>An event, a council or a synod, is an <gi>event</gi>, dated in its attributes in the one form. TEI 4.12 lets
+      it hold a name (<gi>eventName</gi>), or a description, or paragraphs, not two of them; a name is what the
+      import reads first. Where it took place, and what it enacted, are relations (<ptr target="#relations"/>). An
+      event points to a record by <att>ref</att>, or describes one, and its description has words:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="event-described">
+      <event when="0600">
+        <desc>A council.</desc>
+      </event>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="event-words">
+      <event when="0601">
+        <p/>
+      </event>
+    </egXML>
+    <table rend="specGrpSummary"><row><cell>
+                Element <gi>event</gi></cell><cell>change</cell></row></table>
+  </div>
+
+  <div xml:id="records-works">
+    <head>Works and versions</head>
+    <p>A work, a council's canons or a collection, and each of its versions, a translation or a recension, is a
+      <gi>bibl</gi> in <gi>listBibl</gi>, typed <val>work</val> or <val>version</val> (<ptr target="#levels"/>). It
+      holds its title, its author by <att>ref</att>, its code (an untyped <gi>idno</gi>), its category (an
+      <gi>idno</gi> typed <val>category</val>), and its date in the one form. A version is a version of its work by a
+      relation (<ptr target="#relations-levels"/>). Mirabile's Institutiones of Justinian, from a manuscript's
+      records, revised to the form of a work:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+      <listBibl>
+        <bibl type="work" xml:id="new_work_institutiones">
+          <author ref="#new_person_iustinianus">Iustinianus imperator</author>
+          <title>Institutiones</title>
+          <idno type="mirabile">2106</idno>
+        </bibl>
+      </listBibl>
+    </egXML>
+    <p>A work names its canonical version, whose canons are the work's, and, where that version has no text in the
+      application, the version whose text stands in for it; otherwise the earliest version with a text stands in.
+      Both are defaults the project chooses, not claims about the texts, so they are pointers in the work's record,
+      <gi>ptr</gi> typed <val>canonical</val> and <val>stand-in</val>, to the versions' records. Nicaea's canons are
+      canonical in Greek, which the corpus doesn't hold; a made-up record lets a Latin version stand in:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listBibl>
+        <bibl type="work" xml:id="C.NIC-0325">
+          <title>Council of Nicaea, 325</title>
+          <idno>C.NIC-0325</idno>
+          <idno type="category">C</idno>
+          <date when="0325">325</date>
+          <ptr type="canonical" target="#new_version_nicaea_greek"/>
+          <ptr type="stand-in" target="#new_version_nicaea_dionysius"/>
+        </bibl>
+        <bibl type="version" xml:id="new_version_nicaea_greek">
+          <title>Council of Nicaea, 325, the Greek canons</title>
+        </bibl>
+        <bibl type="version" xml:id="new_version_nicaea_dionysius">
+          <title>Council of Nicaea, 325, in Dionysius Exiguus's translation</title>
+        </bibl>
+      </listBibl>
+    </egXML>
+    <p>A pointer of another type is an error:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="pointer-type">
+      <listBibl>
+        <bibl type="work" xml:id="new_work_exemplum">
+          <title>Exemplum</title>
+          <ptr type="best" target="#new_version_exemplum"/><!-- breaks the rule -->
+        </bibl>
+      </listBibl>
+    </egXML>
+    <p>The import makes a provisional work or version of a placeholder, and reads its canonical and stand-in
+      choices; an export writes each work and version it points to, with them.</p>
+    <table rend="specGrpSummary"><row><cell>
+                Element <gi>ptr</gi></cell><cell>change</cell></row></table>
+  </div>
+
+  <div xml:id="records-witnesses">
+    <head>Witnesses</head>
+    <p>A witness is a copy of a text: in a manuscript, at its folios, or in a publication, at its pages (<ptr target="#levels"/>). A file names the witnesses it needs in the source description's <gi>listWit</gi>, each a
+      <gi>witness</gi> with an <att>xml:id</att>, holding a pointer to its manuscript or publication and its folios
+      or pages: an edition carrying the page breaks of several manuscripts points to each from its page breaks by
+      <att>edRef</att> (<ptr target="#transcription-page-breaks"/>), and a reconstruction lists the witnesses its editor
+      reconstructed it from (<ptr target="#editions-and-literature"/>). A made-up list:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listWit>
+        <witness xml:id="wit-M"><bibl><ptr target="#new_manuscript_munich_4592"/></bibl>, <locus from="158r" to="207v">ff. 158r–207v</locus></witness>
+        <witness xml:id="wit-E"><bibl><ptr target="#new_bibl_maassen_1870"/><citedRange unit="page" from="852" to="853">852–853</citedRange></bibl></witness>
+      </listWit>
+    </egXML>
+    <p>The import joins each witness to its manuscript or publication, at its folios or pages.</p>
+  </div>
+
+  <div xml:id="records-work-groups">
+    <head>Work groups</head>
+    <p>A work group is a scholarly construct over several works, "the Pseudo-Isidorian forgeries": a
+      <gi>listBibl</gi> typed <val>workGroup</val>, with its name in <gi>head</gi>, what it is in <gi>desc</gi>, and
+      its members, each a <gi>bibl</gi> holding a <gi>ptr</gi> to the work's record (TEI lets a list of
+      bibliography hold only bibliographic items). Every heading is typed (<ptr target="#text-headings"/>); a group's
+      name is typed <val>rubric</val>, which says nothing more there. A made-up group:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listBibl type="workGroup" xml:id="new_group_pseudo_isidore">
+        <head type="rubric">The Pseudo-Isidorian forgeries</head>
+        <desc>The forgeries made in the circle of the False Decretals, in the middle of the 9th century.</desc>
+        <bibl><ptr target="#new_work_false_decretals"/></bibl>
+        <bibl><ptr target="#new_work_benedictus_levita"/></bibl>
+      </listBibl>
+    </egXML>
+    <p>A group is stored with its name, description, author and members; it is never a level of a text.</p>
+  </div>
+
+  <div xml:id="records-rare">
+    <head>Rare kinds and extra fields</head>
+    <p>A record of a kind the guide has no section for, a diocese or a religious order, takes the nearest form,
+      with its kind in <att>type</att>: a diocese is a <gi>place</gi>, an order an <gi>org</gi>. A name of it in the
+      text is an <gi>rs</gi>, its kind in <att>type</att> and its record in <att>ref</att> (<ptr target="#marked-other"/>). The kinds and their fields are defined in the application, as in Heurist; a field
+      the form has no element for is an <gi>f</gi>, named as the field, in an <gi>fs</gi> typed by the kind, in a
+      <gi>note</gi> typed <val>extra</val>: TEI lets a place, an institution or an event hold an <gi>fs</gi> only in
+      a note, and every kind does the same. A made-up diocese:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <place xml:id="new_place_diocese_exemplum" type="diocese">
+        <placeName>Dioecesis Exemplensis</placeName>
+        <note type="extra">
+          <fs type="diocese">
+            <f name="metropolitan">Provincia Exemplensis</f>
+          </fs>
+        </note>
+      </place>
+    </egXML>
+    <p>Only a kind that no form fits needs a new section of the guide.</p>
+  </div>
+
+  <div xml:id="records-external-ids">
+    <head>Ids elsewhere</head>
+    <p>A record's ids in other projects' catalogues are <gi>idno</gi>s, each typed by its authority, from a closed
+      list: <val>wikidata</val>, <val>viaf</val>, <val>gnd</val>, <val>geonames</val>, <val>tgn</val>,
+      <val>pleiades</val>, <val>mirabile</val>, <val>clavis</val>, <val>biblissima</val>, <val>schoenberg</val>,
+      <val>hmml</val>, <val>bodleian</val>, <val>manusOnline</val>, and the Bodleian's <val>ieArk</val>,
+      <val>crArk</val> and <val>SCN</val> (<ptr target="#header-external-ids"/>). The import keeps them beside the
+      record's own id, and matches by them. Justinian, as Mirabile names him, with his id there:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+      <person xml:id="new_person_iustinianus">
+        <persName type="main">Iustinianus imperator</persName>
+        <persName type="alternative">Flavius Petrus Sabbatius Iustinianus</persName>
+        <persName type="alternative">Justinian I</persName>
+        <idno type="mirabile">19360</idno>
+      </person>
+    </egXML>
+    <p>The project's earlier files give these links as a note typed <val>links</val> holding a list of links, or
+      typed <val>authorities</val>; the import reads an authority's link as its id. Such a note holds only its list,
+      and each link its target and words:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="links-list">
+      <person xml:id="new_person_Tertius">
+        <persName type="main">Tertius</persName>
+        <note type="links">See the catalogue.</note>
+      </person>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="link-target">
+      <person xml:id="new_person_Quartus">
+        <persName type="main">Quartus</persName>
+        <note type="links">
+          <list type="links">
+            <item>
+              <ref target="https://example.org/person/7"/>
+            </item>
+          </list>
+        </note>
+      </person>
+    </egXML>
+    <table rend="specGrpSummary"><row><cell>
+                Element <gi>list</gi></cell><cell>change</cell></row></table>
+  </div>
+
+  <div xml:id="records-sources">
+    <head>Sources</head>
+    <p>Every record, text and annotation names where it comes from. A record's source is a <gi>bibl</gi> typed
+      <val>source</val> in it: the source's name, the record's id there (an <gi>idno</gi> typed by the authority),
+      a link to it (<gi>ref</gi>), the date it was taken (<gi>date</gi> typed <val>retrieved</val>), and the
+      licence it was taken under (<gi>licence</gi>, in <gi>availability</gi>). The import keeps it as the record's
+      provenance. The Institutiones again, with its source:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+      <listBibl>
+        <bibl type="work" xml:id="new_work_institutiones_sourced">
+          <title>Institutiones</title>
+          <bibl type="source">
+            <title>Mirabile</title>
+            <idno type="mirabile">2106</idno>
+            <ref target="http://www.mirabileweb.it/title/-/2106">mirabileweb.it</ref>
+            <date type="retrieved" when="2025-01-10">10 January 2025</date>
+          </bibl>
+        </bibl>
+      </listBibl>
+    </egXML>
+    <p>The date retrieved is made up, since the file doesn't give it; Mirabile states no licence for its records,
+      and so none is given. A made-up place taken from Wikidata, whose data is under CC0:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <place xml:id="new_place_exemplum_sourced">
+        <placeName>Exemplum</placeName>
+        <bibl type="source">
+          <title>Wikidata</title>
+          <date type="retrieved" when="2026-11-04">4 November 2026</date>
+          <availability>
+            <licence target="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</licence>
+          </availability>
+        </bibl>
+      </place>
+    </egXML>
+  </div>
 </div>
       <div xml:id="relations" n="VI">
   <head>Relations</head>
-  <p>This part's prose comes in a later version of the guide.</p>
+  <p>A relation is a typed statement from one thing to another: a chapter is a text of a council's canon, a
+    manuscript was owned by an abbey, a hand was a scribe's, a bishop held office in a church. It joins records,
+    nodes of texts, or other relations, and may carry a date, a certainty, a role and a place, its evidence, its
+    author, and, for a judgement, its method. Facts that belong to one record alone are its fields (<ptr target="#records"/>); what joins two things, may be uncertain or disputed, or needs evidence, is a
+    relation.</p>
+  <p>A file writes its relations in the standOff's <gi>listRelation</gi>, one <gi>relation</gi> each. The import reads
+    them as the encoder's statements, beside the observations it makes itself from the source notes (<ptr target="#marked-notes"/>) and the relations it makes from a description's history (<ptr target="#manuscripts"/>). Relations are <hi>full</hi>.</p>
 
-  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-without-name">
-    <relation type="observation" active="#ch1" passive="https://example.org/id/canon/C.NIC-0325_3"/><!-- breaks the rule -->
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-type-unknown">
-    <relation name="isTextOf" type="opinion" active="#ch1" passive="https://example.org/id/canon/C.NIC-0325_3"/><!-- breaks the rule -->
-  </egXML>
-
-  <table rend="specGrpSummary"><row><cell>
+  <div xml:id="relations-form">
+    <head>The form of a relation</head>
+    <list>
+      <item><hi>its type</hi>: <att>name</att>, the type's name (<val>isTextOf</val>), and, in exports, <att>ref</att>,
+        the type's permalink;</item>
+      <item><hi>its ends</hi>: <att>active</att>, what it is from, and <att>passive</att>, what it is to; for a
+        symmetric type, <att>mutual</att>, both ends, once. An end is an id in the file (<code>#hand-A</code>), a
+        placeholder, a permalink, or the code of a document or a canon, as <att>source</att> names them (<ptr target="#marked-pointers"/>);</item>
+      <item><hi>observation or judgement</hi>: <att>type</att>, <val>observation</val> for what a witness shows,
+        <val>judgement</val> for what holds of a version or a work, naming its evidence;</item>
+      <item><hi>its certainty</hi>: <att>cert</att>, <val>high</val>, <val>medium</val> or <val>low</val>, for
+        certain, probable and possible; none means certain. A disagreement is two relations, not a fourth
+        value;</item>
+      <item><hi>its author</hi>: <att>resp</att>, pointing to the person who states it;</item>
+      <item><hi>its date</hi>, where the type has one (an owner's years, an office's), in the relation's own
+        attributes, in the one form (<ptr target="#dates"/>);</item>
+      <item><hi>its evidence</hi>: the passages it rests on, by pointers in <att>source</att>, and the publications,
+        with their pages, in its description.</item>
+    </list>
+    <p>TEI 4.12 lets a relation hold one <gi>desc</gi>, and nothing else. What the type needs beyond its ends goes
+      there, each in its element:</p>
+    <list>
+      <item>a role (bishop, abbot, owner), by <gi>roleName</gi>;</item>
+      <item>a place (an office held in a diocese), by <gi>placeName</gi> with <att>ref</att>;</item>
+      <item>a judgement's method ("in all witnesses", "in the canonical witness", "the editor's text", "the
+        register"), by <gi>term</gi> typed <val>method</val>;</item>
+      <item>what a text came through, for <val>derivedFrom</val>, by <gi>ptr</gi> typed <val>via</val>, pointing to the
+        work, version or transcription;</item>
+      <item>a publication as evidence, by a <gi>bibl</gi> holding a <gi>ptr</gi> to it and its pages in
+        <gi>citedRange</gi>.</item>
+    </list>
+    <p>A made-up judgement: a collection's chapter derives, probably, from a council's canon through another
+      collection, in all the witnesses its encoder checked, after an edition's note:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listRelation>
+        <relation name="derivedFrom" type="judgement" cert="medium" resp="#new_person_encoder" active="COLL.Dach_1_12" passive="C.NIC-0325_3">
+          <desc><term type="method">in all witnesses</term>, via <ptr type="via" target="#new_work_hispana"/>,
+            after <bibl><ptr target="#new_bibl_edition"/><citedRange unit="page" from="12" to="13">12–13</citedRange></bibl></desc>
+        </relation>
+      </listRelation>
+    </egXML>
+    <p>An office, with its role and its years, and a symmetric relation between two hands, both made up:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listRelation>
+        <relation name="holdsOfficeIn" type="observation" active="#new_person_exemplus" passive="#new_org_ecclesia_exemplensis" from="0801" to="0814">
+          <desc><roleName>episcopus</roleName></desc>
+        </relation>
+        <relation name="sameHandAs" type="judgement" cert="low" mutual="#hand-A #hand-C"/>
+      </listRelation>
+    </egXML>
+    <p>A relation has a name, its type is one of the two, and its certainty one of the three:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-without-name">
+      <relation type="observation" active="#ch1" passive="C.NIC-0325_3"/><!-- breaks the rule -->
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-type-unknown">
+      <relation name="isTextOf" type="opinion" active="#ch1" passive="C.NIC-0325_3"/><!-- breaks the rule -->
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-certainty">
+      <relation name="isTextOf" type="observation" cert="unknown" active="#ch1" passive="C.NIC-0325_3"/><!-- breaks the rule -->
+    </egXML>
+    <table rend="specGrpSummary"><row><cell>
                 Element <gi>relation</gi></cell><cell>change</cell></row></table>
+  </div>
+
+  <div xml:id="relations-types">
+    <head>The types</head>
+    <p>Each type says what it joins, and has a reverse: "a version of" reads back as "has as a version". The six types
+      of the texts' levels and units are fixed; the others are a vocabulary of the application, which grows as the
+      project needs, each type mapped later to SAWS or another ontology. The guide holds the types to start with;
+      a name outside them is reported, so that a slip is seen and a new type is added to the vocabulary on
+      purpose.</p>
+    <table xml:id="relation-types-table">
+      <head>The relation types to start with</head>
+      <row role="label">
+        <cell>Name</cell>
+        <cell>From, to</cell>
+        <cell>Reverse</cell>
+      </row>
+      <row><cell><val>isTextOf</val> (fixed)</cell><cell>unit, unit: a node or a canon</cell><cell>has as a text</cell></row>
+      <row><cell><val>derivedFrom</val> (fixed)</cell><cell>unit, unit; via a work, version or
+          transcription</cell><cell>used in</cell></row>
+      <row><cell><val>versionOf</val> (fixed)</cell><cell>version, work</cell><cell>has as a version</cell></row>
+      <row><cell><val>witnessOf</val> (fixed)</cell><cell>witness, version or work</cell><cell>has as a
+          witness</cell></row>
+      <row><cell><val>transcriptionOf</val> (fixed)</cell><cell>transcription, witness</cell><cell>has as a
+          transcription</cell></row>
+      <row><cell><val>in</val> (fixed)</cell><cell>witness, manuscript or publication; at folios or
+          pages</cell><cell>holds</cell></row>
+      <row><cell><val>isVerbatimOf</val>, <val>isVariantOf</val>, <val>isShorterVersionOf</val></cell><cell>unit,
+          unit: narrower terms of <val>isTextOf</val>, after SAWS</cell><cell>as SAWS has them</cell></row>
+      <row><cell><val>translationOf</val>, <val>revisionOf</val>, <val>abridgementOf</val>,
+          <val>augmentationOf</val></cell><cell>version, version</cell><cell>translated as, revised as, abridged as,
+          augmented as</cell></row>
+      <row><cell><val>adaptationOf</val>, <val>basedOn</val></cell><cell>work, work</cell><cell>adapted as, basis
+          of</cell></row>
+      <row><cell><val>origin</val></cell><cell>manuscript or unit, place or institution</cell><cell>origin
+          of</cell></row>
+      <row><cell><val>ownedBy</val></cell><cell>manuscript or unit, person or institution; with
+          dates</cell><cell>owner of</cell></row>
+      <row><cell><val>scribe</val></cell><cell>hand, person</cell><cell>scribe of</cell></row>
+      <row><cell><val>artist</val></cell><cell>decoration, person or workshop</cell><cell>artist of</cell></row>
+      <row><cell><val>author</val></cell><cell>work, person</cell><cell>author of</cell></row>
+      <row><cell><val>enactedAt</val></cell><cell>work, event: a council's canons, the council</cell><cell>enacted</cell></row>
+      <row><cell><val>tookPlaceAt</val></cell><cell>event, place</cell><cell>place of</cell></row>
+      <row><cell><val>holdsOfficeIn</val></cell><cell>person, institution; with a role and dates</cell><cell>office held
+          by</cell></row>
+      <row><cell><val>lists</val></cell><cell>register item, chapter</cell><cell>listed in</cell></row>
+      <row><cell><val>sameScribeAs</val>, <val>sameHandAs</val></cell><cell>hand, hand</cell><cell>symmetric: by
+          <att>mutual</att></cell></row>
+    </table>
+    <p>A family of texts is never encoded: the application works it out from the relations.</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-term">
+      <relation name="isQuotedIn" type="observation" active="#ch1" passive="C.NIC-0325_3"/>
+    </egXML>
+    <table rend="specGrpSummary"><row><cell>
+                Element <gi>listRelation</gi></cell><cell>change</cell></row></table>
+  </div>
+
+  <div xml:id="relations-levels">
+    <head>The levels' relations</head>
+    <p>The four relations between the levels, <val>versionOf</val>, <val>witnessOf</val>,
+      <val>transcriptionOf</val> and <val>in</val>, are the ones an imported file needs least: the import makes them
+      from the header. A file's text is a transcription of its witness; the witness is in the manuscript or the
+      publication its source description gives (<ptr target="#records-witnesses"/>), at its folios or pages, and is a
+      witness of the work its code names. An encoder writes them only to say more: that a version listed in the file
+      is a version of a work, or that a witness is of a version and not only of its work. An export writes the
+      levels' ids in the formal title (<ptr target="#header-title"/>), and their relations in its
+      standOff.</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listRelation>
+        <relation name="versionOf" type="judgement" active="#new_version_nicaea_dionysius_ii" passive="C.NIC-0325"/>
+      </listRelation>
+    </egXML>
+    <p><val>isTextOf</val> joins a node of a witness to its version's canon: it is how a witness's own structure is
+      mapped to the canons (<ptr target="#levels"/>). The import makes it as an observation from each source note
+      that names a canon; an encoder writes it where no note does.</p>
+  </div>
 </div>
       <div xml:id="dates" n="VII">
   <head>Dates</head>
@@ -2152,20 +2546,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
               <gi>depth</gi> <gi>desc</gi> <gi>dim</gi> <gi>dimensions</gi> <gi>district</gi>
               <gi>edition</gi> <gi>editionStmt</gi> <gi>encodingDesc</gi> <gi>expan</gi>
               <gi>explicit</gi> <gi>extent</gi> <gi>filiation</gi> <gi>finalRubric</gi>
-              <gi>foliation</gi> <gi>foreign</gi> <gi>funder</gi> <gi>genName</gi> <gi>geo</gi>
+              <gi>foliation</gi> <gi>foreign</gi> <gi>fs</gi> <gi>f</gi> <gi>funder</gi> <gi>genName</gi> <gi>geo</gi>
               <gi>geogName</gi> <gi>graphic</gi> <gi>handDesc</gi> <gi>handNote</gi> <gi>height</gi>
               <gi>heraldry</gi> <gi>history</gi> <gi>incipit</gi> <gi>interpretation</gi> <gi>item</gi>
               <gi>keywords</gi> <gi>label</gi> <gi>language</gi> <gi>langUsage</gi> <gi>layout</gi>
-              <gi>layoutDesc</gi> <gi>lb</gi> <gi>licence</gi> <gi>list</gi> <gi>listAnnotation</gi>
+              <gi>layoutDesc</gi> <gi>lb</gi> <gi>licence</gi> <gi>listAnnotation</gi>
               <gi>listBibl</gi> <gi>listChange</gi> <gi>listEvent</gi> <gi>listOrg</gi>
-              <gi>listPlace</gi> <gi>listPrefixDef</gi> <gi>listRelation</gi> <gi>listWit</gi>
+              <gi>listPlace</gi> <gi>listPrefixDef</gi> <gi>listWit</gi>
               <gi>location</gi> <gi>locus</gi> <gi>locusGrp</gi> <gi>material</gi> <gi>measure</gi>
               <gi>msContents</gi> <gi>msFrag</gi> <gi>msIdentifier</gi> <gi>msItem</gi>
               <gi>msItemStruct</gi> <gi>msName</gi> <gi>msPart</gi> <gi>musicNotation</gi> <gi>name</gi>
               <gi>nameLink</gi> <gi>normalization</gi> <gi>notesStmt</gi> <gi>num</gi>
               <gi>objectDesc</gi> <gi>objectType</gi> <gi>occupation</gi> <gi>org</gi> <gi>orig</gi>
               <gi>origin</gi> <gi>physDesc</gi> <gi>place</gi> <gi>principal</gi>
-              <gi>profileDesc</gi> <gi>projectDesc</gi> <gi>provenance</gi> <gi>ptr</gi>
+              <gi>profileDesc</gi> <gi>projectDesc</gi> <gi>provenance</gi>
               <gi>punctuation</gi> <gi>q</gi> <gi>quotation</gi> <gi>recordHist</gi> <gi>refsDecl</gi>
               <gi>reg</gi> <gi>resp</gi> <gi>respStmt</gi> <gi>revisionDesc</gi> <gi>roleName</gi>
               <gi>rubric</gi> <gi>samplingDecl</gi> <gi>scriptDesc</gi> <gi>scriptNote</gi>
@@ -7055,6 +7449,33 @@ expliquer d'autres parties d'un document.</desc>
   <listRef>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/DR.html#DROTH">7.3. Other Types of Performance Text</ref>
   </listRef>
+</classSpec><classSpec xmlns:xi="http://www.w3.org/2001/XInclude" module="tei" xml:id="CPLXVAL" type="model" ident="model.featureVal.complex">
+  <desc versionDate="2007-10-02" xml:lang="en">groups elements which express complex feature values in feature
+structures.</desc>
+  <desc versionDate="2007-12-20" xml:lang="ko">자질구조에서 복잡한 자질값을 표현하는 요소를 모아 놓는다.</desc>
+  <desc versionDate="2007-05-02" xml:lang="zh-TW">匯集的元素表示功能結構中的複合功能值。</desc>
+  <desc versionDate="2008-04-05" xml:lang="ja">素性構造中の複雑な素性値を表す要素をまとめる。</desc>
+  <desc versionDate="2008-03-30" xml:lang="fr">regroupe des éléments qui expriment des valeurs de
+traits complexes dans des structures de traits.</desc>
+  <desc versionDate="2007-01-21" xml:lang="it">raggruppa elementi che esprimono valori di tratti complessi in strutture di tratti.</desc>
+  <desc versionDate="2007-05-04" xml:lang="es">agrupa elementos que exprimen valores de rasgos complejos en estructuras de rasgos.</desc>
+  <classes>
+      
+      <memberOf key="model.featureVal"/>
+  </classes>
+</classSpec><classSpec xmlns:xi="http://www.w3.org/2001/XInclude" module="tei" xml:id="SINGVAL" type="model" ident="model.featureVal.single">
+  <desc versionDate="2007-10-02" xml:lang="en">group elements used to represent atomic feature values in feature structures.</desc>
+  <desc versionDate="2007-12-20" xml:lang="ko">자질구조에서 원자 자질 값을 표상하는 요소를 모아 놓는다.</desc>
+  <desc versionDate="2007-05-02" xml:lang="zh-TW">匯集的元素代表功能結構中的原子功能值。</desc>
+  <desc versionDate="2008-04-05" xml:lang="ja">素性構造中の、原子的素性値を表す要素をまとめる。</desc>
+  <desc versionDate="2008-03-30" xml:lang="fr">regroupe des éléments employés pour représenter des
+valeurs de traits atomiques dans des structures de traits.</desc>
+  <desc versionDate="2007-01-21" xml:lang="it">raggruppa elementi utilizzati per descrivere valori di tratti atomici in strutture di tratti.</desc>
+  <desc versionDate="2007-05-04" xml:lang="es">agrupa elementos utilizados para describir valores de rasgos aislados en estructuras de rasgos.</desc>
+  <classes>
+      
+      <memberOf key="model.featureVal"/>
+  </classes>
 </classSpec><classSpec xmlns:xi="http://www.w3.org/2001/XInclude" module="tei" xml:id="DIPARTS" type="model" ident="model.entryPart" predeclare="true">
   <desc versionDate="2012-12-29" xml:lang="en">groups non-morphological elements appearing within a dictionary entry.</desc>
   <desc versionDate="2007-12-20" xml:lang="ko">사전 표제어 내의 어떤 층위에서도 나타날 수 있는 요소를 모아 놓는다.</desc>
@@ -7558,6 +7979,17 @@ fin d'une division de texte.</desc>
   <listRef>
       <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ST.html#STEC">1.3. The TEI Class System</ref>
   </listRef>
+</classSpec><classSpec xmlns:xi="http://www.w3.org/2001/XInclude" module="tei" xml:id="FEATVAL" type="model" ident="model.featureVal">
+  <desc versionDate="2007-10-03" xml:lang="en">groups elements which represent feature values in feature structures.</desc>
+  <desc versionDate="2007-12-20" xml:lang="ko">자질구조에서 자질 값을 표상하는 요소를 모아 놓는다.</desc>
+  <desc versionDate="2007-05-02" xml:lang="zh-TW">匯集的所有元素代表功能結構中的功能值。</desc>
+  <desc versionDate="2008-04-05" xml:lang="ja">素性構造中の素性値を表す要素をまとめる。</desc>
+  <desc versionDate="2007-06-12" xml:lang="fr">regroupe tous les éléments qui représentent des valeurs
+    de trait dans des structures de trait.</desc>
+  <desc versionDate="2007-05-04" xml:lang="es">agrupa todos los elementos que representan valores de
+    rasgos en estructuras de rasgos</desc>
+  <desc versionDate="2007-01-21" xml:lang="it">raggruppa tutti gli elementi che rappresentano valori di
+    tratti in strutture di tratti</desc>
 </classSpec><classSpec xmlns:xi="http://www.w3.org/2001/XInclude" module="tei" xml:id="BIBLPART" type="model" ident="model.biblPart">
   <desc versionDate="2007-10-02" xml:lang="en">groups elements which represent components of a bibliographic description.</desc>
   <desc versionDate="2007-12-20" xml:lang="ko">서지 기술의 성분을 표상하는 요소를 모아 놓는다.</desc>
@@ -12608,63 +13040,42 @@ Measures</ref>
   <listRef>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#CONAAB">3.6.5. Abbreviations and Their Expansions</ref>
   </listRef>
-</elementSpec><elementSpec module="core" xml:id="gi-ptr" ident="ptr">
-  <gloss versionDate="2007-07-04" xml:lang="en">pointer</gloss>
-  <gloss versionDate="2007-12-20" xml:lang="ko">포인터</gloss>
-  <gloss versionDate="2007-05-02" xml:lang="zh-TW"/>
-  <gloss versionDate="2008-04-06" xml:lang="es">puntero</gloss>
-  <gloss versionDate="2009-01-06" xml:lang="fr">pointeur</gloss>
-  <gloss versionDate="2007-11-06" xml:lang="it">puntatore</gloss>
-  <desc versionDate="2006-01-11" xml:lang="en">defines a pointer to another location.</desc>
-  <desc versionDate="2007-12-20" xml:lang="ko">다른 위치로의 포인터를 정의한다.</desc>
-  <desc versionDate="2007-05-02" xml:lang="zh-TW">標明一個與其他位置相連結的指標。</desc>
-  <desc versionDate="2008-04-05" xml:lang="ja">他の場所を示すポインターを定義する。</desc>
-  <desc versionDate="2009-01-06" xml:lang="fr">définit un pointeur vers un autre emplacement.</desc>
-  <desc versionDate="2007-05-04" xml:lang="es">define un señalizador a otra localización.</desc>
-  <desc versionDate="2007-01-21" xml:lang="it">definisce un puntatore ad un'altra posizione.</desc>
-  <classes>
-    <memberOf key="att.global"/>
-    <memberOf key="att.cReferencing"/>
-    <memberOf key="att.cmc"/>
-    <memberOf key="att.declaring"/>
-    <memberOf key="att.internetMedia"/>
-    <memberOf key="att.pointing"/>
-    <memberOf key="att.typed"/>
-    <memberOf key="model.annotationPart.body"/>
-    <memberOf key="model.ptrLike"/>
-  </classes>
-  <content><empty/></content>
-  <constraintSpec scheme="schematron" ident="ptrAtts" xml:lang="en">
+</elementSpec><elementSpec rend="change" module="core" xml:id="gi-ptr" ident="ptr"><gloss versionDate="2007-07-04" xml:lang="en">pointer</gloss><gloss versionDate="2007-12-20" xml:lang="ko">포인터</gloss><gloss versionDate="2007-05-02" xml:lang="zh-TW"/><gloss versionDate="2008-04-06" xml:lang="es">puntero</gloss><gloss versionDate="2009-01-06" xml:lang="fr">pointeur</gloss><gloss versionDate="2007-11-06" xml:lang="it">puntatore</gloss><desc versionDate="2006-01-11" xml:lang="en">defines a pointer to another location.</desc><desc versionDate="2007-12-20" xml:lang="ko">다른 위치로의 포인터를 정의한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">標明一個與其他位置相連結的指標。</desc><desc versionDate="2008-04-05" xml:lang="ja">他の場所を示すポインターを定義する。</desc><desc versionDate="2009-01-06" xml:lang="fr">définit un pointeur vers un autre emplacement.</desc><desc versionDate="2007-05-04" xml:lang="es">define un señalizador a otra localización.</desc><desc versionDate="2007-01-21" xml:lang="it">definisce un puntatore ad un'altra posizione.</desc><classes><memberOf key="att.global"/><memberOf key="att.cReferencing"/><memberOf key="att.cmc"/><memberOf key="att.declaring"/><memberOf key="att.internetMedia"/><memberOf key="att.pointing"/><memberOf key="att.typed"/><memberOf key="model.annotationPart.body"/><memberOf key="model.ptrLike"/></classes><content><empty/></content><constraintSpec scheme="schematron" ident="ptrAtts" xml:lang="en">
     <constraint>
       <sch:rule context="tei:ptr">
         <sch:report test="@target and @cRef">Only one of the attributes @target and @cRef may be supplied on &lt;<sch:name/>&gt;.</sch:report>
       </sch:rule>
     </constraint>
-  </constraintSpec>
-  <exemplum xml:lang="und">
+  </constraintSpec><attList><attDef ident="type" mode="change" corresp="#tier-full">
+            <valList type="closed" mode="replace" xml:id="pointer-type" corresp="#tier-full">
+              <valItem ident="canonical">
+                <desc>in a work's record: its canonical version</desc>
+              </valItem>
+              <valItem ident="stand-in">
+                <desc>in a work's record: the version whose text stands in for the canonical version's</desc>
+              </valItem>
+              <valItem ident="via">
+                <desc>in a relation's description: the work, version or transcription a text came through</desc>
+              </valItem>
+            </valList>
+          </attDef><attDef ident="subtype" mode="delete"/></attList><exemplum xml:lang="und">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-ptr-egXML-rq" source="#UND">
       <ptr target="#p143 #p144"/>
       <ptr target="http://www.tei-c.org"/>
       <ptr cRef="1.3.4"/>
     </egXML>
-  </exemplum>
-  <remarks ident="ptr-remarks" versionDate="2005-10-13" xml:lang="en">
+  </exemplum><remarks ident="ptr-remarks" versionDate="2005-10-13" xml:lang="en">
     <p>The <att>target</att> and <att>cRef</att> attributes are mutually exclusive.</p>
-  </remarks>
-  <remarks ident="ptr-remarks" versionDate="2007-06-12" xml:lang="fr">
+  </remarks><remarks ident="ptr-remarks" versionDate="2007-06-12" xml:lang="fr">
     <p>Les attributs <att>target</att> et <att>cRef</att> sont exclusifs l'un de l'autre.</p>
-  </remarks>
-  <remarks ident="ptr-remarks" versionDate="2008-04-05" xml:lang="ja">
+  </remarks><remarks ident="ptr-remarks" versionDate="2008-04-05" xml:lang="ja">
     <p> 属性<att>target</att>と<att>cRef</att>は、排他的に使用される。 </p>
-  </remarks>
-  <remarks ident="ptr-remarks" versionDate="2016-11-25" xml:lang="de">
+  </remarks><remarks ident="ptr-remarks" versionDate="2016-11-25" xml:lang="de">
     <p>Die <att>target</att> und <att>cRef</att>-Attribute schließen sich gegenseitig aus.</p>
-  </remarks>
-  <listRef>
+  </remarks><listRef>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#COXR">3.7. Simple Links and Cross-References</ref>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/SA.html#SAPT">17.1. Links</ref>
-  </listRef>
-</elementSpec><elementSpec rend="change" module="core" xml:id="gi-ref" ident="ref"><gloss versionDate="2007-07-04" xml:lang="en">reference</gloss><gloss versionDate="2007-12-20" xml:lang="ko">참조</gloss><gloss versionDate="2007-05-02" xml:lang="zh-TW"/><gloss versionDate="2008-04-06" xml:lang="es">referencia</gloss><gloss versionDate="2009-01-06" xml:lang="fr">référence</gloss><gloss versionDate="2007-11-06" xml:lang="it">riferimento</gloss><gloss versionDate="2016-11-25" xml:lang="de">Referenz</gloss><desc versionDate="2006-01-11" xml:lang="en">defines a reference to another location, possibly modified by additional text or comment.</desc><desc versionDate="2007-12-20" xml:lang="ko">부가적인 텍스트 또는 해설로 수정될 수 있는, 다른 위치로 참조를 정의한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">標明與其他位置互相參照的符號，或許包含附加的文字或註解。</desc><desc versionDate="2008-04-05" xml:lang="ja">他の場所への参照を定義する。多くは、追加テキストまたはコメントを含む。</desc><desc versionDate="2009-01-06" xml:lang="fr">définit une référence vers un autre emplacement, la référence étant éventuellement modifiée ou complétée par un texte ou un commentaire.</desc><desc versionDate="2007-05-04" xml:lang="es">define una referencia a otra localización, posiblemente modificada por un texto o comentario adicional.</desc><desc versionDate="2007-01-21" xml:lang="it">definisce un riferimento ad un'altra posizione, può essere modificata da un commento o testo ulteriore.</desc><desc versionDate="2016-11-25" xml:lang="de">definiert einen externen oder internen Verweis, der auch durch einen zusätzlichen Text oder Kommentar ergänzt werden kann.</desc><classes><memberOf key="att.global"/><memberOf key="att.cReferencing"/><memberOf key="att.cmc"/><memberOf key="att.declaring"/><memberOf key="att.internetMedia"/><memberOf key="att.pointing"/><memberOf key="att.typed"/><memberOf key="model.annotationPart.body"/><memberOf key="model.ptrLike"/></classes><content><macroRef key="macro.paraContent"/></content><constraintSpec scheme="schematron" ident="refAtts" xml:lang="en">
+  </listRef></elementSpec><elementSpec rend="change" module="core" xml:id="gi-ref" ident="ref"><gloss versionDate="2007-07-04" xml:lang="en">reference</gloss><gloss versionDate="2007-12-20" xml:lang="ko">참조</gloss><gloss versionDate="2007-05-02" xml:lang="zh-TW"/><gloss versionDate="2008-04-06" xml:lang="es">referencia</gloss><gloss versionDate="2009-01-06" xml:lang="fr">référence</gloss><gloss versionDate="2007-11-06" xml:lang="it">riferimento</gloss><gloss versionDate="2016-11-25" xml:lang="de">Referenz</gloss><desc versionDate="2006-01-11" xml:lang="en">defines a reference to another location, possibly modified by additional text or comment.</desc><desc versionDate="2007-12-20" xml:lang="ko">부가적인 텍스트 또는 해설로 수정될 수 있는, 다른 위치로 참조를 정의한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">標明與其他位置互相參照的符號，或許包含附加的文字或註解。</desc><desc versionDate="2008-04-05" xml:lang="ja">他の場所への参照を定義する。多くは、追加テキストまたはコメントを含む。</desc><desc versionDate="2009-01-06" xml:lang="fr">définit une référence vers un autre emplacement, la référence étant éventuellement modifiée ou complétée par un texte ou un commentaire.</desc><desc versionDate="2007-05-04" xml:lang="es">define una referencia a otra localización, posiblemente modificada por un texto o comentario adicional.</desc><desc versionDate="2007-01-21" xml:lang="it">definisce un riferimento ad un'altra posizione, può essere modificata da un commento o testo ulteriore.</desc><desc versionDate="2016-11-25" xml:lang="de">definiert einen externen oder internen Verweis, der auch durch einen zusätzlichen Text oder Kommentar ergänzt werden kann.</desc><classes><memberOf key="att.global"/><memberOf key="att.cReferencing"/><memberOf key="att.cmc"/><memberOf key="att.declaring"/><memberOf key="att.internetMedia"/><memberOf key="att.pointing"/><memberOf key="att.typed"/><memberOf key="model.annotationPart.body"/><memberOf key="model.ptrLike"/></classes><content><macroRef key="macro.paraContent"/></content><constraintSpec scheme="schematron" ident="refAtts" xml:lang="en">
     <constraint>
       <sch:rule context="tei:ref">
         <sch:report test="@target and @cRef">Only one of the attributes @target and @cRef may be supplied on &lt;<sch:name/>&gt;.</sch:report>
@@ -12704,57 +13115,23 @@ Measures</ref>
   </remarks><listRef>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#COXR">3.7. Simple Links and Cross-References</ref>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/SA.html#SAPT">17.1. Links</ref>
-  </listRef></elementSpec><elementSpec module="core" xml:id="gi-list" ident="list">
-  <gloss versionDate="2007-06-12" xml:lang="en">list</gloss>
-  <gloss versionDate="2007-06-12" xml:lang="fr">liste</gloss>
-  <gloss versionDate="2016-11-25" xml:lang="de">Liste</gloss>
-  <desc versionDate="2005-01-14" xml:lang="en">contains any sequence of items organized as a list.</desc>
-  <desc versionDate="2007-12-20" xml:lang="ko">목록의 형태로 정리된 항목을 포함한다.</desc>
-  <desc versionDate="2007-05-02" xml:lang="zh-TW">包含以列表方式呈現的任何連續項目。</desc>
-  <desc versionDate="2008-04-05" xml:lang="ja">リストのような、項目列を示す。</desc>
-  <desc versionDate="2007-06-12" xml:lang="fr">contient une suite d'items ordonnés dans une liste.</desc>
-  <desc versionDate="2007-05-04" xml:lang="es">contiene cualquier secuencia de ítems o elementos organizados en una lista.</desc>
-  <desc versionDate="2007-01-21" xml:lang="it">contiene una qualsiasi sequenza di voci organizzate in una lista.</desc>
-  <desc versionDate="2016-11-25" xml:lang="de">enthält eine Reihe von Listenpunkten, die als Liste organisiert sind.</desc>
-  <classes>
-    <memberOf key="att.global"/>
-    <memberOf key="att.cmc"/>
-    <memberOf key="att.sortable"/>
-    <memberOf key="att.typed"/>
-    <memberOf key="model.listLike"/>
-  </classes>
-  
-  
-  <content>
-    <sequence>
-      <alternate minOccurs="0" maxOccurs="unbounded">
-        <classRef key="model.divTop"/>
-        <classRef key="model.global"/>
-        <elementRef key="desc" minOccurs="0" maxOccurs="unbounded"/>          
-      </alternate>      
-      <alternate>
-        <sequence minOccurs="1" maxOccurs="unbounded">
-          <elementRef key="item"/>
-          <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
-        </sequence>
-        <sequence>
-          <elementRef key="headLabel" minOccurs="0"/>
-          <elementRef key="headItem" minOccurs="0"/>
-          <sequence minOccurs="1" maxOccurs="unbounded">
-            <elementRef key="label"/>
-            <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
-            <elementRef key="item"/>
-            <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
-          </sequence>
-        </sequence>
-      </alternate>
-      <sequence minOccurs="0" maxOccurs="unbounded">
-        <classRef key="model.divBottom"/>
-        <classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/>
-      </sequence>
-    </sequence>
-  </content>
-  <constraintSpec ident="gloss-list-must-have-labels" scheme="schematron" xml:lang="en">
+  </listRef></elementSpec><elementSpec rend="change" module="core" xml:id="gi-list" ident="list"><gloss versionDate="2007-06-12" xml:lang="en">list</gloss><gloss versionDate="2007-06-12" xml:lang="fr">liste</gloss><gloss versionDate="2016-11-25" xml:lang="de">Liste</gloss><desc versionDate="2005-01-14" xml:lang="en">contains any sequence of items organized as a list.</desc><desc versionDate="2007-12-20" xml:lang="ko">목록의 형태로 정리된 항목을 포함한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">包含以列表方式呈現的任何連續項目。</desc><desc versionDate="2008-04-05" xml:lang="ja">リストのような、項目列を示す。</desc><desc versionDate="2007-06-12" xml:lang="fr">contient une suite d'items ordonnés dans une liste.</desc><desc versionDate="2007-05-04" xml:lang="es">contiene cualquier secuencia de ítems o elementos organizados en una lista.</desc><desc versionDate="2007-01-21" xml:lang="it">contiene una qualsiasi sequenza di voci organizzate in una lista.</desc><desc versionDate="2016-11-25" xml:lang="de">enthält eine Reihe von Listenpunkten, die als Liste organisiert sind.</desc><classes><memberOf key="att.global"/><memberOf key="att.cmc"/><memberOf key="att.sortable"/><memberOf key="att.typed"/><memberOf key="model.listLike"/></classes><content><sequence minOccurs="1" maxOccurs="1"><alternate minOccurs="0" maxOccurs="unbounded"><classRef key="model.divTop"/><classRef key="model.global"/><elementRef key="desc" minOccurs="0" maxOccurs="unbounded"/></alternate><alternate minOccurs="1" maxOccurs="1"><sequence minOccurs="1" maxOccurs="unbounded"><elementRef key="item"/><classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/></sequence><sequence minOccurs="1" maxOccurs="1"><elementRef key="headLabel" minOccurs="0"/><elementRef key="headItem" minOccurs="0"/><sequence minOccurs="1" maxOccurs="unbounded"><elementRef key="label"/><classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/><elementRef key="item"/><classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/></sequence></sequence></alternate><sequence minOccurs="0" maxOccurs="unbounded"><classRef key="model.divBottom"/><classRef key="model.global" minOccurs="0" maxOccurs="unbounded"/></sequence></sequence></content><constraintSpec ident="links-list" scheme="schematron" corresp="#tier-full">
+          <desc>A note of links holds a list of links.</desc>
+          <constraint>
+            <sch:rule context="tei:standOff//tei:note[@type = 'links']">
+              <sch:assert id="links-list" test="tei:list[@type = 'links'] and not(text()[normalize-space()])">A note
+                of links holds a list of links, and no words of its own.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec><constraintSpec ident="link-target" scheme="schematron" corresp="#tier-full">
+          <desc>A link has a target and words.</desc>
+          <constraint>
+            <sch:rule context="tei:standOff//tei:list[@type = 'links']/tei:item">
+              <sch:assert id="link-target" test="tei:ref[@target][normalize-space(.) != '']">A link has a @target and
+                words.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec><constraintSpec ident="gloss-list-must-have-labels" scheme="schematron" xml:lang="en">
     <constraint>
       <sch:rule context="tei:list[@type='gloss']">
         <sch:assert test="tei:label">
@@ -12764,10 +13141,7 @@ Measures</ref>
         </sch:assert>
       </sch:rule>
     </constraint>
-  </constraintSpec>
-  <attList>
-
-    <attDef ident="type" usage="opt" mode="change">
+  </constraintSpec><attList><attDef ident="type" usage="opt" mode="change">
       <gloss versionDate="2017-06-25" xml:lang="en">type</gloss>
       <gloss versionDate="2017-06-25" xml:lang="de">Typ</gloss>
       <desc versionDate="2014-07-29" xml:lang="en">describes the nature of the items in the list.</desc>
@@ -12855,9 +13229,7 @@ Measures</ref>
                 erlaubt es, Listen vom <tag>list type="gloss"</tag> ohne das Element <gi>label</gi> zu verwenden; das ist jedoch ein 
                 semantischer Fehler.</p>
         </remarks>
-    </attDef>
-  </attList>
-  <exemplum xml:lang="en">
+    </attDef></attList><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-list-egXML-il">
       <list rend="numbered">
         <item>a butcher</item>
@@ -12867,8 +13239,7 @@ Measures</ref>
             </item>
       </list>
     </egXML>
-  </exemplum>
-  <exemplum versionDate="2014-08-04" xml:lang="en">
+  </exemplum><exemplum versionDate="2014-08-04" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-list-egXML-fg">
       <list type="syllogism" rend="bulleted">
         <item>All Cretans are liars.</item>
@@ -12876,8 +13247,7 @@ Measures</ref>
         <item>ERGO Epimenides is a liar.</item>
       </list>
     </egXML>
-  </exemplum>
-  <exemplum versionDate="2014-08-04" xml:lang="en">
+  </exemplum><exemplum versionDate="2014-08-04" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-list-egXML-im">
       <list type="litany" rend="simple">
         <item>God save us from drought.</item>
@@ -12886,8 +13256,7 @@ Measures</ref>
         <item>Praise be to God.</item>
       </list>
     </egXML>
-  </exemplum>
-  <exemplum versionDate="2008-04-06" xml:lang="fr">
+  </exemplum><exemplum versionDate="2008-04-06" xml:lang="fr">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-list-egXML-ur" source="#fr-ex-Perec-vie">
       <list rend="bulleted">
         <item>Thé sans sucre et sans lait </item>
@@ -12901,8 +13270,7 @@ Measures</ref>
         <item>Coings</item>
       </list>
     </egXML>
-  </exemplum>
-  <exemplum versionDate="2008-04-06" xml:lang="fr">
+  </exemplum><exemplum versionDate="2008-04-06" xml:lang="fr">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-list-egXML-bo" source="#fr-ex-Perec-vie">
       <div>
         <p> Selon des critères qui n'appartiennent qu'à lui, Rémi Plassaert a classé ses buvards
@@ -12916,8 +13284,7 @@ Measures</ref>
         </list>
       </div>
     </egXML>
-  </exemplum>
-  <exemplum versionDate="2008-04-06" xml:lang="fr">
+  </exemplum><exemplum versionDate="2008-04-06" xml:lang="fr">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-list-egXML-ta" source="#fr-ex-Perec-vie">
       <div>
         <p> [...] et tout autour, la longue cohorte de ses personnages, avec leur histoire, leur
@@ -12930,8 +13297,7 @@ Measures</ref>
         </list>
       </div>
     </egXML>
-  </exemplum>
-  <exemplum xml:lang="zh-TW">
+  </exemplum><exemplum xml:lang="zh-TW">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-list-egXML-sl">
       <list rend="numbered">
         <item>一個屠夫</item>
@@ -12940,8 +13306,7 @@ Measures</ref>
             </item>
       </list>
     </egXML>
-  </exemplum>
-  <exemplum xml:lang="zh-TW">
+  </exemplum><exemplum xml:lang="zh-TW">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-list-egXML-mj" source="#biblzh-tw_n11">
       <div1 type="section">
         <head>青年守則</head>
@@ -12955,14 +13320,12 @@ Measures</ref>
         </list>
       </div1>
     </egXML>
-  </exemplum>
-  <exemplum xml:lang="zh-TW">
+  </exemplum><exemplum xml:lang="zh-TW">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-list-egXML-sv" source="#biblzh-tw_n12">
       <p>我們二人謹定于2008年7月3日正午十二時，在台北舉行結婚典禮，寫下海誓山盟，終身遵守，在婚姻路上，共同經營，災難病情，互相扶持，永不分離。并就下列事項，立下承諾，即令滄海化為桑田，桑田再變為滄海，也要攜手共進，相親相愛，直到白頭。<list rend="simple"><item>我們宣誓：從結婚這一天開始，不但成為夫妻，互相敬愛，分擔對方的快樂和憂愁，也同時成為朋友，而且是諍友，互相勉勵，互相規勸，互相批評。</item><item>我們領悟：愉快的共同生活，全靠心靈溝通，所以，我們一定善用言語，不僅表達愛心、關心，也使彼此藉語言加深了解，一起成長。絕不粗聲叱責，絕不用肢體代替言語，絕不允許發生婚姻暴力。 </item><item>我們認知：家庭與事業是夫妻共同經營的果實，夫妻對家庭的貢獻等值，在家庭內或社會上，價值完全相同，社會工作薪俸無論多少，家務工作的薪俸都與其相同。</item><item>我們同意：將來我們有子女，管教上如果有不同的意見，甚至尖銳對立的意見，一定要克制自己，去請教專家，絕不把孩子當成實現自己希望的工具，也絕不用孩子來炫耀自己。 </item><item>我們認為：一夫一妻制，是社會安定的磐石，是孩子們成長最安全的溫床，我們喜愛并尊重這種制度，并用事實和行動，維護它的尊嚴。</item><item>我們警惕：婚姻生活并不多彩多姿，它不但平凡，而且瑣碎，如果不滋養珍惜，容易使生命憔悴，心靈粗俗，所以生活之中，我們一定保持適度的假期，與孩子一起長大。</item><item>我們謹記：我們孝敬自己的父母，也孝敬對方的父母，不僅是回報養育之恩，也是培養自己人格的完整，為我們的下一代立下榜樣。 </item><item>我們了解：我們將來會老，所以，我們從結婚這一天，就培養專業之外的其它藝朮興趣，如書、畫、音樂，使我們生命永遠充實燦爛。 </item></list>
          </p>
     </egXML>
-  </exemplum>
-  <exemplum xml:lang="en">
+  </exemplum><exemplum xml:lang="en">
     <p>The following example treats the short numbered clauses of Anglo-Saxon legal codes as lists
       of items. The text is from an ordinance of King Athelstan (924–939):</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-list-egXML-yr">
@@ -13009,8 +13372,7 @@ Measures</ref>
     <p>Note that nested lists have been used so the tagging mirrors the structure indicated by the
       two-level numbering of the clauses. The clauses could have been treated as a one-level list
       with irregular numbering, if desired.</p>
-  </exemplum>
-  <exemplum versionDate="2017-06-25" xml:lang="de">
+  </exemplum><exemplum versionDate="2017-06-25" xml:lang="de">
     <p>Das folgende Beispiel behandelt die kurzen nummerierten Klauseln von angelsächsischen
       Rechtstexten als Listen von <gi>item</gi>-Elementen. Der Text stammt aus einer Verordnung von
       König Athelstan (924-939):</p>
@@ -13058,9 +13420,7 @@ Measures</ref>
     <p>In diesem Beispiel wurden verschachtelte Listen verwendet. Die Auszeichnung spiegelt somit die
       Struktur der zweistufigen Nummerierung der Klauseln wider. Die Klauseln könnten auch als eine
       einstufige Liste mit unregelmäßiger Nummerierung behandelt werden.</p>
-  </exemplum>
-  
-  <exemplum xml:lang="en">
+  </exemplum><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-list-egXML-aw">
       <p>These decrees, most blessed Pope Hadrian, we propounded in the public council ... and they
         confirmed them in our hand in your stead with the sign of the Holy Cross, and afterwards
@@ -13076,29 +13436,23 @@ Measures</ref>
             Cross.</item></list>
          </p>
     </egXML>
-  </exemplum>
-  <remarks ident="list-remarks" versionDate="2005-01-14" xml:lang="en">
+  </exemplum><remarks ident="list-remarks" versionDate="2005-01-14" xml:lang="en">
     <p rend="dataDesc">May contain an optional heading followed by a series of items, or a series of
       label and item pairs, the latter being optionally preceded by one or two specialized
     headings.</p>
-  </remarks>
-  <remarks ident="list-remarks" versionDate="2007-06-12" xml:lang="fr">
+  </remarks><remarks ident="list-remarks" versionDate="2007-06-12" xml:lang="fr">
     <p rend="dataDesc">Peut contenir un titre facultatif suivi d'une succession d'items ou d'une
       succession de couples constitués d'une étiquette et d'un item, ce dernier type pouvant être
       précédé par un ou deux titres spécifiques.</p>
-  </remarks>
-  <remarks ident="list-remarks" versionDate="2008-04-05" xml:lang="ja">
+  </remarks><remarks ident="list-remarks" versionDate="2008-04-05" xml:lang="ja">
     <p rend="dataDesc"> 一連の項目またはラベルと項目の組の前に、選択的にヘダーをとることが ある。一連のラベルと項目の組の場合、選択的に、ひとつ以上のヘダーが
       先行することがある。 </p>
-  </remarks>
-  <remarks ident="list-remarks" versionDate="2017-06-25" xml:lang="de">
+  </remarks><remarks ident="list-remarks" versionDate="2017-06-25" xml:lang="de">
       <p>Die Liste kann mit einer Überschrift <gi>head</gi> beginnen. Sie kann auch aus Paaren von Labels und Beschreibungen bestehen, 
           sodass dann für jeden Teil spezielle Überschriften (<gi>headLabel</gi>, <gi>headItem</gi>) verwendet werden können.</p>
-  </remarks>
-  <listRef>
+  </remarks><listRef>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#COLI">3.8. Lists</ref>
-  </listRef>
-</elementSpec><elementSpec module="core" xml:id="gi-item" ident="item">
+  </listRef></elementSpec><elementSpec module="core" xml:id="gi-item" ident="item">
   <gloss versionDate="2017-06-04" xml:lang="en">item</gloss>
   <gloss versionDate="2017-06-04" xml:lang="de">Listenpunkt</gloss>
   <desc versionDate="2005-01-14" xml:lang="en">contains one component of a list.</desc>
@@ -21475,10 +21829,10 @@ during the evolution of the encoded representation of that text.</p>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#CONADA">3.6.4. Dates and Times</ref>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ND.html#NDDATE">14.4. Dates</ref>
   </listRef></classSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="namesdates" xml:id="gi-orgName" ident="orgName"><gloss versionDate="2005-01-14" xml:lang="en">organization name</gloss><gloss versionDate="2007-12-20" xml:lang="ko">조직명</gloss><gloss versionDate="2007-05-02" xml:lang="zh-TW">組織名稱</gloss><gloss versionDate="2008-12-09" xml:lang="fr">nom d'organisation</gloss><gloss versionDate="2007-05-04" xml:lang="es">nombre de una organización</gloss><gloss versionDate="2007-01-21" xml:lang="it">nome di organizzazione</gloss><desc versionDate="2005-01-14" xml:lang="en">contains an organizational name.</desc><desc versionDate="2007-12-20" xml:lang="ko">조직명을 포함한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">包含一個組織名稱。</desc><desc versionDate="2008-04-05" xml:lang="ja">組織の名前を示す。</desc><desc versionDate="2009-03-19" xml:lang="fr">contient le nom d'une organisation.</desc><desc versionDate="2007-05-04" xml:lang="es">contiene el nombre de una organización.</desc><desc versionDate="2007-01-21" xml:lang="it">contiene il nome proprio di un'organizzazione.</desc><classes><memberOf key="att.global"/><memberOf key="att.cmc"/><memberOf key="att.datable"/><memberOf key="att.editLike"/><memberOf key="att.personal"/><memberOf key="att.typed"/><memberOf key="model.nameLike.agent"/></classes><content><macroRef key="macro.phraseSeq"/></content><attList><attDef ident="ref" mode="change" corresp="#tier-full">
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.recordPointer"/>
-          </datatype>
-        </attDef></attList><exemplum xml:lang="en">
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.recordPointer"/>
+            </datatype>
+          </attDef></attList><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-orgName-egXML-qv">About a year back, a question of considerable interest was agitated in the <orgName key="PAS1" type="voluntary"><placeName key="PEN">Pennsyla.</placeName> Abolition Society</orgName> [...]</egXML>
   </exemplum><exemplum versionDate="2008-04-06" xml:lang="fr">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-orgName-egXML-zd">
@@ -22570,22 +22924,22 @@ during the evolution of the encoded representation of that text.</p>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CC.html#CCAHPA">16.2.2. The Participant Description</ref>
   </listRef>
 </elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="namesdates" xml:id="gi-event" ident="event"><gloss versionDate="2008-12-09" xml:lang="en">event</gloss><gloss versionDate="2023-05-07" xml:lang="de">Ereignis</gloss><gloss versionDate="2008-12-09" xml:lang="fr">évènement</gloss><desc versionDate="2023-09-05" xml:lang="en">contains data relating to anything of significance that happens in time.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">任何未必是口說的或溝通上的現象或發生情況，例如偶然的噪音或其他影響溝通的事件。</desc><desc versionDate="2023-09-05" xml:lang="de">enthält Daten mit Bezug zu etwas Bemerkenswertem, das in der Zeit geschieht.</desc><desc versionDate="2023-09-04" xml:lang="es">contiene datos relacionados con cualquier tipo de evento significativo asociado con una persona, lugar u organización.</desc><desc versionDate="2023-05-07" xml:lang="fr">contient des données liées à tout type d'évènement significatif dans l'existence d'une personne, d'un lieu, d'un objet ou d'une organisation.</desc><desc versionDate="2023-09-04" xml:lang="it">contiene dati a proposito di un qualsiasi tipo di evento significativo associato con una persona, luogo o organizzazione.</desc><desc versionDate="2008-04-05" xml:lang="ja">人生における特定の重要事象の解説を示す。</desc><desc versionDate="2007-12-20" xml:lang="ko">개인, 장소, 또는 조직과 관련된 중요한 사건에 해당하는 데이터를 포함한다.</desc><classes><memberOf key="att.global"/><memberOf key="att.datable"/><memberOf key="att.editLike"/><memberOf key="att.locatable"/><memberOf key="att.naming"/><memberOf key="att.sortable"/><memberOf key="att.typed"/><memberOf key="model.eventLike"/></classes><content><sequence minOccurs="1" maxOccurs="1"><elementRef key="idno" minOccurs="0" maxOccurs="unbounded"/><classRef key="model.headLike" minOccurs="0" maxOccurs="unbounded"/><alternate minOccurs="1" maxOccurs="1"><classRef key="model.pLike" minOccurs="1" maxOccurs="unbounded"/><classRef key="model.labelLike" minOccurs="1" maxOccurs="unbounded"/><elementRef key="eventName" minOccurs="1" maxOccurs="unbounded"/></alternate><alternate minOccurs="0" maxOccurs="unbounded"><classRef key="model.noteLike"/><classRef key="model.biblLike"/><classRef key="model.ptrLike"/><elementRef key="linkGrp"/><elementRef key="link"/><elementRef key="idno"/></alternate><classRef key="model.eventLike" minOccurs="0" maxOccurs="unbounded"/><alternate minOccurs="0" maxOccurs="unbounded"><classRef key="model.personLike" minOccurs="1" maxOccurs="1"/><elementRef key="listPerson" minOccurs="1" maxOccurs="1"/></alternate><alternate minOccurs="0" maxOccurs="unbounded"><classRef key="model.placeLike" minOccurs="1" maxOccurs="1"/><elementRef key="listPlace" minOccurs="1" maxOccurs="1"/></alternate><classRef key="model.objectLike" minOccurs="0" maxOccurs="unbounded"/><alternate minOccurs="0" maxOccurs="unbounded"><elementRef key="relation" minOccurs="1" maxOccurs="1"/><elementRef key="listRelation" minOccurs="1" maxOccurs="1"/></alternate></sequence></content><constraintSpec ident="event-described" scheme="schematron" corresp="#tier-full">
-        <desc>An event points to a record, or describes one.</desc>
-        <constraint>
-          <sch:rule context="tei:event">
-            <sch:assert id="event-described" test="@ref or tei:eventName or tei:p">An event points to a record
-              (@ref) or describes one, with eventName or p.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="event-words" scheme="schematron" corresp="#tier-full">
-        <desc>An event's description isn't empty.</desc>
-        <constraint>
-          <sch:rule context="tei:event/tei:desc | tei:event/tei:p">
-            <sch:assert id="event-words" test="normalize-space(.) != ''">An event's description isn't
-              empty.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><exemplum xml:lang="en">
+          <desc>An event points to a record, or describes one.</desc>
+          <constraint>
+            <sch:rule context="tei:event">
+              <sch:assert id="event-described" test="@ref or tei:eventName or tei:p">An event points to a record
+                (@ref) or describes one, with eventName or p.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec><constraintSpec ident="event-words" scheme="schematron" corresp="#tier-full">
+          <desc>An event's description isn't empty.</desc>
+          <constraint>
+            <sch:rule context="tei:event/tei:desc | tei:event/tei:p">
+              <sch:assert id="event-words" test="normalize-space(.) != ''">An event's description isn't
+                empty.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-event-egXML-kl">
       <listEvent>
         <event when="1618-05-23" xml:id="SecondDefPrague" where="#Prague">
@@ -22716,14 +23070,14 @@ during the evolution of the encoded representation of that text.</p>
   </exemplum><listRef>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ND.html#NDPERSbp">14.3.1. Basic Principles</ref>
   </listRef></elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="namesdates" xml:id="gi-floruit" ident="floruit"><gloss versionDate="2008-12-09" xml:lang="en">floruit</gloss><gloss versionDate="2008-12-09" xml:lang="fr">période d'activité</gloss><desc versionDate="2006-06-21" xml:lang="en">contains information about a person's period of activity.</desc><desc versionDate="2007-12-20" xml:lang="ko">개인의 활동 기간에 대한 정보를 포함한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">包含個人活動時期的相關資訊。</desc><desc versionDate="2008-04-05" xml:lang="ja">人物が活躍した時期に関する情報を示す。</desc><desc versionDate="2009-03-19" xml:lang="fr">contient des informations sur la période d'activité d'une personne.</desc><desc versionDate="2007-05-04" xml:lang="es">contiene información relativa al periodo de actividad de una persona.</desc><desc versionDate="2007-01-21" xml:lang="it">contiene informazioni relative al periodod di attività di una persona.</desc><classes><memberOf key="att.global"/><memberOf key="att.datable"/><memberOf key="att.dimensions"/><memberOf key="att.editLike"/><memberOf key="model.persStateLike"/></classes><content><macroRef key="macro.phraseSeq"/></content><constraintSpec ident="floruit-dates" scheme="schematron" corresp="#tier-full">
-        <desc>A floruit gives its dates.</desc>
-        <constraint>
-          <sch:rule context="tei:floruit">
-            <sch:assert id="floruit-dates" test="@when or @notBefore or @notAfter or @from or @to or @period">A
-              floruit gives its dates in its attributes.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><exemplum xml:lang="und">
+          <desc>A floruit gives its dates.</desc>
+          <constraint>
+            <sch:rule context="tei:floruit">
+              <sch:assert id="floruit-dates" test="@when or @notBefore or @notAfter or @from or @to or @period">A
+                floruit gives its dates in its attributes.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec><exemplum xml:lang="und">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-floruit-egXML-yi" source="#UND">
       <floruit notBefore="1066" notAfter="1100"/>
     </egXML>
@@ -23143,43 +23497,23 @@ raiders and saved the town from capture.</desc>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD3">2.2.7. The Source Description</ref>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ND.html#NDGEOG">14.3.4. Places</ref>
   </listRef>
-</elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" module="namesdates" xml:id="gi-listRelation" ident="listRelation">
-  <desc versionDate="2011-12-02" xml:lang="en">provides information about relationships identified amongst people, places, and
-    organizations, either informally as prose or as formally expressed relation links.</desc>
-  <desc versionDate="2009-01-05" xml:lang="fr">donne des informations sur les relations qui existent
+</elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="namesdates" xml:id="gi-listRelation" ident="listRelation"><desc versionDate="2011-12-02" xml:lang="en">provides information about relationships identified amongst people, places, and
+    organizations, either informally as prose or as formally expressed relation links.</desc><desc versionDate="2009-01-05" xml:lang="fr">donne des informations sur les relations qui existent
     entre des personnes, des lieux, ou des organisations, soit de manière informelle en prose, soit
-    de manière formelle.</desc>
-  <desc versionDate="2007-12-20" xml:lang="ko">비공식적으로 산문체 또는 공식적으로 표현된 관계 연결을 통하여 사람, 장소, 그리고 조직 사이에
-    식별되는 관련성에 관한 정보를 제공한다.</desc>
-  <desc versionDate="2007-05-02" xml:lang="zh-TW">描述一項語言互動中參與者之間的關係或社交關聯。</desc>
-  <desc versionDate="2008-04-05" xml:lang="ja">人、場所、組織間の関係に関する情報を、散文またはリンクによる形式的表 現で示す。</desc>
-  <desc versionDate="2007-11-06" xml:lang="it">fornisce informazioni relative alle relazioni
+    de manière formelle.</desc><desc versionDate="2007-12-20" xml:lang="ko">비공식적으로 산문체 또는 공식적으로 표현된 관계 연결을 통하여 사람, 장소, 그리고 조직 사이에
+    식별되는 관련성에 관한 정보를 제공한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">描述一項語言互動中參與者之間的關係或社交關聯。</desc><desc versionDate="2008-04-05" xml:lang="ja">人、場所、組織間の関係に関する情報を、散文またはリンクによる形式的表 現で示す。</desc><desc versionDate="2007-11-06" xml:lang="it">fornisce informazioni relative alle relazioni
     identificate tra persone, luoghi e organizzazioni, a livello informale discorsivo o sotto forma
-    di legami formalmente espressi</desc>
-  <desc versionDate="2007-05-04" xml:lang="es">describe las relaciones o los lazos sociales entre los
-    participantes de una interacción verbal.</desc>
-  <classes>
-    <memberOf key="att.global"/>
-    <memberOf key="att.cmc"/>
-    <memberOf key="att.sortable"/>
-    <memberOf key="att.typed"/>
-    <memberOf key="model.biblPart"/>
-    <memberOf key="model.listLike"/>
-  </classes>
-  <content>
-    <sequence>
-      <classRef key="model.headLike" minOccurs="0" maxOccurs="unbounded"/>
-      <elementRef key="desc" minOccurs="0" maxOccurs="unbounded"/>
-      <alternate minOccurs="1" maxOccurs="1">
-        <classRef key="model.pLike"/>
-        <alternate minOccurs="1" maxOccurs="unbounded">
-          <elementRef key="relation" minOccurs="1" maxOccurs="1"/>
-          <elementRef key="listRelation" minOccurs="1" maxOccurs="1"/>
-        </alternate>
-      </alternate>
-    </sequence>
-  </content>
-  <exemplum xml:lang="en">
+    di legami formalmente espressi</desc><desc versionDate="2007-05-04" xml:lang="es">describe las relaciones o los lazos sociales entre los
+    participantes de una interacción verbal.</desc><classes><memberOf key="att.global"/><memberOf key="att.cmc"/><memberOf key="att.sortable"/><memberOf key="att.typed"/><memberOf key="model.biblPart"/><memberOf key="model.listLike"/></classes><content><sequence minOccurs="1" maxOccurs="1"><classRef key="model.headLike" minOccurs="0" maxOccurs="unbounded"/><elementRef key="desc" minOccurs="0" maxOccurs="unbounded"/><alternate minOccurs="1" maxOccurs="1"><classRef key="model.pLike"/><alternate minOccurs="1" maxOccurs="unbounded"><elementRef key="relation" minOccurs="1" maxOccurs="1"/><elementRef key="listRelation" minOccurs="1" maxOccurs="1"/></alternate></alternate></sequence></content><constraintSpec ident="relation-term" scheme="schematron" corresp="#tier-full">
+          <desc>A relation's type is one of the types to start with, or a new term of the vocabulary.</desc>
+          <constraint>
+            <sch:rule context="tei:relation[@name]">
+              <sch:let name="terms" value="('isTextOf', 'derivedFrom', 'versionOf', 'witnessOf', 'transcriptionOf',                 'in', 'isVerbatimOf', 'isVariantOf', 'isShorterVersionOf', 'translationOf', 'revisionOf',                 'abridgementOf', 'augmentationOf', 'adaptationOf', 'basedOn', 'origin', 'ownedBy', 'scribe',                 'artist', 'author', 'enactedAt', 'tookPlaceAt', 'holdsOfficeIn', 'lists', 'sameScribeAs',                 'sameHandAs')"/>
+              <sch:assert id="relation-term" role="warning" test="@name = $terms">The relation type <sch:value-of select="@name"/> isn't among the guide's types: check its spelling, or add it to the application's
+                vocabulary.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-listRelation-egXML-ln" source="#UND">
       <listPerson>
         <person xml:id="pp1">
@@ -23200,8 +23534,7 @@ raiders and saved the town from capture.</desc>
     </egXML>
     <p>The persons with identifiers pp1 and pp2 are the parents of pp3 and pp4; they are also married to
       each other; pp1 is the employer of pp3, pp5, pp6, and pp7.</p>
-  </exemplum>
-  <exemplum versionDate="2017-06-30" xml:lang="en">
+  </exemplum><exemplum versionDate="2017-06-30" xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-listRelation-egXML-te" source="#UND">
       <listPerson>
         <person xml:id="en_pp1">
@@ -23223,15 +23556,13 @@ raiders and saved the town from capture.</desc>
       </listRelation>
     </egXML>
     <p>The persons with identifiers en_pp1 and en_pp2 live in en_pl1.</p>
-  </exemplum>
-  <exemplum versionDate="2008-04-06" xml:lang="fr">
+  </exemplum><exemplum versionDate="2008-04-06" xml:lang="fr">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-listRelation-egXML-sa">
       <listRelation>
         <p>Tous les locuteurs sont membres de la famille Ceruli, et sont nés à Naples.</p>
       </listRelation>
     </egXML>
-  </exemplum>
-  <exemplum xml:lang="zh-TW">
+  </exemplum><exemplum xml:lang="zh-TW">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-listRelation-egXML-kh" source="#UND">
       <listPerson>
         <person xml:id="zh-tw_pp1">
@@ -23247,38 +23578,31 @@ raiders and saved the town from capture.</desc>
         <relation name="employer" active="#zh-tw_pp1" passive="#p3 #p5 #p6 #p7"/>
       </listRelation>
     </egXML>
-  </exemplum>
-  <exemplum xml:lang="zh-TW">
+  </exemplum><exemplum xml:lang="zh-TW">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-listRelation-egXML-pk">
       <listRelation>
         <p>所有說話者都是林家的人，生於台北板橋。</p>
       </listRelation>
     </egXML>
-  </exemplum>
-  <exemplum xml:lang="en">
+  </exemplum><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-listRelation-egXML-lp">
       <listRelation>
         <p>All speakers are members of the Ceruli family, born in Naples.</p>
       </listRelation>
     </egXML>
-  </exemplum>
-  <remarks ident="listRelation-remarks" versionDate="2011-12-02" xml:lang="en">
+  </exemplum><remarks ident="listRelation-remarks" versionDate="2011-12-02" xml:lang="en">
     <p rend="dataDesc">May contain a prose description organized as paragraphs, or a sequence of
         <gi>relation</gi> elements.</p>
-  </remarks>
-  <remarks ident="listRelation-remarks" versionDate="2008-12-09" xml:lang="fr">
+  </remarks><remarks ident="listRelation-remarks" versionDate="2008-12-09" xml:lang="fr">
     <p rend="dataDesc">Peut contenir soit une description en prose organisée en paragraphes, soit
       une suite d'éléments <gi>relation</gi>.</p>
-  </remarks>
-  <remarks ident="listRelation-remarks" versionDate="2008-04-05" xml:lang="ja">
+  </remarks><remarks ident="listRelation-remarks" versionDate="2008-04-05" xml:lang="ja">
     <p rend="dataDesc"> 段落または一連の要素<gi>relation</gi>による散文を含むかもしれない。 </p>
-  </remarks>
-  <listRef>
+  </remarks><listRef>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ND.html#NDPERSREL">14.3.2.3. Personal Relationships</ref>
     
     
-  </listRef>
-</elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" ident="location" xml:id="gi-location" module="namesdates">
+  </listRef></elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" ident="location" xml:id="gi-location" module="namesdates">
   <gloss versionDate="2008-12-09" xml:lang="en">location</gloss>
   <gloss versionDate="2008-12-09" xml:lang="fr">localisation</gloss>
   <desc versionDate="2012-02-14" xml:lang="en">defines the location of a place as a set of geographical coordinates, in terms of other named geo-political entities, or as an address.</desc>
@@ -23561,39 +23885,23 @@ raiders and saved the town from capture.</desc>
         linguistique, ou une personne citée dans une source historique.</desc><desc versionDate="2007-05-04" xml:lang="es">proporciona información relativa a un individuo específico, p.ej. un participante de una interacción
         verbal o una persona identificada por una fuente histórica.</desc><desc versionDate="2007-01-21" xml:lang="it">fornisce informazioni relative a un soggetto specifico, come i partecipanti a un'interazione verbale o le
         persone identificate da una fonte storica</desc><classes><memberOf key="att.global"/><memberOf key="att.datable"/><memberOf key="att.editLike"/><memberOf key="att.sortable"/><memberOf key="model.personLike"/></classes><content><alternate minOccurs="1" maxOccurs="1"><classRef key="model.pLike" minOccurs="1" maxOccurs="unbounded"/><alternate minOccurs="0" maxOccurs="unbounded"><classRef key="model.personPart"/><classRef key="model.global"/><classRef key="model.ptrLike"/></alternate></alternate></content><constraintSpec ident="person-id" scheme="schematron" corresp="#tier-common">
-        <desc>A person listed in the standOff is a record or a placeholder for one.</desc>
-        <constraint>
-          <sch:rule context="tei:standOff//tei:listPerson/tei:person">
-            <sch:assert id="person-id" test="matches(@xml:id, '^(PERS\.\d+|solemne_person_\d+|new_person_\S+)$')">A
-              person in the standOff has an @xml:id: a record's (PERS. and a number, or solemne_person_ and a
-              number), or a placeholder's (new_person_ and a name).</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="person-main-name" scheme="schematron" corresp="#tier-common">
-        <desc>A new person has one main name.</desc>
-        <constraint>
-          <sch:rule context="tei:standOff//tei:listPerson/tei:person">
-            <sch:assert id="person-main-name" test="count(tei:persName[@type = 'main']) = 1 or               not(starts-with(@xml:id, 'new_person_'))">A new person has one main name (persName typed
-              main).</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="links-list" scheme="schematron" corresp="#tier-full">
-        <desc>A note of links holds a list of links.</desc>
-        <constraint>
-          <sch:rule context="tei:standOff//tei:note[@type = 'links']">
-            <sch:assert id="links-list" test="tei:list[@type = 'links'] and not(text()[normalize-space()])">A note
-              of links holds a list of links, and no words of its own.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="link-target" scheme="schematron" corresp="#tier-full">
-        <desc>A link has a target and words.</desc>
-        <constraint>
-          <sch:rule context="tei:standOff//tei:list[@type = 'links']/tei:item">
-            <sch:assert id="link-target" test="tei:ref[@target][normalize-space(.) != '']">A link has a @target and
-              words.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><attList><attDef ident="role" usage="opt">
+          <desc>A person listed in the standOff is a record or a placeholder for one.</desc>
+          <constraint>
+            <sch:rule context="tei:standOff//tei:listPerson/tei:person">
+              <sch:assert id="person-id" test="matches(@xml:id, '^(PERS\.\d+|solemne_person_\d+|new_person_\S+)$')">A
+                person in the standOff has an @xml:id: a record's (PERS. and a number, or solemne_person_ and a
+                number), or a placeholder's (new_person_ and a name).</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec><constraintSpec ident="person-main-name" scheme="schematron" corresp="#tier-common">
+          <desc>A new person has one main name.</desc>
+          <constraint>
+            <sch:rule context="tei:standOff//tei:listPerson/tei:person">
+              <sch:assert id="person-main-name" test="count(tei:persName[@type = 'main']) = 1 or                 not(starts-with(@xml:id, 'new_person_'))">A new person has one main name (persName typed
+                main).</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec><attList><attDef ident="role" usage="opt">
       <desc versionDate="2005-12-14" xml:lang="en">specifies a primary role or classification for the person.</desc>
       <desc versionDate="2007-12-20" xml:lang="ko">사람에 대한 주요 역할 또는 분류를 명시한다.</desc>
       <desc versionDate="2007-05-02" xml:lang="zh-TW">說明該人物的主要角色或分類。</desc>
@@ -23832,15 +24140,27 @@ raiders and saved the town from capture.</desc>
       </sch:rule>
     </constraint>
   </constraintSpec><attList><attDef ident="type" mode="change" corresp="#tier-full">
-          <valList type="closed" mode="replace" xml:id="relation-type-unknown" corresp="#tier-full">
-            <valItem ident="observation">
-              <desc>what a witness shows</desc>
-            </valItem>
-            <valItem ident="judgement">
-              <desc>what holds of a version or a work, with its method</desc>
-            </valItem>
-          </valList>
-        </attDef><attList org="choice"><attDef ident="active">
+            <valList type="closed" mode="replace" xml:id="relation-type-unknown" corresp="#tier-full">
+              <valItem ident="observation">
+                <desc>what a witness shows</desc>
+              </valItem>
+              <valItem ident="judgement">
+                <desc>what holds of a version or a work, with its method</desc>
+              </valItem>
+            </valList>
+          </attDef><attDef ident="cert" mode="change" corresp="#tier-full">
+            <valList type="closed" mode="replace" xml:id="relation-certainty" corresp="#tier-full">
+              <valItem ident="high">
+                <desc>certain</desc>
+              </valItem>
+              <valItem ident="medium">
+                <desc>probable</desc>
+              </valItem>
+              <valItem ident="low">
+                <desc>possible</desc>
+              </valItem>
+            </valList>
+          </attDef><attList org="choice"><attDef ident="active">
         <desc versionDate="2005-07-24" xml:lang="en">identifies the <soCalled>active</soCalled> participants in a non-mutual relationship, or all the participants in a mutual one.</desc>
         <desc versionDate="2008-04-06" xml:lang="es">identifica los participantes activos en una relación no-mutua, o todos los participantes de una mutua.</desc>
         <desc versionDate="2008-03-30" xml:lang="fr">identifie les participants actifs dans une relation à sens unique, ou tous les participants dans une relation réciproque.</desc>
@@ -23852,7 +24172,13 @@ raiders and saved the town from capture.</desc>
         <desc versionDate="2009-03-19" xml:lang="fr">fournit une liste de participants entre lesquels la relation est réciproque.</desc>
         <desc versionDate="2007-11-06" xml:lang="it">fornisce una lista di partecipanti tra i quali c'è una relazione paritaria.</desc>
         <datatype maxOccurs="unbounded"><dataRef key="teidata.pointer"/></datatype>
-      </attDef></attList><attDef ident="name" usage="req"><desc versionDate="2005-10-27" xml:lang="en">supplies a name for the kind of relationship of which this is an instance.</desc><desc versionDate="2007-12-20" xml:lang="ko">이것이 실례인 관련성 종류에 대한 이름을 제공한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">提供該關係的確切名稱。</desc><desc versionDate="2008-04-05" xml:lang="ja">当該関係の種類名を示す。</desc><desc versionDate="2007-06-12" xml:lang="fr">fournit un nom pour le type de relation dont elle est une instance.</desc><desc versionDate="2007-05-04" xml:lang="es">proporciona un nombre para elipo de relación que representan.</desc><desc versionDate="2007-01-21" xml:lang="it">assegna un nome al tipo di relazione che rappresenta.</desc><datatype><dataRef key="teidata.enumerated"/></datatype></attDef><attDef ident="passive" usage="opt">
+      </attDef></attList><attDef ident="name" usage="req"><desc versionDate="2005-10-27" xml:lang="en">supplies a name for the kind of relationship of which this is an instance.</desc><desc versionDate="2007-12-20" xml:lang="ko">이것이 실례인 관련성 종류에 대한 이름을 제공한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">提供該關係的確切名稱。</desc><desc versionDate="2008-04-05" xml:lang="ja">当該関係の種類名を示す。</desc><desc versionDate="2007-06-12" xml:lang="fr">fournit un nom pour le type de relation dont elle est une instance.</desc><desc versionDate="2007-05-04" xml:lang="es">proporciona un nombre para elipo de relación que representan.</desc><desc versionDate="2007-01-21" xml:lang="it">assegna un nome al tipo di relazione che rappresenta.</desc><datatype><dataRef key="teidata.enumerated"/></datatype><valList type="semi"><valItem ident="isTextOf"><desc>a unit is a text of another (fixed)</desc></valItem><valItem ident="derivedFrom"><desc>a unit derives from another, through a work, version or
+                  transcription, the via (fixed)</desc></valItem><valItem ident="versionOf"><desc>a version is a version of a work (fixed)</desc></valItem><valItem ident="witnessOf"><desc>a witness is a witness of a version or a work (fixed)</desc></valItem><valItem ident="transcriptionOf"><desc>a transcription is a transcription of a witness
+                  (fixed)</desc></valItem><valItem ident="in"><desc>a witness is in a manuscript or a publication, at folios or pages
+                  (fixed)</desc></valItem><valItem ident="isVerbatimOf"><desc>a unit is a text of another, word for word</desc></valItem><valItem ident="isVariantOf"><desc>a unit is a text of another, with variants</desc></valItem><valItem ident="isShorterVersionOf"><desc>a unit is a text of another, shortened</desc></valItem><valItem ident="translationOf"><desc>a version translates another</desc></valItem><valItem ident="revisionOf"><desc>a version revises another</desc></valItem><valItem ident="abridgementOf"><desc>a version abridges another</desc></valItem><valItem ident="augmentationOf"><desc>a version augments another</desc></valItem><valItem ident="adaptationOf"><desc>a work adapts another</desc></valItem><valItem ident="basedOn"><desc>a work is based on another</desc></valItem><valItem ident="origin"><desc>a manuscript or unit was made at a place or institution</desc></valItem><valItem ident="ownedBy"><desc>a manuscript or unit was owned by a person or institution, with
+                  dates</desc></valItem><valItem ident="scribe"><desc>a hand was a person's</desc></valItem><valItem ident="artist"><desc>a decoration was a person's or a workshop's</desc></valItem><valItem ident="author"><desc>a work's author was a person</desc></valItem><valItem ident="enactedAt"><desc>a work was enacted at an event, a council's canons at the
+                  council</desc></valItem><valItem ident="tookPlaceAt"><desc>an event took place at a place</desc></valItem><valItem ident="holdsOfficeIn"><desc>a person held office in an institution, with a role and
+                  dates</desc></valItem><valItem ident="lists"><desc>a register item lists a chapter</desc></valItem><valItem ident="sameScribeAs"><desc>two hands are the same scribe's (symmetric)</desc></valItem><valItem ident="sameHandAs"><desc>two hands are the same (symmetric)</desc></valItem></valList></attDef><attDef ident="passive" usage="opt">
       <desc versionDate="2005-01-14" xml:lang="en">identifies the <soCalled>passive</soCalled> participants in a non-mutual relationship.</desc>
       <desc versionDate="2007-12-20" xml:lang="ko">비상호적 관련성에서 <soCalled>passive</soCalled> 참여자를 식별한다.</desc>
       <desc versionDate="2007-05-02" xml:lang="zh-TW">指出非對等關係中的<q>被動</q>關係人。</desc>
@@ -28859,6 +29185,219 @@ may be empty.</p>
   <listRef>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/TC.html#TCAPLL">13.1. The Apparatus Entry, Readings, and Witnesses</ref>
   </listRef>
+</elementSpec><elementSpec module="iso-fs" xml:id="gi-fs" ident="fs">
+  <gloss versionDate="2007-07-04" xml:lang="en">feature structure</gloss>
+  <gloss versionDate="2007-12-20" xml:lang="ko">자질 구조</gloss>
+  <gloss versionDate="2007-05-02" xml:lang="zh-TW">功能結構</gloss>
+  <gloss versionDate="2007-06-12" xml:lang="fr">structure de traits</gloss>
+  <gloss versionDate="2007-05-04" xml:lang="es">Estructura de rasgo</gloss>
+  <gloss versionDate="2007-01-21" xml:lang="it">struttura dei tratti</gloss>
+  <desc versionDate="2005-01-14" xml:lang="en">represents a <term>feature structure</term>, that is, a
+  collection of feature-value pairs organized as a
+structural unit.</desc>
+  <desc versionDate="2007-12-20" xml:lang="ko"><term>feature structure</term>, 즉, 구조화된 단위로서 구성된 자질-값 쌍의 집합을 표시한다.</desc>
+  <desc versionDate="2007-05-02" xml:lang="zh-TW">表示一個<term>功能結構</term>，即組織為一個結構單元的功能-值配對集合。</desc>
+  <desc versionDate="2008-04-05" xml:lang="ja"><term>素性構造</term>を示す。すなわち、構造単位となる素性名-素性値の
+  組の集合。</desc>
+  <desc versionDate="2007-06-12" xml:lang="fr">représente une <term>structure de traits</term>,
+      c'est-à-dire un ensemble de paires trait-valeur organisé comme une unité structurelle.</desc>
+  <desc versionDate="2007-05-04" xml:lang="es">representa una <term>feature structure (estructura de rasgos)</term>, es decir, un conjunto de pares de valores de rasgos organizados como una unidad estructural.</desc>
+  <desc versionDate="2007-01-21" xml:lang="it">rappresenta una <term>feature structure</term>, cioè una raccolta di coppie di valori tratti organizzata come una unità strutturale.</desc>
+  <classes>
+    <memberOf key="att.global"/>
+    <memberOf key="att.cmc"/>
+    <memberOf key="att.datcat"/>
+    <memberOf key="model.featureVal.complex"/>
+    <memberOf key="model.global.meta"/>
+  </classes>
+  <content>
+    
+      <elementRef key="f" minOccurs="0" maxOccurs="unbounded"/>
+    
+  </content>
+  <attList>
+    <attDef ident="type" usage="opt">
+      <desc versionDate="2005-01-14" xml:lang="en">specifies the type of the feature structure.</desc>
+      <desc versionDate="2007-12-20" xml:lang="ko">자질 구조의 유형을 명시한다.</desc>
+      <desc versionDate="2007-05-02" xml:lang="zh-TW">功能結構的類型。</desc>
+      <desc versionDate="2008-04-05" xml:lang="ja">当該素性構造の種類を示す。</desc>
+      <desc versionDate="2007-06-12" xml:lang="fr">spécifie le type de la structure de traits.</desc>
+      <desc versionDate="2007-05-04" xml:lang="es">especifica el tipo de estructura de rasgo.</desc>
+      <desc versionDate="2007-01-21" xml:lang="it">specifica il tipo di struttura dei tratti.</desc>
+      <datatype><dataRef key="teidata.enumerated"/></datatype>
+    </attDef>
+    <attDef ident="feats" usage="opt">
+      <gloss versionDate="2007-07-04" xml:lang="en">features</gloss>
+      <gloss versionDate="2007-12-20" xml:lang="ko">자질</gloss>
+      <gloss versionDate="2008-04-06" xml:lang="es">características</gloss>
+      <gloss versionDate="2008-03-30" xml:lang="fr">traits</gloss>
+      <gloss versionDate="2007-11-06" xml:lang="it">tratti</gloss>
+      <desc versionDate="2005-01-14" xml:lang="en">references the feature-value specifications making up this feature structure.</desc>
+      <desc versionDate="2007-12-20" xml:lang="ko">자질 구조를 구성하는 자질-값 명세를 참조한다.</desc>
+      <desc versionDate="2007-05-02" xml:lang="zh-TW">參照組成該功能結構的功能值細節。</desc>
+      <desc versionDate="2008-04-05" xml:lang="ja">当該素性構造を構成する素性定義を参照する。</desc>
+      <desc versionDate="2007-06-12" xml:lang="fr">référence les spécifications trait-valeur qui
+          caractérisent cette structure de traits.</desc>
+      <desc versionDate="2007-05-04" xml:lang="es">indica las especificaciones de valor de rasgo que constituyen esta estructura de
+rasgo.</desc>
+      <desc versionDate="2007-01-21" xml:lang="it">indica le specifiche del valore dei tratti che formano questa struttura.</desc>
+      <datatype maxOccurs="unbounded"><dataRef key="teidata.pointer"/></datatype>
+      <remarks ident="fs-attr.feats-remarks" versionDate="2005-01-14" xml:lang="en">
+        <p>May be used either instead of having features as content, or in
+  addition. In the latter case, the features referenced and contained
+  are unified. </p>
+      </remarks>
+      <remarks ident="fs-attr.feats-remarks" versionDate="2007-06-12" xml:lang="fr">
+        <p>Peut être utilisé soit à la place de traits pris comme contenu, soit en plus.
+                        Dans ce dernier cas, les traits référencés et contenus sont unifiés. </p>
+      </remarks>
+      <remarks ident="fs-attr.feats-remarks" versionDate="2008-04-05" xml:lang="ja">
+        <p>
+	素性を内容として含まない、または追加する際に使われるかもしれな
+	い。後者の場合、参照された素性と既存の素性は統合される。
+	 </p>
+      </remarks>
+    </attDef>
+  </attList>
+  <exemplum xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-fs-egXML-iv" source="#UND">
+      <fs type="agreement_structure">
+        <f name="person">
+          <symbol value="third"/>
+        </f>
+        <f name="number">
+          <symbol value="singular"/>
+        </f>
+      </fs>
+    </egXML>
+  </exemplum>
+  <exemplum versionDate="2008-04-06" xml:lang="fr">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-fs-egXML-fi" source="#UND">
+      <fs type="agreement_structure">
+        <f name="person">
+          <symbol value="third"/>
+        </f>
+        <f name="number">
+          <symbol value="singular"/>
+        </f>
+      </fs>
+    </egXML>
+  </exemplum>
+  <listRef>
+    <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/FS.html#FSBI">19.2. Elementary Feature Structures and the Binary
+Feature Value</ref>
+  </listRef>
+</elementSpec><elementSpec module="iso-fs" xml:id="gi-f" ident="f">
+  <gloss versionDate="2007-07-05" xml:lang="en">feature</gloss>
+  <gloss versionDate="2007-12-20" xml:lang="ko">자질</gloss>
+  <gloss versionDate="2007-05-02" xml:lang="zh-TW">功能</gloss>
+  <gloss versionDate="2007-06-12" xml:lang="fr">trait</gloss>
+  <gloss versionDate="2007-05-04" xml:lang="es">Rasgo</gloss>
+  <gloss versionDate="2007-01-21" xml:lang="it">un tratto</gloss>
+  <desc versionDate="2005-01-14" xml:lang="en">represents a <term>feature value specification</term>, that
+  is, the association of a name with a value of any of several different types.</desc>
+  <desc versionDate="2007-12-20" xml:lang="ko"><term>feature value specification</term>, 즉, 이름과 몇 가지 다른 유형의 값을 연결시킨다.</desc>
+  <desc versionDate="2007-05-02" xml:lang="zh-TW">表示一個<term>功能值細節</term>，即一項名稱與任一種不同類型值之間的關連。</desc>
+  <desc versionDate="2008-04-05" xml:lang="ja">素性値定義を示す。すなわち、素性名とその様々な値を示す。</desc>
+  <desc versionDate="2007-06-12" xml:lang="fr">représente une <term>spécification
+      trait-valeur</term>, c'est-à-dire l'association d'un nom avec une valeur d’un type quelconque
+      parmi plusieurs.</desc>
+  <desc versionDate="2007-05-04" xml:lang="es">representa una <term>feature value specification (especificación de valor de rasgo)</term>, es decir, la asociación de un nombre con un valor de cualquier de los diferentes tipos.</desc>
+  <desc versionDate="2007-01-21" xml:lang="it">rappresenta una <term>feature value specification</term>, cioè l'associazione di un nome con il valore di uno qualsiasi di diversi tratti.</desc>
+  <classes>
+    <memberOf key="att.global"/>
+    <memberOf key="att.datcat"/>
+  </classes>
+  <content>
+    <alternate minOccurs="1" maxOccurs="1">
+      <textNode/>
+      <classRef key="model.featureVal"/>
+    </alternate>    
+  </content>
+  <attList>
+    <attDef ident="name" usage="req">
+      <desc versionDate="2012-10-10" xml:lang="en">a single word which follows the rules defining a
+        legal XML name (see <ptr target="https://www.w3.org/TR/REC-xml/#dt-name"/>), providing a name for the feature.</desc>
+      <desc versionDate="2007-12-20" xml:lang="ko">자질에 대한 이름을 제공한다.</desc>
+      <desc versionDate="2007-05-02" xml:lang="zh-TW">功能名稱</desc>
+      <desc versionDate="2008-04-05" xml:lang="ja">当該素性の名前を示す。</desc>
+      <desc versionDate="2007-06-12" xml:lang="fr">donne un nom pour le trait.</desc>
+      <desc versionDate="2007-05-04" xml:lang="es">proporciona un nombre para un rasgo.</desc>
+      <desc versionDate="2007-01-21" xml:lang="it">fornisce il nome del tratto.</desc>
+      <datatype><dataRef key="teidata.name"/></datatype>
+    </attDef>
+    <attDef ident="fVal" usage="opt">
+      <gloss versionDate="2007-07-04" xml:lang="en">feature value</gloss>
+      <gloss versionDate="2007-12-20" xml:lang="ko">자질 값</gloss>
+      <gloss versionDate="2008-04-06" xml:lang="es">valor del rasgo</gloss>
+      <gloss versionDate="2008-03-30" xml:lang="fr">valeur de traits</gloss>
+      <gloss versionDate="2007-11-06" xml:lang="it">valore del tratto</gloss>
+      <desc versionDate="2005-01-14" xml:lang="en">references any element which can be used to represent the
+  value of a feature.</desc>
+      <desc versionDate="2007-12-20" xml:lang="ko">자질의 값을 표시할 수 있는 요소를 참조한다.</desc>
+      <desc versionDate="2007-05-02" xml:lang="zh-TW">參照任何可用來代表功能值的元素。</desc>
+      <desc versionDate="2008-04-05" xml:lang="ja">素性値を表す要素を参照する。</desc>
+      <desc versionDate="2007-06-12" xml:lang="fr">référence n'importe quel élément pouvant être
+          utilisé pour représenter la valeur d'un trait.</desc>
+      <desc versionDate="2007-05-04" xml:lang="es">indica cualquier elemento que puede ser usado para representar el valor de un rasgo.</desc>
+      <desc versionDate="2007-01-21" xml:lang="it">indica un qualsiasi elemento che può essere usato come valore di un tratto.</desc>
+      <datatype><dataRef key="teidata.pointer"/></datatype>
+      <remarks ident="f-attr.fVal-remarks" versionDate="2005-01-14" xml:lang="en">
+        <p>If this attribute is supplied as well as content, the value referenced is to be unified with  that contained.</p>
+      </remarks>
+      <remarks ident="f-attr.fVal-remarks" versionDate="2007-06-12" xml:lang="fr">
+        <p>Si cet attribut est fourni en plus d'un contenu, la valeur référencée doit
+                        être unifiée avec ce contenu.</p>
+      </remarks>
+      <remarks ident="f-attr.fVal-remarks" versionDate="2008-04-05" xml:lang="ja">
+        <p>
+	当該属性の値は、参照された要素内容とされる。
+	</p>
+      </remarks>
+    </attDef>
+  </attList>
+  <exemplum xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-f-egXML-ct" source="#UND">
+      <f name="gender">
+        <symbol value="feminine"/>
+      </f>
+    </egXML>
+  </exemplum>
+  <exemplum versionDate="2008-04-06" xml:lang="fr">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-f-egXML-vc" source="#UND">
+      <f name="gender">
+        <symbol value="feminine"/>
+      </f>
+    </egXML>
+  </exemplum>
+  <exemplum xml:lang="en">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-f-egXML-sp">
+      <fs>
+        <f name="voice">active</f>
+        <f name="tense">SimPre</f>
+      </fs>
+    </egXML>
+  </exemplum>
+  <remarks ident="f-remarks" versionDate="2012-04-20" xml:lang="en">
+    <p>The content of <gi>f</gi> may be textual, with the assumption
+    that the data type of the feature value is determined by the
+    schema—this is the approach used in many
+    language-technology-oriented projects and recommendations.</p>
+  </remarks>
+  <remarks ident="f-remarks" versionDate="2007-06-12" xml:lang="fr">
+    <p>Si l'élément est vide, une valeur doit être fournie pour l'attribut
+            <att>fVal</att>.</p>
+  </remarks>
+  <remarks ident="f-remarks" versionDate="2008-04-05" xml:lang="ja">
+    <p>
+    参照先の要素が空要素の場合、属性<att>fVal</att>が示す対象となる値
+    が用意されていなければならない。
+    </p>
+  </remarks>
+  <listRef>
+    <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/FS.html#FSBI">19.2. Elementary Feature Structures and the Binary
+Feature Value</ref>
+  </listRef>
 </elementSpec><macroSpec rend="add" module="derived-module-solemne" ident="solemne.structure" mode="add" xml:id="division-holds-paragraphs-and-divisions" corresp="#tier-required">
         <desc>What a division or the body holds: headings with either paragraphs or divisions, never both, and page
           breaks, notes and gaps between them.</desc>
@@ -28883,7 +29422,7 @@ may be empty.</p>
         <content>
           <dataRef name="token" restriction="(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?|(GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV)_[0-9]+(-[0-9]+)?(_[0-9]+(-[0-9]+)?)?|[A-Z][A-Za-z]*(-[A-Z][A-Za-z]*)*_[A-Za-z][A-Za-z0-9]*(\.[A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?)|https?://scta\.info/resource/\S+"/>
         </content>
-      </dataSpec><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="ST" xml:id="DSTTEI2" ident="tei" type="core"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="CMC" ident="cmc"/><moduleSpec n="CO" xml:id="DCO" ident="core"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="HD" xml:id="DHD" ident="header"/><moduleSpec n="DS" xml:id="DDS" ident="textstructure"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="ND" xml:id="DND" ident="namesdates"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="MS" xml:id="DMSD2" ident="msdescription"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="SA" xml:id="DSA" ident="linking"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="PH" xml:id="DPH" ident="transcr"/><moduleSpec n="TC" xml:id="DTC" ident="textcrit"/></schemaSpec>
+      </dataSpec><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="ST" xml:id="DSTTEI2" ident="tei" type="core"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="CMC" ident="cmc"/><moduleSpec n="CO" xml:id="DCO" ident="core"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="HD" xml:id="DHD" ident="header"/><moduleSpec n="DS" xml:id="DDS" ident="textstructure"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="ND" xml:id="DND" ident="namesdates"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="MS" xml:id="DMSD2" ident="msdescription"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="SA" xml:id="DSA" ident="linking"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="PH" xml:id="DPH" ident="transcr"/><moduleSpec n="TC" xml:id="DTC" ident="textcrit"/><moduleSpec n="FS" xml:id="DFS" ident="iso-fs"/></schemaSpec>
       </div>
     </body>
     <back>
