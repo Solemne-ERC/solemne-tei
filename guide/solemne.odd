@@ -7,13 +7,17 @@
       <titleStmt>
         <title>The Solemne TEI schema</title>
         <author>Gleb Schmidt</author>
+        <author>Friederike Voit</author>
+        <author>Sven Meeder</author>
       </titleStmt>
       <publicationStmt>
         <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University</publisher>
         <availability>
-          <licence target="https://opensource.org/license/mit">MIT. The generated schema contains material
-            of TEI P5 and TEI's stylesheets (the TEI Consortium, BSD 2-Clause), of the Bodleian Libraries'
-            consolidated TEI schema (BSD 2-Clause) and of SchXslt2 (David Maus, MIT).</licence>
+          <licence target="https://creativecommons.org/licenses/by/4.0/">This ODD, the guide: CC BY 4.0.</licence>
+          <licence target="https://opensource.org/license/mit">The schema generated from it: MIT. It contains
+            material of TEI P5 (the TEI Consortium: CC BY 3.0 and BSD 2-Clause) and of the Bodleian Libraries'
+            consolidated TEI schema (BSD 2-Clause), and its compiled Schematron the code of SchXslt2 (David Maus,
+            MIT): their notices are at the top of each generated file.</licence>
         </availability>
       </publicationStmt>
       <sourceDesc>

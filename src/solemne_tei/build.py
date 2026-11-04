@@ -15,10 +15,13 @@ from __future__ import annotations
 import hashlib
 import shutil
 import tempfile
+import textwrap
 import urllib.request
 import zipfile
 from dataclasses import dataclass
 from pathlib import Path
+
+from lxml import etree
 
 from solemne_tei.logs import logger
 from solemne_tei.schema_files import GENERATED, ODD, RELAXNG, SCHEMA_DIR, SCHEMATRON, SCHEMATRON_XSLT, sha256, stamp
@@ -31,6 +34,7 @@ CACHE_DIR = REPOSITORY / "build" / "tei"
 MSDESC_COMPILED = "msdesc.compiled.odd"
 
 SPDX = "<!-- SPDX-License-Identifier: MIT -->"
+TEI = "http://www.tei-c.org/ns/1.0"
 
 
 @dataclass(frozen=True)
@@ -72,7 +76,14 @@ SCHXSLT = Source(
     "8afe545678c2360c56dea24a5b3471e7417e136bc756516ceeec4151557c070a",
     "MIT",
 )
-SOURCES = (P5SUBSET, STYLESHEETS, MSDESC, SCHXSLT)
+MSDESC_LICENCE = Source(
+    "msdesc-LICENSE",
+    "7e8b89c",
+    "https://raw.githubusercontent.com/msDesc/consolidated-tei-schema/7e8b89c17e8dfff086dd2ef6e2322f580baf7a64/LICENSE",
+    "bdc76293925bdd0be036cfded22dcaa863713fb25b7b3f16be76f3735f9f394d",
+    "BSD 2-Clause",
+)
+SOURCES = (P5SUBSET, STYLESHEETS, MSDESC, MSDESC_LICENCE, SCHXSLT)
 
 
 class BuildError(RuntimeError):
@@ -118,6 +129,8 @@ class Tools:
     stylesheets: Path
     msdesc: Path
     transpiler: Path
+    tei_licence: str
+    msdesc_licence: str
     schxslt_licence: str
 
     @classmethod
@@ -130,8 +143,34 @@ class Tools:
         licences = sorted(schxslt.glob("*/LICENSE*"))
         if not transpilers or not licences:
             raise BuildError(f"no transpile.xsl or LICENSE in {schxslt}")
-        licence = licences[0].read_text("utf-8")
-        return cls(paths[P5SUBSET.name], stylesheets, paths[MSDESC.name], transpilers[0], licence)
+        return cls(
+            p5subset=paths[P5SUBSET.name],
+            stylesheets=stylesheets,
+            msdesc=paths[MSDESC.name],
+            transpiler=transpilers[0],
+            tei_licence=tei_bsd_licence(paths[P5SUBSET.name]),
+            msdesc_licence=paths[MSDESC_LICENCE.name].read_text("utf-8"),
+            schxslt_licence=licences[0].read_text("utf-8"),
+        )
+
+
+def tei_bsd_licence(p5subset: Path) -> str:
+    """TEI P5's BSD 2-Clause licence, as its header gives it, in plain text."""
+    for _, el in etree.iterparse(str(p5subset), tag=f"{{{TEI}}}licence"):
+        if "BSD" not in (el.get("target") or ""):
+            continue
+        parts = []
+        for child in el:
+            if etree.QName(child).localname == "list":
+                parts.extend(textwrap.fill("* " + _words(item), 100, subsequent_indent="  ") for item in child)
+            else:
+                parts.append(textwrap.fill(_words(child), 100))
+        return "\n\n".join(parts)
+    raise BuildError(f"no BSD 2-Clause licence in the header of {p5subset.name}")
+
+
+def _words(el: etree._Element) -> str:
+    return " ".join("".join(el.itertext()).split())
 
 
 class Saxon:
@@ -161,10 +200,24 @@ def comment(text: str) -> str:
     return f"<!--\n{text.strip()}\n-->"
 
 
-def schxslt_notice(licence: str) -> str:
+def credits_notice(tools: Tools) -> str:
+    """TEI P5's and the Bodleian's copyright lines and licences, for the top of every generated file."""
+    return comment(
+        f"This schema is made from TEI P5 {P5SUBSET.version} by the TEI Consortium (https://tei-c.org/), which"
+        " distributes it under the Creative Commons Attribution 3.0 Unported licence"
+        " (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:\n\n"
+        f"{tools.tei_licence}\n\n"
+        "Its manuscript description module comes from the Bodleian Libraries' consolidated TEI schema"
+        f" (https://github.com/msDesc/consolidated-tei-schema, commit {MSDESC.version}), under its licence:\n\n"
+        f"{tools.msdesc_licence}"
+    )
+
+
+def schxslt_notice(tools: Tools) -> str:
     """SchXslt2's copyright line and permission notice, for the top of the compiled Schematron."""
     return comment(
-        f"The code of this file comes from SchXslt2 {SCHXSLT.version} (https://codeberg.org/SchXslt/schxslt2).\n\n{licence}"
+        f"The code of this file comes from SchXslt2 {SCHXSLT.version} (https://codeberg.org/SchXslt/schxslt2),"
+        f" under its licence:\n\n{tools.schxslt_licence}"
     )
 
 
@@ -203,7 +256,8 @@ def build(odd: Path = ODD_PATH, out: Path = SCHEMA_DIR, cache: Path = CACHE_DIR)
     outputs[SCHEMATRON] = saxon.run(odds / "extract-isosch.xsl", compiled, **common)
     (work / SCHEMATRON).write_text(outputs[SCHEMATRON], "utf-8")
     outputs[SCHEMATRON_XSLT] = saxon.run(tools.transpiler, work / SCHEMATRON)
-    notices = {SCHEMATRON_XSLT: schxslt_notice(tools.schxslt_licence)}
+    credits = credits_notice(tools)
+    notices = {RELAXNG: credits, SCHEMATRON: credits, SCHEMATRON_XSLT: f"{credits}\n{schxslt_notice(tools)}"}
 
     out.mkdir(parents=True, exist_ok=True)
     written = []
