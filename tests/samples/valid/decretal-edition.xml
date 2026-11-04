@@ -2,7 +2,8 @@
 <!-- SPDX-License-Identifier: MIT -->
 <!-- A decretal in a printed edition, with the text's rarer elements: a record of another kind (rs), a point for a
      stand-off annotation (anchor), an editor's addition (supplied), an abbreviation with its expansion (choice with
-     abbr and expan), and a gap without a reason. Made up: the letter, its edition and its persons are not real. -->
+     abbr and expan), and a gap without a reason; a curation for the whole text, and another for its
+     closer. Made up: the letter, its edition and its persons are not real. -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
   <teiHeader>
     <fileDesc>
@@ -24,6 +25,16 @@
         </bibl>
       </sourceDesc>
     </fileDesc>
+    <encodingDesc>
+      <editorialDecl>
+        <correction xml:id="checked" status="high" default="true">
+          <p>Checked against the edition.</p>
+        </correction>
+        <correction xml:id="unchecked" status="low">
+          <p>Not checked yet.</p>
+        </correction>
+      </editorialDecl>
+    </encodingDesc>
   </teiHeader>
   <text>
     <body>
@@ -37,7 +48,7 @@
         <p>Placuit ut <supplied reason="omitted">omnes</supplied> episcopi in ciuitatibus suis
           maneant,<anchor xml:id="point-1"/> et <gap/> non transeant.</p>
       </div>
-      <div type="closer">
+      <div type="closer" decls="#unchecked">
         <p>Data idibus Maiis.</p>
       </div>
     </body>

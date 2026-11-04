@@ -46,3 +46,10 @@ Files written for the draft of this schema need these changes to pass.
 - **The text's elements** gain `rs` (a record of a kind no name element fits, its kind in `@type`, its record in
   `@ref` in the names' forms), `anchor` (a point a stand-off annotation refers to), `supplied`, and `choice` with
   `abbr` and `expan`, for the rare doubtful cases.
+- **Curation:** `correction` in `editorialDecl`, its `@status` `high`, `medium`, `low` or `unknown`, with a paragraph
+  saying how, as TEI requires; the whole text's is the default, and a division or paragraph that differs points to
+  another by `@decls`. Of several corrections, one is the default. `@decls` points only to a `correction` or a
+  `segmentation` in the header.
+- **Inferred units:** `segmentation type="inferred-units"` states them for the whole file (`@default` true, or
+  alone), or, with `@default` false and an id, for the divisions that point to it by `@decls`; a statement for
+  divisions that none points to is a warning.

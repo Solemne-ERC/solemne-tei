@@ -48,7 +48,18 @@
           holds its paragraphs itself.</p>
         <p>The paragraphs of a division that holds no divisions are one unit of reception. Where the encoders
           didn't mark the units, the header says so once, in <gi>segmentation</gi> with the type
-          <val>inferred-units</val>.</p>
+          <val>inferred-units</val>: for the whole file, when it's the default (<att>default</att> true) or stands
+          alone; or, declared with <att>default</att> false and an id, for the divisions that point to it by
+          <att>decls</att>, where only a few are unmarked among many units. A statement for divisions that none
+          points to is reported.</p>
+        <p>How far a text has been checked is its curation, given by <gi>correction</gi> in
+          <gi>editorialDecl</gi>, its <att>status</att> <val>high</val>, <val>medium</val>, <val>low</val> or
+          <val>unknown</val>, and a paragraph saying how, which TEI requires: the whole text's value is the
+          default; a division or a paragraph that differs points
+          to another <gi>correction</gi> by <att>decls</att>. Of several corrections, one is the default.
+          <att>decls</att> on the text, the body, a division or a paragraph points only to a <gi>correction</gi>
+          or a <gi>segmentation</gi> in the header. What was left out by choice is said once, in
+          <gi>samplingDecl</gi>; completeness is never stated, but read from the gaps.</p>
       </div>
 
       <div>
@@ -633,6 +644,33 @@
               restriction="(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?|(GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV)_[0-9]+(-[0-9]+)?(_[0-9]+(-[0-9]+)?)?|[A-Z][A-Za-z]*(-[A-Z][A-Za-z]*)*_[A-Za-z][A-Za-z0-9]*(\.[A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?)|https?://scta\.info/resource/\S+"/>
           </content>
         </macroSpec>
+
+        <!-- The declarations a text and its parts point to: curation and inferred units. -->
+        <elementSpec ident="editorialDecl" module="header" mode="change">
+          <constraintSpec ident="declarations" scheme="schematron">
+            <desc>@decls points to a correction or a segmentation in the header; of several corrections, one is the
+              default; a statement of inferred units for some divisions is pointed to by them.</desc>
+            <constraint>
+              <sch:rule context="tei:*[@decls]">
+                <sch:assert id="decls-target" test="every $t in tokenize(normalize-space(@decls), ' ') satisfies
+                  (starts-with($t, '#') and exists(/tei:TEI/tei:teiHeader//(tei:correction |
+                  tei:segmentation)[@xml:id = substring($t, 2)]))">@decls (<sch:value-of
+                  select="normalize-space(@decls)"/>) points to a correction or a segmentation in the
+                  header.</sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:editorialDecl[count(tei:correction) gt 1]">
+                <sch:assert id="correction-default" test="count(tei:correction[@default = 'true']) = 1">Of several
+                  corrections, one is the default (@default="true"): the whole text's.</sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:segmentation[@type = 'inferred-units'][@default = 'false']">
+                <sch:let name="id" value="concat('#', @xml:id)"/>
+                <sch:assert id="inferred-units-pointed-to" role="warning" test="@xml:id and
+                  //@decls[tokenize(normalize-space(.), ' ') = $id]">A statement of inferred units for some
+                  divisions (@default="false") is pointed to by their @decls.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+        </elementSpec>
 
         <!-- The units of reception, where the encoders didn't mark them. -->
         <elementSpec ident="segmentation" module="header" mode="change">

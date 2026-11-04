@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: MIT -->
 <!-- A collection in a printed edition, its chapters given the Clavis canonum's keys in @sameAs, with the prefix
-     declared in the header, and the edition's identifiers typed by kind. Made up: the collection, its edition and
+     declared in the header, the edition's identifiers typed by kind, and the units inferred in one
+     chapter. Made up: the collection, its edition and
      its keys are not real. -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
   <teiHeader>
@@ -39,6 +40,11 @@
       </sourceDesc>
     </fileDesc>
     <encodingDesc>
+      <editorialDecl>
+        <segmentation xml:id="inferred-units" type="inferred-units" default="false">
+          <p>The units of reception aren't marked in the chapters that point here: each is one.</p>
+        </segmentation>
+      </editorialDecl>
       <listPrefixDef>
         <prefixDef ident="clavis" matchPattern="(.+)"
           replacementPattern="https://data.mgh.de/databases/clavis/db/legacysearch?key=$1">
@@ -56,7 +62,7 @@
           <head type="rubric">De fide.</head>
           <p>Fidem rectam teneant omnes.<note type="source" source="C.SAM-0600_1"/></p>
         </div>
-        <div type="chapter" n="2" sameAs="clavis:SA01.002">
+        <div type="chapter" n="2" sameAs="clavis:SA01.002" decls="#inferred-units">
           <head type="number">II.</head>
           <head type="rubric">De baptismo.</head>
           <p>Baptismus in nomine trinitatis detur.</p>

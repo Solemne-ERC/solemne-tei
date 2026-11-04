@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.1.0 (SHA-256 f81caff8897db4b30ea692e808c6eda05e42deb9b601bfb54cbf778c2bc18953) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.1.0 (SHA-256 690b00355029a5357a700c842dbeb289a4d8fb0839de196dd18ddff5d4022de6) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -108,7 +108,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           holds its paragraphs itself.</p>
         <p>The paragraphs of a division that holds no divisions are one unit of reception. Where the encoders
           didn't mark the units, the header says so once, in <gi>segmentation</gi> with the type
-          <val>inferred-units</val>.</p>
+          <val>inferred-units</val>: for the whole file, when it's the default (<att>default</att> true) or stands
+          alone; or, declared with <att>default</att> false and an id, for the divisions that point to it by
+          <att>decls</att>, where only a few are unmarked among many units. A statement for divisions that none
+          points to is reported.</p>
+        <p>How far a text has been checked is its curation, given by <gi>correction</gi> in
+          <gi>editorialDecl</gi>, its <att>status</att> <val>high</val>, <val>medium</val>, <val>low</val> or
+          <val>unknown</val>, and a paragraph saying how, which TEI requires: the whole text's value is the
+          default; a division or a paragraph that differs points
+          to another <gi>correction</gi> by <att>decls</att>. Of several corrections, one is the default.
+          <att>decls</att> on the text, the body, a division or a paragraph points only to a <gi>correction</gi>
+          or a <gi>segmentation</gi> in the header. What was left out by choice is said once, in
+          <gi>samplingDecl</gi>; completeness is never stated, but read from the gaps.</p>
       </div>
 
       <div>
@@ -15884,42 +15895,32 @@ source or sources from which it was derived.</desc>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD5">2.3. The Encoding Description</ref>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CC.html#CCAS2">16.3.2. Declarable Elements</ref>
   </listRef>
-</elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" module="header" xml:id="gi-editorialDecl" ident="editorialDecl">
-  <gloss versionDate="2005-01-14" xml:lang="en">editorial practice declaration</gloss>
-  <gloss versionDate="2009-01-05" xml:lang="fr">déclaration des pratiques éditoriales</gloss>
-  <gloss versionDate="2007-12-20" xml:lang="ko">편집 실행 선언</gloss>
-  <gloss versionDate="2007-05-02" xml:lang="zh-TW">編輯實行宣告</gloss>
-    <gloss versionDate="2016-11-17" xml:lang="de">Angabe der Editionsprinzipien</gloss>
-  <gloss versionDate="2007-05-04" xml:lang="es">declaración de la edición</gloss>
-  <gloss versionDate="2007-01-21" xml:lang="it">dichiarazione sulle pratiche editoriali</gloss>
-  <desc versionDate="2005-01-14" xml:lang="en">provides details of editorial principles and practices applied
-during the encoding of a text.</desc>
-  <desc versionDate="2009-01-05" xml:lang="fr">donne des précisions sur les pratiques et  les principes éditoriaux appliqués au cours de l’encodage du texte.</desc>
-  <desc versionDate="2007-12-20" xml:lang="ko">텍스트 부호화에서 적용된 편집 원리 및 기준의 상세 항목을 제시한다.</desc>
-  <desc versionDate="2007-05-02" xml:lang="zh-TW">提供文件編碼時使用的編輯原則與實行方法的細節。</desc>
-  <desc versionDate="2008-04-05" xml:lang="ja">テキストを符号化する際に適用される編集方針や編集方法の詳細を示す。</desc>
-    <desc versionDate="2006-10-18" xml:lang="de">beschreibt die Details der Editionsprinzipien und Verfahren, die bei der Kodierung des Textes angewandt wurden.</desc>
-  <desc versionDate="2007-05-04" xml:lang="es">proporciona detalles de principios editoriales y prácticas aplicadas en la codificación de un texto.</desc>
-  <desc versionDate="2007-01-21" xml:lang="it">fornisce dettagli su principi e pratiche editoriali seguite nella codifica di un testo.</desc>
-  <classes>
-    <memberOf key="att.global"/>
-    <memberOf key="att.declarable"/>
-    <memberOf key="model.encodingDescPart"/>
-  </classes>
-  <content>
-    <alternate minOccurs="1" maxOccurs="unbounded">
-      <classRef key="model.pLike"/>
-      <classRef key="model.editorialDeclPart"/>
-    </alternate>
-  </content>
-  <constraintSpec ident="editorialDecl-is-declarable" scheme="schematron" xml:lang="en">
+</elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="header" xml:id="gi-editorialDecl" ident="editorialDecl"><gloss versionDate="2005-01-14" xml:lang="en">editorial practice declaration</gloss><gloss versionDate="2009-01-05" xml:lang="fr">déclaration des pratiques éditoriales</gloss><gloss versionDate="2007-12-20" xml:lang="ko">편집 실행 선언</gloss><gloss versionDate="2007-05-02" xml:lang="zh-TW">編輯實行宣告</gloss><gloss versionDate="2016-11-17" xml:lang="de">Angabe der Editionsprinzipien</gloss><gloss versionDate="2007-05-04" xml:lang="es">declaración de la edición</gloss><gloss versionDate="2007-01-21" xml:lang="it">dichiarazione sulle pratiche editoriali</gloss><desc versionDate="2005-01-14" xml:lang="en">provides details of editorial principles and practices applied
+during the encoding of a text.</desc><desc versionDate="2009-01-05" xml:lang="fr">donne des précisions sur les pratiques et  les principes éditoriaux appliqués au cours de l’encodage du texte.</desc><desc versionDate="2007-12-20" xml:lang="ko">텍스트 부호화에서 적용된 편집 원리 및 기준의 상세 항목을 제시한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">提供文件編碼時使用的編輯原則與實行方法的細節。</desc><desc versionDate="2008-04-05" xml:lang="ja">テキストを符号化する際に適用される編集方針や編集方法の詳細を示す。</desc><desc versionDate="2006-10-18" xml:lang="de">beschreibt die Details der Editionsprinzipien und Verfahren, die bei der Kodierung des Textes angewandt wurden.</desc><desc versionDate="2007-05-04" xml:lang="es">proporciona detalles de principios editoriales y prácticas aplicadas en la codificación de un texto.</desc><desc versionDate="2007-01-21" xml:lang="it">fornisce dettagli su principi e pratiche editoriali seguite nella codifica di un testo.</desc><classes><memberOf key="att.global"/><memberOf key="att.declarable"/><memberOf key="model.encodingDescPart"/></classes><content><alternate minOccurs="1" maxOccurs="unbounded"><classRef key="model.pLike"/><classRef key="model.editorialDeclPart"/></alternate></content><constraintSpec ident="declarations" scheme="schematron">
+            <desc>@decls points to a correction or a segmentation in the header; of several corrections, one is the
+              default; a statement of inferred units for some divisions is pointed to by them.</desc>
+            <constraint>
+              <sch:rule context="tei:*[@decls]">
+                <sch:assert id="decls-target" test="every $t in tokenize(normalize-space(@decls), ' ') satisfies                   (starts-with($t, '#') and exists(/tei:TEI/tei:teiHeader//(tei:correction |                   tei:segmentation)[@xml:id = substring($t, 2)]))">@decls (<sch:value-of select="normalize-space(@decls)"/>) points to a correction or a segmentation in the
+                  header.</sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:editorialDecl[count(tei:correction) gt 1]">
+                <sch:assert id="correction-default" test="count(tei:correction[@default = 'true']) = 1">Of several
+                  corrections, one is the default (@default="true"): the whole text's.</sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:segmentation[@type = 'inferred-units'][@default = 'false']">
+                <sch:let name="id" value="concat('#', @xml:id)"/>
+                <sch:assert id="inferred-units-pointed-to" role="warning" test="@xml:id and                   //@decls[tokenize(normalize-space(.), ' ') = $id]">A statement of inferred units for some
+                  divisions (@default="false") is pointed to by their @decls.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="editorialDecl-is-declarable" scheme="schematron" xml:lang="en">
     <constraint>
       <sch:pattern is-a="declarable">
         <sch:param name="tde" value="tei:editorialDecl"/>
       </sch:pattern>
     </constraint>
-  </constraintSpec>
-  <exemplum xml:lang="en">
+  </constraintSpec><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-editorialDecl-egXML-be">
       <editorialDecl>
         <normalization>
@@ -15933,8 +15934,7 @@ during the encoding of a text.</desc>
         </quotation>
       </editorialDecl>
     </egXML>
-  </exemplum>
-  <exemplum versionDate="2008-04-06" xml:lang="fr">
+  </exemplum><exemplum versionDate="2008-04-06" xml:lang="fr">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-editorialDecl-egXML-xq">
       <editorialDecl>
         <normalization>
@@ -15947,8 +15947,7 @@ during the encoding of a text.</desc>
         </quotation>
       </editorialDecl>
     </egXML>
-  </exemplum>
-  <exemplum xml:lang="zh-TW">
+  </exemplum><exemplum xml:lang="zh-TW">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-editorialDecl-egXML-bz">
       <editorialDecl>
         <normalization>
@@ -15959,13 +15958,11 @@ during the encoding of a text.</desc>
         </quotation>
       </editorialDecl>
     </egXML>
-  </exemplum>
-  <listRef>
+  </exemplum><listRef>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD53">2.3.3. The Editorial Practices Declaration</ref>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD5">2.3. The Encoding Description</ref>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CC.html#CCAS2">16.3.2. Declarable Elements</ref>
-  </listRef>
-</elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" module="header" xml:id="gi-correction" ident="correction">
+  </listRef></elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" module="header" xml:id="gi-correction" ident="correction">
   <gloss versionDate="2005-01-14" xml:lang="en">correction principles</gloss>
   <gloss versionDate="2009-01-05" xml:lang="fr">règles de correction</gloss>
   <gloss versionDate="2007-12-20" xml:lang="ko">수정 원리</gloss>
