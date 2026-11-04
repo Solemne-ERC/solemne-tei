@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="marked-in-the-text" n="IV">
+  <head>What is marked in the text</head>
+  <p>Inside the body, only the elements of the annotation layers appear: names of persons, places and
+    events; works named; statements with their reference and quotation; formulas; dates; notes of three
+    types (sources, parallels, editorial remarks); scribal changes; what is unclear or missing; page and
+    line breaks; other languages; and editorial corrections. For the rare doubtful cases, an editor's
+    addition is <gi>supplied</gi>, and an abbreviation with its expansion a <gi>choice</gi> of
+    <gi>abbr</gi> and <gi>expan</gi>. A record of a kind no name element fits is <gi>rs</gi>, its kind in
+    <att>type</att> and its record in <att>ref</att>, in the names' forms; a point that a stand-off
+    annotation refers to is an <gi>anchor</gi>. A span that crosses others or the structure, such as a
+    quotation over several paragraphs, is split into fragments, each nesting where it stands, joined by
+    <att>next</att> and <att>prev</att>, which point to each other.</p>
+  <p>A quotation and a note point to their sources in <att>source</att>, in one of these forms: a document's
+    code (<code>C.NIC-0325</code>), alone or with a citation after an underscore
+    (<code>C.NIC-0325_3</code>, <code>COLL.Dach.ms-Brn-Burg-425_2.49</code>); a Bible reference, by one
+    code per book, chapter and verse (<code>MAT_18_19</code>, <code>PHP_3_17-20</code>); a work by its
+    Gryson siglum, with the place cited (<code>IS_ety_1.2.3</code>); or an SCTA resource. A loose reference
+    starts with <code>cf_</code>. Names point to their records by placeholders (<code>#new_person_…</code>)
+    until the import resolves them, then by permalinks.</p>
+  <p>A gap may say why the text is missing, in <att>reason</att>: <val>lacuna</val> (the witness lacks
+    it: lost leaves, or a lacuna in the edition it comes from), <val>damage</val>, <val>illegible</val>
+    (<gi>unclear</gi> is for what can be half read), <val>reproduction</val> (not readable in the images or
+    the film used), <val>deleted</val> (struck out and not readable), <val>sampling</val> (not transcribed,
+    by the encoder's choice: an incipit and an explicit only) or <val>editorial</val> (left out for another
+    reason, given in a note); without a reason, it's unknown. Its extent, where known, is a
+    <att>quantity</att> with its <att>unit</att> (<val>leaves</val>, <val>lines</val>, <val>words</val>,
+    <val>chars</val>), or <att>extent</att> in words.</p>
+
+  <specGrp xml:id="marked-in-the-text-specs">
+        <elementSpec ident="note" module="core" mode="change">
+          <constraintSpec ident="text-note-type" scheme="schematron">
+            <desc>In the text, a note's type is its layer.</desc>
+            <constraint>
+              <sch:rule context="tei:body//tei:note">
+                <sch:assert id="text-note-type" test="@type = ('source', 'parallel', 'editorial')">A note in the
+                  text is typed source, parallel or editorial.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <constraintSpec ident="note-has-content" scheme="schematron">
+            <desc>A note holds words, or its codes in source.</desc>
+            <constraint>
+              <sch:rule context="tei:note">
+                <sch:assert id="note-has-content" test="normalize-space(.) != '' or @source or *">A note holds
+                  words, or its codes in @source.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <constraintSpec ident="source-note-codes" scheme="schematron">
+            <desc>A source note's codes are in source, not in its words.</desc>
+            <constraint>
+              <sch:rule context="tei:body//tei:note[@type = 'source']">
+                <sch:report id="source-note-codes" role="warning" test="some $w in tokenize(normalize-space(.), '[\s;,]+')
+                  satisfies matches($w, '^(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
+                  source note's words hold a code (<sch:value-of select="normalize-space(.)"/>): it belongs in
+                  @source.</sch:report>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <attList>
+            <attDef ident="type" mode="change">
+              <valList type="closed" mode="replace">
+                <valItem ident="source">
+                  <desc>in the text: the source a passage comes from, its codes in source</desc>
+                </valItem>
+                <valItem ident="parallel">
+                  <desc>in the text: a parallel elsewhere ("Cf. concil. Mogunt. 847 c. 3")</desc>
+                </valItem>
+                <valItem ident="editorial">
+                  <desc>in the text: an editor's remark</desc>
+                </valItem>
+                <valItem ident="links">
+                  <desc>in a record: the links to the record in other catalogues</desc>
+                </valItem>
+                <valItem ident="authorities">
+                  <desc>in a record: the authority files that describe it</desc>
+                </valItem>
+                <valItem ident="extra">
+                  <desc>in a bibliographic record: what fits nowhere else</desc>
+                </valItem>
+              </valList>
+            </attDef>
+            <attDef ident="source" mode="change">
+              <desc>the sources the note points to: see the pointers' forms</desc>
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <dataRef key="solemne.pointer"/>
+              </datatype>
+            </attDef>
+            <attDef ident="subtype" mode="delete"/>
+          </attList>
+        </elementSpec>
+
+        <!-- The pointers' forms, for quote/@source and note/@source. -->
+        <dataSpec ident="solemne.pointer" mode="add">
+          <desc>A pointer to a source: a document's code, alone or with a citation after an underscore
+            (C.NIC-0325_3); a Bible reference by book, chapter and verse (MAT_18_19, PHP_3_17-20); a Gryson siglum
+            and the place cited (IS_ety_1.2.3); each may start with cf_ for a loose reference; or an SCTA
+            resource. A code holds letters, digits, dots and hyphens; an underscore only separates a code from its
+            citation.</desc>
+          <content>
+            <dataRef name="token"
+              restriction="(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?|(GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV)_[0-9]+(-[0-9]+)?(_[0-9]+(-[0-9]+)?)?|[A-Z][A-Za-z]*(-[A-Z][A-Za-z]*)*_[A-Za-z][A-Za-z0-9]*(\.[A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?)|https?://scta\.info/resource/\S+"/>
+          </content>
+        </dataSpec>
+
+        <!-- Fragments: a span that crosses others or the structure is split into fragments joined by @next and
+             @prev, each nesting where it stands. -->
+        <elementSpec ident="quote" module="core" mode="change">
+          <constraintSpec ident="fragments" scheme="schematron">
+            <desc>Fragments point to each other within the file: @next to an element of the same kind whose @prev
+              points back, and @prev likewise.</desc>
+            <constraint>
+              <sch:rule context="tei:*[@next]">
+                <sch:let name="next" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@next), '#')]"/>
+                <sch:assert id="fragment-next" test="count($next) = 1 and local-name($next) = local-name() and
+                  normalize-space($next/@prev) = concat('#', @xml:id)">&lt;<sch:name/>&gt;'s @next
+                  (<sch:value-of select="@next"/>) points to the next fragment in the file, a &lt;<sch:name/>&gt;
+                  whose @prev points back.</sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:*[@prev]">
+                <sch:let name="prev" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@prev), '#')]"/>
+                <sch:assert id="fragment-prev" test="count($prev) = 1 and local-name($prev) = local-name() and
+                  normalize-space($prev/@next) = concat('#', @xml:id)">&lt;<sch:name/>&gt;'s @prev
+                  (<sch:value-of select="@prev"/>) points to the previous fragment in the file, a
+                  &lt;<sch:name/>&gt; whose @next points back.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <attList>
+            <attDef ident="source" mode="change">
+              <desc>the source quoted: see the pointers' forms</desc>
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <dataRef key="solemne.pointer"/>
+              </datatype>
+            </attDef>
+            <attDef ident="type" mode="delete"/>
+            <attDef ident="subtype" mode="delete"/>
+          </attList>
+        </elementSpec>
+
+        <elementSpec ident="seg" module="linking" mode="change">
+          <attList>
+            <attDef ident="type" mode="change" usage="req">
+              <valList type="closed" mode="replace">
+                <valItem ident="formula">
+                  <desc>a formula introducing an authority ("ut lex dicit")</desc>
+                </valItem>
+                <valItem ident="corr">
+                  <desc>a scribe's correction</desc>
+                </valItem>
+              </valList>
+            </attDef>
+            <attDef ident="subtype" mode="delete"/>
+          </attList>
+        </elementSpec>
+
+        <elementSpec ident="ref" module="core" mode="change">
+          <attList>
+            <attDef ident="type" mode="change">
+              <valList type="closed" mode="replace">
+                <valItem ident="from_paratext">
+                  <desc>a statement's reference whose claim sits in a heading</desc>
+                </valItem>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+
+        <!-- Names point to their records: a placeholder until the import resolves it, then a permalink. -->
+        <dataSpec ident="solemne.recordPointer" mode="add">
+          <desc>A pointer to a record: a placeholder (#new_person_…), an identifier in the file, or a
+            permalink.</desc>
+          <content>
+            <dataRef name="token" restriction="#new_[a-z]+_\S+|#[A-Za-z_][A-Za-z0-9_.\-]*|https?://\S+"/>
+          </content>
+        </dataSpec>
+        <elementSpec ident="persName" module="namesdates" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <dataRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="placeName" module="namesdates" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <dataRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="eventName" module="namesdates" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <dataRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="bibl" module="core" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <dataRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+
+        <elementSpec ident="rs" module="core" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <dataRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+  </specGrp>
+</div>

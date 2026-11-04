@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: MIT -->
-<!-- Generated from solemne.odd 0.1.0 (SHA-256 8322d245e5372a77660e2d6419468f18fb914d2fbcd692f017936bced535d80b) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.1.0 (SHA-256 8c0d79aa1e25c6ca6de7ab19db3399c42fa96597ed81965ccc6a03a050aeb112) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -3899,9 +3899,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
                <sch:let name="next"
                         value="//tei:*[@xml:id = substring-after(normalize-space(current()/@next), '#')]"/>
                <sch:assert id="fragment-next"
-                           test="count($next) = 1 and local-name($next) = local-name() and                     normalize-space($next/@prev) = concat('#', @xml:id)">&lt;<sch:name/>&gt;'s @next
-                    (<sch:value-of select="@next"/>) points to the next fragment in the file, a &lt;<sch:name/>&gt;
-                    whose @prev points back.</sch:assert>
+                           test="count($next) = 1 and local-name($next) = local-name() and                   normalize-space($next/@prev) = concat('#', @xml:id)">&lt;<sch:name/>&gt;'s @next
+                  (<sch:value-of select="@next"/>) points to the next fragment in the file, a &lt;<sch:name/>&gt;
+                  whose @prev points back.</sch:assert>
             </sch:rule>
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -3909,9 +3909,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
                <sch:let name="prev"
                         value="//tei:*[@xml:id = substring-after(normalize-space(current()/@prev), '#')]"/>
                <sch:assert id="fragment-prev"
-                           test="count($prev) = 1 and local-name($prev) = local-name() and                     normalize-space($prev/@next) = concat('#', @xml:id)">&lt;<sch:name/>&gt;'s @prev
-                    (<sch:value-of select="@prev"/>) points to the previous fragment in the file, a
-                    &lt;<sch:name/>&gt; whose @next points back.</sch:assert>
+                           test="count($prev) = 1 and local-name($prev) = local-name() and                   normalize-space($prev/@next) = concat('#', @xml:id)">&lt;<sch:name/>&gt;'s @prev
+                  (<sch:value-of select="@prev"/>) points to the previous fragment in the file, a
+                  &lt;<sch:name/>&gt; whose @next points back.</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attribute.xmlid"/>
@@ -4159,7 +4159,7 @@ Normalization 13. Critical Apparatus]</a:documentation>
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:gap[@quantity or @unit]">
                <sch:assert id="gap-quantity-unit" test="@quantity and @unit">A gap's quantity is given with its
-                    unit (leaves, lines, words or chars), and a unit with its quantity.</sch:assert>
+                  unit (leaves, lines, words or chars), and a unit with its quantity.</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -4497,6 +4497,24 @@ Measures]</a:documentation>
                <ref name="model.global"/>
             </choice>
          </zeroOrMore>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                  id="solemne-date-dates-constraint-rule-17">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="tei:*[@notBefore or @notAfter][not(self::tei:locus or self::tei:biblScope or                 self::tei:citedRange)]">
+               <sch:assert id="date-span-bounds"
+                           role="warning"
+                           test="@notBefore and @notAfter">A span gives both
+                  its bounds, @notBefore and @notAfter.</sch:assert>
+            </sch:rule>
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="tei:*[@from or @to][not(self::tei:locus or self::tei:biblScope or                 self::tei:citedRange)]">
+               <sch:assert id="date-from-to" role="warning" test="@from and @to">A span gives both its ends,
+                  @from and @to.</sch:assert>
+            </sch:rule>
+         </pattern>
          <ref name="att.global.attributes"/>
          <ref name="att.calendarSystem.attributes"/>
          <ref name="att.canonical.attributes"/>
@@ -4543,7 +4561,7 @@ Sample values include: 1] suspension (suspension); 2] contraction (contraction);
          <empty/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-ptr-ptrAtts-constraint-rule-17">
+                  id="solemne-ptr-ptrAtts-constraint-rule-19">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:ptr">
@@ -4566,7 +4584,7 @@ Sample values include: 1] suspension (suspension); 2] contraction (contraction);
          <ref name="macro.paraContent"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-ref-refAtts-constraint-rule-18">
+                  id="solemne-ref-refAtts-constraint-rule-20">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:ref">
@@ -4634,7 +4652,7 @@ Sample values include: 1] suspension (suspension); 2] contraction (contraction);
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-list-gloss-list-must-have-labels-constraint-rule-19">
+                  id="solemne-list-gloss-list-must-have-labels-constraint-rule-21">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:list[@type='gloss']">
@@ -4730,6 +4748,39 @@ Suggested values include: 1] gloss (gloss); 2] index (index); 3] instructions (i
       <element name="note">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(note) contains a note or annotation. [3.9.1. Notes and Simple Annotation 2.2.6. The Notes Statement 3.12.2.8. Notes and Statement of Language 10.3.5.4. Notes within Entries]</a:documentation>
          <ref name="macro.specialPara"/>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                  id="solemne-note-text-note-type-constraint-rule-22">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="tei:body//tei:note">
+               <sch:assert id="text-note-type" test="@type = ('source', 'parallel', 'editorial')">A note in the
+                  text is typed source, parallel or editorial.</sch:assert>
+            </sch:rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                  id="solemne-note-note-has-content-constraint-rule-23">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="tei:note">
+               <sch:assert id="note-has-content" test="normalize-space(.) != '' or @source or *">A note holds
+                  words, or its codes in @source.</sch:assert>
+            </sch:rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                  id="solemne-note-source-note-codes-constraint-rule-24">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="tei:body//tei:note[@type = 'source']">
+               <sch:report id="source-note-codes"
+                           role="warning"
+                           test="some $w in tokenize(normalize-space(.), '[\s;,]+')                   satisfies matches($w, '^(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
+                  source note's words hold a code (<sch:value-of select="normalize-space(.)"/>): it belongs in
+                  @source.</sch:report>
+            </sch:rule>
+         </pattern>
          <ref name="att.global.attribute.xmlid"/>
          <ref name="att.global.attribute.n"/>
          <ref name="att.global.attribute.xmllang"/>
@@ -4769,7 +4820,7 @@ Suggested values include: 1] gloss (gloss); 2] index (index); 3] instructions (i
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-note-source-only_1_ODD_source-constraint-rule-20">
+                  id="solemne-note-source-only_1_ODD_source-constraint-rule-25">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5383,27 +5434,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-teiHeader-dates-constraint-rule-21">
-            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:xi="http://www.w3.org/2001/XInclude"
-                      context="tei:*[@notBefore or @notAfter][not(self::tei:locus or self::tei:biblScope or                   self::tei:citedRange)]">
-               <sch:assert id="date-span-bounds"
-                           role="warning"
-                           test="@notBefore and @notAfter">A span gives both
-                    its bounds, @notBefore and @notAfter.</sch:assert>
-            </sch:rule>
-            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:xi="http://www.w3.org/2001/XInclude"
-                      context="tei:*[@from or @to][not(self::tei:locus or self::tei:biblScope or                   self::tei:citedRange)]">
-               <sch:assert id="date-from-to" role="warning" test="@from and @to">A span gives both its ends,
-                    @from and @to.</sch:assert>
-            </sch:rule>
-         </pattern>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-teiHeader-record-pointers-constraint-rule-23">
+                  id="solemne-teiHeader-record-pointers-constraint-rule-26">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5411,8 +5442,8 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                <sch:report id="record-pointer-in-ref"
                            role="warning"
                            test="some $p in tokenize(normalize-space(string-join((@key, @corresp), ' ')), ' ') satisfies matches($p, '^#?[Nn]ew_[A-Za-z]+_|^#?(PERS\.\d+|solemne_person_\d+)$|^https?://\S+/id/(person|place|institution|event|manuscript|publication)/')">&lt;<sch:name/>&gt;
-                    points to a record in @key or @corresp (<sch:value-of select="normalize-space(string-join((@key,                     @corresp), ' '))"/>): a record is pointed to by @ref, on a name inside provenance, acquisition and
-                    origin.</sch:report>
+                  points to a record in @key or @corresp (<sch:value-of select="normalize-space(string-join((@key,                   @corresp), ' '))"/>): a record is pointed to by @ref, on a name inside provenance, acquisition and
+                  origin.</sch:report>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -5460,29 +5491,29 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-titleStmt-title-statement-constraint-rule-24">
+                  id="solemne-titleStmt-title-statement-constraint-rule-27">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt">
                <sch:assert id="title-first-formal" test="tei:title[1][@type = 'formal']">The title statement
-                    opens with a title typed formal.</sch:assert>
+                  opens with a title typed formal.</sch:assert>
                <sch:assert id="title-one-formal" test="count(tei:title[@type = 'formal']) = 1">The title
-                    statement has one formal title.</sch:assert>
+                  statement has one formal title.</sch:assert>
             </sch:rule>
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt/tei:title">
                <sch:assert id="title-type" test="@type = ('formal', 'alias', 'other')">A title in the title
-                    statement is typed formal, alias or other.</sch:assert>
+                  statement is typed formal, alias or other.</sch:assert>
                <sch:assert id="title-alias-words"
                            test="not(@type = 'alias') or normalize-space(.) != ''">An
-                    alias isn't empty.</sch:assert>
+                  alias isn't empty.</sch:assert>
                <sch:assert id="title-other-source"
                            role="warning"
                            test="not(@type = 'other') or @source">A title
-                    typed other names its source in @source.</sch:assert>
+                  typed other names its source in @source.</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -5601,26 +5632,26 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-idno-formal-title-constraint-rule-26">
+                  id="solemne-idno-formal-title-constraint-rule-29">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']">
                <sch:assert id="formal-title-idnos"
-                           test="count(tei:idno[not(@type)]) = 1 and count(tei:idno[@type =                     'category']) = 1 and count(tei:idno[@type = 'type']) = 1 and (every $level in ('work', 'version',                     'witness', 'transcription') satisfies count(tei:idno[@type = $level]) le 1)">The formal title holds
-                    the document's code (an identifier without a type), its category and its type, once each, and at
-                    most one permalink for each level the file belongs to.</sch:assert>
+                           test="count(tei:idno[not(@type)]) = 1 and count(tei:idno[@type =                   'category']) = 1 and count(tei:idno[@type = 'type']) = 1 and (every $level in ('work', 'version',                   'witness', 'transcription') satisfies count(tei:idno[@type = $level]) le 1)">The formal title holds
+                  the document's code (an identifier without a type), its category and its type, once each, and at
+                  most one permalink for each level the file belongs to.</sch:assert>
             </sch:rule>
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt/tei:title/tei:idno">
                <sch:assert id="idno-in-formal-title" test="parent::tei:title[@type = 'formal']">An identifier in
-                    the title statement stands in the formal title.</sch:assert>
+                  the title statement stands in the formal title.</sch:assert>
                <sch:assert id="idno-type"
-                           test="not(@type) or @type = ('category', 'type', 'work', 'version',                     'witness', 'transcription')">An identifier in the formal title is the code (without a type), the
-                    category, the type, or the permalink of a level (work, version, witness,
-                    transcription).</sch:assert>
+                           test="not(@type) or @type = ('category', 'type', 'work', 'version',                   'witness', 'transcription')">An identifier in the formal title is the code (without a type), the
+                  category, the type, or the permalink of a level (work, version, witness,
+                  transcription).</sch:assert>
             </sch:rule>
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -5630,38 +5661,38 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                         value="normalize-space(../tei:idno[@type = 'category'][1])"/>
                <sch:let name="prefix" value="substring-before(normalize-space(.), '.')"/>
                <sch:assert id="code-format"
-                           test="matches(normalize-space(.),                     '^[A-Z]+\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*$')">The document's code (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix and a dot, and holds only letters,
-                    digits, dots and hyphens.</sch:assert>
+                           test="matches(normalize-space(.),                   '^[A-Z]+\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*$')">The document's code (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix and a dot, and holds only letters,
+                  digits, dots and hyphens.</sch:assert>
                <sch:assert id="code-category"
-                           test="$category = ('', 'UNK', 'LR', 'CPT', 'CHA') or $prefix = (if                     ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category)">The document's code
-                    (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of select="if ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category"/>, for the category
-                    <sch:value-of select="$category"/>).</sch:assert>
+                           test="$category = ('', 'UNK', 'LR', 'CPT', 'CHA') or $prefix = (if                   ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category)">The document's code
+                  (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of select="if ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category"/>, for the category
+                  <sch:value-of select="$category"/>).</sch:assert>
                <sch:assert id="code-manuscript"
-                           test="not(contains(normalize-space(.), '.ms-')) or                     ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A manuscript's code (<sch:value-of select="normalize-space(.)"/>) goes with the manuscript's description (msDesc) in the
-                    sourceDesc.</sch:assert>
+                           test="not(contains(normalize-space(.), '.ms-')) or                   ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A manuscript's code (<sch:value-of select="normalize-space(.)"/>) goes with the manuscript's description (msDesc) in the
+                  sourceDesc.</sch:assert>
                <sch:assert id="code-matches-file-name"
                            role="warning"
-                           test="not(matches(base-uri(.),                     '/(C|D|COLL|P|EP|H|EX)\.[^/]*\.xml$')) or ends-with(base-uri(.), concat('/',                     encode-for-uri(normalize-space(.)), '.xml'))">A file named by a code is named by its document's
-                    code (<sch:value-of select="normalize-space(.)"/>).</sch:assert>
+                           test="not(matches(base-uri(.),                   '/(C|D|COLL|P|EP|H|EX)\.[^/]*\.xml$')) or ends-with(base-uri(.), concat('/',                   encode-for-uri(normalize-space(.)), '.xml'))">A file named by a code is named by its document's
+                  code (<sch:value-of select="normalize-space(.)"/>).</sch:assert>
             </sch:rule>
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'category']">
                <sch:assert id="category-value"
-                           test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'C', 'D', 'P', 'H',                     'EX', 'EP', 'LR', 'CPT', 'CHA', 'UNK')">The document's category (<sch:value-of select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, C, D, P, H, EX, EP, LR, CPT, CHA,
-                    UNK.</sch:assert>
+                           test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'C', 'D', 'P', 'H',                   'EX', 'EP', 'LR', 'CPT', 'CHA', 'UNK')">The document's category (<sch:value-of select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, C, D, P, H, EX, EP, LR, CPT, CHA,
+                  UNK.</sch:assert>
             </sch:rule>
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type']">
                <sch:assert id="document-type-value"
-                           test="normalize-space(.) = ('edition', 'manuscript',                     'reconstruction', 'hypothesis', 'placeholder')">The document's type (<sch:value-of select="normalize-space(.)"/>) is one of edition, manuscript, reconstruction, hypothesis,
-                    placeholder.</sch:assert>
+                           test="normalize-space(.) = ('edition', 'manuscript',                   'reconstruction', 'hypothesis', 'placeholder')">The document's type (<sch:value-of select="normalize-space(.)"/>) is one of edition, manuscript, reconstruction, hypothesis,
+                  placeholder.</sch:assert>
                <sch:assert id="type-manuscript"
-                           test="not(normalize-space(.) = 'manuscript') or                     ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A document typed manuscript has the
-                    manuscript's description (msDesc) in its sourceDesc.</sch:assert>
+                           test="not(normalize-space(.) = 'manuscript') or                   ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A document typed manuscript has the
+                  manuscript's description (msDesc) in its sourceDesc.</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -5876,14 +5907,14 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-editorialDecl-declarations-constraint-rule-31">
+                  id="solemne-editorialDecl-declarations-constraint-rule-34">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:*[@decls]">
                <sch:assert id="decls-target"
-                           test="every $t in tokenize(normalize-space(@decls), ' ') satisfies                     (starts-with($t, '#') and exists(/tei:TEI/tei:teiHeader//(tei:correction |                     tei:segmentation)[@xml:id = substring($t, 2)]))">@decls (<sch:value-of select="normalize-space(@decls)"/>) points to a correction or a segmentation in the
-                    header.</sch:assert>
+                           test="every $t in tokenize(normalize-space(@decls), ' ') satisfies                   (starts-with($t, '#') and exists(/tei:TEI/tei:teiHeader//(tei:correction |                   tei:segmentation)[@xml:id = substring($t, 2)]))">@decls (<sch:value-of select="normalize-space(@decls)"/>) points to a correction or a segmentation in the
+                  header.</sch:assert>
             </sch:rule>
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -5891,7 +5922,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       context="tei:editorialDecl[count(tei:correction) gt 1]">
                <sch:assert id="correction-default"
                            test="count(tei:correction[@default = 'true']) = 1">Of several
-                    corrections, one is the default (@default="true"): the whole text's.</sch:assert>
+                  corrections, one is the default (@default="true"): the whole text's.</sch:assert>
             </sch:rule>
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -5900,8 +5931,8 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                <sch:let name="id" value="concat('#', @xml:id)"/>
                <sch:assert id="inferred-units-pointed-to"
                            role="warning"
-                           test="@xml:id and                     //@decls[tokenize(normalize-space(.), ' ') = $id]">A statement of inferred units for some
-                    divisions (@default="false") is pointed to by their @decls.</sch:assert>
+                           test="@xml:id and                   //@decls[tokenize(normalize-space(.), ' ') = $id]">A statement of inferred units for some
+                  divisions (@default="false") is pointed to by their @decls.</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -5980,7 +6011,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-quotation-quotationContents-constraint-rule-34">
+                  id="solemne-quotation-quotationContents-constraint-rule-37">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6136,7 +6167,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
          </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-citeStructure-match-citestructure-outer-match-constraint-rule-35">
+                  id="solemne-citeStructure-match-citestructure-outer-match-constraint-rule-38">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6146,7 +6177,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-citeStructure-match-citestructure-inner-match-constraint-rule-36">
+                  id="solemne-citeStructure-match-citestructure-inner-match-constraint-rule-39">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6190,15 +6221,15 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-prefixDef-same-as-prefixes-constraint-rule-37">
+                  id="solemne-prefixDef-same-as-prefixes-constraint-rule-40">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:*[@sameAs]">
                <sch:let name="declared" value="/tei:TEI/tei:teiHeader//tei:prefixDef/@ident"/>
                <sch:assert id="same-as-prefix-declared"
-                           test="every $id in tokenize(normalize-space(@sameAs), ' ')                     satisfies (not(matches($id, '^[A-Za-z][A-Za-z0-9+.\-]*:')) or matches($id, '^https?:') or                     substring-before($id, ':') = $declared)">The prefixes in @sameAs (<sch:value-of select="normalize-space(@sameAs)"/>) are declared in the header, by prefixDef in
-                    listPrefixDef.</sch:assert>
+                           test="every $id in tokenize(normalize-space(@sameAs), ' ')                   satisfies (not(matches($id, '^[A-Za-z][A-Za-z0-9+.\-]*:')) or matches($id, '^https?:') or                   substring-before($id, ':') = $declared)">The prefixes in @sameAs (<sch:value-of select="normalize-space(@sameAs)"/>) are declared in the header, by prefixDef in
+                  listPrefixDef.</sch:assert>
             </sch:rule>
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -6206,8 +6237,8 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
                       context="tei:prefixDef">
                <sch:assert id="prefix-known"
                            role="warning"
-                           test="@ident = ('scta', 'clavis', 'pseudoisidor',                     'corpuscorporum')">The prefix <sch:value-of select="@ident"/> isn't one the application knows
-                    (scta, clavis, pseudoisidor, corpuscorporum).</sch:assert>
+                           test="@ident = ('scta', 'clavis', 'pseudoisidor',                   'corpuscorporum')">The prefix <sch:value-of select="@ident"/> isn't one the application knows
+                  (scta, clavis, pseudoisidor, corpuscorporum).</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -6598,46 +6629,13 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
          <ref name="solemne.structure"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-body-text-elements-constraint-rule-39">
+                  id="solemne-body-text-elements-constraint-rule-42">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:body//tei:*">
                <sch:assert id="text-elements"
-                           test="local-name() = ('div', 'head', 'p', 'note', 'pb', 'lb', 'gap',                     'persName', 'placeName', 'eventName', 'bibl', 'cit', 'quote', 'ref', 'seg', 'date', 'subst',                     'add', 'del', 'unclear', 'foreign', 'choice', 'corr', 'sic', 'abbr', 'expan', 'supplied', 'rs',                     'anchor')">&lt;<sch:name/>&gt; isn't one of
-                    the text's elements.</sch:assert>
-            </sch:rule>
-         </pattern>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-body-text-note-type-constraint-rule-40">
-            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      context="tei:body//tei:note">
-               <sch:assert id="text-note-type" test="@type = ('source', 'parallel', 'editorial')">A note in the
-                    text is typed source, parallel or editorial.</sch:assert>
-            </sch:rule>
-         </pattern>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-body-note-has-content-constraint-rule-41">
-            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      context="tei:note">
-               <sch:assert id="note-has-content" test="normalize-space(.) != '' or @source or *">A note holds
-                    words, or its codes in @source.</sch:assert>
-            </sch:rule>
-         </pattern>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-body-source-note-codes-constraint-rule-42">
-            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      context="tei:body//tei:note[@type = 'source']">
-               <sch:report id="source-note-codes"
-                           role="warning"
-                           test="some $w in tokenize(normalize-space(.), '[\s;,]+')                     satisfies matches($w, '^(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
-                    source note's words hold a code (<sch:value-of select="normalize-space(.)"/>): it belongs in
-                    @source.</sch:report>
+                           test="local-name() = ('div', 'head', 'p', 'note', 'pb', 'lb', 'gap',                   'persName', 'placeName', 'eventName', 'bibl', 'cit', 'quote', 'ref', 'seg', 'date', 'subst',                   'add', 'del', 'unclear', 'foreign', 'choice', 'corr', 'sic', 'abbr', 'expan', 'supplied', 'rs',                   'anchor')">&lt;<sch:name/>&gt; isn't one of
+                  the text's elements.</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -6656,9 +6654,9 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:div[@type = 'unit']">
                <sch:assert id="unit-alone" test="count(../tei:div) gt 1">A unit stands alone in its division: its
-                    paragraphs belong to the division itself.</sch:assert>
+                  paragraphs belong to the division itself.</sch:assert>
                <sch:assert id="unit-holds-text" test="not(tei:div) and not(tei:head)">A unit holds paragraphs
-                    only, without headings or divisions.</sch:assert>
+                  only, without headings or divisions.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -6669,7 +6667,7 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
                       context="tei:div[@type = 'registerItem']">
                <sch:assert id="register-item-in-register"
                            test="parent::tei:div[@type = 'register']">A register
-                    item stands in a register.</sch:assert>
+                  item stands in a register.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -6679,7 +6677,7 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:div[tei:head[@type = 'number']]">
                <sch:assert id="number-heading-n" test="@n">A division with a number heading
-                    (<sch:value-of select="normalize-space(tei:head[@type = 'number'][1])"/>) has @n.</sch:assert>
+                  (<sch:value-of select="normalize-space(tei:head[@type = 'number'][1])"/>) has @n.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -7494,14 +7492,14 @@ Sample values include: 1] proclaimed; 2] assumed; 3] verified; 4] clinical; 5] b
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:event">
                <sch:assert id="event-described" test="@ref or tei:eventName or tei:p">An event points to a
-                    record (@ref) or describes one, with eventName or p.</sch:assert>
+                  record (@ref) or describes one, with eventName or p.</sch:assert>
             </sch:rule>
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:event/tei:desc | tei:event/tei:p">
                <sch:assert id="event-words" test="normalize-space(.) != ''">An event's description isn't
-                    empty.</sch:assert>
+                  empty.</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -7526,7 +7524,7 @@ Sample values include: 1] proclaimed; 2] assumed; 3] verified; 4] clinical; 5] b
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:floruit">
                <sch:assert id="floruit-dates"
-                           test="@when or @notBefore or @notAfter or @from or @to or                     @period">A floruit gives its dates in its attributes.</sch:assert>
+                           test="@when or @notBefore or @notAfter or @from or @to or                   @period">A floruit gives its dates in its attributes.</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -7865,11 +7863,11 @@ Sample values include: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentation
                       context="tei:standOff//tei:listPerson/tei:person">
                <sch:assert id="person-id"
                            test="matches(@xml:id, '^(PERS\.\d+|solemne_person_\d+|new_person_\S+)$')">A
-                    person in the standOff has an @xml:id: a record's (PERS. and a number, or solemne_person_ and a
-                    number), or a placeholder's (new_person_ and a name).</sch:assert>
+                  person in the standOff has an @xml:id: a record's (PERS. and a number, or solemne_person_ and a
+                  number), or a placeholder's (new_person_ and a name).</sch:assert>
                <sch:assert id="person-main-name"
-                           test="count(tei:persName[@type = 'main']) = 1 or                     not(starts-with(@xml:id, 'new_person_'))">A new person has one main name (persName typed
-                    main).</sch:assert>
+                           test="count(tei:persName[@type = 'main']) = 1 or                   not(starts-with(@xml:id, 'new_person_'))">A new person has one main name (persName typed
+                  main).</sch:assert>
             </sch:rule>
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -7877,14 +7875,14 @@ Sample values include: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentation
                       context="tei:standOff//tei:note[@type = 'links']">
                <sch:assert id="links-list"
                            test="tei:list[@type = 'links'] and not(text()[normalize-space()])">A
-                    note of links holds a list of links, and no words of its own.</sch:assert>
+                  note of links holds a list of links, and no words of its own.</sch:assert>
             </sch:rule>
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:standOff//tei:list[@type = 'links']/tei:item">
                <sch:assert id="link-target" test="tei:ref[@target][normalize-space(.) != '']">A link has a
-                    @target and words.</sch:assert>
+                  @target and words.</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -8150,8 +8148,8 @@ Sample values include: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentation
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:msDesc">
                <sch:assert id="manuscript-unit" test="tei:msPart">A manuscript's description has at least one
-                    codicological unit (msPart), with its own identifier: the unit holds the physical description,
-                    the date, the hands and the decoration.</sch:assert>
+                  codicological unit (msPart), with its own identifier: the unit holds the physical description,
+                  the date, the hands and the decoration.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="relations" n="VI">
+  <head>Relations</head>
+  <p>This part's prose comes in a later version of the guide.</p>
+
+  <specGrp xml:id="relations-specs">
+        <!-- Exports: relations are observations or judgements. -->
+        <elementSpec ident="relation" module="namesdates" mode="change">
+          <attList>
+            <attDef ident="name" mode="change" usage="req"/>
+            <attDef ident="type" mode="change">
+              <valList type="closed" mode="replace">
+                <valItem ident="observation">
+                  <desc>what a witness shows</desc>
+                </valItem>
+                <valItem ident="judgement">
+                  <desc>what holds of a version or a work, with its method</desc>
+                </valItem>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+  </specGrp>
+</div>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<div xmlns="http://www.tei-c.org/ns/1.0" xml:id="introduction">
+  <head>The Solemne TEI schema</head>
+  <p>The schema of the TEI files the application imports and exports: early medieval canon law texts, their
+    structure, what is marked in them, and the records they refer to. It is generated into RelaxNG, which the
+    import requires, and Schematron, whose findings the import reports and the exports must pass.</p>
+</div>

@@ -13,7 +13,16 @@ import pytest
 from lxml import etree
 
 import solemne_tei
-from solemne_tei.build import ODD_PATH, BuildError, Source, check_odd, embedded_schematron, fetch, stamped
+from solemne_tei.build import (
+    ODD_PATH,
+    BuildError,
+    Source,
+    check_odd,
+    embedded_schematron,
+    expand,
+    fetch,
+    stamped,
+)
 from solemne_tei.schema_files import (
     COMPILED_ODD,
     GENERATED,
@@ -24,7 +33,6 @@ from solemne_tei.schema_files import (
     odd_version,
     read_stamp,
     schema_version,
-    sha256,
     stamp,
 )
 from solemne_tei.validate import Result, Validator
@@ -78,7 +86,7 @@ def test_invalid_sample_fails_on_its_rule(validator: Validator, sample: Path, tm
 
 
 def odd_rules() -> set[str]:
-    odd = etree.parse(str(ODD_PATH))
+    odd = etree.fromstring(expand(ODD_PATH).text)
     return {el.get("id") for el in odd.iter(f"{{{SCH}}}assert", f"{{{SCH}}}report") if el.get("id") is not None}
 
 
@@ -88,7 +96,7 @@ def test_every_rule_of_the_odd_has_an_invalid_sample() -> None:
 
 
 def test_generated_files_come_from_the_odd_as_it_is() -> None:
-    odd = (odd_version(ODD_PATH), sha256(ODD_PATH))
+    odd = (odd_version(ODD_PATH), expand(ODD_PATH).sha256)
     for name in GENERATED:
         assert read_stamp(SCHEMA_DIR / name) == odd, (
             f"{name} was generated from another version of {ODD}: run solemne-tei build"

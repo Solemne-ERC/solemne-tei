@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="records" n="V">
+  <head>Records</head>
+  <p>This part's prose comes in a later version of the guide.</p>
+
+  <specGrp xml:id="records-specs">
+        <!-- The records in the standOff. -->
+        <elementSpec ident="event" module="namesdates" mode="change">
+          <constraintSpec ident="event-content" scheme="schematron">
+            <desc>An event points to a record, or describes one.</desc>
+            <constraint>
+              <sch:rule context="tei:event">
+                <sch:assert id="event-described" test="@ref or tei:eventName or tei:p">An event points to a
+                  record (@ref) or describes one, with eventName or p.</sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:event/tei:desc | tei:event/tei:p">
+                <sch:assert id="event-words" test="normalize-space(.) != ''">An event's description isn't
+                  empty.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+        </elementSpec>
+
+        <elementSpec ident="person" module="namesdates" mode="change">
+          <constraintSpec ident="standoff-person" scheme="schematron">
+            <desc>A person listed in the standOff is a record or a placeholder for one, with a main name.</desc>
+            <constraint>
+              <sch:rule context="tei:standOff//tei:listPerson/tei:person">
+                <sch:assert id="person-id" test="matches(@xml:id, '^(PERS\.\d+|solemne_person_\d+|new_person_\S+)$')">A
+                  person in the standOff has an @xml:id: a record's (PERS. and a number, or solemne_person_ and a
+                  number), or a placeholder's (new_person_ and a name).</sch:assert>
+                <sch:assert id="person-main-name" test="count(tei:persName[@type = 'main']) = 1 or
+                  not(starts-with(@xml:id, 'new_person_'))">A new person has one main name (persName typed
+                  main).</sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:standOff//tei:note[@type = 'links']">
+                <sch:assert id="links-list" test="tei:list[@type = 'links'] and not(text()[normalize-space()])">A
+                  note of links holds a list of links, and no words of its own.</sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:standOff//tei:list[@type = 'links']/tei:item">
+                <sch:assert id="link-target" test="tei:ref[@target][normalize-space(.) != '']">A link has a
+                  @target and words.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+        </elementSpec>
+
+        <elementSpec ident="floruit" module="namesdates" mode="change">
+          <constraintSpec ident="floruit-dates" scheme="schematron">
+            <desc>A floruit gives its dates.</desc>
+            <constraint>
+              <sch:rule context="tei:floruit">
+                <sch:assert id="floruit-dates" test="@when or @notBefore or @notAfter or @from or @to or
+                  @period">A floruit gives its dates in its attributes.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+        </elementSpec>
+
+        <elementSpec ident="orgName" module="namesdates" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <dataRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+  </specGrp>
+</div>

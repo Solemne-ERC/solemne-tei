@@ -3,6 +3,18 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
+## Unreleased
+
+### The guide
+
+- The ODD is split into the guide's parts: `guide/solemne.odd` is the root, and includes by XInclude one file per
+  part in `guide/chapters/`, each holding its prose and the specifications of the rules it explains, which the
+  `schemaSpec` takes by `specGrpRef`. The rules are unchanged: every file passes and fails as before, with the same
+  messages. Oxygen checks the root with its parts included.
+- The build checks the ODD with its parts included, reports each error at its part's file and line, and writes the
+  expanded ODD into the package as `solemne.expanded.odd`. The stamp in each generated file names the expanded ODD's
+  SHA-256.
+
 ## 0.1.0 (2026-11-04)
 
 The first release: SOLEMNE's TEI schema as a package.

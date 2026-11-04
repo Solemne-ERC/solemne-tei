@@ -2,9 +2,10 @@
 
 XML-TEI schema and guidelines for encoding witnesses of early medieval canon law texts. Developed and used within the framework of SOLEMNE - The Social Life of Early Medieval Normative Texts project (ERC Consolidator grant 101087979)
 
-The schema's one source is the ODD, `guide/solemne.odd`, which explains each rule. The package `solemne-tei` holds
-what is generated from it, a RelaxNG and a Schematron, and checks TEI files against them: files must pass the
-RelaxNG, and the Schematron's findings are reported.
+The schema's one source is the ODD, `guide/solemne.odd`, which explains each rule: a root file with the guide's
+parts in `guide/chapters/`, included by XInclude, each holding its prose and the specifications of the rules it
+explains. The package `solemne-tei` holds what is generated from it, a RelaxNG and a Schematron, and checks TEI files
+against them: files must pass the RelaxNG, and the Schematron's findings are reported.
 
 ## Install
 
@@ -55,18 +56,18 @@ gives the same as data.
 
 ## Regenerating the schema
 
-After changing the ODD, in a clone:
+After changing the ODD or one of its parts, in a clone:
 
 ```
 solemne-tei build
 ```
 
-It first checks the ODD against TEI's schema for ODD files, its RelaxNG and the Schematron rules embedded in it,
-as Oxygen does, and stops with the problems listed if the ODD isn't valid. Then it writes the RelaxNG
-(`solemne.rng`), the Schematron (`solemne.sch`), the Schematron compiled to XSLT
-(`solemne-schematron.xsl`), the compiled ODD (`solemne.compiled.odd`) and its closed lists (`closed-lists.json`) into
-`src/solemne_tei/schema/`. Each names the version and the SHA-256 of the ODD it came from; a test fails when the ODD
-has changed since. The version is the ODD's `editionStmt/edition/@n`, kept equal to the package's. Running the build
+It first expands the ODD, its parts included, and checks it against TEI's schema for ODD files, its RelaxNG and the
+Schematron rules embedded in it, as Oxygen does; it stops with the problems listed, each at its part's file and line,
+if the ODD isn't valid. Then it writes the RelaxNG (`solemne.rng`), the Schematron (`solemne.sch`), the Schematron
+compiled to XSLT (`solemne-schematron.xsl`), the expanded ODD (`solemne.expanded.odd`), the compiled ODD
+(`solemne.compiled.odd`) and its closed lists (`closed-lists.json`) into `src/solemne_tei/schema/`. Each names the
+version and the SHA-256 of the expanded ODD it came from; a test fails when the ODD or a part has changed since. The version is the ODD's `editionStmt/edition/@n`, kept equal to the package's. Running the build
 again on the same ODD writes nothing, and says so.
 
 The first run fetches what the build needs into `build/tei/` (ignored by git), at pinned versions checked by their

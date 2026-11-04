@@ -7,7 +7,7 @@ import re
 import pytest
 from lxml import etree
 
-from solemne_tei.build import ODD_PATH
+from solemne_tei.build import ODD_PATH, expand
 from solemne_tei.cli import main
 from solemne_tei.codes import CATEGORIES, bible_books
 from solemne_tei.schema_files import closed_lists
@@ -17,7 +17,7 @@ SCH = "http://purl.oclc.org/dsdl/schematron"
 
 
 def odd() -> etree._ElementTree:
-    return etree.parse(str(ODD_PATH))
+    return etree.ElementTree(etree.fromstring(expand(ODD_PATH).text))
 
 
 def test_the_bible_codes_are_those_of_the_odd_s_pointer_pattern() -> None:

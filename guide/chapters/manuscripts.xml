@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="manuscripts" n="VIII">
+  <head>Manuscripts</head>
+  <p>This part's prose comes in a later version of the guide.</p>
+
+  <specGrp xml:id="manuscripts-specs">
+        <!-- Manuscripts: a description has at least one codicological unit. -->
+        <elementSpec ident="msDesc" module="msdescription" mode="change">
+          <constraintSpec ident="manuscript-units" scheme="schematron">
+            <desc>A manuscript's description has at least one codicological unit.</desc>
+            <constraint>
+              <sch:rule context="tei:msDesc">
+                <sch:assert id="manuscript-unit" test="tei:msPart">A manuscript's description has at least one
+                  codicological unit (msPart), with its own identifier: the unit holds the physical description,
+                  the date, the hands and the decoration.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+        </elementSpec>
+
+        <elementSpec ident="country" module="namesdates" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <dataRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="region" module="namesdates" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <dataRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="settlement" module="namesdates" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <dataRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+
+        <elementSpec ident="origPlace" module="msdescription" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <dataRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="repository" module="msdescription" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <dataRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="institution" module="msdescription" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <dataRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+  </specGrp>
+</div>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="text" n="III">
+  <head>The text</head>
+  <p>A document is a tree of divisions. A division holds headings, then either paragraphs or divisions,
+    never both; headings may stand where the encoding puts them, usually first. Page breaks, notes and gaps
+    may stand between them. The body itself, the document's root, follows the same rule.</p>
+  <p>Every division and heading has a type, from a closed list, so that a misspelled type fails. A numbered
+    division carries its number as a value in <att>n</att> (49 for a heading XLVIIII; 11a for a chapter
+    after 11), and its number heading keeps the number as written. A unit is a subdivision without a
+    heading of its own, written only where units stand side by side: a division whose text is one unit
+    holds its paragraphs itself.</p>
+  <p>The paragraphs of a division that holds no divisions are one unit of reception. Where the encoders
+    didn't mark the units, the header says so once, in <gi>segmentation</gi> with the type
+    <val>inferred-units</val>: for the whole file, when it's the default (<att>default</att> true) or stands
+    alone; or, declared with <att>default</att> false and an id, for the divisions that point to it by
+    <att>decls</att>, where only a few are unmarked among many units. A statement for divisions that none
+    points to is reported.</p>
+  <p>How far a text has been checked is its curation, given by <gi>correction</gi> in
+    <gi>editorialDecl</gi>, its <att>status</att> <val>high</val>, <val>medium</val>, <val>low</val> or
+    <val>unknown</val>, and a paragraph saying how, which TEI requires: the whole text's value is the
+    default; a division or a paragraph that differs points
+    to another <gi>correction</gi> by <att>decls</att>. Of several corrections, one is the default.
+    <att>decls</att> on the text, the body, a division or a paragraph points only to a <gi>correction</gi>
+    or a <gi>segmentation</gi> in the header. What was left out by choice is said once, in
+    <gi>samplingDecl</gi>; completeness is never stated, but read from the gaps.</p>
+
+  <specGrp xml:id="text-specs">
+        <!-- The structure of the text. -->
+        <macroSpec ident="solemne.structure" mode="add">
+          <desc>What a division or the body holds: headings with either paragraphs or divisions, never both, and
+            page breaks, notes and gaps between them.</desc>
+          <content>
+            <alternate>
+              <alternate minOccurs="0" maxOccurs="unbounded">
+                <elementRef key="head"/>
+                <macroRef key="solemne.between"/>
+                <elementRef key="p"/>
+              </alternate>
+              <alternate minOccurs="0" maxOccurs="unbounded">
+                <elementRef key="head"/>
+                <macroRef key="solemne.between"/>
+                <elementRef key="div"/>
+              </alternate>
+            </alternate>
+          </content>
+        </macroSpec>
+        <macroSpec ident="solemne.between" mode="add">
+          <desc>What may stand between headings, paragraphs and divisions.</desc>
+          <content>
+            <alternate>
+              <elementRef key="pb"/>
+              <elementRef key="note"/>
+              <elementRef key="gap"/>
+            </alternate>
+          </content>
+        </macroSpec>
+
+        <elementSpec ident="body" module="textstructure" mode="change">
+          <content>
+            <macroRef key="solemne.structure"/>
+          </content>
+          <constraintSpec ident="text-elements" scheme="schematron">
+            <desc>Inside the text, only the annotation layers' elements.</desc>
+            <constraint>
+              <sch:rule context="tei:body//tei:*">
+                <sch:assert id="text-elements" test="local-name() = ('div', 'head', 'p', 'note', 'pb', 'lb', 'gap',
+                  'persName', 'placeName', 'eventName', 'bibl', 'cit', 'quote', 'ref', 'seg', 'date', 'subst',
+                  'add', 'del', 'unclear', 'foreign', 'choice', 'corr', 'sic', 'abbr', 'expan', 'supplied', 'rs',
+                  'anchor')">&lt;<sch:name/>&gt; isn't one of
+                  the text's elements.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+        </elementSpec>
+
+        <elementSpec ident="div" module="textstructure" mode="change">
+          <content>
+            <macroRef key="solemne.structure"/>
+          </content>
+          <constraintSpec ident="unit-alone" scheme="schematron">
+            <desc>Units are written only where they stand side by side.</desc>
+            <constraint>
+              <sch:rule context="tei:div[@type = 'unit']">
+                <sch:assert id="unit-alone" test="count(../tei:div) gt 1">A unit stands alone in its division: its
+                  paragraphs belong to the division itself.</sch:assert>
+                <sch:assert id="unit-holds-text" test="not(tei:div) and not(tei:head)">A unit holds paragraphs
+                  only, without headings or divisions.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <constraintSpec ident="register-item-in-register" scheme="schematron">
+            <desc>A register's items stand in a register.</desc>
+            <constraint>
+              <sch:rule context="tei:div[@type = 'registerItem']">
+                <sch:assert id="register-item-in-register" test="parent::tei:div[@type = 'register']">A register
+                  item stands in a register.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <constraintSpec ident="number-heading-n" scheme="schematron">
+            <desc>A division with a number heading carries the number as a value.</desc>
+            <constraint>
+              <sch:rule context="tei:div[tei:head[@type = 'number']]">
+                <sch:assert id="number-heading-n" test="@n">A division with a number heading
+                  (<sch:value-of select="normalize-space(tei:head[@type = 'number'][1])"/>) has @n.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <attList>
+            <attDef ident="type" mode="change" usage="req">
+              <valList type="closed" mode="replace">
+                <valItem ident="section">
+                  <desc>a book, a part, or one text inside a document (a council in a collection)</desc>
+                </valItem>
+                <valItem ident="chapter">
+                  <desc>a numbered or titled unit; chapters may hold chapters</desc>
+                </valItem>
+                <valItem ident="unit">
+                  <desc>a subdivision without a heading of its own, where several stand side by side: a norm and its
+                    authority statements, one signatory among the subscriptions</desc>
+                </valItem>
+                <valItem ident="preface"/>
+                <valItem ident="closer">
+                  <desc>a closing rubric, or a letter's farewell and date</desc>
+                </valItem>
+                <valItem ident="subscriptions">
+                  <desc>the signatories</desc>
+                </valItem>
+                <valItem ident="register">
+                  <desc>the list of chapter titles</desc>
+                </valItem>
+                <valItem ident="registerItem">
+                  <desc>one entry of a register</desc>
+                </valItem>
+                <valItem ident="part">
+                  <desc>a part of Gratian's Decretum</desc>
+                </valItem>
+                <valItem ident="distinctio">
+                  <desc>a distinction of Gratian's Decretum</desc>
+                </valItem>
+                <valItem ident="causa">
+                  <desc>a causa of Gratian's Decretum</desc>
+                </valItem>
+                <valItem ident="quaestio">
+                  <desc>a question of a causa</desc>
+                </valItem>
+                <valItem ident="capitulum">
+                  <desc>a canon of Gratian's Decretum</desc>
+                </valItem>
+                <valItem ident="dictum">
+                  <desc>Gratian's own words between the canons</desc>
+                </valItem>
+              </valList>
+            </attDef>
+            <attDef ident="n" mode="change">
+              <desc>the division's number, as a value: 49 for a heading XLVIIII; a letter after it for a chapter
+                after a numbered one, or for a number repeated</desc>
+              <datatype>
+                <dataRef name="token" restriction="[0-9]+[a-z]?"/>
+              </datatype>
+            </attDef>
+            <attDef ident="subtype" mode="delete"/>
+          </attList>
+        </elementSpec>
+
+        <elementSpec ident="head" module="core" mode="change">
+          <attList>
+            <attDef ident="type" mode="change" usage="req">
+              <valList type="closed" mode="replace">
+                <valItem ident="number">
+                  <desc>the division's number as written ("Cap. II.")</desc>
+                </valItem>
+                <valItem ident="rubric">
+                  <desc>what the text is about ("De subintroductis mulieribus")</desc>
+                </valItem>
+                <valItem ident="inscription">
+                  <desc>where the text comes from ("Ex concilio Nicaeno"), even when it goes on with its
+                    subject</desc>
+                </valItem>
+              </valList>
+            </attDef>
+            <attDef ident="subtype" mode="delete"/>
+          </attList>
+        </elementSpec>
+
+        <elementSpec ident="pb" module="core" mode="change">
+          <attList>
+            <attDef ident="n" mode="change" usage="req">
+              <desc>the page, folio or column: 255, 120ra, 0187A</desc>
+            </attDef>
+          </attList>
+        </elementSpec>
+
+        <!-- Gaps: why the text is missing, and how much, where known. -->
+        <elementSpec ident="gap" module="core" mode="change">
+          <constraintSpec ident="gap-extent" scheme="schematron">
+            <desc>A gap's quantity is given with its unit.</desc>
+            <constraint>
+              <sch:rule context="tei:gap[@quantity or @unit]">
+                <sch:assert id="gap-quantity-unit" test="@quantity and @unit">A gap's quantity is given with its
+                  unit (leaves, lines, words or chars), and a unit with its quantity.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <attList>
+            <attDef ident="reason" mode="change" usage="opt">
+              <desc>why the text is missing; without a reason, it's unknown</desc>
+              <valList type="closed" mode="replace">
+                <valItem ident="lacuna">
+                  <desc>the witness lacks the text: lost leaves, or a lacuna in the edition it comes from</desc>
+                </valItem>
+                <valItem ident="damage">
+                  <desc>the support is damaged where the text stood</desc>
+                </valItem>
+                <valItem ident="illegible">
+                  <desc>the text can't be read (unclear is for what can be half read)</desc>
+                </valItem>
+                <valItem ident="reproduction">
+                  <desc>the text can't be read in the images or the film used</desc>
+                </valItem>
+                <valItem ident="deleted">
+                  <desc>struck out, and not readable</desc>
+                </valItem>
+                <valItem ident="sampling">
+                  <desc>not transcribed, by the encoder's choice: an incipit and an explicit only</desc>
+                </valItem>
+                <valItem ident="editorial">
+                  <desc>left out for another reason, given in a note</desc>
+                </valItem>
+              </valList>
+            </attDef>
+            <attDef ident="unit" mode="change">
+              <desc>the unit of the gap's quantity</desc>
+              <valList type="closed" mode="replace">
+                <valItem ident="leaves"/>
+                <valItem ident="lines"/>
+                <valItem ident="words"/>
+                <valItem ident="chars">
+                  <desc>characters</desc>
+                </valItem>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+  </specGrp>
+</div>

@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: MIT
 """The schema's files: where the package keeps them, and the stamp that names the ODD and the version they came
-from."""
+from. The SHA-256 in the stamp is the expanded ODD's, its parts included."""
 
 import hashlib
 import json
@@ -16,9 +16,10 @@ ODD = "solemne.odd"
 RELAXNG = "solemne.rng"
 SCHEMATRON = "solemne.sch"
 SCHEMATRON_XSLT = "solemne-schematron.xsl"
+EXPANDED_ODD = "solemne.expanded.odd"
 COMPILED_ODD = "solemne.compiled.odd"
 CLOSED_LISTS = "closed-lists.json"
-GENERATED = (RELAXNG, SCHEMATRON, SCHEMATRON_XSLT, COMPILED_ODD, CLOSED_LISTS)
+GENERATED = (RELAXNG, SCHEMATRON, SCHEMATRON_XSLT, EXPANDED_ODD, COMPILED_ODD, CLOSED_LISTS)
 
 TEI = "http://www.tei-c.org/ns/1.0"
 STAMP = re.compile(r"Generated from solemne\.odd (\S+) \(SHA-256 ([0-9a-f]{64})\)")
