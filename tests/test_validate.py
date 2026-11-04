@@ -111,7 +111,11 @@ def test_a_missing_file_is_reported(validator: Validator, tmp_path: Path) -> Non
 
 
 def test_the_results_are_the_same_with_one_worker_and_with_all(tmp_path: Path) -> None:
-    paths = xml_files([SAMPLES]) + [tmp_path / "missing.xml"]
+    failing = [
+        tei(tmp_path, LONE_UNIT, "unit.xml"),
+        tei(tmp_path, '      <div type="chpater">\n        <p>Placuit.</p>\n      </div>\n', "type.xml"),
+    ]
+    paths = xml_files([SAMPLES]) + failing + [tmp_path / "missing.xml"]
     assert validate(paths, jobs=1) == validate(paths, jobs=max(2, os.cpu_count() or 2))
 
 

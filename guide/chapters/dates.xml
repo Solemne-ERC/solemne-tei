@@ -4,6 +4,14 @@
   <head>Dates</head>
   <p>This part's prose comes in a later version of the guide.</p>
 
+  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="date-span-bounds">
+    <p>Made after <date notBefore="1900">1900</date>.</p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="date-from-to">
+    <p>Made from <date from="1900">1900</date>.</p>
+  </egXML>
+
   <specGrp xml:id="dates-specs">
     <!-- A date is one point, or a span with both its bounds. -->
     <elementSpec ident="date" module="core" mode="change" corresp="#tier-common">

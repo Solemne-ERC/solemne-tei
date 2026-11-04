@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: MIT
 """The guide: its parts included, each specification group referenced by the schema, its ids unique; every
-element, attribute and rule with one tier; the build reports an error in a part at that part's file and line."""
+element, attribute and rule with one tier; every example passing or failing as it says, and every rule with a
+counter-example; the build reports an error in a part at that part's file and line."""
 
 from pathlib import Path
 
@@ -8,6 +9,7 @@ import pytest
 from lxml import etree
 
 from solemne_tei.build import ODD_PATH, BuildError, check_odd, expand
+from solemne_tei.examples import EXAMPLES, Example, Outcome, check, examples, placed
 from solemne_tei.rules import attribute_tiers, element_tiers, rules, tiers
 from solemne_tei.schema_files import COMPILED_ODD, SCHEMA_DIR
 from solemne_tei.validate import Validator
@@ -154,3 +156,61 @@ def test_an_attribute_s_tier_is_not_below_its_element_s(odd: etree._Element) -> 
         if order[tier] < order[elements[attribute.split("/@")[0]][0]]
     ]
     assert lower == []
+
+
+@pytest.fixture(scope="module")
+def outcomes(odd: etree._Element) -> list[Outcome]:
+    return check(examples(odd), rules(odd))
+
+
+def where(example: Example) -> str:
+    file, line = expand(ODD_PATH).places.get(example.line, ("solemne.odd", example.line))
+    return f"{file}:{line}"
+
+
+def test_every_example_passes_or_fails_as_it_says(outcomes: list[Outcome]) -> None:
+    assert outcomes
+    wrong = [
+        f"{where(o.example)} [{o.example.rule}]: {o.why}" + "".join(f"\n    {p}" for p in o.problems)
+        for o in outcomes
+        if not o.ok
+    ]
+    assert not wrong, "\n".join(wrong)
+
+
+def test_every_rule_has_a_counter_example(odd: etree._Element, outcomes: list[Outcome]) -> None:
+    shown = {o.example.rule for o in outcomes if not o.example.valid and o.ok}
+    assert [r.id for r in rules(odd) if r.id not in shown] == []
+
+
+def example(xml: str) -> Example:
+    eg = etree.fromstring(f'<egXML xmlns="{EXAMPLES}">{xml}</egXML>')
+    return Example(eg, True, "", "", 1, "example.xml")
+
+
+def test_a_header_part_is_placed_in_the_header() -> None:
+    tree = placed(example('<editorialDecl><correction status="high"><p>Checked.</p></correction></editorialDecl>'))
+    header = tree.getroot()[0]
+    assert [etree.QName(c).localname for c in header] == ["fileDesc", "encodingDesc"]
+    assert header.find(f"{{{TEI}}}encodingDesc/{{{TEI}}}editorialDecl/{{{TEI}}}correction") is not None
+
+
+def test_a_phrase_is_placed_in_a_paragraph_and_a_division_in_the_body() -> None:
+    body = placed(example("<persName>Paulus</persName>")).find(f".//{{{TEI}}}body")
+    assert body.find(f"{{{TEI}}}p/{{{TEI}}}persName") is not None
+    body = placed(example('<div type="chapter"><p>Placuit.</p></div>')).find(f".//{{{TEI}}}body")
+    assert [etree.QName(c).localname for c in body] == ["div"]
+
+
+def test_a_formal_title_replaces_the_host_s_and_a_description_its_paragraph() -> None:
+    tree = placed(example('<title type="formal"><idno>C.NIC-0325</idno></title><msDesc/>'))
+    titles = tree.findall(f".//{{{TEI}}}titleStmt/{{{TEI}}}title")
+    assert len(titles) == 1 and titles[0].findtext(f"{{{TEI}}}idno") == "C.NIC-0325"
+    source = tree.find(f".//{{{TEI}}}sourceDesc")
+    assert [etree.QName(c).localname for c in source] == ["msDesc"]
+
+
+def test_a_whole_file_is_checked_as_it_is() -> None:
+    tree = placed(example("<TEI><teiHeader/><text><body/></text></TEI>"))
+    assert tree.getroot().tag == f"{{{TEI}}}TEI"
+    assert tree.find(f".//{{{TEI}}}fileDesc") is None

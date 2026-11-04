@@ -28,6 +28,64 @@
     <att>quantity</att> with its <att>unit</att> (<val>leaves</val>, <val>lines</val>, <val>words</val>,
     <val>chars</val>), or <att>extent</att> in words.</p>
 
+  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="text-note-type">
+    <p>Placuit ut episcopi maneant.<note type="links">See elsewhere.</note></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="note-has-content">
+    <p>Placuit ut episcopi maneant.<note type="editorial"/></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="note-type-misspelled">
+    <p>Placuit ut episcopi maneant.<note type="souce" source="C.NIC-0325_3"/><!-- breaks the rule --></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-note-codes">
+    <p>Placuit ut episcopi maneant.<note type="source">C.NIC-0325_15</note></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-pointer-form">
+    <p>Placuit ut episcopi maneant.<note type="source" source="CNIC.325.2"/><!-- breaks the rule: an older code --></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-pointer-form">
+    <p>Placuit ut episcopi maneant.<note type="source" source="C.NIC_0325_3"/><!-- breaks the rule: an underscore in the code --></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-pointer-form">
+    <cit><ref>Dominus ait:</ref> <quote source="MATT_5_3">Beati pauperes</quote><!-- breaks the rule: no such book --></cit>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-pointer-form">
+    <cit><ref>Apostolus ait:</ref> <quote source="1CO_9_14f">qui euangelium adnuntiant</quote><!-- breaks the rule: no such verse --></cit>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="quotation-typed">
+    <cit><ref>Apostolus ait:</ref> <quote type="ROM_12_5">unum corpus sumus</quote><!-- breaks the rule --></cit>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="reference-type-unknown">
+    <cit><ref type="paratext">Dominus ait:</ref><!-- breaks the rule --> <quote source="MAT_5_3">Beati pauperes</quote></cit>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="seg-type-missing">
+    <p><seg>Si quis</seg><!-- breaks the rule --> episcopus migrauerit, deponatur.</p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="seg-type-misspelled">
+    <p><seg type="fomula">Si quis</seg><!-- breaks the rule --> episcopus migrauerit, deponatur.</p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-form">
+    <p>Placuit <persName ref="new_person_Paul">Paulo</persName><!-- breaks the rule --> ut episcopi maneant.</p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-form">
+    <p>Placuit ut episcopi per <rs type="diocese" ref="new_diocese_Samplia">dioecesim</rs><!-- breaks the rule --> maneant.</p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="fragment-next">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <p><quote xml:id="next-wrong-a" next="#next-wrong-c">Placuit ut episcopi in ciuitatibus suis</quote></p>
+      <p><quote xml:id="next-wrong-b">maneant.</quote></p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="fragment-prev">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <p><quote xml:id="prev-wrong-a">Placuit ut episcopi in ciuitatibus suis</quote></p>
+      <p><quote xml:id="prev-wrong-b" prev="#prev-wrong-a">maneant.</quote></p>
+    </div>
+  </egXML>
+
   <specGrp xml:id="marked-in-the-text-specs">
     <!-- Notes: in the text, typed by their layer. -->
     <elementSpec ident="note" module="core" mode="change" corresp="#tier-full">

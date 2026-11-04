@@ -1,11 +1,9 @@
 # SPDX-License-Identifier: MIT
-"""The schema: the samples that must pass and those that must fail, each on its rule; every rule has its sample; the
-generated files come from the ODD as it is now; the build's downloads are checked against their pins, and the
-build stops on an ODD that isn't valid."""
+"""The schema: the valid samples pass; the generated files come from the ODD as it is now; the build's downloads are
+checked against their pins, and the build stops on an ODD that isn't valid. The guide's examples, counter-examples
+of every rule among them, are checked in test_guide."""
 
 import hashlib
-import re
-import shutil
 import tomllib
 from pathlib import Path
 
@@ -39,7 +37,6 @@ from solemne_tei.validate import Result, Validator
 
 SAMPLES = Path(__file__).parent / "samples"
 VALID = sorted((SAMPLES / "valid").glob("*.xml"))
-INVALID = sorted((SAMPLES / "invalid").glob("*.xml"))
 SCH = "http://purl.oclc.org/dsdl/schematron"
 
 
@@ -60,39 +57,6 @@ def test_there_is_a_valid_sample_per_kind_of_file() -> None:
 def test_valid_sample_passes_both_checks(validator: Validator, sample: Path) -> None:
     result = validator.check(sample)
     assert result.problems == [], describe(result)
-
-
-@pytest.mark.parametrize("sample", INVALID, ids=lambda p: p.stem)
-def test_invalid_sample_fails_on_its_rule(validator: Validator, sample: Path, tmp_path: Path) -> None:
-    text = sample.read_text(encoding="utf-8")
-    statement = re.search(r"<!-- Breaks one rule: (\S+) \(.*?\), checked by the (RelaxNG|Schematron)", text)
-    assert statement, "the sample says which rule it breaks"
-    rule, check = statement.groups()
-    assert rule == sample.stem
-    renamed = re.search(r"under the file name (\S+\.xml)", text)
-    path = sample
-    if renamed:
-        path = tmp_path / renamed.group(1)
-        shutil.copy(sample, path)
-    result = validator.check(path)
-    if check == "RelaxNG":
-        marked = {i for i, line in enumerate(text.splitlines(), 1) if "<!-- breaks the rule -->" in line and i > 3}
-        assert marked, "the sample marks the line of its error"
-        lines = {p.line for p in result.problems if p.check == "relaxng"}
-        assert lines & marked, describe(result)
-    else:
-        assert result.passes_relaxng, describe(result)
-        assert rule in {p.rule for p in result.problems if p.check == "schematron"}, describe(result)
-
-
-def odd_rules() -> set[str]:
-    odd = etree.fromstring(expand(ODD_PATH).text)
-    return {el.get("id") for el in odd.iter(f"{{{SCH}}}assert", f"{{{SCH}}}report") if el.get("id") is not None}
-
-
-def test_every_rule_of_the_odd_has_an_invalid_sample() -> None:
-    missing = odd_rules() - {p.stem for p in INVALID}
-    assert not missing
 
 
 def test_generated_files_come_from_the_odd_as_it_is() -> None:
@@ -157,9 +121,12 @@ def test_the_odd_check_passes_a_valid_file(validator: Validator) -> None:
     check_odd(VALID[0], validator)
 
 
-def test_the_odd_check_stops_the_build_on_an_error(validator: Validator) -> None:
-    sample = next(p for p in INVALID if "checked by the RelaxNG" in p.read_text(encoding="utf-8"))
-    with pytest.raises(BuildError, match=f"{sample.name} isn't valid"):
+def test_the_odd_check_stops_the_build_on_an_error(validator: Validator, tmp_path: Path) -> None:
+    sample = tmp_path / "invalid.xml"
+    text = VALID[0].read_text(encoding="utf-8").replace('<div type="chapter"', '<div type="chpater"', 1)
+    assert 'type="chpater"' in text
+    sample.write_text(text, encoding="utf-8")
+    with pytest.raises(BuildError, match="invalid.xml isn't valid"):
         check_odd(sample, validator)
 
 

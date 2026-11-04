@@ -26,6 +26,105 @@
     <gi>samplingDecl</gi>; completeness is never stated, but read from the gaps.</p>
 
 
+  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="division-holds-paragraphs-and-divisions">
+    <div type="chapter" n="1"><!-- breaks the rule -->
+      <head type="number">I.</head>
+      <head type="rubric">De episcopis.</head>
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      <div type="unit">
+        <p>Et clerici.</p>
+      </div>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="division-type-missing">
+    <div n="1"><!-- breaks the rule -->
+      <head type="number">I.</head>
+      <head type="rubric">De episcopis.</head>
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="division-type-misspelled">
+    <div type="chpater" n="1"><!-- breaks the rule -->
+      <head type="number">I.</head>
+      <head type="rubric">De episcopis.</head>
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="division-number-not-a-value">
+    <div type="chapter" n="I"><!-- breaks the rule -->
+      <head type="number">I.</head>
+      <head type="rubric">De episcopis.</head>
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="number-heading-n">
+    <div type="chapter">
+      <head type="number">I.</head>
+      <head type="rubric">De episcopis.</head>
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="heading-type-missing">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <head>De episcopis.</head><!-- breaks the rule -->
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="heading-type-misspelled">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <head type="inscripto">De episcopis.</head><!-- breaks the rule -->
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="unit-alone">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <head type="rubric">De episcopis.</head>
+      <div type="unit">
+        <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      </div>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="unit-holds-text">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <head type="rubric">De episcopis.</head>
+      <div type="unit">
+        <head type="rubric">De eodem.</head>
+        <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      </div>
+      <div type="unit">
+        <p>Et clerici.</p>
+      </div>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="register-item-in-register">
+    <div type="registerItem" n="2">
+      <head type="number">II.</head>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="page-break-without-number">
+    <p>Placuit ut episcopi<pb/><!-- breaks the rule --> in ciuitatibus suis maneant.</p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="gap-reason-unknown">
+    <p>Placuit ut episcopi in ciuitatibus suis maneant. <gap reason="missing"/><!-- breaks the rule --></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="gap-unit-unknown">
+    <p>Placuit ut episcopi in ciuitatibus suis maneant. <gap reason="lacuna" quantity="2" unit="folios"/><!-- breaks the rule --></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="gap-quantity-unit">
+    <p>Placuit ut episcopi in ciuitatibus suis maneant. <gap reason="lacuna" quantity="2"/></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="text-elements">
+    <p>Placuit ut episcopi <orgName>ecclesiae</orgName> maneant.</p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="element-outside-the-schema">
+    <p>Placuit ut <hi rend="italic">episcopi</hi> maneant.</p><!-- breaks the rule -->
+  </egXML>
+
   <specGrp xml:id="text-specs">
     <!-- The structure of the text. -->
     <macroSpec ident="solemne.structure" mode="add" xml:id="division-holds-paragraphs-and-divisions"

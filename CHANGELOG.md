@@ -19,6 +19,9 @@ Each release says what changed, and whether files that passed may now fail.
   beside the specification. Each Schematron rule has a `constraintSpec` of its own, and each restriction the RelaxNG
   checks (a closed list, a required attribute, a pattern) an `xml:id` on the specification that makes it. Nothing
   changes for files.
+- The guide's examples are tests: an example passes both checks, a counter-example (`valid="false"`) fails on the
+  rule its `@n` names, and every rule has one. Fragments are checked in a minimal file. The invalid samples that
+  tested each rule are now counter-examples in the parts that explain their rules.
 
 ## 0.1.0 (2026-11-04)
 

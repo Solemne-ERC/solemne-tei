@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.1.0 (SHA-256 621af1c5b9459d4938c1c55e3d89337ff622f48e2d7dd675540cf0d0555dc767) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.1.0 (SHA-256 13d7d85c32fa91074353fd10429a41c6907b5e26542541c53b5635f9a16b62e4) by solemne-tei build. Edit the ODD, not this file. -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:lang="en">
   <teiHeader>
     <fileDesc>
@@ -106,6 +106,193 @@
     manuscript's ids are <gi>idno</gi>s typed by their authority, from a closed list, beside the kinds of
     identifier the files use: <val>shelfmark</val>, <val>ISBN</val>, <val>url</val>,
     <val>biblatex</val>.</p>
+
+  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-first-formal">
+    <titleStmt>
+      <title type="alias">Council of Samplia, 600</title>
+      <title type="formal">
+        <idno>C.SAM-0600</idno>
+        <idno type="category">C</idno>
+        <idno type="type">edition</idno>
+      </title>
+    </titleStmt>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-one-formal">
+    <titleStmt>
+      <title type="formal">
+        <idno>C.SAM-0600</idno>
+        <idno type="category">C</idno>
+        <idno type="type">edition</idno>
+      </title>
+      <title type="formal">Council of Samplia</title>
+    </titleStmt>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-type">
+    <title type="main">Council of Samplia, 600</title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-alias-words">
+    <title type="alias"/>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-other-source">
+    <title type="other">Synodus Sampliensis</title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="formal-title-idnos">
+    <title type="formal">
+      <idno>C.SAM-0600</idno>
+      <idno type="category">C</idno>
+    </title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="idno-in-formal-title">
+    <title type="alias">Council of Samplia, 600 <idno>C.SAM-0600</idno></title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="idno-type">
+    <title type="formal">
+      <idno>C.SAM-0600</idno>
+      <idno type="category">C</idno>
+      <idno type="type">edition</idno>
+      <idno type="shelfmark">MS 12</idno>
+    </title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-format">
+    <title type="formal">
+      <idno>C.SAM_0600</idno>
+      <idno type="category">C</idno>
+      <idno type="type">edition</idno>
+    </title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-category">
+    <title type="formal">
+      <idno>C.SAM-0600</idno>
+      <idno type="category">D</idno>
+      <idno type="type">edition</idno>
+    </title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="category-value">
+    <title type="formal">
+      <idno>CAN.SAM-0600</idno>
+      <idno type="category">CAN</idno>
+      <idno type="type">edition</idno>
+    </title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="document-type-value">
+    <title type="formal">
+      <idno>C.SAM-0600</idno>
+      <idno type="category">C</idno>
+      <idno type="type">copy</idno>
+    </title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-manuscript">
+    <title type="formal">
+      <idno>COLL.Samp.ms-Now-NL-12</idno>
+      <idno type="category">SYSCOLL</idno>
+      <idno type="type">edition</idno>
+    </title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="type-manuscript">
+    <title type="formal">
+      <idno>C.SAM-0600</idno>
+      <idno type="category">C</idno>
+      <idno type="type">manuscript</idno>
+    </title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="idno-type-unknown">
+    <sourceDesc>
+      <bibl>
+        <title>Concilia exempli gratia</title>
+        <idno type="isbn">0-000-00000-0</idno><!-- breaks the rule -->
+      </bibl>
+    </sourceDesc>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-in-ref">
+    <sourceDesc>
+      <bibl>
+        <author key="#new_person_Exemplus">Exemplus</author>
+        <title>Epistolae</title>
+      </bibl>
+    </sourceDesc>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-form">
+    <sourceDesc>
+      <bibl>
+        <author ref="new_person_Exemplus">Exemplus</author><!-- breaks the rule -->
+        <title>Epistolae</title>
+      </bibl>
+    </sourceDesc>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="same-as-prefix-declared">
+    <div type="chapter" n="1" sameAs="clavis:IS01.01">
+      <head type="number">I.</head>
+      <head type="rubric">De episcopis.</head>
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="prefix-known">
+    <listPrefixDef>
+      <prefixDef ident="unknown" matchPattern="(.+)" replacementPattern="https://example.org/$1">
+        <p>An identifier of a project the application doesn't know.</p>
+      </prefixDef>
+    </listPrefixDef>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="correction-default">
+    <editorialDecl>
+      <correction xml:id="checked-against-the-edition" status="high">
+        <p>Checked against the edition.</p>
+      </correction>
+      <correction xml:id="not-checked-yet" status="low">
+        <p>Not checked yet.</p>
+      </correction>
+    </editorialDecl>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="decls-target">
+    <editorialDecl>
+      <correction xml:id="checked" status="high">
+        <p>Checked against the edition.</p>
+      </correction>
+    </editorialDecl>
+    <div type="chapter" n="1" decls="#unchecked">
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="inferred-units-pointed-to">
+    <editorialDecl>
+      <segmentation xml:id="inferred-in-some-chapters" type="inferred-units" default="false">
+        <p>The units of reception aren't marked in some chapters: each is one.</p>
+      </segmentation>
+    </editorialDecl>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="segmentation-type-unknown">
+    <editorialDecl>
+      <segmentation type="units-inferred"><!-- breaks the rule -->
+        <p>Units inferred.</p>
+      </segmentation>
+    </editorialDecl>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-matches-file-name">
+    <!-- file name: C.SAM-0601.xml -->
+    <TEI>
+      <teiHeader>
+        <fileDesc>
+          <titleStmt>
+            <title type="formal">
+              <idno>C.SAM-0600</idno>
+              <idno type="category">C</idno>
+              <idno type="type">edition</idno>
+            </title>
+          </titleStmt>
+          <publicationStmt>
+            <p>An example of the guide.</p>
+          </publicationStmt>
+          <sourceDesc>
+            <p>An excerpt.</p>
+          </sourceDesc>
+        </fileDesc>
+      </teiHeader>
+      <text>
+        <body/>
+      </text>
+    </TEI>
+  </egXML>
 
   <specGrp xml:id="file-and-header-specs">
     <!-- The title statement: the formal title first, then aliases and other titles. -->
@@ -486,6 +673,105 @@
     <gi>samplingDecl</gi>; completeness is never stated, but read from the gaps.</p>
 
 
+  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="division-holds-paragraphs-and-divisions">
+    <div type="chapter" n="1"><!-- breaks the rule -->
+      <head type="number">I.</head>
+      <head type="rubric">De episcopis.</head>
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      <div type="unit">
+        <p>Et clerici.</p>
+      </div>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="division-type-missing">
+    <div n="1"><!-- breaks the rule -->
+      <head type="number">I.</head>
+      <head type="rubric">De episcopis.</head>
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="division-type-misspelled">
+    <div type="chpater" n="1"><!-- breaks the rule -->
+      <head type="number">I.</head>
+      <head type="rubric">De episcopis.</head>
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="division-number-not-a-value">
+    <div type="chapter" n="I"><!-- breaks the rule -->
+      <head type="number">I.</head>
+      <head type="rubric">De episcopis.</head>
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="number-heading-n">
+    <div type="chapter">
+      <head type="number">I.</head>
+      <head type="rubric">De episcopis.</head>
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="heading-type-missing">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <head>De episcopis.</head><!-- breaks the rule -->
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="heading-type-misspelled">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <head type="inscripto">De episcopis.</head><!-- breaks the rule -->
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="unit-alone">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <head type="rubric">De episcopis.</head>
+      <div type="unit">
+        <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      </div>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="unit-holds-text">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <head type="rubric">De episcopis.</head>
+      <div type="unit">
+        <head type="rubric">De eodem.</head>
+        <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      </div>
+      <div type="unit">
+        <p>Et clerici.</p>
+      </div>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="register-item-in-register">
+    <div type="registerItem" n="2">
+      <head type="number">II.</head>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="page-break-without-number">
+    <p>Placuit ut episcopi<pb/><!-- breaks the rule --> in ciuitatibus suis maneant.</p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="gap-reason-unknown">
+    <p>Placuit ut episcopi in ciuitatibus suis maneant. <gap reason="missing"/><!-- breaks the rule --></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="gap-unit-unknown">
+    <p>Placuit ut episcopi in ciuitatibus suis maneant. <gap reason="lacuna" quantity="2" unit="folios"/><!-- breaks the rule --></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="gap-quantity-unit">
+    <p>Placuit ut episcopi in ciuitatibus suis maneant. <gap reason="lacuna" quantity="2"/></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="text-elements">
+    <p>Placuit ut episcopi <orgName>ecclesiae</orgName> maneant.</p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="element-outside-the-schema">
+    <p>Placuit ut <hi rend="italic">episcopi</hi> maneant.</p><!-- breaks the rule -->
+  </egXML>
+
   <specGrp xml:id="text-specs">
     <!-- The structure of the text. -->
     <macroSpec ident="solemne.structure" mode="add" xml:id="division-holds-paragraphs-and-divisions" corresp="#tier-required">
@@ -736,6 +1022,64 @@
     <att>quantity</att> with its <att>unit</att> (<val>leaves</val>, <val>lines</val>, <val>words</val>,
     <val>chars</val>), or <att>extent</att> in words.</p>
 
+  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="text-note-type">
+    <p>Placuit ut episcopi maneant.<note type="links">See elsewhere.</note></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="note-has-content">
+    <p>Placuit ut episcopi maneant.<note type="editorial"/></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="note-type-misspelled">
+    <p>Placuit ut episcopi maneant.<note type="souce" source="C.NIC-0325_3"/><!-- breaks the rule --></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-note-codes">
+    <p>Placuit ut episcopi maneant.<note type="source">C.NIC-0325_15</note></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-pointer-form">
+    <p>Placuit ut episcopi maneant.<note type="source" source="CNIC.325.2"/><!-- breaks the rule: an older code --></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-pointer-form">
+    <p>Placuit ut episcopi maneant.<note type="source" source="C.NIC_0325_3"/><!-- breaks the rule: an underscore in the code --></p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-pointer-form">
+    <cit><ref>Dominus ait:</ref> <quote source="MATT_5_3">Beati pauperes</quote><!-- breaks the rule: no such book --></cit>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-pointer-form">
+    <cit><ref>Apostolus ait:</ref> <quote source="1CO_9_14f">qui euangelium adnuntiant</quote><!-- breaks the rule: no such verse --></cit>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="quotation-typed">
+    <cit><ref>Apostolus ait:</ref> <quote type="ROM_12_5">unum corpus sumus</quote><!-- breaks the rule --></cit>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="reference-type-unknown">
+    <cit><ref type="paratext">Dominus ait:</ref><!-- breaks the rule --> <quote source="MAT_5_3">Beati pauperes</quote></cit>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="seg-type-missing">
+    <p><seg>Si quis</seg><!-- breaks the rule --> episcopus migrauerit, deponatur.</p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="seg-type-misspelled">
+    <p><seg type="fomula">Si quis</seg><!-- breaks the rule --> episcopus migrauerit, deponatur.</p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-form">
+    <p>Placuit <persName ref="new_person_Paul">Paulo</persName><!-- breaks the rule --> ut episcopi maneant.</p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-form">
+    <p>Placuit ut episcopi per <rs type="diocese" ref="new_diocese_Samplia">dioecesim</rs><!-- breaks the rule --> maneant.</p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="fragment-next">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <p><quote xml:id="next-wrong-a" next="#next-wrong-c">Placuit ut episcopi in ciuitatibus suis</quote></p>
+      <p><quote xml:id="next-wrong-b">maneant.</quote></p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="fragment-prev">
+    <div type="chapter" n="1">
+      <head type="number">I.</head>
+      <p><quote xml:id="prev-wrong-a">Placuit ut episcopi in ciuitatibus suis</quote></p>
+      <p><quote xml:id="prev-wrong-b" prev="#prev-wrong-a">maneant.</quote></p>
+    </div>
+  </egXML>
+
   <specGrp xml:id="marked-in-the-text-specs">
     <!-- Notes: in the text, typed by their layer. -->
     <elementSpec ident="note" module="core" mode="change" corresp="#tier-full">
@@ -934,6 +1278,52 @@
   <head>Records</head>
   <p>This part's prose comes in a later version of the guide.</p>
 
+  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="person-id">
+    <person xml:id="person_7">
+      <persName type="main">Exemplus</persName>
+    </person>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="person-main-name">
+    <person xml:id="new_person_Secundus">
+      <persName type="alternative">Secundus</persName>
+    </person>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="links-list">
+    <person xml:id="new_person_Tertius">
+      <persName type="main">Tertius</persName>
+      <note type="links">See the catalogue.</note>
+    </person>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="link-target">
+    <person xml:id="new_person_Quartus">
+      <persName type="main">Quartus</persName>
+      <note type="links">
+        <list type="links">
+          <item>
+            <ref target="https://example.org/person/7"/>
+          </item>
+        </list>
+      </note>
+    </person>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="floruit-dates">
+    <person xml:id="new_person_Quintus">
+      <persName type="main">Quintus</persName>
+      <floruit/>
+    </person>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="event-described">
+    <event when="0600">
+      <desc>A council.</desc>
+    </event>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="event-words">
+    <event when="0601">
+      <p/>
+    </event>
+  </egXML>
+
   <specGrp xml:id="records-specs">
     <!-- The records in the standOff. -->
     <elementSpec ident="event" module="namesdates" mode="change" corresp="#tier-full">
@@ -1024,6 +1414,14 @@
   <head>Relations</head>
   <p>This part's prose comes in a later version of the guide.</p>
 
+  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-without-name">
+    <relation type="observation" active="#ch1" passive="https://example.org/id/canon/C.NIC-0325_3"/><!-- breaks the rule -->
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-type-unknown">
+    <relation name="isTextOf" type="opinion" active="#ch1" passive="https://example.org/id/canon/C.NIC-0325_3"/><!-- breaks the rule -->
+  </egXML>
+
   <specGrp xml:id="relations-specs">
     <!-- Relations are observations or judgements. -->
     <elementSpec ident="relation" module="namesdates" mode="change" corresp="#tier-full">
@@ -1046,6 +1444,14 @@
       <div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="dates" n="VII">
   <head>Dates</head>
   <p>This part's prose comes in a later version of the guide.</p>
+
+  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="date-span-bounds">
+    <p>Made after <date notBefore="1900">1900</date>.</p>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="date-from-to">
+    <p>Made from <date from="1900">1900</date>.</p>
+  </egXML>
 
   <specGrp xml:id="dates-specs">
     <!-- A date is one point, or a span with both its bounds. -->
@@ -1074,6 +1480,17 @@
       <div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="manuscripts" n="VIII">
   <head>Manuscripts</head>
   <p>This part's prose comes in a later version of the guide.</p>
+
+  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="manuscript-unit">
+    <msDesc>
+      <msIdentifier>
+        <settlement>Nowhere</settlement>
+        <repository>National Library</repository>
+        <idno type="shelfmark">MS 12</idno>
+      </msIdentifier>
+    </msDesc>
+  </egXML>
 
   <specGrp xml:id="manuscripts-specs">
     <!-- A description has at least one codicological unit. -->

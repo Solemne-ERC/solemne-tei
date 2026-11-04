@@ -4,6 +4,17 @@
   <head>Manuscripts</head>
   <p>This part's prose comes in a later version of the guide.</p>
 
+  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="manuscript-unit">
+    <msDesc>
+      <msIdentifier>
+        <settlement>Nowhere</settlement>
+        <repository>National Library</repository>
+        <idno type="shelfmark">MS 12</idno>
+      </msIdentifier>
+    </msDesc>
+  </egXML>
+
   <specGrp xml:id="manuscripts-specs">
     <!-- A description has at least one codicological unit. -->
     <elementSpec ident="msDesc" module="msdescription" mode="change" corresp="#tier-full">

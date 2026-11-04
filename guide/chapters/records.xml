@@ -4,6 +4,52 @@
   <head>Records</head>
   <p>This part's prose comes in a later version of the guide.</p>
 
+  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="person-id">
+    <person xml:id="person_7">
+      <persName type="main">Exemplus</persName>
+    </person>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="person-main-name">
+    <person xml:id="new_person_Secundus">
+      <persName type="alternative">Secundus</persName>
+    </person>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="links-list">
+    <person xml:id="new_person_Tertius">
+      <persName type="main">Tertius</persName>
+      <note type="links">See the catalogue.</note>
+    </person>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="link-target">
+    <person xml:id="new_person_Quartus">
+      <persName type="main">Quartus</persName>
+      <note type="links">
+        <list type="links">
+          <item>
+            <ref target="https://example.org/person/7"/>
+          </item>
+        </list>
+      </note>
+    </person>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="floruit-dates">
+    <person xml:id="new_person_Quintus">
+      <persName type="main">Quintus</persName>
+      <floruit/>
+    </person>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="event-described">
+    <event when="0600">
+      <desc>A council.</desc>
+    </event>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="event-words">
+    <event when="0601">
+      <p/>
+    </event>
+  </egXML>
+
   <specGrp xml:id="records-specs">
     <!-- The records in the standOff. -->
     <elementSpec ident="event" module="namesdates" mode="change" corresp="#tier-full">

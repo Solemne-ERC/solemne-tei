@@ -4,6 +4,14 @@
   <head>Relations</head>
   <p>This part's prose comes in a later version of the guide.</p>
 
+  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-without-name">
+    <relation type="observation" active="#ch1" passive="https://example.org/id/canon/C.NIC-0325_3"/><!-- breaks the rule -->
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-type-unknown">
+    <relation name="isTextOf" type="opinion" active="#ch1" passive="https://example.org/id/canon/C.NIC-0325_3"/><!-- breaks the rule -->
+  </egXML>
+
   <specGrp xml:id="relations-specs">
     <!-- Relations are observations or judgements. -->
     <elementSpec ident="relation" module="namesdates" mode="change" corresp="#tier-full">

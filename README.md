@@ -86,8 +86,12 @@ description module from the Bodleian's; `odd2relax` writes the RelaxNG; `extract
 SchXslt2 compiles it to XSLT. The development install pins SaxonC-HE's version, since the compiled Schematron
 differs between versions; the package itself works with a range of them.
 
-A new rule goes into the ODD as a Schematron assertion with an `id`, or as a RelaxNG constraint, with an invalid
-sample in `tests/samples/invalid/` named by the rule; the tests check that every assertion of the ODD has its sample.
+A new rule goes into the part of the guide that explains it, in that part's `specGrp`: a Schematron assertion with
+an `id`, in a `constraintSpec` of its own, or a restriction the RelaxNG checks, named by the `xml:id` of the
+specification that makes it (a `valList`, an `attDef`, a `datatype`). It names its tier by `@corresp`, and comes
+with a counter-example: an `egXML` with `valid="false"` and the rule's name in `@n`. The tests check every example of
+the guide: one without `@valid` passes both checks, placed in a minimal file when it's a fragment; a counter-example
+fails on its rule; and every rule has one.
 
 ## Tests
 

@@ -38,6 +38,193 @@
     identifier the files use: <val>shelfmark</val>, <val>ISBN</val>, <val>url</val>,
     <val>biblatex</val>.</p>
 
+  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-first-formal">
+    <titleStmt>
+      <title type="alias">Council of Samplia, 600</title>
+      <title type="formal">
+        <idno>C.SAM-0600</idno>
+        <idno type="category">C</idno>
+        <idno type="type">edition</idno>
+      </title>
+    </titleStmt>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-one-formal">
+    <titleStmt>
+      <title type="formal">
+        <idno>C.SAM-0600</idno>
+        <idno type="category">C</idno>
+        <idno type="type">edition</idno>
+      </title>
+      <title type="formal">Council of Samplia</title>
+    </titleStmt>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-type">
+    <title type="main">Council of Samplia, 600</title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-alias-words">
+    <title type="alias"/>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-other-source">
+    <title type="other">Synodus Sampliensis</title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="formal-title-idnos">
+    <title type="formal">
+      <idno>C.SAM-0600</idno>
+      <idno type="category">C</idno>
+    </title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="idno-in-formal-title">
+    <title type="alias">Council of Samplia, 600 <idno>C.SAM-0600</idno></title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="idno-type">
+    <title type="formal">
+      <idno>C.SAM-0600</idno>
+      <idno type="category">C</idno>
+      <idno type="type">edition</idno>
+      <idno type="shelfmark">MS 12</idno>
+    </title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-format">
+    <title type="formal">
+      <idno>C.SAM_0600</idno>
+      <idno type="category">C</idno>
+      <idno type="type">edition</idno>
+    </title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-category">
+    <title type="formal">
+      <idno>C.SAM-0600</idno>
+      <idno type="category">D</idno>
+      <idno type="type">edition</idno>
+    </title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="category-value">
+    <title type="formal">
+      <idno>CAN.SAM-0600</idno>
+      <idno type="category">CAN</idno>
+      <idno type="type">edition</idno>
+    </title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="document-type-value">
+    <title type="formal">
+      <idno>C.SAM-0600</idno>
+      <idno type="category">C</idno>
+      <idno type="type">copy</idno>
+    </title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-manuscript">
+    <title type="formal">
+      <idno>COLL.Samp.ms-Now-NL-12</idno>
+      <idno type="category">SYSCOLL</idno>
+      <idno type="type">edition</idno>
+    </title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="type-manuscript">
+    <title type="formal">
+      <idno>C.SAM-0600</idno>
+      <idno type="category">C</idno>
+      <idno type="type">manuscript</idno>
+    </title>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="idno-type-unknown">
+    <sourceDesc>
+      <bibl>
+        <title>Concilia exempli gratia</title>
+        <idno type="isbn">0-000-00000-0</idno><!-- breaks the rule -->
+      </bibl>
+    </sourceDesc>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-in-ref">
+    <sourceDesc>
+      <bibl>
+        <author key="#new_person_Exemplus">Exemplus</author>
+        <title>Epistolae</title>
+      </bibl>
+    </sourceDesc>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-form">
+    <sourceDesc>
+      <bibl>
+        <author ref="new_person_Exemplus">Exemplus</author><!-- breaks the rule -->
+        <title>Epistolae</title>
+      </bibl>
+    </sourceDesc>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="same-as-prefix-declared">
+    <div type="chapter" n="1" sameAs="clavis:IS01.01">
+      <head type="number">I.</head>
+      <head type="rubric">De episcopis.</head>
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="prefix-known">
+    <listPrefixDef>
+      <prefixDef ident="unknown" matchPattern="(.+)" replacementPattern="https://example.org/$1">
+        <p>An identifier of a project the application doesn't know.</p>
+      </prefixDef>
+    </listPrefixDef>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="correction-default">
+    <editorialDecl>
+      <correction xml:id="checked-against-the-edition" status="high">
+        <p>Checked against the edition.</p>
+      </correction>
+      <correction xml:id="not-checked-yet" status="low">
+        <p>Not checked yet.</p>
+      </correction>
+    </editorialDecl>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="decls-target">
+    <editorialDecl>
+      <correction xml:id="checked" status="high">
+        <p>Checked against the edition.</p>
+      </correction>
+    </editorialDecl>
+    <div type="chapter" n="1" decls="#unchecked">
+      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+    </div>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="inferred-units-pointed-to">
+    <editorialDecl>
+      <segmentation xml:id="inferred-in-some-chapters" type="inferred-units" default="false">
+        <p>The units of reception aren't marked in some chapters: each is one.</p>
+      </segmentation>
+    </editorialDecl>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="segmentation-type-unknown">
+    <editorialDecl>
+      <segmentation type="units-inferred"><!-- breaks the rule -->
+        <p>Units inferred.</p>
+      </segmentation>
+    </editorialDecl>
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-matches-file-name">
+    <!-- file name: C.SAM-0601.xml -->
+    <TEI>
+      <teiHeader>
+        <fileDesc>
+          <titleStmt>
+            <title type="formal">
+              <idno>C.SAM-0600</idno>
+              <idno type="category">C</idno>
+              <idno type="type">edition</idno>
+            </title>
+          </titleStmt>
+          <publicationStmt>
+            <p>An example of the guide.</p>
+          </publicationStmt>
+          <sourceDesc>
+            <p>An excerpt.</p>
+          </sourceDesc>
+        </fileDesc>
+      </teiHeader>
+      <text>
+        <body/>
+      </text>
+    </TEI>
+  </egXML>
+
   <specGrp xml:id="file-and-header-specs">
     <!-- The title statement: the formal title first, then aliases and other titles. -->
     <elementSpec ident="titleStmt" module="header" mode="change" corresp="#tier-required">

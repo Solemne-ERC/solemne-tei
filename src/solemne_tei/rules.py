@@ -25,7 +25,8 @@ RELAXNG_RULES = ("schemaSpec", "macroSpec", "dataSpec", "attDef", "valList", "da
 @dataclass(frozen=True)
 class Rule:
     """A rule of the schema: its id, its check (`relaxng` or `schematron`), its severity (`error` or `warning`), its
-    tier, the part of the guide that explains it (its `xml:id`), and what it requires."""
+    tier, the part of the guide that explains it (its `xml:id`), and what it requires. A RelaxNG rule names the
+    elements it restricts, where it restricts some and not all."""
 
     id: str
     check: str
@@ -33,6 +34,7 @@ class Rule:
     tier: str
     part: str
     description: str
+    elements: tuple[str, ...] = ()
 
 
 def _t(name: str) -> str:
@@ -90,6 +92,23 @@ def _relaxng_description(el: etree._Element) -> str:
     return _words(el.find(_t("desc")))
 
 
+def _restricted(el: etree._Element, odd: etree._Element) -> tuple[str, ...]:
+    """The elements a RelaxNG rule restricts: its element's, or those whose content or attributes use its macro or
+    datatype; none for the schema as a whole."""
+    local = etree.QName(el).localname
+    if local in ("attDef", "valList", "datatype"):
+        return (_owner(el)[0],)
+    ref = {"macroSpec": "macroRef", "dataSpec": "dataRef"}.get(local)
+    if ref is None:
+        return ()
+    users = {
+        spec.get("ident", "")
+        for spec in odd.iter(_t("elementSpec"))
+        if any(r.get("key") == el.get("ident") for r in spec.iter(_t(ref)))
+    }
+    return tuple(sorted(users))
+
+
 def rules(odd: etree._Element) -> list[Rule]:
     """Every rule of the expanded ODD, in the order the guide gives them."""
     names = tiers(odd)
@@ -104,7 +123,15 @@ def rules(odd: etree._Element) -> list[Rule]:
             description = _words(spec.find(_t("desc"))) if spec is not None else ""
             found.append(Rule(el.get("id"), "schematron", severity, tier, part_of(el), description))
         elif el.get(XML_ID) is not None:
-            rule = Rule(el.get(XML_ID), "relaxng", "error", _tier(el, names), part_of(el), _relaxng_description(el))
+            rule = Rule(
+                el.get(XML_ID),
+                "relaxng",
+                "error",
+                _tier(el, names),
+                part_of(el),
+                _relaxng_description(el),
+                _restricted(el, odd),
+            )
             found.append(rule)
     return found
 
