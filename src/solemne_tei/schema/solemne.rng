@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: MIT -->
-<!-- Generated from solemne.odd 0.1.0 (SHA-256 17d93bdbb1b26bfc554db1f261ed57aff5314d648fc40d52f1606985dbf2a623) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.1.0 (SHA-256 1ae1b858304f8bd2bc69d909091a9d2575ea67219bf2e588fb891747eee54d3e) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -5474,9 +5474,9 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       context="tei:*[@key or @corresp]">
                <sch:report id="record-pointer-in-ref"
                            role="warning"
-                           test="some $p in               tokenize(normalize-space(string-join((@key, @corresp), ' ')), ' ') satisfies matches($p,               '^#?[Nn]ew_[A-Za-z]+_|^#?(PERS\.\d+|solemne_person_\d+)$|^https?://\S+/id/(person|place|institution|event|manuscript|publication)/')">&lt;<sch:name/>&gt;
-              points to a record in @key or @corresp (<sch:value-of select="normalize-space(string-join((@key,               @corresp), ' '))"/>): a record is pointed to by @ref, on a name inside provenance, acquisition and
-              origin.</sch:report>
+                           test="some $p in                 tokenize(normalize-space(string-join((@key, @corresp), ' ')), ' ') satisfies matches($p,                 '^#?[Nn]ew_[A-Za-z]+_|^#?(PERS\.\d+|solemne_person_\d+)$|^https?://\S+/id/(person|place|institution|event|manuscript|publication)/')">&lt;<sch:name/>&gt;
+                points to a record in @key or @corresp (<sch:value-of select="normalize-space(string-join((@key,                 @corresp), ' '))"/>): a record is pointed to by @ref, on a name inside provenance, acquisition and
+                origin.</sch:report>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -5530,7 +5530,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt">
                <sch:assert id="title-first-formal" test="tei:title[1][@type = 'formal']">The title statement opens
-              with a title typed formal.</sch:assert>
+                  with a title typed formal.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -5541,7 +5541,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt">
                <sch:assert id="title-one-formal" test="count(tei:title[@type = 'formal']) = 1">The title statement
-              has one formal title.</sch:assert>
+                  has one formal title.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -5552,7 +5552,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt/tei:title">
                <sch:assert id="title-type" test="@type = ('formal', 'alias', 'other')">A title in the title statement
-              is typed formal, alias or other.</sch:assert>
+                  is typed formal, alias or other.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -5564,7 +5564,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       context="tei:fileDesc/tei:titleStmt/tei:title">
                <sch:assert id="title-alias-words"
                            test="not(@type = 'alias') or normalize-space(.) != ''">An alias
-              isn't empty.</sch:assert>
+                  isn't empty.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -5577,7 +5577,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                <sch:assert id="title-other-source"
                            role="warning"
                            test="not(@type = 'other') or @source">A title
-              typed other names its source in @source.</sch:assert>
+                  typed other names its source in @source.</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -5702,9 +5702,9 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']">
                <sch:assert id="formal-title-idnos"
-                           test="count(tei:idno[not(@type)]) = 1 and count(tei:idno[@type =               'category']) = 1 and count(tei:idno[@type = 'type']) = 1 and (every $level in ('work', 'version',               'witness', 'transcription') satisfies count(tei:idno[@type = $level]) le 1)">The formal title holds
-              the document's code (an identifier without a type), its category and its type, once each, and at
-              most one permalink for each level the file belongs to.</sch:assert>
+                           test="count(tei:idno[not(@type)]) = 1 and count(tei:idno[@type =                   'category']) = 1 and count(tei:idno[@type = 'type']) = 1 and (every $level in ('work', 'version',                   'witness', 'transcription') satisfies count(tei:idno[@type = $level]) le 1)">The formal title holds
+                  the document's code (an identifier without a type), its category and its type, once each, and at
+                  most one permalink for each level the file belongs to.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -5715,7 +5715,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt/tei:title/tei:idno">
                <sch:assert id="idno-in-formal-title" test="parent::tei:title[@type = 'formal']">An identifier in the
-              title statement stands in the formal title.</sch:assert>
+                  title statement stands in the formal title.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -5726,8 +5726,8 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt/tei:title/tei:idno">
                <sch:assert id="idno-type"
-                           test="not(@type) or @type = ('category', 'type', 'work', 'version',               'witness', 'transcription')">An identifier in the formal title is the code (without a type), the
-              category, the type, or the permalink of a level (work, version, witness, transcription).</sch:assert>
+                           test="not(@type) or @type = ('category', 'type', 'work', 'version',                   'witness', 'transcription')">An identifier in the formal title is the code (without a type), the
+                  category, the type, or the permalink of a level (work, version, witness, transcription).</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -5738,8 +5738,8 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
                <sch:assert id="code-format"
-                           test="matches(normalize-space(.),               '^[A-Z]+\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*$')">The document's code (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix and a dot, and holds only letters,
-              digits, dots and hyphens.</sch:assert>
+                           test="matches(normalize-space(.),                   '^[A-Z]+\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*$')">The document's code (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix and a dot, and holds only letters,
+                  digits, dots and hyphens.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -5753,9 +5753,9 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                         value="normalize-space(../tei:idno[@type = 'category'][1])"/>
                <sch:let name="prefix" value="substring-before(normalize-space(.), '.')"/>
                <sch:assert id="code-category"
-                           test="$category = ('', 'UNK') or $prefix = (if               ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category)">The document's code
-              (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of select="if ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category"/>, for the category
-              <sch:value-of select="$category"/>).</sch:assert>
+                           test="$category = ('', 'UNK') or $prefix = (if                   ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category)">The document's code
+                  (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of select="if ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category"/>, for the category
+                  <sch:value-of select="$category"/>).</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -5766,8 +5766,8 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
                <sch:assert id="code-manuscript"
-                           test="not(contains(normalize-space(.), '.ms-')) or               ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A manuscript's code (<sch:value-of select="normalize-space(.)"/>) goes with the manuscript's description (msDesc) in the
-              sourceDesc.</sch:assert>
+                           test="not(contains(normalize-space(.), '.ms-')) or                   ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A manuscript's code (<sch:value-of select="normalize-space(.)"/>) goes with the manuscript's description (msDesc) in the
+                  sourceDesc.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -5779,8 +5779,8 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
                <sch:assert id="code-matches-file-name"
                            role="warning"
-                           test="not(matches(base-uri(.),               '/[A-Z]+\.[^/]*\.xml$')) or ends-with(base-uri(.), concat('/',               encode-for-uri(normalize-space(.)), '.xml'))">A file named by a code is named by its document's code
-              (<sch:value-of select="normalize-space(.)"/>).</sch:assert>
+                           test="not(matches(base-uri(.),                   '/[A-Z]+\.[^/]*\.xml$')) or ends-with(base-uri(.), concat('/',                   encode-for-uri(normalize-space(.)), '.xml'))">A file named by a code is named by its document's code
+                  (<sch:value-of select="normalize-space(.)"/>).</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -5791,8 +5791,8 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'category']">
                <sch:assert id="category-value"
-                           test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'C', 'D', 'P', 'H',               'EX', 'EP', 'LR', 'CPT', 'CHA', 'UNK')">The document's category (<sch:value-of select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, C, D, P, H, EX, EP, LR, CPT, CHA,
-              UNK.</sch:assert>
+                           test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'C', 'D', 'P', 'H',                   'EX', 'EP', 'LR', 'CPT', 'CHA', 'UNK')">The document's category (<sch:value-of select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, C, D, P, H, EX, EP, LR, CPT, CHA,
+                  UNK.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -5803,8 +5803,8 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type']">
                <sch:assert id="document-type-value"
-                           test="normalize-space(.) = ('edition', 'manuscript',               'reconstruction', 'hypothesis', 'placeholder')">The document's type (<sch:value-of select="normalize-space(.)"/>) is one of edition, manuscript, reconstruction, hypothesis,
-              placeholder.</sch:assert>
+                           test="normalize-space(.) = ('edition', 'manuscript',                   'reconstruction', 'hypothesis', 'placeholder')">The document's type (<sch:value-of select="normalize-space(.)"/>) is one of edition, manuscript, reconstruction, hypothesis,
+                  placeholder.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -5815,8 +5815,8 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type']">
                <sch:assert id="type-manuscript"
-                           test="not(normalize-space(.) = 'manuscript') or               ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A document typed manuscript has the manuscript's
-              description (msDesc) in its sourceDesc.</sch:assert>
+                           test="not(normalize-space(.) = 'manuscript') or                   ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A document typed manuscript has the manuscript's
+                  description (msDesc) in its sourceDesc.</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -6037,8 +6037,8 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:*[@decls]">
                <sch:assert id="decls-target"
-                           test="every $t in tokenize(normalize-space(@decls), ' ') satisfies               (starts-with($t, '#') and exists(/tei:TEI/tei:teiHeader//(tei:correction |               tei:segmentation)[@xml:id = substring($t, 2)]))">@decls (<sch:value-of select="normalize-space(@decls)"/>) points to a correction or a segmentation in the
-              header.</sch:assert>
+                           test="every $t in tokenize(normalize-space(@decls), ' ') satisfies                   (starts-with($t, '#') and exists(/tei:TEI/tei:teiHeader//(tei:correction |                   tei:segmentation)[@xml:id = substring($t, 2)]))">@decls (<sch:value-of select="normalize-space(@decls)"/>) points to a correction or a segmentation in the
+                  header.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -6050,7 +6050,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                       context="tei:editorialDecl[count(tei:correction) gt 1]">
                <sch:assert id="correction-default"
                            test="count(tei:correction[@default = 'true']) = 1">Of several
-              corrections, one is the default (@default="true"): the whole text's.</sch:assert>
+                  corrections, one is the default (@default="true"): the whole text's.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -6063,8 +6063,8 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
                <sch:let name="id" value="concat('#', @xml:id)"/>
                <sch:assert id="inferred-units-pointed-to"
                            role="warning"
-                           test="@xml:id and               //@decls[tokenize(normalize-space(.), ' ') = $id]">A statement of inferred units for some divisions
-              (@default="false") is pointed to by their @decls.</sch:assert>
+                           test="@xml:id and                   //@decls[tokenize(normalize-space(.), ' ') = $id]">A statement of inferred units for some divisions
+                  (@default="false") is pointed to by their @decls.</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -6360,8 +6360,8 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
                       context="tei:*[@sameAs]">
                <sch:let name="declared" value="/tei:TEI/tei:teiHeader//tei:prefixDef/@ident"/>
                <sch:assert id="same-as-prefix-declared"
-                           test="every $id in tokenize(normalize-space(@sameAs), ' ')               satisfies (not(matches($id, '^[A-Za-z][A-Za-z0-9+.\-]*:')) or matches($id, '^https?:') or               substring-before($id, ':') = $declared)">The prefixes in @sameAs (<sch:value-of select="normalize-space(@sameAs)"/>) are declared in the header, by prefixDef in
-              listPrefixDef.</sch:assert>
+                           test="every $id in tokenize(normalize-space(@sameAs), ' ')                   satisfies (not(matches($id, '^[A-Za-z][A-Za-z0-9+.\-]*:')) or matches($id, '^https?:') or                   substring-before($id, ':') = $declared)">The prefixes in @sameAs (<sch:value-of select="normalize-space(@sameAs)"/>) are declared in the header, by prefixDef in
+                  listPrefixDef.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -6373,8 +6373,8 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
                       context="tei:prefixDef">
                <sch:assert id="prefix-known"
                            role="warning"
-                           test="@ident = ('scta', 'clavis', 'pseudoisidor',               'corpuscorporum')">The prefix <sch:value-of select="@ident"/> isn't one the application knows (scta,
-              clavis, pseudoisidor, corpuscorporum).</sch:assert>
+                           test="@ident = ('scta', 'clavis', 'pseudoisidor',                   'corpuscorporum')">The prefix <sch:value-of select="@ident"/> isn't one the application knows (scta,
+                  clavis, pseudoisidor, corpuscorporum).</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>

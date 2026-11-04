@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.1.0 (SHA-256 17d93bdbb1b26bfc554db1f261ed57aff5314d648fc40d52f1606985dbf2a623) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.1.0 (SHA-256 1ae1b858304f8bd2bc69d909091a9d2575ea67219bf2e588fb891747eee54d3e) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -130,239 +130,517 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 </div>
       <div xml:id="file-and-header" n="II">
   <head>The file and its header</head>
-  <p>The title statement opens with a formal title holding the document's identifiers, once each: its code,
-    in an <gi>idno</gi> without a type (<code>C.NIC-0325</code>); its category, typed
-    <val>category</val> (<val>SYSCOLL</val>, <val>CHRCOLL</val>, <val>C</val>, <val>D</val>, <val>P</val>,
-    <val>H</val>, <val>EX</val>, <val>EP</val>, <val>LR</val>, <val>CPT</val>, <val>CHA</val> or
-    <val>UNK</val>); and its type, typed <val>type</val> (<val>edition</val>, <val>manuscript</val>,
-    <val>reconstruction</val>, <val>hypothesis</val> or <val>placeholder</val>). The code begins with its
-    category's prefix: <code>COLL</code> for both kinds of collection, the category itself for the others;
-    <val>UNK</val>, and <val>LR</val>, <val>CPT</val> and <val>CHA</val>, whose prefixes aren't decided yet,
-    take any. A manuscript's code (<code>COLL.Dach.ms-Brn-Burg-425</code>), like a document typed
-    <val>manuscript</val>, goes with the manuscript's description in the <gi>sourceDesc</gi>. An export adds
-    the permalink of each level the file belongs to, typed <val>work</val>, <val>version</val>,
-    <val>witness</val> or <val>transcription</val>. Further titles are aliases or other titles. Dates are given as one point
-    (<att>when</att>) or as a span with both bounds. Persons, places and events listed in the standOff
-    either point to a record or describe one.</p>
-  <p>The header points to records as the text does, by <att>ref</att> in the same forms: a title to its
-    work, an author or an editor to a person, a country, region, settlement, place of origin, repository or
-    institution to its record, and the names (<gi>persName</gi>, <gi>orgName</gi>, <gi>placeName</gi>) to
-    theirs. <gi>provenance</gi>, <gi>acquisition</gi> and <gi>origin</gi> have no <att>ref</att> in TEI: the
-    record they point to is named inside them, by a name with <att>ref</att>, and the import makes the
-    relation from that name. <att>key</att> and <att>corresp</att> keep TEI's other uses; a record's pointer
-    in them is reported.</p>
-  <p>A manuscript is described, for now, after the Bodleian's consolidated schema, with at least one
-    codicological unit (<gi>msPart</gi>) in every description, each with its own identifier: the manuscript
-    holds its identity and its binding, a unit its physical description, its date, its hands and its
-    decoration.</p>
-  <p>A node's ids in other projects (SCTA's, the Clavis canonum's keys) are given in <att>sameAs</att>, each
-    with a prefix declared in the header by a <gi>prefixDef</gi> in <gi>listPrefixDef</gi>
-    (<code>clavis:IS35.27</code>). The application knows four: <code>scta</code> (SCTA,
-    <code>http://scta.info/resource/…</code>), <code>clavis</code> (the Clavis canonum,
-    <code>https://data.mgh.de/databases/clavis/db/legacysearch?key=…</code>), <code>pseudoisidor</code> (the
-    Pseudoisidor project) and <code>corpuscorporum</code> (the Corpus Corporum's Patrologia Latina); another
-    may be declared, and is reported. A prefix used without its declaration is an error. A record's or a
-    manuscript's ids are <gi>idno</gi>s typed by their authority, from a closed list, beside the kinds of
-    identifier the files use: <val>shelfmark</val>, <val>ISBN</val>, <val>url</val>,
-    <val>biblatex</val>.</p>
+  <p>A file is one document: a TEI root, <gi>TEI</gi>, in TEI's namespace, holding a header, <gi>teiHeader</gi>,
+    the text, <gi>text</gi>, and, where the file lists records, relations or annotations, a <gi>standOff</gi> after the
+    text. The header says what the document is, who made the file and from what, and how the text was encoded. Its
+    skeleton is <hi>required</hi>: the title statement with its formal title, the publication statement, and the
+    description of the source. The rest is <hi>common</hi> or <hi>full</hi>, as each section says.</p>
+  <p>The root needs no id: the document's code, in the formal title, identifies it. A root's <att>xml:id</att> is
+    the encoder's, and the import doesn't read it.</p>
 
-  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-first-formal">
-    <titleStmt>
-      <title type="alias">Council of Samplia, 600</title>
+  <div xml:id="header-title">
+    <head>The title statement</head>
+    <p>The title statement (<gi>titleStmt</gi>) opens with the formal title, <gi>title</gi> typed
+      <val>formal</val>, which holds the document's identifiers, once each:</p>
+    <list>
+      <item>its code, an <gi>idno</gi> without a type (<ptr target="#header-codes"/>);</item>
+      <item>its category, an <gi>idno</gi> typed <val>category</val>;</item>
+      <item>its type, an <gi>idno</gi> typed <val>type</val>.</item>
+    </list>
+    <p>Its other titles follow: an <val>alias</val>, the title readers know it by, and titles typed
+      <val>other</val>, each naming its source in <att>source</att>. The formal title and its three identifiers are
+      <hi>required</hi>: the import needs the code for the document's id. The Schematron checks them as errors, which
+      the import reports. An alias is <hi>common</hi>; other titles are <hi>full</hi>. The Council of Mainz, 813:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.MAI-0813">
+      <titleStmt>
+        <title type="formal">
+          <idno>C.MAI-0813</idno>
+          <idno type="category">C</idno>
+          <idno type="type">edition</idno>
+        </title>
+        <title type="alias">Council of Mainz, 813</title>
+      </titleStmt>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-first-formal">
+      <titleStmt>
+        <title type="alias">Council of Samplia, 600</title>
+        <title type="formal">
+          <idno>C.SAM-0600</idno>
+          <idno type="category">C</idno>
+          <idno type="type">edition</idno>
+        </title>
+      </titleStmt>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-one-formal">
+      <titleStmt>
+        <title type="formal">
+          <idno>C.SAM-0600</idno>
+          <idno type="category">C</idno>
+          <idno type="type">edition</idno>
+        </title>
+        <title type="formal">Council of Samplia</title>
+      </titleStmt>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="formal-title-idnos">
+      <title type="formal">
+        <idno>C.SAM-0600</idno>
+        <idno type="category">C</idno>
+      </title>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-type">
+      <title type="main">Council of Samplia, 600</title>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-alias-words">
+      <title type="alias"/>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-other-source">
+      <title type="other">Synodus Sampliensis</title>
+    </egXML>
+    <p>Identifiers in the title statement stand in the formal title, and are its code, its category, its type, or,
+      in an export, the permalinks of the levels the document belongs to: one each for its <val>work</val>, its
+      <val>version</val>, its <val>witness</val> and its <val>transcription</val> (<ptr target="#what-a-file-describes"/>). Those
+      are <hi>export only</hi>: the application writes them.</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="idno-in-formal-title">
+      <title type="alias">Council of Samplia, 600 <idno>C.SAM-0600</idno></title>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="idno-type">
       <title type="formal">
         <idno>C.SAM-0600</idno>
         <idno type="category">C</idno>
         <idno type="type">edition</idno>
+        <idno type="shelfmark">MS 12</idno>
       </title>
-    </titleStmt>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-one-formal">
-    <titleStmt>
-      <title type="formal">
-        <idno>C.SAM-0600</idno>
-        <idno type="category">C</idno>
-        <idno type="type">edition</idno>
-      </title>
-      <title type="formal">Council of Samplia</title>
-    </titleStmt>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-type">
-    <title type="main">Council of Samplia, 600</title>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-alias-words">
-    <title type="alias"/>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-other-source">
-    <title type="other">Synodus Sampliensis</title>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="formal-title-idnos">
-    <title type="formal">
-      <idno>C.SAM-0600</idno>
-      <idno type="category">C</idno>
-    </title>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="idno-in-formal-title">
-    <title type="alias">Council of Samplia, 600 <idno>C.SAM-0600</idno></title>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="idno-type">
-    <title type="formal">
-      <idno>C.SAM-0600</idno>
-      <idno type="category">C</idno>
-      <idno type="type">edition</idno>
-      <idno type="shelfmark">MS 12</idno>
-    </title>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-format">
-    <title type="formal">
-      <idno>C.SAM_0600</idno>
-      <idno type="category">C</idno>
-      <idno type="type">edition</idno>
-    </title>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-category">
-    <title type="formal">
-      <idno>C.SAM-0600</idno>
-      <idno type="category">D</idno>
-      <idno type="type">edition</idno>
-    </title>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="category-value">
-    <title type="formal">
-      <idno>CAN.SAM-0600</idno>
-      <idno type="category">CAN</idno>
-      <idno type="type">edition</idno>
-    </title>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="document-type-value">
-    <title type="formal">
-      <idno>C.SAM-0600</idno>
-      <idno type="category">C</idno>
-      <idno type="type">copy</idno>
-    </title>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-manuscript">
-    <title type="formal">
-      <idno>COLL.Samp.ms-Now-NL-12</idno>
-      <idno type="category">SYSCOLL</idno>
-      <idno type="type">edition</idno>
-    </title>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="type-manuscript">
-    <title type="formal">
-      <idno>C.SAM-0600</idno>
-      <idno type="category">C</idno>
-      <idno type="type">manuscript</idno>
-    </title>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="idno-type-unknown">
-    <sourceDesc>
-      <bibl>
-        <title>Concilia exempli gratia</title>
-        <idno type="isbn">0-000-00000-0</idno><!-- breaks the rule -->
-      </bibl>
-    </sourceDesc>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-in-ref">
-    <sourceDesc>
-      <bibl>
-        <author key="#new_person_Exemplus">Exemplus</author>
-        <title>Epistolae</title>
-      </bibl>
-    </sourceDesc>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-form">
-    <sourceDesc>
-      <bibl>
-        <author ref="new_person_Exemplus">Exemplus</author><!-- breaks the rule -->
-        <title>Epistolae</title>
-      </bibl>
-    </sourceDesc>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="same-as-prefix-declared">
-    <div type="chapter" n="1" sameAs="clavis:IS01.01">
-      <head type="number">I.</head>
-      <head type="rubric">De episcopis.</head>
-      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
-    </div>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="prefix-known">
-    <listPrefixDef>
-      <prefixDef ident="unknown" matchPattern="(.+)" replacementPattern="https://example.org/$1">
-        <p>An identifier of a project the application doesn't know.</p>
-      </prefixDef>
-    </listPrefixDef>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="correction-default">
-    <editorialDecl>
-      <correction xml:id="checked-against-the-edition" status="high">
-        <p>Checked against the edition.</p>
-      </correction>
-      <correction xml:id="not-checked-yet" status="low">
-        <p>Not checked yet.</p>
-      </correction>
-    </editorialDecl>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="decls-target">
-    <editorialDecl>
-      <correction xml:id="checked" status="high">
-        <p>Checked against the edition.</p>
-      </correction>
-    </editorialDecl>
-    <div type="chapter" n="1" decls="#unchecked">
-      <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
-    </div>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="inferred-units-pointed-to">
-    <editorialDecl>
-      <segmentation xml:id="inferred-in-some-chapters" type="inferred-units" default="false">
-        <p>The units of reception aren't marked in some chapters: each is one.</p>
-      </segmentation>
-    </editorialDecl>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="segmentation-type-unknown">
-    <editorialDecl>
-      <segmentation type="units-inferred"><!-- breaks the rule -->
-        <p>Units inferred.</p>
-      </segmentation>
-    </editorialDecl>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-matches-file-name">
-    <!-- file name: C.SAM-0601.xml -->
-    <TEI>
-      <teiHeader>
-        <fileDesc>
-          <titleStmt>
-            <title type="formal">
-              <idno>C.SAM-0600</idno>
-              <idno type="category">C</idno>
-              <idno type="type">edition</idno>
-            </title>
-          </titleStmt>
-          <publicationStmt>
-            <p>An example of the guide.</p>
-          </publicationStmt>
-          <sourceDesc>
-            <p>An excerpt.</p>
-          </sourceDesc>
-        </fileDesc>
-      </teiHeader>
-      <text>
-        <body/>
-      </text>
-    </TEI>
-  </egXML>
+    </egXML>
 
-  <table rend="specGrpSummary"><row><cell>
+    <div xml:id="header-categories">
+      <head>Categories and types</head>
+      <p>The category says what kind of text the document is. The application keeps the categories as a vocabulary,
+        which may grow; the schema checks them against its list, which these seed:</p>
+      <list>
+        <item><val>SYSCOLL</val>: a collection arranged by subject;</item>
+        <item><val>CHRCOLL</val>: a collection arranged chronologically;</item>
+        <item><val>C</val>: a council;</item>
+        <item><val>D</val>: a decretal;</item>
+        <item><val>P</val>: a penitential;</item>
+        <item><val>H</val>: a homiliary;</item>
+        <item><val>EX</val>: exegesis;</item>
+        <item><val>EP</val>: a letter, not a pope's;</item>
+        <item><val>LR</val>: Roman law, <foreign xml:lang="la">lex Romana</foreign>;</item>
+        <item><val>CPT</val>: a capitulary;</item>
+        <item><val>CHA</val>: a charter;</item>
+        <item><val>UNK</val>: not known.</item>
+      </list>
+      <p>The type says what the file transcribes:</p>
+      <list>
+        <item><val>edition</val>: a text as a scholarly edition prints it;</item>
+        <item><val>manuscript</val>: a text as a manuscript gives it, transcribed from it; its source description is
+          the manuscript's (<ptr target="#manuscripts"/>);</item>
+        <item><val>reconstruction</val>: a text that scholars have reconstructed from others, such as a collection
+          known from parts of other collections;</item>
+        <item><val>hypothesis</val>: any text supposed rather than found, less precise than a reconstruction;</item>
+        <item><val>placeholder</val>: a text whose content stands in for another's, such as a manuscript's text taken
+          for now from the edition that used it.</item>
+      </list>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="category-value">
+        <title type="formal">
+          <idno>CAN.SAM-0600</idno>
+          <idno type="category">CAN</idno>
+          <idno type="type">edition</idno>
+        </title>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="document-type-value">
+        <title type="formal">
+          <idno>C.SAM-0600</idno>
+          <idno type="category">C</idno>
+          <idno type="type">copy</idno>
+        </title>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="type-manuscript">
+        <title type="formal">
+          <idno>C.SAM-0600</idno>
+          <idno type="category">C</idno>
+          <idno type="type">manuscript</idno>
+        </title>
+      </egXML>
+    </div>
+
+    <div xml:id="header-codes">
+      <head>The coding rules</head>
+      <p>A document's code says what the document is: its category, its title, its date, and, where needed, its
+        source. Codes are made by the rules below, from the old Solemne guide, revised. The Schematron checks the
+        code's form and its prefix, that a manuscript's code goes with the manuscript's description, and that a file
+        named by a code is named by its own; the rest of the rules are the project's practice, explained here and
+        not checked. A tool that proposes codes may come later.</p>
+      <p>A code has up to three parts, joined by dots:</p>
+      <list>
+        <item><hi>The category's prefix:</hi> the category itself (<code>C</code>, <code>D</code>, <code>P</code>,
+          <code>H</code>, <code>EX</code>, <code>EP</code>, <code>LR</code>, <code>CPT</code>, <code>CHA</code>),
+          and <code>COLL</code> for both kinds of collection. A document of an unknown category takes any
+          prefix.</item>
+        <item><hi>The title part,</hi> its subparts joined by hyphens:
+          <list>
+            <item>the title: for a council, three capitals for its place (<code>C.MAI</code> for Mainz); for a
+              decretal, three for its pope (<code>D.LEO</code>), with <code>Ps</code> before a forged decretal's
+              pope (<code>D.PsCAL</code>); for a collection or a penitential, its name or an abbreviation of it
+              (<code>COLL.Dach</code>, <code>COLL.400</code>, <code>P.HAL</code>); <code>UNK</code> where the title
+              isn't known;</item>
+            <item>the date, where wanted: four digits, the year (<code>C.MAI-0813</code>); the latest possible year,
+              where the date is a range; <code>9999</code> where the date isn't known (<code>EP.LupEuf-9999</code>);</item>
+            <item>a further identifier, where needed: a decretal's number in Jaffé's register, in Kaltenbrunner's
+              numbering (<code>D.LEO-0447-414</code>); a version, <code>-v</code> and a name
+              (<code>C.NIC-0325-vDIO1</code>, Nicaea in the first Dionysiana; <code>D.LEO-0446-410-v1</code>).</item>
+          </list></item>
+        <item><hi>The source part,</hi> where the code would otherwise be another document's: <code>ms-</code> and
+          the manuscript's short code, for every transcription of a manuscript
+          (<code>COLL.400.ms-Mun-BSB-4592</code>); <code>ed-</code> and the edition, where the corpus holds two
+          editions of one text: the volume of the Patrologia Latina (<code>COLL.Burch.ed-PL140</code>), SCTA's
+          Gratian (<code>COLL.Grat.ed-SCTA</code>).</item>
+      </list>
+      <p>A manuscript's short code joins, by hyphens, its city in three letters, its library's abbreviation and its
+        shelfmark: <code>Mun-BSB-4592</code> for Munich, Bayerische Staatsbibliothek, Clm 4592. A code is a valid
+        <att>xml:id</att>: ASCII letters and digits joined by dots and hyphens, without spaces, accents or
+        parentheses, so a former shelfmark has no place in it. An underscore stands only in a pointer, before a
+        citation (<ptr target="#marked-pointers"/>).</p>
+      <p>No file of the corpus has the categories <code>LR</code>, <code>CPT</code> or <code>CHA</code> yet. Their
+        codes follow the general rule, with their own prefixes; how their title parts are made, the guide will say
+        with the first files.</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-format">
+        <title type="formal">
+          <idno>C.SAM_0600</idno>
+          <idno type="category">C</idno>
+          <idno type="type">edition</idno>
+        </title>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-category">
+        <title type="formal">
+          <idno>C.SAM-0600</idno>
+          <idno type="category">D</idno>
+          <idno type="type">edition</idno>
+        </title>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-manuscript">
+        <title type="formal">
+          <idno>COLL.Samp.ms-Now-NL-12</idno>
+          <idno type="category">SYSCOLL</idno>
+          <idno type="type">edition</idno>
+        </title>
+      </egXML>
+      <p>A file named by a code, whatever the category's, is named by its own: <code>C.MAI-0813.xml</code>. A file
+        named otherwise isn't checked; one named by another code is reported. Only a whole file can show it:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-matches-file-name">
+        <!-- file name: C.SAM-0601.xml -->
+        <TEI>
+          <teiHeader>
+            <fileDesc>
+              <titleStmt>
+                <title type="formal">
+                  <idno>C.SAM-0600</idno>
+                  <idno type="category">C</idno>
+                  <idno type="type">edition</idno>
+                </title>
+              </titleStmt>
+              <publicationStmt>
+                <p>An example of the guide.</p>
+              </publicationStmt>
+              <sourceDesc>
+                <p>An excerpt.</p>
+              </sourceDesc>
+            </fileDesc>
+          </teiHeader>
+          <text>
+            <body/>
+          </text>
+        </TEI>
+      </egXML>
+      <p>The import gives the document the code as its id, read with its kind (<ptr target="#what-a-file-describes"/>).</p>
+      <table rend="specGrpSummary"><row><cell>
                 Element <gi>titleStmt</gi></cell><cell>change</cell></row><row><cell>
-                Element <gi>idno</gi></cell><cell>change</cell></row><row><cell>
+                Element <gi>idno</gi></cell><cell>change</cell></row></table>
+    </div>
+  </div>
+
+  <div xml:id="header-responsibility">
+    <head>Responsibility and funding</head>
+    <p>After its titles, the title statement may name who did what for the document: its editors, the scholars whose
+      study it rests on, the cataloguer of its manuscript, its encoders. Each is a <gi>respStmt</gi> with what they
+      did, <gi>resp</gi>, dated by <att>when</att> where known, and who, a <gi>persName</gi> or an <gi>orgName</gi>
+      pointing to its record in <att>ref</att> (<ptr target="#marked-names"/>). A <gi>funder</gi> names who paid
+      for the work. Both are <hi>full</hi>. The Council of Carthage of 397 names its editor and its funder:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.CAR-0397">
+      <respStmt>
+        <resp when="1974">Editor</resp>
+        <persName>Charles Munier</persName>
+      </respStmt>
+      <funder>
+        <orgName>
+          <ref target="https://erc.europa.eu/homepage">European Research Council</ref>
+        </orgName>
+      </funder>
+    </egXML>
+    <p>The header points to records as the text does, by <att>ref</att>, in the same forms: a title to its work, an
+      author or an editor to a person. <att>key</att> and <att>corresp</att> keep TEI's other uses; a record's
+      pointer in them is reported. <gi>provenance</gi>, <gi>acquisition</gi> and <gi>origin</gi>, in a manuscript's
+      description, have no <att>ref</att> in TEI: the record they point to is named inside them, by a name with
+      <att>ref</att>, and the import makes the relation from that name.</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-in-ref">
+      <sourceDesc>
+        <bibl>
+          <author key="#new_person_Exemplus">Exemplus</author>
+          <title>Epistolae</title>
+        </bibl>
+      </sourceDesc>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-form">
+      <sourceDesc>
+        <bibl>
+          <author ref="new_person_Exemplus">Exemplus</author><!-- breaks the rule -->
+          <title>Epistolae</title>
+        </bibl>
+      </sourceDesc>
+    </egXML>
+    <table rend="specGrpSummary"><row><cell>
                 Element <gi>title</gi></cell><cell>change</cell></row><row><cell>
                 Element <gi>author</gi></cell><cell>change</cell></row><row><cell>
                 Element <gi>editor</gi></cell><cell>change</cell></row><row><cell>
-                Element <gi>teiHeader</gi></cell><cell>change</cell></row><row><cell>
-                Element <gi>prefixDef</gi></cell><cell>change</cell></row><row><cell>
+                Element <gi>teiHeader</gi></cell><cell>change</cell></row></table>
+  </div>
+
+  <div xml:id="header-publication">
+    <head>Publication and source</head>
+    <p>The publication statement (<gi>publicationStmt</gi>) says who publishes the file, not its source: for the
+      project's files, the project, with its address. It's <hi>required</hi>, and may be a paragraph:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.MAI-0813">
+      <publicationStmt>
+        <publisher>SOLEMNE: 'The Social Life of Early Medieval Normative Texts'</publisher>
+        <address>
+          <orgName type="institution">Radboud University</orgName>
+          <street>Houtlaan 4</street>
+          <settlement>Nijmegen</settlement>
+          <postCode>6525 XZ</postCode>
+          <country>Netherlands</country>
+        </address>
+      </publicationStmt>
+    </egXML>
+    <p>The source description (<gi>sourceDesc</gi>), also <hi>required</hi>, describes what the text was transcribed
+      from: an edition, as a <gi>biblStruct</gi> (<ptr target="#editions-and-literature"/>); a manuscript, as a
+      manuscript description (<ptr target="#manuscripts"/>); for a reconstruction, the editor's publication, with
+      the witnesses it rests on in a <gi>listWit</gi>. The Council of Mainz, 813, from Werminghoff's edition:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.MAI-0813">
+      <sourceDesc>
+        <biblStruct>
+          <analytic>
+            <title level="a">Concilium Moguntinense. 813. (mense Maio) - Iun. 9.</title>
+          </analytic>
+          <monogr>
+            <editor>
+              <persName>
+                <forename>Albert</forename>
+                <surname>Werminghoff</surname>
+              </persName>
+            </editor>
+            <title level="m">Concilia aevi Karolini</title>
+            <imprint>
+              <pubPlace>Hannover</pubPlace>
+              <date>1906</date>
+            </imprint>
+            <biblScope unit="page">258-273</biblScope>
+          </monogr>
+          <series>
+            <title level="s">Monumenta Germaniae Historica</title>
+            <biblScope unit="volume">2.1</biblScope>
+          </series>
+        </biblStruct>
+      </sourceDesc>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="idno-type-unknown">
+      <sourceDesc>
+        <bibl>
+          <title>Concilia exempli gratia</title>
+          <idno type="isbn">0-000-00000-0</idno><!-- breaks the rule -->
+        </bibl>
+      </sourceDesc>
+    </egXML>
+  </div>
+
+  <div xml:id="header-encoding">
+    <head>How the text was encoded</head>
+    <p>The encoding description (<gi>encodingDesc</gi>) says, once for the file, what the text's encoding needs
+      explained. All of it is <hi>full</hi>. In its editorial declaration (<gi>editorialDecl</gi>), a
+      <gi>normalization</gi> says what the transcription normalised (<ptr target="#transcription-spelling"/>); the
+      sections below give the rest.</p>
+
+    <div xml:id="header-inferred-units">
+      <head>Inferred units</head>
+      <p>Where the encoder didn't mark the units of reception (<ptr target="#text-units"/>), so that a division's
+        paragraphs may be several units, a <gi>segmentation</gi> typed <val>inferred-units</val> says so, with a
+        paragraph, which TEI requires. For the whole file, it is the default (<att>default</att> true) or stands
+        alone. For a few divisions among many marked units, it has <att>default</att> false and an id, and those
+        divisions point to it in <att>decls</att>; one that none points to is reported.</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples">
+        <editorialDecl>
+          <segmentation xml:id="units-inferred-here" type="inferred-units" default="false">
+            <p>The units of reception aren't marked in the chapters that point here: each paragraph may be one.</p>
+          </segmentation>
+        </editorialDecl>
+        <div type="chapter" n="7" decls="#units-inferred-here">
+          <p>…</p>
+          <p>…</p>
+        </div>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="inferred-units-pointed-to">
+        <editorialDecl>
+          <segmentation xml:id="inferred-in-some-chapters" type="inferred-units" default="false">
+            <p>The units of reception aren't marked in some chapters: each is one.</p>
+          </segmentation>
+        </editorialDecl>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="segmentation-type-unknown">
+        <editorialDecl>
+          <segmentation type="units-inferred"><!-- breaks the rule -->
+            <p>Units inferred.</p>
+          </segmentation>
+        </editorialDecl>
+      </egXML>
+    </div>
+
+    <div xml:id="header-curation">
+      <head>Curation</head>
+      <p>How far a text has been checked is its curation: <gi>correction</gi>, in the editorial declaration, with its
+        <att>status</att>, <val>high</val>, <val>medium</val>, <val>low</val> or <val>unknown</val>, and a paragraph
+        saying how, which TEI requires. The whole text's is the default; a division or a paragraph whose text was
+        checked otherwise points to another <gi>correction</gi> in <att>decls</att>. Of several, one is the default.
+        A text's completeness is never stated: the application counts it from the gaps.</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples">
+        <editorialDecl>
+          <correction xml:id="checked-text" status="high" default="true">
+            <p>Checked against the edition.</p>
+          </correction>
+          <correction xml:id="unchecked-chapter" status="low">
+            <p>Not checked yet.</p>
+          </correction>
+        </editorialDecl>
+        <div type="chapter" n="12" decls="#unchecked-chapter">
+          <p>…</p>
+        </div>
+      </egXML>
+      <p>A file that states no curation is imported as <val>medium</val>, checked at least once, when it is one of
+        the project's coded files, a file of the Patrologia Latina or SCTA's Gratian, and as <val>low</val> when it
+        comes from handwritten text recognition. <val>high</val> is set in the application, node by node. What was
+        left out by choice is said once, in <gi>samplingDecl</gi>.</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="correction-default">
+        <editorialDecl>
+          <correction xml:id="checked-against-the-edition" status="high">
+            <p>Checked against the edition.</p>
+          </correction>
+          <correction xml:id="not-checked-yet" status="low">
+            <p>Not checked yet.</p>
+          </correction>
+        </editorialDecl>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="decls-target">
+        <editorialDecl>
+          <correction xml:id="checked" status="high">
+            <p>Checked against the edition.</p>
+          </correction>
+        </editorialDecl>
+        <div type="chapter" n="1" decls="#unchecked">
+          <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+        </div>
+      </egXML>
+      <table rend="specGrpSummary"><row><cell>
                 Element <gi>editorialDecl</gi></cell><cell>change</cell></row><row><cell>
                 Element <gi>segmentation</gi></cell><cell>change</cell></row></table>
+    </div>
+
+    <div xml:id="header-external-ids">
+      <head>Other projects' ids</head>
+      <p>A node's ids in other projects, SCTA's resources, the Clavis canonum's keys, Corpus Corporum's sections, go
+        in <att>sameAs</att>, on the division or the paragraph, each with a prefix declared in the header by a
+        <gi>prefixDef</gi> in <gi>listPrefixDef</gi>, which turns it into an address. The application knows
+        four:</p>
+      <list>
+        <item><code>scta</code>, SCTA: <code>http://scta.info/resource/$1</code>;</item>
+        <item><code>clavis</code>, the Clavis canonum:
+          <code>https://data.mgh.de/databases/clavis/db/legacysearch?key=$1</code>;</item>
+        <item><code>corpuscorporum</code>, Corpus Corporum's Patrologia Latina: <code>https://mlat.uzh.ch/browser/$1</code>;</item>
+        <item><code>pseudoisidor</code>, the Pseudoisidor project, whose address the guide gives when a file first
+          carries its ids.</item>
+      </list>
+      <p>Any other prefix may be declared, and is reported; a prefix used without its declaration is an error. A
+        Clavis key on a chapter:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples">
+        <listPrefixDef>
+          <prefixDef ident="clavis" matchPattern="(.+)" replacementPattern="https://data.mgh.de/databases/clavis/db/legacysearch?key=$1"/>
+        </listPrefixDef>
+        <div type="chapter" n="27" sameAs="clavis:IS35.27">
+          <p>…</p>
+        </div>
+      </egXML>
+      <p>A text of the Patrologia Latina has Corpus Corporum's id, <code>cps_2.</code> (its corpus 2, the Patrologia
+        Latina) and the text's id there; a paragraph adds <code>:</code>, its division's position, <code>;</code>
+        and its position among the division's children, counted from 1 with the heading. For Absalon of Lund's
+        Testamentum, PL 209, the text is <code>corpuscorporum:cps_2.AbsLun.Testam17</code> and a paragraph
+        <code>corpuscorporum:cps_2.AbsLun.Testam17:3;16</code>. The converter from PL's files writes them, on the text
+        and on each paragraph that is one of the application's nodes; an encoder doesn't.</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples">
+        <listPrefixDef>
+          <prefixDef ident="corpuscorporum" matchPattern="(.+)" replacementPattern="https://mlat.uzh.ch/browser/$1"/>
+        </listPrefixDef>
+        <p sameAs="corpuscorporum:cps_2.AbsLun.Testam17:3;16">…</p>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="same-as-prefix-declared">
+        <div type="chapter" n="1" sameAs="clavis:IS01.01">
+          <head type="number">I.</head>
+          <head type="rubric">De episcopis.</head>
+          <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+        </div>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="prefix-known">
+        <listPrefixDef>
+          <prefixDef ident="unknown" matchPattern="(.+)" replacementPattern="https://example.org/$1">
+            <p>An identifier of a project the application doesn't know.</p>
+          </prefixDef>
+        </listPrefixDef>
+      </egXML>
+      <p>A record's or a manuscript's ids in other catalogues aren't pointers but identifiers: <gi>idno</gi>s typed
+        by their authority (<ptr target="#records"/>).</p>
+      <table rend="specGrpSummary"><row><cell>
+                Element <gi>prefixDef</gi></cell><cell>change</cell></row></table>
+    </div>
+
+    <div xml:id="header-calendars-and-vocabularies">
+      <head>Calendars and vocabularies</head>
+      <p>The calendars and eras a file's dates use are declared once, and each date points to its own (<ptr target="#dates"/>). An export declares the terms of the application's vocabularies it uses, in
+        <gi>classDecl</gi>, each with its permalink (<ptr target="#exports"/>); a file may declare terms too, such as
+        a segment's (<ptr target="#marked-other"/>).</p>
+    </div>
+  </div>
+
+  <div xml:id="header-abstract">
+    <head>The abstract</head>
+    <p>The profile description (<gi>profileDesc</gi>) may hold an <gi>abstract</gi>: what the document is, its
+      context, and what the file leaves out of it. It's <hi>full</hi>, and the import keeps it as the document's
+      description. The Council of Aachen of 836:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.AAC-0836">
+      <abstract>
+        <p>Note that edition also contains a preface to this council, which has been omitted here.</p>
+      </abstract>
+    </egXML>
+  </div>
+
+  <div xml:id="header-revisions">
+    <head>The history of the file</head>
+    <p>The revision description (<gi>revisionDesc</gi>) lists the file's changes, the latest first, each a
+      <gi>change</gi> with its date in <att>when</att> and who made it in <att>who</att>. The import keeps it as the
+      file gives it, read-only, as the history before the import. An export writes the application's releases and a
+      summary of the changes since the last, and, on request, each change set (<ptr target="#exports"/>). It's
+      <hi>full</hi>. The Council of Carthage of 397:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.CAR-0397">
+      <revisionDesc>
+        <change when="2025-03-21">Initial XML-TEI encoding.</change>
+      </revisionDesc>
+    </egXML>
+  </div>
 </div>
       <div xml:id="text" n="III">
   <head>The text</head>
@@ -13783,10 +14061,10 @@ Elements</ref>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#COBICOL">3.12.2.1. Analytic, Monographic, and Series Levels</ref>
   </listRef>
 </elementSpec><elementSpec rend="change" module="core" xml:id="gi-author" ident="author"><gloss xml:lang="en" versionDate="2011-11-26">author</gloss><gloss xml:lang="es" versionDate="2022-02-24">autor/a</gloss><gloss versionDate="2011-11-26" xml:lang="fr">auteur</gloss><gloss versionDate="2017-06-04" xml:lang="de">Autor</gloss><desc versionDate="2011-11-26" xml:lang="en">in a bibliographic reference, contains the name(s) of an author, personal or corporate, of a work; for example in the same form as that provided by a recognized bibliographic name authority.</desc><desc versionDate="2007-12-20" xml:lang="ko">참고문헌에 작가, 단독 저자, 공동 저자의 이름을 포함한다; 서지 항목의 책임에 관한 1차적 진술.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">在書目參照中，包含一件作品的作者 (群) 姓名，無論是個人或是團體性質；這也是書目項目責任歸屬的主要陳述。</desc><desc versionDate="2023-08-30" xml:lang="ja">書誌参照において、作品の著者となる人や法人の名前を、たとえば、よく知られた書誌典拠情報機関の形式で提供されるものに合わせるなどして記述する。</desc><desc versionDate="2009-01-06" xml:lang="fr">dans une référence bibliographique contient le nom de la (des) personne(s) physique(s) ou du collectif, auteur(s) d'une oeuvre ; par exemple dans la même forme que celle utilisée par une référence bibliographique reconnue.</desc><desc versionDate="2022-02-24" xml:lang="es">en una referencia bibliográfica, contiene el nombre del autor/a/es, ya sea una persona o una institución, de una obra; por ejemplo, en la misma forma que la proporcionada por una autoridad bibliográfica reconocida.</desc><desc versionDate="2007-01-21" xml:lang="it">in un riferimento bibliografico contiene il nome dell'autore (o degli autori), personale o collettivo, di un'opera; è la dichiarazione di responsabilità primaria di ciascuna unità bibliografica.</desc><desc versionDate="2017-06-04" xml:lang="de">enthält in einer bibliografischen Referenz den oder die Namen eines Autors eines Werks (oder einer für das Werk verantwortlichen Körperschaft); zum Beispiel in der Form, wie sie eine anerkannte bibliografische Instanz anbietet.</desc><classes><memberOf key="att.global"/><memberOf key="att.datable"/><memberOf key="att.naming"/><memberOf key="model.respLike"/></classes><content><macroRef key="macro.phraseSeq"/></content><attList><attDef ident="ref" mode="change" corresp="#tier-full">
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.recordPointer"/>
-          </datatype>
-        </attDef></attList><exemplum xml:lang="en">
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.recordPointer"/>
+            </datatype>
+          </attDef></attList><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-author-egXML-lq" source="#COBICOR-eg-251">
       <author>British Broadcasting Corporation</author>
       <author>La Fayette, Marie Madeleine Pioche de la Vergne, comtesse de (1634–1693)</author>
@@ -13876,10 +14154,10 @@ Elements</ref>
     또는 기구의 이름</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">書目項目的次要責任歸屬，例如扮演編輯、編譯、翻譯等角色的個人、機構或組織 (或其他類似者) 的名稱。</desc><desc versionDate="2008-04-05" xml:lang="ja">書誌情報における、第二位の責任者を示す。個人、団体、組織、編集者、編 纂者、翻訳者の名前など。</desc><desc versionDate="2009-01-06" xml:lang="fr">mention de responsabilité secondaire pour un item
     bibliographique, par exemple le nom d'une personne, d'une institution ou d'un organisme (ou de
     plusieurs d'entre eux) comme éditeur scientifique, compilateur, traducteur, etc.</desc><desc versionDate="2007-05-04" xml:lang="es">declaración secundaria de responsabilidad para un ítem bibliográfico, por ejemplo un nombre particular, o institucional (o cualquier otro) que ha actuado como editor, compilador, traductor, etc.</desc><desc versionDate="2007-01-21" xml:lang="it">è la dichiarazione di responsabilità secondaria di ciascuna unità bibliografica, ad esempio il nome di un individuo, di un'istituzione o organizzazione che agisce come curatore, compilatore, traduttore, ecc.</desc><desc versionDate="2017-06-04" xml:lang="de">beinhaltet zusätzliche Angaben zur Verantwortlichkeit für ein bibliografisches Objekt, z. B. den Namen einer Person, Institution oder Organisation (oder mehreren davon), welche als Herausgeber, Kompilator, Übersetzer etc. fungiert.</desc><classes><memberOf key="att.global"/><memberOf key="att.datable"/><memberOf key="att.naming"/><memberOf key="model.respLike"/></classes><content><macroRef key="macro.phraseSeq"/></content><attList><attDef ident="ref" mode="change" corresp="#tier-full">
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.recordPointer"/>
-          </datatype>
-        </attDef></attList><exemplum xml:lang="en">
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.recordPointer"/>
+            </datatype>
+          </attDef></attList><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-editor-egXML-fr">
       <editor role="Technical_Editor">Ron Van den Branden</editor>
       <editor role="Editor-in-Chief">John Walsh</editor>
@@ -14105,10 +14383,10 @@ Elements</ref>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD26">2.2.5. The Series Statement</ref>
   </listRef>
 </elementSpec><elementSpec rend="change" module="core" xml:id="gi-title" ident="title"><gloss versionDate="2007-06-12" xml:lang="en">title</gloss><gloss versionDate="2007-06-12" xml:lang="fr">titre</gloss><gloss versionDate="2017-06-04" xml:lang="de">Titel</gloss><desc versionDate="2008-10-25" xml:lang="en">contains a title for any kind of work.</desc><desc versionDate="2007-12-20" xml:lang="ko">다양한 종류의 작업에 대한 전체 제목을 제공한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">包含任何種類作品的完整題名 。</desc><desc versionDate="2008-04-05" xml:lang="ja">作品の完全なタイトルを示す。</desc><desc versionDate="2007-06-12" xml:lang="fr">contient le titre complet d'une oeuvre quelconque.</desc><desc versionDate="2007-05-04" xml:lang="es">contiene el título completo de una obra de cualquier tipo.</desc><desc versionDate="2007-01-21" xml:lang="it">contiene il titolo completo di una qualsiaisi opera.</desc><desc versionDate="2017-06-04" xml:lang="de">beinhaltet einen Titel eines beliebigen Werks.</desc><classes><memberOf key="att.global"/><memberOf key="att.canonical"/><memberOf key="att.cmc"/><memberOf key="att.datable"/><memberOf key="att.typed"/><memberOf key="model.emphLike"/><memberOf key="model.msQuoteLike"/></classes><content><macroRef key="macro.paraContent"/></content><attList><attDef ident="ref" mode="change" corresp="#tier-full">
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.recordPointer"/>
-          </datatype>
-        </attDef><attDef ident="level" usage="opt">
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.recordPointer"/>
+            </datatype>
+          </attDef><attDef ident="level" usage="opt">
       <desc versionDate="2005-03-05" xml:lang="en">indicates the bibliographic level for a title, that is, whether it identifies an article, book, journal, series, or unpublished material.</desc>
       <desc versionDate="2007-12-20" xml:lang="ko">제목에 대한 서지적 층위를 나타내어, 논문, 책, 학술지, 총서, 미간행의 여부를 식별한다.</desc>
       <desc versionDate="2007-05-02" xml:lang="zh-TW">指出題名的書目層次，即該題名之所指可以是文章、書籍、期刊、叢書或未出版的項目。</desc>
@@ -15310,15 +15588,15 @@ element in the TEI header.
     제공한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">在所有符合TEI標準的文本起始的電子題名頁當中提供敘述性以及宣告性的資訊。</desc><desc versionDate="2008-04-05" xml:lang="ja">全てのTEI準拠テキストが伴う、電子版のタイトルページを構成する、記述 的・宣言的情報を示す。</desc><desc versionDate="2016-11-25" xml:lang="de">beinhaltet beschreibende und erklärende Metadaten, die einer digitalen Ressource oder einer Sammlung von Ressourcen vorangestellt sind.</desc><desc versionDate="2007-05-04" xml:lang="es">proporciona información descriptiva y declarativa de una
     página de título electrónico prefijada como un texto conforme a TEI.</desc><desc versionDate="2007-01-21" xml:lang="it">fornisce informazioni descrittive e dichiarative che
     costituiscono un frontespizio elettronico che precede qualsiasi testo TEI-conforme.</desc><classes><memberOf key="att.global"/></classes><content><sequence minOccurs="1" maxOccurs="1"><elementRef key="fileDesc"/><classRef key="model.teiHeaderPart" minOccurs="0" maxOccurs="unbounded"/><elementRef key="revisionDesc" minOccurs="0"/></sequence></content><constraintSpec ident="record-pointer-in-ref" scheme="schematron" corresp="#tier-full">
-        <desc>A record is pointed to by @ref, not by @key or @corresp.</desc>
-        <constraint>
-          <sch:rule context="tei:*[@key or @corresp]">
-            <sch:report id="record-pointer-in-ref" role="warning" test="some $p in               tokenize(normalize-space(string-join((@key, @corresp), ' ')), ' ') satisfies matches($p,               '^#?[Nn]ew_[A-Za-z]+_|^#?(PERS\.\d+|solemne_person_\d+)$|^https?://\S+/id/(person|place|institution|event|manuscript|publication)/')">&lt;<sch:name/>&gt;
-              points to a record in @key or @corresp (<sch:value-of select="normalize-space(string-join((@key,               @corresp), ' '))"/>): a record is pointed to by @ref, on a name inside provenance, acquisition and
-              origin.</sch:report>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><exemplum xml:lang="en">
+          <desc>A record is pointed to by @ref, not by @key or @corresp.</desc>
+          <constraint>
+            <sch:rule context="tei:*[@key or @corresp]">
+              <sch:report id="record-pointer-in-ref" role="warning" test="some $p in                 tokenize(normalize-space(string-join((@key, @corresp), ' ')), ' ') satisfies matches($p,                 '^#?[Nn]ew_[A-Za-z]+_|^#?(PERS\.\d+|solemne_person_\d+)$|^https?://\S+/id/(person|place|institution|event|manuscript|publication)/')">&lt;<sch:name/>&gt;
+                points to a record in @key or @corresp (<sch:value-of select="normalize-space(string-join((@key,                 @corresp), ' '))"/>): a record is pointed to by @ref, on a name inside provenance, acquisition and
+                origin.</sch:report>
+            </sch:rule>
+          </constraint>
+        </constraintSpec><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-teiHeader-egXML-ti">
       <teiHeader>
         <fileDesc>
@@ -15600,46 +15878,46 @@ element in the TEI header.
     seinen Inhalt Verantwortlichen.</desc><desc versionDate="2007-05-04" xml:lang="es">agrupa la información referente al título de una obra y a
     los responsables de su contenido intelectual.</desc><desc versionDate="2007-01-21" xml:lang="it">raggruppa le informazioni sul titolo di un'opera e sulle
     responsabilità del suo contenuto intellettuale.</desc><classes><memberOf key="att.global"/></classes><content><sequence minOccurs="1" maxOccurs="1"><elementRef key="title" minOccurs="1" maxOccurs="unbounded"/><classRef key="model.respLike" minOccurs="0" maxOccurs="unbounded"/></sequence></content><constraintSpec ident="title-first-formal" scheme="schematron" corresp="#tier-required">
-        <desc>The title statement opens with the formal title.</desc>
-        <constraint>
-          <sch:rule context="tei:fileDesc/tei:titleStmt">
-            <sch:assert id="title-first-formal" test="tei:title[1][@type = 'formal']">The title statement opens
-              with a title typed formal.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="title-one-formal" scheme="schematron" corresp="#tier-required">
-        <desc>The title statement has one formal title.</desc>
-        <constraint>
-          <sch:rule context="tei:fileDesc/tei:titleStmt">
-            <sch:assert id="title-one-formal" test="count(tei:title[@type = 'formal']) = 1">The title statement
-              has one formal title.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="title-type" scheme="schematron" corresp="#tier-required">
-        <desc>The title statement's titles are typed formal, alias or other.</desc>
-        <constraint>
-          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title">
-            <sch:assert id="title-type" test="@type = ('formal', 'alias', 'other')">A title in the title statement
-              is typed formal, alias or other.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="title-alias-words" scheme="schematron" corresp="#tier-common">
-        <desc>An alias isn't empty.</desc>
-        <constraint>
-          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title">
-            <sch:assert id="title-alias-words" test="not(@type = 'alias') or normalize-space(.) != ''">An alias
-              isn't empty.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="title-other-source" scheme="schematron" corresp="#tier-full">
-        <desc>A title typed other names its source.</desc>
-        <constraint>
-          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title">
-            <sch:assert id="title-other-source" role="warning" test="not(@type = 'other') or @source">A title
-              typed other names its source in @source.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><exemplum xml:lang="en">
+            <desc>The title statement opens with the formal title.</desc>
+            <constraint>
+              <sch:rule context="tei:fileDesc/tei:titleStmt">
+                <sch:assert id="title-first-formal" test="tei:title[1][@type = 'formal']">The title statement opens
+                  with a title typed formal.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="title-one-formal" scheme="schematron" corresp="#tier-required">
+            <desc>The title statement has one formal title.</desc>
+            <constraint>
+              <sch:rule context="tei:fileDesc/tei:titleStmt">
+                <sch:assert id="title-one-formal" test="count(tei:title[@type = 'formal']) = 1">The title statement
+                  has one formal title.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="title-type" scheme="schematron" corresp="#tier-required">
+            <desc>The title statement's titles are typed formal, alias or other.</desc>
+            <constraint>
+              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title">
+                <sch:assert id="title-type" test="@type = ('formal', 'alias', 'other')">A title in the title statement
+                  is typed formal, alias or other.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="title-alias-words" scheme="schematron" corresp="#tier-common">
+            <desc>An alias isn't empty.</desc>
+            <constraint>
+              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title">
+                <sch:assert id="title-alias-words" test="not(@type = 'alias') or normalize-space(.) != ''">An alias
+                  isn't empty.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="title-other-source" scheme="schematron" corresp="#tier-full">
+            <desc>A title typed other names its source.</desc>
+            <constraint>
+              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title">
+                <sch:assert id="title-other-source" role="warning" test="not(@type = 'other') or @source">A title
+                  typed other names its source in @source.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-titleStmt-egXML-pk">
       <titleStmt>
         <title>Capgrave's Life of St. John Norbert: a machine-readable transcription</title>
@@ -16325,148 +16603,148 @@ distribution of a text.</desc>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html#HD24">2.2.4. Publication, Distribution, Licensing, etc.</ref>
   </listRef>
 </elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="header" xml:id="gi-idno" ident="idno"><gloss versionDate="2010-04-30" xml:lang="en">identifier</gloss><gloss versionDate="2009-01-05" xml:lang="fr">identifiant</gloss><gloss versionDate="2007-12-20" xml:lang="ko">식별 숫자</gloss><gloss versionDate="2007-05-02" xml:lang="zh-TW">識別代碼</gloss><gloss versionDate="2016-11-17" xml:lang="de">Identifikator</gloss><gloss versionDate="2007-05-04" xml:lang="es">número identificativo</gloss><gloss versionDate="2007-01-21" xml:lang="it">numero identificatore</gloss><desc versionDate="2010-04-30" xml:lang="en">supplies any form of identifier used to identify some object, such as a bibliographic item, a person, a title, an organization, etc. in a standardized way.</desc><desc versionDate="2021-02-15" xml:lang="fr">donne un identifiant standardisé qui peut être utilisé pour identifier une référence bibliographique, une personne, un titre d'ouvrage ou une organisation.</desc><desc versionDate="2007-12-20" xml:lang="ko">서지 정보 항목을 식별하기 위해 사용되는 표준 또는 비표준 숫자를 제시한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">提供任何用來識別書目項目的標準或非標準編碼。</desc><desc versionDate="2021-02-15" xml:lang="ja">書誌項目、人物、タイトル、組織など、何らかのオブジェクトを標準化された方法で識別するために使用される任意の形式の識別子を提供する。</desc><desc versionDate="2016-11-17" xml:lang="de">enthält einen frei wählbaren Identifikator, der ein beliebiges Objekt, z. B. eine bibliografische Einheit, eine Person, einen Titel, eine Organisation, in standardisierter Weise identifiziert.</desc><desc versionDate="2021-02-15" xml:lang="es">proporciona un identificador estándar para un objecto; se usa parla la identificación de, por ejemplo, un elemento bibliográfico, una persona, un título o una organización.</desc><desc versionDate="2020-10-25" xml:lang="it">fornisce un identificatore, standard o meno, usato per identificare un oggetto, come per esempio un'unità bibliografica, una persona, un titolo, un'organizzazione, ecc.</desc><classes><memberOf key="att.global"/><memberOf key="att.cmc"/><memberOf key="att.datable"/><memberOf key="att.sortable"/><memberOf key="att.typed"/><memberOf key="model.msItemPart"/><memberOf key="model.nameLike"/><memberOf key="model.personPart"/><memberOf key="model.publicationStmtPart.detail"/></classes><content><alternate minOccurs="0" maxOccurs="unbounded"><textNode/><classRef key="model.gLike"/><elementRef key="idno"/></alternate></content><constraintSpec ident="formal-title-idnos" scheme="schematron" corresp="#tier-required">
-        <desc>The formal title holds the document's code (an identifier without a type), its category and its
-          type, once each; an export adds the permalinks of the levels the file belongs to.</desc>
-        <constraint>
-          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']">
-            <sch:assert id="formal-title-idnos" test="count(tei:idno[not(@type)]) = 1 and count(tei:idno[@type =               'category']) = 1 and count(tei:idno[@type = 'type']) = 1 and (every $level in ('work', 'version',               'witness', 'transcription') satisfies count(tei:idno[@type = $level]) le 1)">The formal title holds
-              the document's code (an identifier without a type), its category and its type, once each, and at
-              most one permalink for each level the file belongs to.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="idno-in-formal-title" scheme="schematron" corresp="#tier-required">
-        <desc>An identifier in the title statement stands in the formal title.</desc>
-        <constraint>
-          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title/tei:idno">
-            <sch:assert id="idno-in-formal-title" test="parent::tei:title[@type = 'formal']">An identifier in the
-              title statement stands in the formal title.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="idno-type" scheme="schematron" corresp="#tier-required">
-        <desc>An identifier in the title statement is the code, the category, the type, or a level's
-          permalink.</desc>
-        <constraint>
-          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title/tei:idno">
-            <sch:assert id="idno-type" test="not(@type) or @type = ('category', 'type', 'work', 'version',               'witness', 'transcription')">An identifier in the formal title is the code (without a type), the
-              category, the type, or the permalink of a level (work, version, witness, transcription).</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="code-format" scheme="schematron" corresp="#tier-required">
-        <desc>The document's code is a prefix of capitals, a dot, then letters and digits joined by dots or
-          hyphens.</desc>
-        <constraint>
-          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
-            <sch:assert id="code-format" test="matches(normalize-space(.),               '^[A-Z]+\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*$')">The document's code (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix and a dot, and holds only letters,
-              digits, dots and hyphens.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="code-category" scheme="schematron" corresp="#tier-required">
-        <desc>The document's code begins with its category's prefix: COLL for both kinds of collection, the
-          category itself for the others; UNK's any.</desc>
-        <constraint>
-          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
-            <sch:let name="category" value="normalize-space(../tei:idno[@type = 'category'][1])"/>
-            <sch:let name="prefix" value="substring-before(normalize-space(.), '.')"/>
-            <sch:assert id="code-category" test="$category = ('', 'UNK') or $prefix = (if               ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category)">The document's code
-              (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of select="if ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category"/>, for the category
-              <sch:value-of select="$category"/>).</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="code-manuscript" scheme="schematron" corresp="#tier-full">
-        <desc>A manuscript's code goes with the manuscript's description.</desc>
-        <constraint>
-          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
-            <sch:assert id="code-manuscript" test="not(contains(normalize-space(.), '.ms-')) or               ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A manuscript's code (<sch:value-of select="normalize-space(.)"/>) goes with the manuscript's description (msDesc) in the
-              sourceDesc.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="code-matches-file-name" scheme="schematron" corresp="#tier-required">
-        <desc>A file named by a code, any category's, is named by its document's code.</desc>
-        <constraint>
-          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
-            <sch:assert id="code-matches-file-name" role="warning" test="not(matches(base-uri(.),               '/[A-Z]+\.[^/]*\.xml$')) or ends-with(base-uri(.), concat('/',               encode-for-uri(normalize-space(.)), '.xml'))">A file named by a code is named by its document's code
-              (<sch:value-of select="normalize-space(.)"/>).</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="category-value" scheme="schematron" corresp="#tier-required">
-        <desc>The document's category is one of the categories.</desc>
-        <constraint>
-          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'category']">
-            <sch:assert id="category-value" test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'C', 'D', 'P', 'H',               'EX', 'EP', 'LR', 'CPT', 'CHA', 'UNK')">The document's category (<sch:value-of select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, C, D, P, H, EX, EP, LR, CPT, CHA,
-              UNK.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="document-type-value" scheme="schematron" corresp="#tier-required">
-        <desc>The document's type is one of the types.</desc>
-        <constraint>
-          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type']">
-            <sch:assert id="document-type-value" test="normalize-space(.) = ('edition', 'manuscript',               'reconstruction', 'hypothesis', 'placeholder')">The document's type (<sch:value-of select="normalize-space(.)"/>) is one of edition, manuscript, reconstruction, hypothesis,
-              placeholder.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="type-manuscript" scheme="schematron" corresp="#tier-full">
-        <desc>A document typed manuscript has the manuscript's description.</desc>
-        <constraint>
-          <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type']">
-            <sch:assert id="type-manuscript" test="not(normalize-space(.) = 'manuscript') or               ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A document typed manuscript has the manuscript's
-              description (msDesc) in its sourceDesc.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><attList><attDef ident="type" mode="change" rend="change" usage="opt"><desc versionDate="2010-04-30" xml:lang="en">categorizes the identifier, for example as an ISBN, Social Security number, etc.</desc><desc versionDate="2009-01-05" xml:lang="fr">classe un numéro dans une catégorie, par exemple comme étant un numéro ISBN ou comme appartenant une autre série normalisée.</desc><desc versionDate="2007-12-20" xml:lang="ko">예를 들어 ISBN 또는 기타 표준 일련번호로, 숫자를 범주화한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">表明編碼的種類，例如國際標準書號 (ISBN) 或其他標準系列編碼。</desc><desc versionDate="2008-04-05" xml:lang="ja">当該数値の分類を示す。例えば、ISBNなど。</desc><desc versionDate="2016-11-17" xml:lang="de">bestimmt die Art des Identifikators (z. B. ISBN, Sozialversicherungsnummer, URI)</desc><desc versionDate="2007-05-04" xml:lang="es">clasifica el número, por ejemplo como un ISBN o cualquier otro número estándard.</desc><desc versionDate="2007-01-21" xml:lang="it">classifica l'identificatore, ad esempio come codice ISBN o altri generi di identificatori standard.</desc><datatype>
+            <desc>The formal title holds the document's code (an identifier without a type), its category and its
+              type, once each; an export adds the permalinks of the levels the file belongs to.</desc>
+            <constraint>
+              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']">
+                <sch:assert id="formal-title-idnos" test="count(tei:idno[not(@type)]) = 1 and count(tei:idno[@type =                   'category']) = 1 and count(tei:idno[@type = 'type']) = 1 and (every $level in ('work', 'version',                   'witness', 'transcription') satisfies count(tei:idno[@type = $level]) le 1)">The formal title holds
+                  the document's code (an identifier without a type), its category and its type, once each, and at
+                  most one permalink for each level the file belongs to.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="idno-in-formal-title" scheme="schematron" corresp="#tier-required">
+            <desc>An identifier in the title statement stands in the formal title.</desc>
+            <constraint>
+              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title/tei:idno">
+                <sch:assert id="idno-in-formal-title" test="parent::tei:title[@type = 'formal']">An identifier in the
+                  title statement stands in the formal title.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="idno-type" scheme="schematron" corresp="#tier-required">
+            <desc>An identifier in the title statement is the code, the category, the type, or a level's
+              permalink.</desc>
+            <constraint>
+              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title/tei:idno">
+                <sch:assert id="idno-type" test="not(@type) or @type = ('category', 'type', 'work', 'version',                   'witness', 'transcription')">An identifier in the formal title is the code (without a type), the
+                  category, the type, or the permalink of a level (work, version, witness, transcription).</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="code-format" scheme="schematron" corresp="#tier-required">
+            <desc>The document's code is a prefix of capitals, a dot, then letters and digits joined by dots or
+              hyphens.</desc>
+            <constraint>
+              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
+                <sch:assert id="code-format" test="matches(normalize-space(.),                   '^[A-Z]+\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*$')">The document's code (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix and a dot, and holds only letters,
+                  digits, dots and hyphens.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="code-category" scheme="schematron" corresp="#tier-required">
+            <desc>The document's code begins with its category's prefix: COLL for both kinds of collection, the
+              category itself for the others; UNK's any.</desc>
+            <constraint>
+              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
+                <sch:let name="category" value="normalize-space(../tei:idno[@type = 'category'][1])"/>
+                <sch:let name="prefix" value="substring-before(normalize-space(.), '.')"/>
+                <sch:assert id="code-category" test="$category = ('', 'UNK') or $prefix = (if                   ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category)">The document's code
+                  (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of select="if ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category"/>, for the category
+                  <sch:value-of select="$category"/>).</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="code-manuscript" scheme="schematron" corresp="#tier-full">
+            <desc>A manuscript's code goes with the manuscript's description.</desc>
+            <constraint>
+              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
+                <sch:assert id="code-manuscript" test="not(contains(normalize-space(.), '.ms-')) or                   ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A manuscript's code (<sch:value-of select="normalize-space(.)"/>) goes with the manuscript's description (msDesc) in the
+                  sourceDesc.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="code-matches-file-name" scheme="schematron" corresp="#tier-required">
+            <desc>A file named by a code, any category's, is named by its document's code.</desc>
+            <constraint>
+              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
+                <sch:assert id="code-matches-file-name" role="warning" test="not(matches(base-uri(.),                   '/[A-Z]+\.[^/]*\.xml$')) or ends-with(base-uri(.), concat('/',                   encode-for-uri(normalize-space(.)), '.xml'))">A file named by a code is named by its document's code
+                  (<sch:value-of select="normalize-space(.)"/>).</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="category-value" scheme="schematron" corresp="#tier-required">
+            <desc>The document's category is one of the categories.</desc>
+            <constraint>
+              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'category']">
+                <sch:assert id="category-value" test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'C', 'D', 'P', 'H',                   'EX', 'EP', 'LR', 'CPT', 'CHA', 'UNK')">The document's category (<sch:value-of select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, C, D, P, H, EX, EP, LR, CPT, CHA,
+                  UNK.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="document-type-value" scheme="schematron" corresp="#tier-required">
+            <desc>The document's type is one of the types.</desc>
+            <constraint>
+              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type']">
+                <sch:assert id="document-type-value" test="normalize-space(.) = ('edition', 'manuscript',                   'reconstruction', 'hypothesis', 'placeholder')">The document's type (<sch:value-of select="normalize-space(.)"/>) is one of edition, manuscript, reconstruction, hypothesis,
+                  placeholder.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="type-manuscript" scheme="schematron" corresp="#tier-full">
+            <desc>A document typed manuscript has the manuscript's description.</desc>
+            <constraint>
+              <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type']">
+                <sch:assert id="type-manuscript" test="not(normalize-space(.) = 'manuscript') or                   ancestor::tei:fileDesc/tei:sourceDesc//tei:msDesc">A document typed manuscript has the manuscript's
+                  description (msDesc) in its sourceDesc.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><attList><attDef ident="type" mode="change" rend="change" usage="opt"><desc versionDate="2010-04-30" xml:lang="en">categorizes the identifier, for example as an ISBN, Social Security number, etc.</desc><desc versionDate="2009-01-05" xml:lang="fr">classe un numéro dans une catégorie, par exemple comme étant un numéro ISBN ou comme appartenant une autre série normalisée.</desc><desc versionDate="2007-12-20" xml:lang="ko">예를 들어 ISBN 또는 기타 표준 일련번호로, 숫자를 범주화한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">表明編碼的種類，例如國際標準書號 (ISBN) 或其他標準系列編碼。</desc><desc versionDate="2008-04-05" xml:lang="ja">当該数値の分類を示す。例えば、ISBNなど。</desc><desc versionDate="2016-11-17" xml:lang="de">bestimmt die Art des Identifikators (z. B. ISBN, Sozialversicherungsnummer, URI)</desc><desc versionDate="2007-05-04" xml:lang="es">clasifica el número, por ejemplo como un ISBN o cualquier otro número estándard.</desc><desc versionDate="2007-01-21" xml:lang="it">classifica l'identificatore, ad esempio come codice ISBN o altri generi di identificatori standard.</desc><datatype>
         <dataRef key="teidata.enumerated"/>
       </datatype><valList type="closed"><valItem ident="category">
-              <desc>in the formal title: the document's category</desc>
-            </valItem><valItem ident="type">
-              <desc>in the formal title: the document's type</desc>
-            </valItem><valItem ident="work">
-              <desc>in an export's formal title: the permalink of the work the file belongs to</desc>
-            </valItem><valItem ident="version">
-              <desc>in an export's formal title: the permalink of the version</desc>
-            </valItem><valItem ident="witness">
-              <desc>in an export's formal title: the permalink of the witness</desc>
-            </valItem><valItem ident="transcription">
-              <desc>in an export's formal title: the permalink of the transcription</desc>
-            </valItem><valItem ident="wikidata">
-              <desc>Wikidata's item (Q…)</desc>
-            </valItem><valItem ident="viaf">
-              <desc>the Virtual International Authority File</desc>
-            </valItem><valItem ident="gnd">
-              <desc>the Gemeinsame Normdatei</desc>
-            </valItem><valItem ident="geonames">
-              <desc>GeoNames</desc>
-            </valItem><valItem ident="tgn">
-              <desc>the Getty Thesaurus of Geographic Names</desc>
-            </valItem><valItem ident="pleiades">
-              <desc>Pleiades, for ancient places</desc>
-            </valItem><valItem ident="mirabile">
-              <desc>Mirabile</desc>
-            </valItem><valItem ident="clavis">
-              <desc>the Clavis canonum</desc>
-            </valItem><valItem ident="biblissima">
-              <desc>Biblissima</desc>
-            </valItem><valItem ident="schoenberg">
-              <desc>the Schoenberg Database of Manuscripts</desc>
-            </valItem><valItem ident="hmml">
-              <desc>the Hill Museum &amp; Manuscript Library</desc>
-            </valItem><valItem ident="bodleian">
-              <desc>the Bodleian Libraries' catalogues</desc>
-            </valItem><valItem ident="manusOnline">
-              <desc>Manus Online</desc>
-            </valItem><valItem ident="ieArk">
-              <desc>the Bodleian's ARK for an intellectual entity</desc>
-            </valItem><valItem ident="crArk">
-              <desc>the Bodleian's ARK for a catalogue record</desc>
-            </valItem><valItem ident="SCN">
-              <desc>the Bodleian's Summary Catalogue number</desc>
-            </valItem><valItem ident="shelfmark">
-              <desc>a manuscript's shelfmark</desc>
-            </valItem><valItem ident="ISBN">
-              <desc>a publication's ISBN</desc>
-            </valItem><valItem ident="url">
-              <desc>an address on the web</desc>
-            </valItem><valItem ident="biblatex">
-              <desc>a publication's biblatex key</desc>
-            </valItem></valList></attDef></attList><exemplum xml:lang="und">
+                  <desc>in the formal title: the document's category</desc>
+                </valItem><valItem ident="type">
+                  <desc>in the formal title: the document's type</desc>
+                </valItem><valItem ident="work">
+                  <desc>in an export's formal title: the permalink of the work the file belongs to</desc>
+                </valItem><valItem ident="version">
+                  <desc>in an export's formal title: the permalink of the version</desc>
+                </valItem><valItem ident="witness">
+                  <desc>in an export's formal title: the permalink of the witness</desc>
+                </valItem><valItem ident="transcription">
+                  <desc>in an export's formal title: the permalink of the transcription</desc>
+                </valItem><valItem ident="wikidata">
+                  <desc>Wikidata's item (Q…)</desc>
+                </valItem><valItem ident="viaf">
+                  <desc>the Virtual International Authority File</desc>
+                </valItem><valItem ident="gnd">
+                  <desc>the Gemeinsame Normdatei</desc>
+                </valItem><valItem ident="geonames">
+                  <desc>GeoNames</desc>
+                </valItem><valItem ident="tgn">
+                  <desc>the Getty Thesaurus of Geographic Names</desc>
+                </valItem><valItem ident="pleiades">
+                  <desc>Pleiades, for ancient places</desc>
+                </valItem><valItem ident="mirabile">
+                  <desc>Mirabile</desc>
+                </valItem><valItem ident="clavis">
+                  <desc>the Clavis canonum</desc>
+                </valItem><valItem ident="biblissima">
+                  <desc>Biblissima</desc>
+                </valItem><valItem ident="schoenberg">
+                  <desc>the Schoenberg Database of Manuscripts</desc>
+                </valItem><valItem ident="hmml">
+                  <desc>the Hill Museum &amp; Manuscript Library</desc>
+                </valItem><valItem ident="bodleian">
+                  <desc>the Bodleian Libraries' catalogues</desc>
+                </valItem><valItem ident="manusOnline">
+                  <desc>Manus Online</desc>
+                </valItem><valItem ident="ieArk">
+                  <desc>the Bodleian's ARK for an intellectual entity</desc>
+                </valItem><valItem ident="crArk">
+                  <desc>the Bodleian's ARK for a catalogue record</desc>
+                </valItem><valItem ident="SCN">
+                  <desc>the Bodleian's Summary Catalogue number</desc>
+                </valItem><valItem ident="shelfmark">
+                  <desc>a manuscript's shelfmark</desc>
+                </valItem><valItem ident="ISBN">
+                  <desc>a publication's ISBN</desc>
+                </valItem><valItem ident="url">
+                  <desc>an address on the web</desc>
+                </valItem><valItem ident="biblatex">
+                  <desc>a publication's biblatex key</desc>
+                </valItem></valList></attDef></attList><exemplum xml:lang="und">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-idno-egXML-ei">
       <idno type="ISBN">978-1-906964-22-1</idno>
       <idno type="ISSN">0143-3385</idno>
@@ -17221,31 +17499,31 @@ source or sources from which it was derived.</desc>
   </listRef>
 </elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="header" xml:id="gi-editorialDecl" ident="editorialDecl"><gloss versionDate="2005-01-14" xml:lang="en">editorial practice declaration</gloss><gloss versionDate="2009-01-05" xml:lang="fr">déclaration des pratiques éditoriales</gloss><gloss versionDate="2007-12-20" xml:lang="ko">편집 실행 선언</gloss><gloss versionDate="2007-05-02" xml:lang="zh-TW">編輯實行宣告</gloss><gloss versionDate="2016-11-17" xml:lang="de">Angabe der Editionsprinzipien</gloss><gloss versionDate="2007-05-04" xml:lang="es">declaración de la edición</gloss><gloss versionDate="2007-01-21" xml:lang="it">dichiarazione sulle pratiche editoriali</gloss><desc versionDate="2005-01-14" xml:lang="en">provides details of editorial principles and practices applied
 during the encoding of a text.</desc><desc versionDate="2009-01-05" xml:lang="fr">donne des précisions sur les pratiques et  les principes éditoriaux appliqués au cours de l’encodage du texte.</desc><desc versionDate="2007-12-20" xml:lang="ko">텍스트 부호화에서 적용된 편집 원리 및 기준의 상세 항목을 제시한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">提供文件編碼時使用的編輯原則與實行方法的細節。</desc><desc versionDate="2008-04-05" xml:lang="ja">テキストを符号化する際に適用される編集方針や編集方法の詳細を示す。</desc><desc versionDate="2006-10-18" xml:lang="de">beschreibt die Details der Editionsprinzipien und Verfahren, die bei der Kodierung des Textes angewandt wurden.</desc><desc versionDate="2007-05-04" xml:lang="es">proporciona detalles de principios editoriales y prácticas aplicadas en la codificación de un texto.</desc><desc versionDate="2007-01-21" xml:lang="it">fornisce dettagli su principi e pratiche editoriali seguite nella codifica di un testo.</desc><classes><memberOf key="att.global"/><memberOf key="att.declarable"/><memberOf key="model.encodingDescPart"/></classes><content><alternate minOccurs="1" maxOccurs="unbounded"><classRef key="model.pLike"/><classRef key="model.editorialDeclPart"/></alternate></content><constraintSpec ident="decls-target" scheme="schematron" corresp="#tier-full">
-        <desc>@decls points to a correction or a segmentation in the header.</desc>
-        <constraint>
-          <sch:rule context="tei:*[@decls]">
-            <sch:assert id="decls-target" test="every $t in tokenize(normalize-space(@decls), ' ') satisfies               (starts-with($t, '#') and exists(/tei:TEI/tei:teiHeader//(tei:correction |               tei:segmentation)[@xml:id = substring($t, 2)]))">@decls (<sch:value-of select="normalize-space(@decls)"/>) points to a correction or a segmentation in the
-              header.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="correction-default" scheme="schematron" corresp="#tier-full">
-        <desc>Of several corrections, one is the default.</desc>
-        <constraint>
-          <sch:rule context="tei:editorialDecl[count(tei:correction) gt 1]">
-            <sch:assert id="correction-default" test="count(tei:correction[@default = 'true']) = 1">Of several
-              corrections, one is the default (@default="true"): the whole text's.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="inferred-units-pointed-to" scheme="schematron" corresp="#tier-full">
-        <desc>A statement of inferred units for some divisions is pointed to by them.</desc>
-        <constraint>
-          <sch:rule context="tei:segmentation[@type = 'inferred-units'][@default = 'false']">
-            <sch:let name="id" value="concat('#', @xml:id)"/>
-            <sch:assert id="inferred-units-pointed-to" role="warning" test="@xml:id and               //@decls[tokenize(normalize-space(.), ' ') = $id]">A statement of inferred units for some divisions
-              (@default="false") is pointed to by their @decls.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="editorialDecl-is-declarable" scheme="schematron" xml:lang="en">
+            <desc>@decls points to a correction or a segmentation in the header.</desc>
+            <constraint>
+              <sch:rule context="tei:*[@decls]">
+                <sch:assert id="decls-target" test="every $t in tokenize(normalize-space(@decls), ' ') satisfies                   (starts-with($t, '#') and exists(/tei:TEI/tei:teiHeader//(tei:correction |                   tei:segmentation)[@xml:id = substring($t, 2)]))">@decls (<sch:value-of select="normalize-space(@decls)"/>) points to a correction or a segmentation in the
+                  header.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="correction-default" scheme="schematron" corresp="#tier-full">
+            <desc>Of several corrections, one is the default.</desc>
+            <constraint>
+              <sch:rule context="tei:editorialDecl[count(tei:correction) gt 1]">
+                <sch:assert id="correction-default" test="count(tei:correction[@default = 'true']) = 1">Of several
+                  corrections, one is the default (@default="true"): the whole text's.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="inferred-units-pointed-to" scheme="schematron" corresp="#tier-full">
+            <desc>A statement of inferred units for some divisions is pointed to by them.</desc>
+            <constraint>
+              <sch:rule context="tei:segmentation[@type = 'inferred-units'][@default = 'false']">
+                <sch:let name="id" value="concat('#', @xml:id)"/>
+                <sch:assert id="inferred-units-pointed-to" role="warning" test="@xml:id and                   //@decls[tokenize(normalize-space(.), ' ') = $id]">A statement of inferred units for some divisions
+                  (@default="false") is pointed to by their @decls.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="editorialDecl-is-declarable" scheme="schematron" xml:lang="en">
     <constraint>
       <sch:pattern is-a="declarable">
         <sch:param name="tde" value="tei:editorialDecl"/>
@@ -17757,12 +18035,12 @@ during the encoding of a text.</desc><desc versionDate="2009-01-05" xml:lang="fr
       </sch:pattern>
     </constraint>
   </constraintSpec><attList><attDef ident="type" mode="change" corresp="#tier-full">
-          <valList type="closed" mode="replace" xml:id="segmentation-type-unknown" corresp="#tier-full">
-            <valItem ident="inferred-units">
-              <desc>the units of reception aren't marked: each division that holds paragraphs is one</desc>
-            </valItem>
-          </valList>
-        </attDef><attDef ident="subtype" mode="delete"/></attList><exemplum xml:lang="en">
+              <valList type="closed" mode="replace" xml:id="segmentation-type-unknown" corresp="#tier-full">
+                <valItem ident="inferred-units">
+                  <desc>the units of reception aren't marked: each division that holds paragraphs is one</desc>
+                </valItem>
+              </valList>
+            </attDef><attDef ident="subtype" mode="delete"/></attList><exemplum xml:lang="en">
     <egXML xmlns="http://www.tei-c.org/ns/Examples" xml:id="gi-segmentation-egXML-ij">
       <segmentation>
         <p><gi>s</gi> elements mark orthographic sentences and are numbered sequentially within
@@ -18177,23 +18455,23 @@ during the encoding of a text.</desc><desc versionDate="2009-01-05" xml:lang="fr
   </listRef>
 </elementSpec><elementSpec xmlns:xi="http://www.w3.org/2001/XInclude" rend="change" module="header" xml:id="gi-prefixDef" ident="prefixDef"><gloss versionDate="2012-11-22" xml:lang="en">prefix definition</gloss><desc versionDate="2012-12-26" xml:lang="en">defines a prefixing scheme used in <ident type="datatype">teidata.pointer</ident> values,
   showing how abbreviated URIs using the scheme may be expanded into full URIs.</desc><classes><memberOf key="att.global"/><memberOf key="att.patternReplacement"/></classes><content><classRef key="model.pLike" minOccurs="0" maxOccurs="unbounded"/></content><constraintSpec ident="same-as-prefix-declared" scheme="schematron" corresp="#tier-full">
-        <desc>A prefix used in @sameAs is declared in the header.</desc>
-        <constraint>
-          <sch:rule context="tei:*[@sameAs]">
-            <sch:let name="declared" value="/tei:TEI/tei:teiHeader//tei:prefixDef/@ident"/>
-            <sch:assert id="same-as-prefix-declared" test="every $id in tokenize(normalize-space(@sameAs), ' ')               satisfies (not(matches($id, '^[A-Za-z][A-Za-z0-9+.\-]*:')) or matches($id, '^https?:') or               substring-before($id, ':') = $declared)">The prefixes in @sameAs (<sch:value-of select="normalize-space(@sameAs)"/>) are declared in the header, by prefixDef in
-              listPrefixDef.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><constraintSpec ident="prefix-known" scheme="schematron" corresp="#tier-full">
-        <desc>The prefixes the application knows are scta, clavis, pseudoisidor and corpuscorporum.</desc>
-        <constraint>
-          <sch:rule context="tei:prefixDef">
-            <sch:assert id="prefix-known" role="warning" test="@ident = ('scta', 'clavis', 'pseudoisidor',               'corpuscorporum')">The prefix <sch:value-of select="@ident"/> isn't one the application knows (scta,
-              clavis, pseudoisidor, corpuscorporum).</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec><attList><attDef ident="ident" usage="req">
+            <desc>A prefix used in @sameAs is declared in the header.</desc>
+            <constraint>
+              <sch:rule context="tei:*[@sameAs]">
+                <sch:let name="declared" value="/tei:TEI/tei:teiHeader//tei:prefixDef/@ident"/>
+                <sch:assert id="same-as-prefix-declared" test="every $id in tokenize(normalize-space(@sameAs), ' ')                   satisfies (not(matches($id, '^[A-Za-z][A-Za-z0-9+.\-]*:')) or matches($id, '^https?:') or                   substring-before($id, ':') = $declared)">The prefixes in @sameAs (<sch:value-of select="normalize-space(@sameAs)"/>) are declared in the header, by prefixDef in
+                  listPrefixDef.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><constraintSpec ident="prefix-known" scheme="schematron" corresp="#tier-full">
+            <desc>The prefixes the application knows are scta, clavis, pseudoisidor and corpuscorporum.</desc>
+            <constraint>
+              <sch:rule context="tei:prefixDef">
+                <sch:assert id="prefix-known" role="warning" test="@ident = ('scta', 'clavis', 'pseudoisidor',                   'corpuscorporum')">The prefix <sch:value-of select="@ident"/> isn't one the application knows (scta,
+                  clavis, pseudoisidor, corpuscorporum).</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><attList><attDef ident="ident" usage="req">
       <desc versionDate="2012-11-22" xml:lang="en">supplies a name which functions as the prefix for an abbreviated
           pointing scheme such as a private URI scheme. The prefix constitutes the 
         text preceding the first colon.</desc>
@@ -28115,9 +28393,15 @@ may be empty.</p>
           <bibl xml:id="source-C.AAC-0816"><idno>C.AAC-0816</idno>: <title>Council of Aachen, 816</title>, ed.
             <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> I, MGH Concilia 2.1 (Hannover
             and Leipzig, <date>1906</date>), pp. 307–464.</bibl>
+          <bibl xml:id="source-C.AAC-0836"><idno>C.AAC-0836</idno>: <title>Council of Aachen, 836</title>, ed.
+            <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> II, MGH Concilia 2.2 (Hannover
+            and Leipzig, <date>1908</date>), pp. 704–767.</bibl>
           <bibl xml:id="source-C.ASC-0756"><idno>C.ASC-0756</idno>: <title>Council of Aschheim, 756 or
               755–760</title>, ed. <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> I, MGH
             Concilia 2.1 (Hannover and Leipzig, <date>1906</date>), pp. 56–58.</bibl>
+          <bibl xml:id="source-C.CAR-0397"><idno>C.CAR-0397</idno>: <title>Council of Carthage, 397</title>, ed.
+            <editor>Charles Munier</editor>, <title>Concilia Africae a. 345 – a. 525</title>, CCSL 149 (Turnhout,
+            <date>1974</date>), pp. 326–341: the file's header only.</bibl>
           <bibl xml:id="source-C.MAI-0813"><idno>C.MAI-0813</idno>: <title>Council of Mainz, 813</title>, ed.
             <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> I, MGH Concilia 2.1 (Hannover
             and Leipzig, <date>1906</date>), pp. 258–273.</bibl>

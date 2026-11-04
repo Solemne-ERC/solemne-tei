@@ -175,7 +175,10 @@
           <moduleRef key="textcrit" include="listWit witness"/>
 
           <!-- Each part's specifications, in the parts' order. -->
-          <specGrpRef target="#file-and-header-specs"/>
+          <specGrpRef target="#header-title-specs"/>
+          <specGrpRef target="#header-pointers-specs"/>
+          <specGrpRef target="#header-encoding-specs"/>
+          <specGrpRef target="#header-external-ids-specs"/>
           <specGrpRef target="#text-divisions-specs"/>
           <specGrpRef target="#text-headings-specs"/>
           <specGrpRef target="#text-page-breaks-specs"/>
@@ -207,9 +210,15 @@
           <bibl xml:id="source-C.AAC-0816"><idno>C.AAC-0816</idno>: <title>Council of Aachen, 816</title>, ed.
             <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> I, MGH Concilia 2.1 (Hannover
             and Leipzig, <date>1906</date>), pp. 307–464.</bibl>
+          <bibl xml:id="source-C.AAC-0836"><idno>C.AAC-0836</idno>: <title>Council of Aachen, 836</title>, ed.
+            <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> II, MGH Concilia 2.2 (Hannover
+            and Leipzig, <date>1908</date>), pp. 704–767.</bibl>
           <bibl xml:id="source-C.ASC-0756"><idno>C.ASC-0756</idno>: <title>Council of Aschheim, 756 or
               755–760</title>, ed. <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> I, MGH
             Concilia 2.1 (Hannover and Leipzig, <date>1906</date>), pp. 56–58.</bibl>
+          <bibl xml:id="source-C.CAR-0397"><idno>C.CAR-0397</idno>: <title>Council of Carthage, 397</title>, ed.
+            <editor>Charles Munier</editor>, <title>Concilia Africae a. 345 – a. 525</title>, CCSL 149 (Turnhout,
+            <date>1974</date>), pp. 326–341: the file's header only.</bibl>
           <bibl xml:id="source-C.MAI-0813"><idno>C.MAI-0813</idno>: <title>Council of Mainz, 813</title>, ed.
             <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> I, MGH Concilia 2.1 (Hannover
             and Leipzig, <date>1906</date>), pp. 258–273.</bibl>
