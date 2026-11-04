@@ -7,7 +7,8 @@ Each release says what changed, and whether files that passed may now fail.
 
 ### The rules
 
-Files that passed 0.1.0 may now fail where they have fragments or codes of the categories `LR`, `CPT` and `CHA`.
+Files that passed 0.1.0 may now fail where they have fragments, codes of the categories `LR`, `CPT` and `CHA`, or
+segments with terms.
 
 - **Fragments, two new errors:** `fragment-attributes`: a later fragment (one with `@prev`) carries only its
   `xml:id`, `@prev` and `@next`, and the span's other attributes go on its first fragment; a segment's later
@@ -17,6 +18,8 @@ Files that passed 0.1.0 may now fail where they have fragments or codes of the c
   as the old guide's coding rules have it; it took any prefix before. `UNK` still takes any.
 - **File names:** `code-matches-file-name` reads any category's prefix in a file's name, not only `C`, `D`, `COLL`,
   `P`, `EP`, `H` and `EX`.
+- **A segment's term:** `seg` takes `@ana`, pointing to a category of a taxonomy in the header's `classDecl`; a term
+  that isn't declared there is an error (`seg-term-declared`).
 
 ### The guide
 

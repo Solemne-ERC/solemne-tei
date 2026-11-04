@@ -2,348 +2,670 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 <div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="marked-in-the-text" n="IV">
   <head>What is marked in the text</head>
-  <p>Inside the body, only the elements of the annotation layers appear: names of persons, places and
-    events; works named; statements with their reference and quotation; formulas; dates; notes of three
-    types (sources, parallels, editorial remarks); scribal changes; what is unclear or missing; page and
-    line breaks; other languages; and editorial corrections. For the rare doubtful cases, an editor's
-    addition is <gi>supplied</gi>, and an abbreviation with its expansion a <gi>choice</gi> of
-    <gi>abbr</gi> and <gi>expan</gi>. A record of a kind no name element fits is <gi>rs</gi>, its kind in
-    <att>type</att> and its record in <att>ref</att>, in the names' forms; a point that a stand-off
-    annotation refers to is an <gi>anchor</gi>. A span that crosses others or the structure, such as a
-    quotation over several paragraphs, is split into fragments, each nesting where it stands, joined by
-    <att>next</att> and <att>prev</att>, which point to each other.</p>
-  <p>A quotation and a note point to their sources in <att>source</att>, in one of these forms: a document's
-    code (<code>C.NIC-0325</code>), alone or with a citation after an underscore
-    (<code>C.NIC-0325_3</code>, <code>COLL.Dach.ms-Brn-Burg-425_2.49</code>); a Bible reference, by one
-    code per book, chapter and verse (<code>MAT_18_19</code>, <code>PHP_3_17-20</code>); a work by its
-    Gryson siglum, with the place cited (<code>IS_ety_1.2.3</code>); or an SCTA resource. A loose reference
-    starts with <code>cf_</code>. Names point to their records by placeholders (<code>#new_person_…</code>)
-    until the import resolves them, then by permalinks.</p>
-  <p>A gap may say why the text is missing, in <att>reason</att>: <val>lacuna</val> (the witness lacks
-    it: lost leaves, or a lacuna in the edition it comes from), <val>damage</val>, <val>illegible</val>
-    (<gi>unclear</gi> is for what can be half read), <val>reproduction</val> (not readable in the images or
-    the film used), <val>deleted</val> (struck out and not readable), <val>sampling</val> (not transcribed,
-    by the encoder's choice: an incipit and an explicit only) or <val>editorial</val> (left out for another
-    reason, given in a note); without a reason, it's unknown. Its extent, where known, is a
-    <att>quantity</att> with its <att>unit</att> (<val>leaves</val>, <val>lines</val>, <val>words</val>,
-    <val>chars</val>), or <att>extent</att> in words.</p>
+  <p>Inside its paragraphs and headings, a file may mark what the text says: the names of persons, places and events,
+    the works it names, the statements it makes with their references and quotations, its formulae, the sources and
+    parallels an edition gives, editorial remarks, dates and other languages, beside the scribal changes, gaps and
+    unclear words of <ptr target="#text-transcription"/>. In the application a node's text is plain text, and each
+    mark is an annotation of a layer, anchored to a span of the text or a point in it (<ptr
+      target="#what-a-file-describes"/>). The import splits the marked text into its plain text and its annotations; an export
+    writes each annotation back in the same form, inline where it nests in the others, and in the standOff where it
+    doesn't (<ptr target="#exports"/>).</p>
+  <p>Nothing in this part is required. Names of persons are <hi>common</hi>, since most files mark them; the rest is
+    <hi>full</hi>: a file marks as much as its encoder claims.</p>
 
-  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="text-note-type">
-    <p>Placuit ut episcopi maneant.<note type="links">See elsewhere.</note></p>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="note-has-content">
-    <p>Placuit ut episcopi maneant.<note type="editorial"/></p>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="note-type-misspelled">
-    <p>Placuit ut episcopi maneant.<note type="souce" source="C.NIC-0325_3"/><!-- breaks the rule --></p>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-note-codes">
-    <p>Placuit ut episcopi maneant.<note type="source">C.NIC-0325_15</note></p>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-pointer-form">
-    <p>Placuit ut episcopi maneant.<note type="source" source="CNIC.325.2"/><!-- breaks the rule: an older code --></p>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-pointer-form">
-    <p>Placuit ut episcopi maneant.<note type="source" source="C.NIC_0325_3"/><!-- breaks the rule: an underscore in the code --></p>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-pointer-form">
-    <cit><ref>Dominus ait:</ref> <quote source="MATT_5_3">Beati pauperes</quote><!-- breaks the rule: no such book --></cit>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-pointer-form">
-    <cit><ref>Apostolus ait:</ref> <quote source="1CO_9_14f">qui euangelium adnuntiant</quote><!-- breaks the rule: no such verse --></cit>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="quotation-typed">
-    <cit><ref>Apostolus ait:</ref> <quote type="ROM_12_5">unum corpus sumus</quote><!-- breaks the rule --></cit>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="reference-type-unknown">
-    <cit><ref type="paratext">Dominus ait:</ref><!-- breaks the rule --> <quote source="MAT_5_3">Beati pauperes</quote></cit>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="seg-type-missing">
-    <p><seg>Si quis</seg><!-- breaks the rule --> episcopus migrauerit, deponatur.</p>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="seg-type-misspelled">
-    <p><seg type="fomula">Si quis</seg><!-- breaks the rule --> episcopus migrauerit, deponatur.</p>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-form">
-    <p>Placuit <persName ref="new_person_Paul">Paulo</persName><!-- breaks the rule --> ut episcopi maneant.</p>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-form">
-    <p>Placuit ut episcopi per <rs type="diocese" ref="new_diocese_Samplia">dioecesim</rs><!-- breaks the rule --> maneant.</p>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="fragment-next">
-    <div type="chapter" n="1">
-      <head type="number">I.</head>
-      <p><quote xml:id="next-wrong-a" next="#next-wrong-c">Placuit ut episcopi in ciuitatibus suis</quote></p>
-      <p><quote xml:id="next-wrong-b">maneant.</quote></p>
+  <div xml:id="marked-names">
+    <head>Names and their records</head>
+    <p>A person's, a place's or an event's name is marked by <gi>persName</gi>, <gi>placeName</gi> or
+      <gi>eventName</gi>, around the words of the text, and points to its record in <att>ref</att>, in one of three
+      forms:</p>
+    <list>
+      <item>a placeholder: <code>#new_</code>, the kind of record, <code>_</code>, and a name of the encoder's own
+        (<code>#new_person_Arno</code>), the same for every name of that record in the file;</item>
+      <item>an id in the file (<code>#PERS.1234</code>), where the record is listed in the file's standOff (<ptr
+          target="#records"/>);</item>
+      <item>a permalink of the application (<code>https://…/id/person/PERS.1234</code>).</item>
+    </list>
+    <p>The import makes a provisional record of each placeholder, one for all the names that share it, for the
+      project to identify; it uses a permalink as given, without matching: a record merged since forwards to the
+      record that replaced it, and a permalink that leads nowhere is reported. An export writes permalinks. In the
+      preface of the Council of Mainz of 813, the king's envoys name themselves and the city:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.MAI-0813">
+      <p>Almifice reverentiae vestrae patefacimus nos humillimi famuli ac missi vestri, <persName
+          ref="#new_person_Hildibaldus">Hildibaldus</persName> scilicet sacri palatii archiepiscopus, <persName
+          ref="#new_person_rihholfus">Rihholfus</persName> et <persName ref="#new_person_Arno">Arno</persName>
+        archiepiscopi seu <persName ref="#new_person_Bernhard">Bernharius</persName>, una cum reliquis coepiscopis
+        atque abbatibus et caetero clero, quia venimus secundum iussionem vestram in civitatem <placeName
+          ref="#new_place_Mainz">Mogontiam</placeName> …</p>
+    </egXML>
+    <p>An event is named the same way; the council names itself:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.MAI-0813">
+      <p>… Placuit itaque <eventName ref="#new_event_mainz">sancto concilio,</eventName> ut ita discernantur, sicut
+        in regula clericorum dictum est. …</p>
+    </egXML>
+    <p>A pointer to a record has one of the three forms, or fails the RelaxNG; a placeholder without its
+      <code>#</code> is the commonest slip:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-form">
+      <p>Placuit <persName ref="new_person_Paul">Paulo</persName><!-- breaks the rule --> ut episcopi maneant.</p>
+    </egXML>
+    <p>A record of a kind no name element fits, a diocese or a religious order, is marked by <gi>rs</gi> (<ptr
+        target="#marked-other"/>).</p>
+    <specGrp xml:id="marked-names-specs">
+      <!-- Names point to their records: a placeholder until the import resolves it, then a permalink. -->
+      <dataSpec ident="solemne.recordPointer" mode="add" xml:id="record-pointer-form" corresp="#tier-full">
+        <desc>A pointer to a record: a placeholder (#new_person_…), an identifier in the file, or a permalink.</desc>
+        <content>
+          <dataRef name="token" restriction="#new_[a-z]+_\S+|#[A-Za-z_][A-Za-z0-9_.\-]*|https?://\S+"/>
+        </content>
+      </dataSpec>
+
+      <elementSpec ident="persName" module="namesdates" mode="change" corresp="#tier-common">
+        <attList>
+          <attDef ident="ref" mode="change" corresp="#tier-full">
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.recordPointer"/>
+            </datatype>
+          </attDef>
+        </attList>
+      </elementSpec>
+
+      <elementSpec ident="placeName" module="namesdates" mode="change" corresp="#tier-full">
+        <attList>
+          <attDef ident="ref" mode="change" corresp="#tier-full">
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.recordPointer"/>
+            </datatype>
+          </attDef>
+        </attList>
+      </elementSpec>
+
+      <elementSpec ident="eventName" module="namesdates" mode="change" corresp="#tier-full">
+        <attList>
+          <attDef ident="ref" mode="change" corresp="#tier-full">
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.recordPointer"/>
+            </datatype>
+          </attDef>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="marked-works">
+    <head>Works named</head>
+    <p>A work the text names, a book of the Bible, a Father's treatise, a council's canons, is marked by
+      <gi>bibl</gi>, and points to the work's record in <att>ref</att>, in the forms of the names' records. The names
+      inside it stay names. The council of 813 sets its bishops to read the Gospel and Gregory's pastoral book, and
+      quotes Jerome's letter to Nepotian:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.MAI-0813">
+      <p>… legentes atque tractantes <bibl ref="#new_bibl_gospels">sanctum evangelium</bibl> necnon epistolas et
+        actus apostolorum, canones quoque ac diversa sanctorum patrum opuscula <bibl
+          ref="#new_bibl_pastoralcare">pastoralemque librum Gregorii</bibl> cum caeteris sacris dogmatibus …</p>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.MAI-0813">
+      <cit><ref>Tamen <persName ref="#new_person_jerome">Hieronimus</persName> in <bibl
+            ref="#new_bibl_nepotianum">epistola ad <persName ref="#new_person_Nepotianum">Nepotianum</persName></bibl>
+          dicit:</ref> <quote>Omnium Christianorum domos quasi proprias amare debemus, …</quote></cit>
+    </egXML>
+    <specGrp xml:id="marked-works-specs">
+      <elementSpec ident="bibl" module="core" mode="change" corresp="#tier-full">
+        <attList>
+          <attDef ident="ref" mode="change" corresp="#tier-full">
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.recordPointer"/>
+            </datatype>
+          </attDef>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="marked-statements">
+    <head>Statements, references, quotations, formulae</head>
+    <p>A statement cites an authority: it is a <gi>cit</gi> holding its reference, <gi>ref</gi>, the words that
+      name the authority, and its quotation, <gi>quote</gi>, the words quoted. Whether the quotation is exact, or
+      rightly attributed, doesn't change the form: the statements attributed to an authority are worth finding even
+      where the attribution is wrong. A quotation names its source in <att>source</att> (<ptr
+        target="#marked-pointers"/>); the words that introduce an authority by a set phrase ("ut lex dicit", "unde
+      psalmista commemorat") are a formula, a <gi>seg</gi> typed <val>formula</val>, marked and not yet identified.
+      Chapter II of the Council of Mainz, 813, is a chain of statements:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.MAI-0813">
+      <div type="chapter" n="2">
+        <head type="rubric">De spe habenda in <persName ref="#new_person_god">Deum</persName>.</head>
+        <head type="number">Cap.II</head>
+        <p>Spes vero in <persName ref="#new_person_god">Deum</persName> firmiter a cunctis Christianis tenenda est.
+            <cit><ref><seg type="formula">Unde psalmista commemorat:</seg></ref> <quote source="PSA_61_9">Sperate in
+              eo omnis congregatio populi et reliqua</quote></cit>, <cit><ref><seg type="formula">et
+              iterum:</seg></ref> <quote source="PSA_36_3">Spera in <persName ref="#new_person_god">Domino</persName>
+            et fac bonitatem</quote></cit>, … <cit><ref><seg type="formula">et apostolus:</seg></ref> <quote
+            source="ROM_8_24">Spe enim salvi facti sumus.</quote></cit></p>
+      </div>
+    </egXML>
+    <p>The application reads a statement as three annotations: the reference, the quotation with its source, and the
+      attribution, the source the reference claims. A reference whose claim sits in a heading rather than in the
+      text's words is typed <val>from_paratext</val>, the only type a reference takes. A quotation has no type: its
+      source goes in <att>source</att>. A formula, and every other <gi>seg</gi>, has a type from its closed list.</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="reference-type-unknown">
+      <cit><ref type="paratext">Dominus ait:</ref><!-- breaks the rule --> <quote source="MAT_5_3">Beati pauperes</quote></cit>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="quotation-typed">
+      <cit><ref>Apostolus ait:</ref> <quote type="ROM_12_5">unum corpus sumus</quote><!-- breaks the rule --></cit>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="seg-type-missing">
+      <p><seg>Si quis</seg><!-- breaks the rule --> episcopus migrauerit, deponatur.</p>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="seg-type-misspelled">
+      <p><seg type="fomula">Si quis</seg><!-- breaks the rule --> episcopus migrauerit, deponatur.</p>
+    </egXML>
+    <specGrp xml:id="marked-statements-specs">
+      <!-- Quotations; and fragments: a span that crosses others or the structure is split into fragments joined by
+           @next and @prev, each nesting where it stands. -->
+      <elementSpec ident="quote" module="core" mode="change" corresp="#tier-full">
+        <constraintSpec ident="fragment-next" scheme="schematron" corresp="#tier-full">
+          <desc>A fragment's @next points to the next fragment in the file, of the same kind, whose @prev points
+            back.</desc>
+          <constraint>
+            <sch:rule context="tei:*[@next]">
+              <sch:let name="next" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@next), '#')]"/>
+              <sch:assert id="fragment-next" test="count($next) = 1 and local-name($next) = local-name() and
+                normalize-space($next/@prev) = concat('#', @xml:id)">&lt;<sch:name/>&gt;'s @next (<sch:value-of
+                select="@next"/>) points to the next fragment in the file, a &lt;<sch:name/>&gt; whose @prev points
+                back.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="fragment-prev" scheme="schematron" corresp="#tier-full">
+          <desc>A fragment's @prev points to the previous fragment in the file, of the same kind, whose @next points
+            back.</desc>
+          <constraint>
+            <sch:rule context="tei:*[@prev]">
+              <sch:let name="prev" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@prev), '#')]"/>
+              <sch:assert id="fragment-prev" test="count($prev) = 1 and local-name($prev) = local-name() and
+                normalize-space($prev/@next) = concat('#', @xml:id)">&lt;<sch:name/>&gt;'s @prev (<sch:value-of
+                select="@prev"/>) points to the previous fragment in the file, a &lt;<sch:name/>&gt; whose @next
+                points back.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="fragment-attributes" scheme="schematron" corresp="#tier-full">
+          <desc>Only the first fragment carries the attributes that describe the whole span; a later one carries its
+            xml:id, @prev and @next, and the attributes the RelaxNG requires (a segment's type), with the first
+            fragment's values.</desc>
+          <constraint>
+            <sch:rule context="tei:*[@prev]">
+              <sch:let name="prev" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@prev), '#')]"/>
+              <sch:let name="other" value="@*[not(name() = ('xml:id', 'prev', 'next'))]"/>
+              <sch:assert id="fragment-attributes" test="every $a in $other satisfies (self::tei:seg and name($a) =
+                'type' and $a = $prev/@type)">&lt;<sch:name/>&gt; is a later fragment (it has @prev): it carries only
+                its xml:id, @prev and @next, and the span's other attributes (<sch:value-of select="string-join(for $a
+                in $other return concat('@', name($a)), ', ')"/>) go on its first fragment.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="fragment-order" scheme="schematron" corresp="#tier-full">
+          <desc>A fragment's @next points to an element later in the file: the fragments follow the text's
+            order.</desc>
+          <constraint>
+            <sch:rule context="tei:*[@next]">
+              <sch:let name="next" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@next), '#')]"/>
+              <sch:assert id="fragment-order" test="every $n in $next satisfies $n >> .">&lt;<sch:name/>&gt;'s @next
+                (<sch:value-of select="@next"/>) points to a fragment later in the file: the fragments follow the
+                text's order.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="source" mode="change" corresp="#tier-full">
+            <desc>the source quoted: see the pointers' forms</desc>
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.pointer"/>
+            </datatype>
+          </attDef>
+          <attDef ident="type" mode="delete" xml:id="quotation-typed" corresp="#tier-full"/>
+          <attDef ident="subtype" mode="delete"/>
+        </attList>
+      </elementSpec>
+
+      <elementSpec ident="ref" module="core" mode="change" corresp="#tier-full">
+        <attList>
+          <attDef ident="type" mode="change" corresp="#tier-full">
+            <valList type="closed" mode="replace" xml:id="reference-type-unknown" corresp="#tier-full">
+              <valItem ident="from_paratext">
+                <desc>a statement's reference whose claim sits in a heading</desc>
+              </valItem>
+            </valList>
+          </attDef>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="marked-pointers">
+    <head>Sources and the pointers' forms</head>
+    <p>A quotation's <att>source</att>, and a source note's, hold one pointer or more, separated by spaces, each in
+      one of these forms:</p>
+    <list>
+      <item>a document's code (<ptr target="#what-a-file-describes"/>), alone (<code>C.NIC-0325</code>) or with a citation
+        after an underscore, the canon or chapter of that document (<code>C.NIC-0325_3</code>,
+        <code>D.LEO-0447-414_11</code>, <code>COLL.Dach.ms-Brn-Burg-425_2.49</code>); an underscore stands only
+        there;</item>
+      <item>a Bible reference: a book's code, the chapter, and the verse, each range with a hyphen
+        (<code>MAT_18_19</code>, <code>PHP_3_17-20</code>, <code>JOH_1</code>); the Psalms by the Vulgate's
+        numbers;</item>
+      <item>a work by its siglum in Gryson's <title>Répertoire général des auteurs ecclésiastiques latins</title>:
+        the author, the work and the place cited (<code>IS_ety_1.2.3</code>, <code>LEO_ep.167_6</code>);</item>
+      <item>an SCTA resource, by its address (<code>http://scta.info/resource/…</code>).</item>
+    </list>
+    <p>The first three may begin with <code>cf_</code> for a loose reference: a parallel or an echo rather than a
+      quotation. The Collectio Dacheriana, in d'Achery's edition, echoes Ezekiel:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.Dach">
+      <p>… uenia peccatorum fideliter præsumatur ab illo, qui <quote source="cf_EZE_18_23">non uult mortem peccatoris,
+          sed ut conuertatur</quote> a perditione poenitendo, et saluatus miseratione Domini uiuat. …</p>
+    </egXML>
+    <p>The 73 books of the Bible have one code each. Their names are the Nova Vulgata's: the older Vulgate's I to IV
+      Regum are <code>1SA</code>, <code>2SA</code>, <code>1KI</code> and <code>2KI</code>. <code>solemne-tei
+        lists</code> prints the same table.</p>
+    <table xml:id="bible-codes">
+      <head>The Bible's books and their codes</head>
+      <row role="label">
+        <cell>Code</cell>
+        <cell>Book</cell>
+      </row>
+          <row><cell><code>GEN</code></cell><cell>Genesis</cell></row>
+          <row><cell><code>EXO</code></cell><cell>Exodus</cell></row>
+          <row><cell><code>LEV</code></cell><cell>Leviticus</cell></row>
+          <row><cell><code>NUM</code></cell><cell>Numeri</cell></row>
+          <row><cell><code>DEU</code></cell><cell>Deuteronomium</cell></row>
+          <row><cell><code>JOS</code></cell><cell>Iosue</cell></row>
+          <row><cell><code>JDG</code></cell><cell>Iudicum</cell></row>
+          <row><cell><code>RUT</code></cell><cell>Ruth</cell></row>
+          <row><cell><code>1SA</code></cell><cell>I Samuelis</cell></row>
+          <row><cell><code>2SA</code></cell><cell>II Samuelis</cell></row>
+          <row><cell><code>1KI</code></cell><cell>I Regum</cell></row>
+          <row><cell><code>2KI</code></cell><cell>II Regum</cell></row>
+          <row><cell><code>1CH</code></cell><cell>I Paralipomenon</cell></row>
+          <row><cell><code>2CH</code></cell><cell>II Paralipomenon</cell></row>
+          <row><cell><code>EZR</code></cell><cell>Esdrae</cell></row>
+          <row><cell><code>NEH</code></cell><cell>Nehemiae</cell></row>
+          <row><cell><code>TOB</code></cell><cell>Tobiae</cell></row>
+          <row><cell><code>JDT</code></cell><cell>Iudith</cell></row>
+          <row><cell><code>EST</code></cell><cell>Esther</cell></row>
+          <row><cell><code>1MA</code></cell><cell>I Machabaeorum</cell></row>
+          <row><cell><code>2MA</code></cell><cell>II Machabaeorum</cell></row>
+          <row><cell><code>JOB</code></cell><cell>Iob</cell></row>
+          <row><cell><code>PSA</code></cell><cell>Psalmi</cell></row>
+          <row><cell><code>PRO</code></cell><cell>Proverbia</cell></row>
+          <row><cell><code>ECC</code></cell><cell>Ecclesiastes</cell></row>
+          <row><cell><code>SOS</code></cell><cell>Canticum Canticorum</cell></row>
+          <row><cell><code>WIS</code></cell><cell>Sapientia</cell></row>
+          <row><cell><code>SIR</code></cell><cell>Ecclesiasticus</cell></row>
+          <row><cell><code>ISA</code></cell><cell>Isaias</cell></row>
+          <row><cell><code>JER</code></cell><cell>Ieremias</cell></row>
+          <row><cell><code>LAM</code></cell><cell>Lamentationes</cell></row>
+          <row><cell><code>BAR</code></cell><cell>Baruch</cell></row>
+          <row><cell><code>EZE</code></cell><cell>Ezechiel</cell></row>
+          <row><cell><code>DAN</code></cell><cell>Daniel</cell></row>
+          <row><cell><code>HOS</code></cell><cell>Osee</cell></row>
+          <row><cell><code>JOE</code></cell><cell>Ioel</cell></row>
+          <row><cell><code>AMO</code></cell><cell>Amos</cell></row>
+          <row><cell><code>OBA</code></cell><cell>Abdias</cell></row>
+          <row><cell><code>JON</code></cell><cell>Ionas</cell></row>
+          <row><cell><code>MIC</code></cell><cell>Michaeas</cell></row>
+          <row><cell><code>NAH</code></cell><cell>Nahum</cell></row>
+          <row><cell><code>HAB</code></cell><cell>Habacuc</cell></row>
+          <row><cell><code>ZEP</code></cell><cell>Sophonias</cell></row>
+          <row><cell><code>HAG</code></cell><cell>Aggaeus</cell></row>
+          <row><cell><code>ZEC</code></cell><cell>Zacharias</cell></row>
+          <row><cell><code>MAL</code></cell><cell>Malachias</cell></row>
+          <row><cell><code>MAT</code></cell><cell>Matthaeus</cell></row>
+          <row><cell><code>MAR</code></cell><cell>Marcus</cell></row>
+          <row><cell><code>LUK</code></cell><cell>Lucas</cell></row>
+          <row><cell><code>JOH</code></cell><cell>Ioannes</cell></row>
+          <row><cell><code>ACT</code></cell><cell>Actus Apostolorum</cell></row>
+          <row><cell><code>ROM</code></cell><cell>Romanos</cell></row>
+          <row><cell><code>1CO</code></cell><cell>I Corinthios</cell></row>
+          <row><cell><code>2CO</code></cell><cell>II Corinthios</cell></row>
+          <row><cell><code>GAL</code></cell><cell>Galatas</cell></row>
+          <row><cell><code>EPH</code></cell><cell>Ephesios</cell></row>
+          <row><cell><code>PHP</code></cell><cell>Philippenses</cell></row>
+          <row><cell><code>COL</code></cell><cell>Colossenses</cell></row>
+          <row><cell><code>1TH</code></cell><cell>I Thessalonicenses</cell></row>
+          <row><cell><code>2TH</code></cell><cell>II Thessalonicenses</cell></row>
+          <row><cell><code>1TI</code></cell><cell>I Timotheum</cell></row>
+          <row><cell><code>2TI</code></cell><cell>II Timotheum</cell></row>
+          <row><cell><code>TIT</code></cell><cell>Titum</cell></row>
+          <row><cell><code>PHM</code></cell><cell>Philemonem</cell></row>
+          <row><cell><code>HEB</code></cell><cell>Hebraeos</cell></row>
+          <row><cell><code>JAM</code></cell><cell>Iacobi</cell></row>
+          <row><cell><code>1PE</code></cell><cell>I Petri</cell></row>
+          <row><cell><code>2PE</code></cell><cell>II Petri</cell></row>
+          <row><cell><code>1JO</code></cell><cell>I Ioannis</cell></row>
+          <row><cell><code>2JO</code></cell><cell>II Ioannis</cell></row>
+          <row><cell><code>3JO</code></cell><cell>III Ioannis</cell></row>
+          <row><cell><code>JUD</code></cell><cell>Iudae</cell></row>
+          <row><cell><code>REV</code></cell><cell>Apocalypsis</cell></row>
+    </table>
+    <p>The RelaxNG checks each pointer's form: an older code, an underscore inside a code, a book that isn't among
+      the 73 or a verse that isn't a number fails. It doesn't check that the document or the verse exists; the
+      import resolves each pointer into a relation to a canon, and reports what it can't resolve.</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-pointer-form">
+      <p>Placuit ut episcopi maneant.<note type="source" source="CNIC.325.2"/><!-- breaks the rule: an older code --></p>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-pointer-form">
+      <p>Placuit ut episcopi maneant.<note type="source" source="C.NIC_0325_3"/><!-- breaks the rule: an underscore in the code --></p>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-pointer-form">
+      <cit><ref>Dominus ait:</ref> <quote source="MATT_5_3">Beati pauperes</quote><!-- breaks the rule: no such book --></cit>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-pointer-form">
+      <cit><ref>Apostolus ait:</ref> <quote source="1CO_9_14f">qui euangelium adnuntiant</quote><!-- breaks the rule: no such verse --></cit>
+    </egXML>
+    <specGrp xml:id="marked-pointers-specs">
+      <!-- The pointers' forms, for quote/@source and note/@source. -->
+      <dataSpec ident="solemne.pointer" mode="add" xml:id="source-pointer-form" corresp="#tier-full">
+        <desc>A pointer to a source: a document's code, alone or with a citation after an underscore (C.NIC-0325_3); a
+          Bible reference by book, chapter and verse (MAT_18_19, PHP_3_17-20); a Gryson siglum and the place cited
+          (IS_ety_1.2.3); each may start with cf_ for a loose reference; or an SCTA resource. A code holds letters,
+          digits, dots and hyphens; an underscore only separates a code from its citation.</desc>
+        <content>
+          <dataRef name="token"
+            restriction="(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?|(GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV)_[0-9]+(-[0-9]+)?(_[0-9]+(-[0-9]+)?)?|[A-Z][A-Za-z]*(-[A-Z][A-Za-z]*)*_[A-Za-z][A-Za-z0-9]*(\.[A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?)|https?://scta\.info/resource/\S+"/>
+        </content>
+      </dataSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="marked-notes">
+    <head>Notes: sources, parallels, editorial remarks</head>
+    <p>A note in the text has a type, its layer:</p>
+    <list>
+      <item><val>source</val>: where a passage comes from, as an edition says it: its words, and the codes of its
+        sources in <att>source</att>;</item>
+      <item><val>parallel</val>: a parallel elsewhere, an edition's "Cf." note;</item>
+      <item><val>editorial</val>: a remark of the editor of the file, about the text or the transcription.</item>
+    </list>
+    <p>A note stands where its source puts it: at a point of a paragraph, or between paragraphs and divisions,
+      where it annotates the division. The Council of Mainz, 813, in its chapter on the sacraments, cites Leo's
+      decretal, which its editor identifies in a note, and the editor notes a parallel in a later council:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.MAI-0813">
+      <div type="chapter" n="4">
+        <head type="rubric">De sacramentis ecclesiae.</head>
+        <head type="number">IIII</head>
+        <p>Sacramenta itaque baptismatis volumus, … <cit><ref>sicut in decretis <persName
+                ref="#new_person_leo">Leonis papae</persName> sub duobus continetur capitulis, in capitulo
+              XL:</ref> <quote source="D.LEO-0447-414_11">Haec duo tempora, id est Pascha et Pentecosten, ad
+              baptizandum a Romano pontifice legitima praefixa sunt<note type="source">Leonis decreta c. 11
+                (Jaffe-K. n. 414).</note></quote></cit>, …</p>
+        <note type="parallel">Cf. concil. Mogunt. 847 c. 3; l. I. p. 176.</note>
+      </div>
+    </egXML>
+    <p>Where an edition's source note is only codes, they go in <att>source</att>, in the pointers' forms, and the
+      note holds no words; codes left in a note's words are reported. A note holds words, or its codes, or both.</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <p>… legitima praefixa sunt<note type="source" source="D.LEO-0447-414_11"/> …</p>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-note-codes">
+      <p>Placuit ut episcopi maneant.<note type="source">C.NIC-0325_15</note></p>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="note-has-content">
+      <p>Placuit ut episcopi maneant.<note type="editorial"/></p>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="note-type-misspelled">
+      <p>Placuit ut episcopi maneant.<note type="souce" source="C.NIC-0325_3"/><!-- breaks the rule --></p>
+    </egXML>
+    <p>Notes typed <val>links</val>, <val>authorities</val> and <val>extra</val> belong to records (<ptr
+        target="#records"/>); in the text, they're errors.</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="text-note-type">
+      <p>Placuit ut episcopi maneant.<note type="links">See elsewhere.</note></p>
+    </egXML>
+    <p>The import keeps a source note's words and codes until the project resolves them into relations; a parallel
+      and an editorial note keep their words, and an editorial note its author. An error of the source marked by
+      <gi>sic</gi>, or an addition by <gi>supplied</gi>, is an editorial note too (<ptr
+        target="#transcription-unclear"/>).</p>
+    <specGrp xml:id="marked-notes-specs">
+      <!-- Notes: in the text, typed by their layer. -->
+      <elementSpec ident="note" module="core" mode="change" corresp="#tier-full">
+        <constraintSpec ident="text-note-type" scheme="schematron" corresp="#tier-full">
+          <desc>In the text, a note's type is its layer.</desc>
+          <constraint>
+            <sch:rule context="tei:body//tei:note">
+              <sch:assert id="text-note-type" test="@type = ('source', 'parallel', 'editorial')">A note in the text
+                is typed source, parallel or editorial.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="note-has-content" scheme="schematron" corresp="#tier-full">
+          <desc>A note holds words, or its codes in source.</desc>
+          <constraint>
+            <sch:rule context="tei:note">
+              <sch:assert id="note-has-content" test="normalize-space(.) != '' or @source or *">A note holds words,
+                or its codes in @source.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="source-note-codes" scheme="schematron" corresp="#tier-full">
+          <desc>A source note's codes are in source, not in its words.</desc>
+          <constraint>
+            <sch:rule context="tei:body//tei:note[@type = 'source']">
+              <sch:report id="source-note-codes" role="warning" test="some $w in tokenize(normalize-space(.),
+                '[\s;,]+') satisfies matches($w,
+                '^(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
+                source note's words hold a code (<sch:value-of select="normalize-space(.)"/>): it belongs in
+                @source.</sch:report>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="type" mode="change" corresp="#tier-full">
+            <valList type="closed" mode="replace" xml:id="note-type-misspelled" corresp="#tier-full">
+              <valItem ident="source">
+                <desc>in the text: the source a passage comes from, its codes in source</desc>
+              </valItem>
+              <valItem ident="parallel">
+                <desc>in the text: a parallel elsewhere ("Cf. concil. Mogunt. 847 c. 3")</desc>
+              </valItem>
+              <valItem ident="editorial">
+                <desc>in the text: an editor's remark</desc>
+              </valItem>
+              <valItem ident="links">
+                <desc>in a record: the links to the record in other catalogues</desc>
+              </valItem>
+              <valItem ident="authorities">
+                <desc>in a record: the authority files that describe it</desc>
+              </valItem>
+              <valItem ident="extra">
+                <desc>in a bibliographic record: what fits nowhere else</desc>
+              </valItem>
+            </valList>
+          </attDef>
+          <attDef ident="source" mode="change" corresp="#tier-full">
+            <desc>the sources the note points to: see the pointers' forms</desc>
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.pointer"/>
+            </datatype>
+          </attDef>
+          <attDef ident="subtype" mode="delete"/>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="marked-dates">
+    <head>Dates</head>
+    <p>A date in the text is marked by <gi>date</gi>, in the one form of dates that records and relations use too:
+      the wording as the text gives it, and its bounds in attributes (<ptr target="#dates"/>). The coded files mark
+      none yet; the example is made up:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <p>… Data <date when="0813-06-09">V Idus Iunias</date> …</p>
+    </egXML>
+  </div>
+
+  <div xml:id="marked-languages">
+    <head>Languages</head>
+    <p>Words in another language than the text's are marked by <gi>foreign</gi>, the language in
+      <att>xml:lang</att>; the text's own language is said once in the header. A made-up example:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <p>… quod Graeci <foreign xml:lang="grc">ὁμοούσιον</foreign> dicunt …</p>
+    </egXML>
+  </div>
+
+  <div xml:id="marked-other">
+    <head>What no element fits</head>
+    <p>TEI has an element for most of what the layers mark. For the rest:</p>
+    <list>
+      <item>a kind of mark with no element of its own is a <gi>seg</gi>, typed by its layer, and its term, where the
+        layer has terms, in <att>ana</att>, pointing to a category of a taxonomy declared in the header;</item>
+      <item>a record of a kind no name element fits, a diocese or a religious order, is an <gi>rs</gi>, its kind in
+        <att>type</att> and its record in <att>ref</att>, in the forms of the names' records;</item>
+      <item>a span that crosses others or the structure, a quotation over several paragraphs, is split into
+        fragments;</item>
+      <item>a point, or a span that can't be marked inline at all, is marked by anchors, which a stand-off annotation
+        points to.</item>
+    </list>
+    <p>A segment's term, made up:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <taxonomy xml:id="formulae">
+        <category xml:id="formula-of-the-law">
+          <catDesc>A formula that cites the law</catDesc>
+        </category>
+      </taxonomy>
+      <p>… <seg type="formula" ana="#formula-of-the-law">ut lex dicit</seg> …</p>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="seg-term-declared">
+      <p><seg type="formula" ana="#formula-of-authority">ut lex dicit</seg></p>
+    </egXML>
+    <p>A record of another kind, made up:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <p>… per <rs type="diocese" ref="#new_diocese_Moguntia">dioecesim</rs> …</p>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-form">
+      <p>Placuit ut episcopi per <rs type="diocese" ref="new_diocese_Samplia">dioecesim</rs><!-- breaks the rule --> maneant.</p>
+    </egXML>
+    <specGrp xml:id="marked-other-specs">
+      <elementSpec ident="seg" module="linking" mode="change" corresp="#tier-full">
+        <constraintSpec ident="seg-term-declared" scheme="schematron" corresp="#tier-full">
+          <desc>A segment's term, in @ana, is a category of a taxonomy in the header.</desc>
+          <constraint>
+            <sch:rule context="tei:seg[@ana]">
+              <sch:let name="declared" value="/tei:TEI/tei:teiHeader//tei:classDecl//tei:category/@xml:id"/>
+              <sch:assert id="seg-term-declared" test="every $t in tokenize(normalize-space(@ana), ' ') satisfies
+                (starts-with($t, '#') and substring($t, 2) = $declared)">A segment's term (<sch:value-of
+                select="normalize-space(@ana)"/>) points to a category of a taxonomy in the header's
+                classDecl.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="ana" mode="add" corresp="#tier-full">
+            <desc>the segment's term: a category of a taxonomy in the header</desc>
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="teidata.pointer"/>
+            </datatype>
+          </attDef>
+          <attDef ident="type" mode="change" usage="req" xml:id="seg-type-missing" corresp="#tier-full">
+            <valList type="closed" mode="replace" xml:id="seg-type-misspelled" corresp="#tier-full">
+              <valItem ident="formula">
+                <desc>a formula introducing an authority ("ut lex dicit")</desc>
+              </valItem>
+              <valItem ident="corr">
+                <desc>a scribe's correction</desc>
+              </valItem>
+            </valList>
+          </attDef>
+          <attDef ident="subtype" mode="delete"/>
+        </attList>
+      </elementSpec>
+
+      <elementSpec ident="rs" module="core" mode="change" corresp="#tier-full">
+        <attList>
+          <attDef ident="ref" mode="change" corresp="#tier-full">
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.recordPointer"/>
+            </datatype>
+          </attDef>
+        </attList>
+      </elementSpec>
+    </specGrp>
+
+    <div xml:id="marked-fragments">
+      <head>Fragments</head>
+      <p>A span that can't nest where it stands is split into fragments, each nesting in its paragraph or heading,
+        joined by <att>next</att> and <att>prev</att>: each fragment has an <att>xml:id</att>, each but the last
+        points to the next by <att>next</att>, and each but the first to the one before by <att>prev</att>. The
+        Collectio 400 capitulorum quotes two passages over several paragraphs; they're fragments. The rules:</p>
+      <list>
+        <item>each fragment's <att>next</att> and <att>prev</att> point to an element of the same kind in the file,
+          which points back (<code>fragment-next</code>, <code>fragment-prev</code>);</item>
+        <item><att>next</att> points to an element later in the file: the fragments follow the text's order, so a
+          chain has one first fragment and no loop (<code>fragment-order</code>);</item>
+        <item>only the first fragment carries the attributes that describe the whole span, a quotation's
+          <att>source</att>, a segment's <att>ana</att>, a name's <att>ref</att>; a later one carries its
+          <att>xml:id</att>, <att>prev</att> and <att>next</att>, and a segment's <att>type</att>, which the RelaxNG
+          requires on every segment, with the first fragment's value (<code>fragment-attributes</code>). So two
+          fragments can't disagree.</item>
+      </list>
+      <p>A quotation over two paragraphs, and a formula over two, made up:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples">
+        <div type="chapter" n="1">
+          <head type="number">I.</head>
+          <p><quote xml:id="fragments-a" next="#fragments-b" source="C.NIC-0325_15">Placuit ut episcopi in
+              ciuitatibus suis</quote></p>
+          <p><quote xml:id="fragments-b" prev="#fragments-a">maneant.</quote></p>
+        </div>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples">
+        <div type="chapter" n="2">
+          <head type="number">II.</head>
+          <p>Placuit ut <seg type="formula" xml:id="formula-a" next="#formula-b">si quis</seg></p>
+          <p><seg type="formula" xml:id="formula-b" prev="#formula-a">episcopus</seg> migrauerit, deponatur.</p>
+        </div>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="fragment-next">
+        <div type="chapter" n="1">
+          <head type="number">I.</head>
+          <p><quote xml:id="next-wrong-a" next="#next-wrong-c">Placuit ut episcopi in ciuitatibus suis</quote></p>
+          <p><quote xml:id="next-wrong-b">maneant.</quote></p>
+        </div>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="fragment-prev">
+        <div type="chapter" n="1">
+          <head type="number">I.</head>
+          <p><quote xml:id="prev-wrong-a">Placuit ut episcopi in ciuitatibus suis</quote></p>
+          <p><quote xml:id="prev-wrong-b" prev="#prev-wrong-a">maneant.</quote></p>
+        </div>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="fragment-order">
+        <div type="chapter" n="1">
+          <head type="number">I.</head>
+          <p><quote xml:id="order-wrong-b" prev="#order-wrong-a">maneant.</quote></p>
+          <p><quote xml:id="order-wrong-a" next="#order-wrong-b" source="C.NIC-0325_15">Placuit ut episcopi in
+              ciuitatibus suis</quote></p>
+        </div>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="fragment-attributes">
+        <div type="chapter" n="1">
+          <head type="number">I.</head>
+          <p><quote xml:id="attributes-wrong-a" next="#attributes-wrong-b" source="C.NIC-0325_15">Placuit ut episcopi
+              in ciuitatibus suis</quote></p>
+          <p><quote xml:id="attributes-wrong-b" prev="#attributes-wrong-a" source="C.NIC-0325_15">maneant.</quote></p>
+        </div>
+      </egXML>
+      <p>The import makes one annotation of the fragments, over the whole span.</p>
     </div>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="fragment-prev">
-    <div type="chapter" n="1">
-      <head type="number">I.</head>
-      <p><quote xml:id="prev-wrong-a">Placuit ut episcopi in ciuitatibus suis</quote></p>
-      <p><quote xml:id="prev-wrong-b" prev="#prev-wrong-a">maneant.</quote></p>
+
+    <div xml:id="marked-anchors">
+      <head>Anchors</head>
+      <p>An <gi>anchor</gi> marks a point. A stand-off <gi>annotation</gi>, in the standOff's
+        <gi>listAnnotation</gi>, points to one anchor, or to the range between two by TEI's <code>range()</code>.
+        It's the form for what can't be marked inline at all; an export uses it for annotations that cross stronger
+        ones (<ptr target="#exports"/>). A made-up example:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples">
+        <p>Placuit <anchor xml:id="span-start"/>ut episcopi in ciuitatibus suis maneant<anchor xml:id="span-end"/>.</p>
+        <listAnnotation>
+          <annotation xml:id="annotation-1" target="#range(span-start,span-end)">
+            <note>A remark on the whole clause.</note>
+          </annotation>
+        </listAnnotation>
+      </egXML>
     </div>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="fragment-attributes">
-    <div type="chapter" n="1">
-      <head type="number">I.</head>
-      <p><quote xml:id="attributes-wrong-a" next="#attributes-wrong-b" source="C.NIC-0325_15">Placuit ut episcopi
-          in ciuitatibus suis</quote></p>
-      <p><quote xml:id="attributes-wrong-b" prev="#attributes-wrong-a" source="C.NIC-0325_15">maneant.</quote></p>
-    </div>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="fragment-order">
-    <div type="chapter" n="1">
-      <head type="number">I.</head>
-      <p><quote xml:id="order-wrong-b" prev="#order-wrong-a">maneant.</quote></p>
-      <p><quote xml:id="order-wrong-a" next="#order-wrong-b" source="C.NIC-0325_15">Placuit ut episcopi in
-          ciuitatibus suis</quote></p>
-    </div>
-  </egXML>
-  <p>Fragments as they should be: a quotation over two paragraphs, its source on the first fragment; a formula over
-    two, each fragment typed, as the RelaxNG requires of every segment.</p>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples">
-    <div type="chapter" n="1">
-      <head type="number">I.</head>
-      <p><quote xml:id="fragments-a" next="#fragments-b" source="C.NIC-0325_15">Placuit ut episcopi in ciuitatibus
-          suis</quote></p>
-      <p><quote xml:id="fragments-b" prev="#fragments-a">maneant.</quote></p>
-    </div>
-  </egXML>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples">
-    <div type="chapter" n="2">
-      <head type="number">II.</head>
-      <p>Placuit ut <seg type="formula" xml:id="formula-a" next="#formula-b">si quis</seg></p>
-      <p><seg type="formula" xml:id="formula-b" prev="#formula-a">episcopus</seg> migrauerit, deponatur.</p>
-    </div>
-  </egXML>
-
-  <specGrp xml:id="marked-in-the-text-specs">
-    <!-- Notes: in the text, typed by their layer. -->
-    <elementSpec ident="note" module="core" mode="change" corresp="#tier-full">
-      <constraintSpec ident="text-note-type" scheme="schematron" corresp="#tier-full">
-        <desc>In the text, a note's type is its layer.</desc>
-        <constraint>
-          <sch:rule context="tei:body//tei:note">
-            <sch:assert id="text-note-type" test="@type = ('source', 'parallel', 'editorial')">A note in the text
-              is typed source, parallel or editorial.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec>
-      <constraintSpec ident="note-has-content" scheme="schematron" corresp="#tier-full">
-        <desc>A note holds words, or its codes in source.</desc>
-        <constraint>
-          <sch:rule context="tei:note">
-            <sch:assert id="note-has-content" test="normalize-space(.) != '' or @source or *">A note holds words,
-              or its codes in @source.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec>
-      <constraintSpec ident="source-note-codes" scheme="schematron" corresp="#tier-full">
-        <desc>A source note's codes are in source, not in its words.</desc>
-        <constraint>
-          <sch:rule context="tei:body//tei:note[@type = 'source']">
-            <sch:report id="source-note-codes" role="warning" test="some $w in tokenize(normalize-space(.),
-              '[\s;,]+') satisfies matches($w,
-              '^(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
-              source note's words hold a code (<sch:value-of select="normalize-space(.)"/>): it belongs in
-              @source.</sch:report>
-          </sch:rule>
-        </constraint>
-      </constraintSpec>
-      <attList>
-        <attDef ident="type" mode="change" corresp="#tier-full">
-          <valList type="closed" mode="replace" xml:id="note-type-misspelled" corresp="#tier-full">
-            <valItem ident="source">
-              <desc>in the text: the source a passage comes from, its codes in source</desc>
-            </valItem>
-            <valItem ident="parallel">
-              <desc>in the text: a parallel elsewhere ("Cf. concil. Mogunt. 847 c. 3")</desc>
-            </valItem>
-            <valItem ident="editorial">
-              <desc>in the text: an editor's remark</desc>
-            </valItem>
-            <valItem ident="links">
-              <desc>in a record: the links to the record in other catalogues</desc>
-            </valItem>
-            <valItem ident="authorities">
-              <desc>in a record: the authority files that describe it</desc>
-            </valItem>
-            <valItem ident="extra">
-              <desc>in a bibliographic record: what fits nowhere else</desc>
-            </valItem>
-          </valList>
-        </attDef>
-        <attDef ident="source" mode="change" corresp="#tier-full">
-          <desc>the sources the note points to: see the pointers' forms</desc>
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.pointer"/>
-          </datatype>
-        </attDef>
-        <attDef ident="subtype" mode="delete"/>
-      </attList>
-    </elementSpec>
-
-    <!-- The pointers' forms, for quote/@source and note/@source. -->
-    <dataSpec ident="solemne.pointer" mode="add" xml:id="source-pointer-form" corresp="#tier-full">
-      <desc>A pointer to a source: a document's code, alone or with a citation after an underscore (C.NIC-0325_3); a
-        Bible reference by book, chapter and verse (MAT_18_19, PHP_3_17-20); a Gryson siglum and the place cited
-        (IS_ety_1.2.3); each may start with cf_ for a loose reference; or an SCTA resource. A code holds letters,
-        digits, dots and hyphens; an underscore only separates a code from its citation.</desc>
-      <content>
-        <dataRef name="token"
-          restriction="(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?|(GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV)_[0-9]+(-[0-9]+)?(_[0-9]+(-[0-9]+)?)?|[A-Z][A-Za-z]*(-[A-Z][A-Za-z]*)*_[A-Za-z][A-Za-z0-9]*(\.[A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?)|https?://scta\.info/resource/\S+"/>
-      </content>
-    </dataSpec>
-
-    <!-- Quotations; and fragments: a span that crosses others or the structure is split into fragments joined by
-         @next and @prev, each nesting where it stands. -->
-    <elementSpec ident="quote" module="core" mode="change" corresp="#tier-full">
-      <constraintSpec ident="fragment-next" scheme="schematron" corresp="#tier-full">
-        <desc>A fragment's @next points to the next fragment in the file, of the same kind, whose @prev points
-          back.</desc>
-        <constraint>
-          <sch:rule context="tei:*[@next]">
-            <sch:let name="next" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@next), '#')]"/>
-            <sch:assert id="fragment-next" test="count($next) = 1 and local-name($next) = local-name() and
-              normalize-space($next/@prev) = concat('#', @xml:id)">&lt;<sch:name/>&gt;'s @next (<sch:value-of
-              select="@next"/>) points to the next fragment in the file, a &lt;<sch:name/>&gt; whose @prev points
-              back.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec>
-      <constraintSpec ident="fragment-prev" scheme="schematron" corresp="#tier-full">
-        <desc>A fragment's @prev points to the previous fragment in the file, of the same kind, whose @next points
-          back.</desc>
-        <constraint>
-          <sch:rule context="tei:*[@prev]">
-            <sch:let name="prev" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@prev), '#')]"/>
-            <sch:assert id="fragment-prev" test="count($prev) = 1 and local-name($prev) = local-name() and
-              normalize-space($prev/@next) = concat('#', @xml:id)">&lt;<sch:name/>&gt;'s @prev (<sch:value-of
-              select="@prev"/>) points to the previous fragment in the file, a &lt;<sch:name/>&gt; whose @next
-              points back.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec>
-      <constraintSpec ident="fragment-attributes" scheme="schematron" corresp="#tier-full">
-        <desc>Only the first fragment carries the attributes that describe the whole span; a later one carries its
-          xml:id, @prev and @next, and the attributes the RelaxNG requires (a segment's type), with the first
-          fragment's values.</desc>
-        <constraint>
-          <sch:rule context="tei:*[@prev]">
-            <sch:let name="prev" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@prev), '#')]"/>
-            <sch:let name="other" value="@*[not(name() = ('xml:id', 'prev', 'next'))]"/>
-            <sch:assert id="fragment-attributes" test="every $a in $other satisfies (self::tei:seg and name($a) =
-              'type' and $a = $prev/@type)">&lt;<sch:name/>&gt; is a later fragment (it has @prev): it carries only
-              its xml:id, @prev and @next, and the span's other attributes (<sch:value-of select="string-join(for $a
-              in $other return concat('@', name($a)), ', ')"/>) go on its first fragment.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec>
-      <constraintSpec ident="fragment-order" scheme="schematron" corresp="#tier-full">
-        <desc>A fragment's @next points to an element later in the file: the fragments follow the text's
-          order.</desc>
-        <constraint>
-          <sch:rule context="tei:*[@next]">
-            <sch:let name="next" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@next), '#')]"/>
-            <sch:assert id="fragment-order" test="every $n in $next satisfies $n >> .">&lt;<sch:name/>&gt;'s @next
-              (<sch:value-of select="@next"/>) points to a fragment later in the file: the fragments follow the
-              text's order.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec>
-      <attList>
-        <attDef ident="source" mode="change" corresp="#tier-full">
-          <desc>the source quoted: see the pointers' forms</desc>
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.pointer"/>
-          </datatype>
-        </attDef>
-        <attDef ident="type" mode="delete" xml:id="quotation-typed" corresp="#tier-full"/>
-        <attDef ident="subtype" mode="delete"/>
-      </attList>
-    </elementSpec>
-
-    <elementSpec ident="seg" module="linking" mode="change" corresp="#tier-full">
-      <attList>
-        <attDef ident="type" mode="change" usage="req" xml:id="seg-type-missing" corresp="#tier-full">
-          <valList type="closed" mode="replace" xml:id="seg-type-misspelled" corresp="#tier-full">
-            <valItem ident="formula">
-              <desc>a formula introducing an authority ("ut lex dicit")</desc>
-            </valItem>
-            <valItem ident="corr">
-              <desc>a scribe's correction</desc>
-            </valItem>
-          </valList>
-        </attDef>
-        <attDef ident="subtype" mode="delete"/>
-      </attList>
-    </elementSpec>
-
-    <elementSpec ident="ref" module="core" mode="change" corresp="#tier-full">
-      <attList>
-        <attDef ident="type" mode="change" corresp="#tier-full">
-          <valList type="closed" mode="replace" xml:id="reference-type-unknown" corresp="#tier-full">
-            <valItem ident="from_paratext">
-              <desc>a statement's reference whose claim sits in a heading</desc>
-            </valItem>
-          </valList>
-        </attDef>
-      </attList>
-    </elementSpec>
-
-    <!-- Names point to their records: a placeholder until the import resolves it, then a permalink. -->
-    <dataSpec ident="solemne.recordPointer" mode="add" xml:id="record-pointer-form" corresp="#tier-full">
-      <desc>A pointer to a record: a placeholder (#new_person_…), an identifier in the file, or a permalink.</desc>
-      <content>
-        <dataRef name="token" restriction="#new_[a-z]+_\S+|#[A-Za-z_][A-Za-z0-9_.\-]*|https?://\S+"/>
-      </content>
-    </dataSpec>
-    <elementSpec ident="persName" module="namesdates" mode="change" corresp="#tier-common">
-      <attList>
-        <attDef ident="ref" mode="change" corresp="#tier-full">
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.recordPointer"/>
-          </datatype>
-        </attDef>
-      </attList>
-    </elementSpec>
-    <elementSpec ident="placeName" module="namesdates" mode="change" corresp="#tier-full">
-      <attList>
-        <attDef ident="ref" mode="change" corresp="#tier-full">
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.recordPointer"/>
-          </datatype>
-        </attDef>
-      </attList>
-    </elementSpec>
-    <elementSpec ident="eventName" module="namesdates" mode="change" corresp="#tier-full">
-      <attList>
-        <attDef ident="ref" mode="change" corresp="#tier-full">
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.recordPointer"/>
-          </datatype>
-        </attDef>
-      </attList>
-    </elementSpec>
-    <elementSpec ident="bibl" module="core" mode="change" corresp="#tier-full">
-      <attList>
-        <attDef ident="ref" mode="change" corresp="#tier-full">
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.recordPointer"/>
-          </datatype>
-        </attDef>
-      </attList>
-    </elementSpec>
-    <elementSpec ident="rs" module="core" mode="change" corresp="#tier-full">
-      <attList>
-        <attDef ident="ref" mode="change" corresp="#tier-full">
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.recordPointer"/>
-          </datatype>
-        </attDef>
-      </attList>
-    </elementSpec>
-  </specGrp>
+  </div>
 </div>

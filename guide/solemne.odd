@@ -180,7 +180,12 @@
           <specGrpRef target="#text-headings-specs"/>
           <specGrpRef target="#text-page-breaks-specs"/>
           <specGrpRef target="#text-gaps-specs"/>
-          <specGrpRef target="#marked-in-the-text-specs"/>
+          <specGrpRef target="#marked-names-specs"/>
+          <specGrpRef target="#marked-works-specs"/>
+          <specGrpRef target="#marked-statements-specs"/>
+          <specGrpRef target="#marked-pointers-specs"/>
+          <specGrpRef target="#marked-notes-specs"/>
+          <specGrpRef target="#marked-other-specs"/>
           <specGrpRef target="#records-specs"/>
           <specGrpRef target="#relations-specs"/>
           <specGrpRef target="#dates-specs"/>
@@ -192,8 +197,9 @@
     <back>
       <div xml:id="example-sources">
         <head>The sources of the examples</head>
-        <p>The guide's examples quote short excerpts of the project's corpus, cut where the point is made, in the forms
-          this guide decides, as the corrected copy of each file encodes them. Each example names its file here, by
+        <p>The guide's examples quote short excerpts of the project's corpus, cut where the point is made and revised to
+          the forms this guide decides; marks that don't concern the point may be left out. Each example names its
+          file here, by
           <att>source</att>: the file's code, the text, and the edition or the manuscript it was transcribed from. An
           example without a source is made up, where the corpus has nothing to show, and so are the
           counter-examples.</p>

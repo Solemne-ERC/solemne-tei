@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: MIT -->
-<!-- Generated from solemne.odd 0.1.0 (SHA-256 a7dd6a38c0fa0ad2c7e0b0d1064963f8f5b757f787675e29444f8c3f4494ae3f) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.1.0 (SHA-256 17d93bdbb1b26bfc554db1f261ed57aff5314d648fc40d52f1606985dbf2a623) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -68,7 +68,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    <ns prefix="sch" uri="http://purl.oclc.org/dsdl/schematron"/>
    <ns prefix="sch1x" uri="http://www.ascc.net/xml/schematron"/>
    <!-- ******************************************************** -->
-   <!-- constraints in en, und, mul, zxx, of which there are 106 -->
+   <!-- constraints in en, und, mul, zxx, of which there are 107 -->
    <!-- ******************************************************** -->
    <pattern id="schematron-constraint-CMC_generatedBy_within_post-1">
       <rule context="tei:*[@generatedBy]">
@@ -131,7 +131,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <let name="next"
               value="//tei:*[@xml:id = substring-after(normalize-space(current()/@next), '#')]"/>
          <assert id="fragment-next"
-                 test="count($next) = 1 and local-name($next) = local-name() and               normalize-space($next/@prev) = concat('#', @xml:id)">&lt;<name/>&gt;'s @next (<value-of select="@next"/>) points to the next fragment in the file, a &lt;<name/>&gt; whose @prev points back.</assert>
+                 test="count($next) = 1 and local-name($next) = local-name() and                 normalize-space($next/@prev) = concat('#', @xml:id)">&lt;<name/>&gt;'s @next (<value-of select="@next"/>) points to the next fragment in the file, a &lt;<name/>&gt; whose @prev points back.</assert>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-fragment-prev-13">
@@ -139,7 +139,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <let name="prev"
               value="//tei:*[@xml:id = substring-after(normalize-space(current()/@prev), '#')]"/>
          <assert id="fragment-prev"
-                 test="count($prev) = 1 and local-name($prev) = local-name() and               normalize-space($prev/@next) = concat('#', @xml:id)">&lt;<name/>&gt;'s @prev (<value-of select="@prev"/>) points to the previous fragment in the file, a &lt;<name/>&gt; whose @next points back.</assert>
+                 test="count($prev) = 1 and local-name($prev) = local-name() and                 normalize-space($prev/@next) = concat('#', @xml:id)">&lt;<name/>&gt;'s @prev (<value-of select="@prev"/>) points to the previous fragment in the file, a &lt;<name/>&gt; whose @next points back.</assert>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-fragment-attributes-14">
@@ -148,7 +148,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
               value="//tei:*[@xml:id = substring-after(normalize-space(current()/@prev), '#')]"/>
          <let name="other" value="@*[not(name() = ('xml:id', 'prev', 'next'))]"/>
          <assert id="fragment-attributes"
-                 test="every $a in $other satisfies (self::tei:seg and name($a) =               'type' and $a = $prev/@type)">&lt;<name/>&gt; is a later fragment (it has @prev): it carries only its xml:id, @prev and @next, and the span's other attributes (<value-of select="string-join(for $a               in $other return concat('@', name($a)), ', ')"/>) go on its first fragment.</assert>
+                 test="every $a in $other satisfies (self::tei:seg and name($a) =                 'type' and $a = $prev/@type)">&lt;<name/>&gt; is a later fragment (it has @prev): it carries only its xml:id, @prev and @next, and the span's other attributes (<value-of select="string-join(for $a                 in $other return concat('@', name($a)), ', ')"/>) go on its first fragment.</assert>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-fragment-order-15">
@@ -209,7 +209,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       <rule context="tei:body//tei:note[@type = 'source']">
          <report id="source-note-codes"
                  role="warning"
-                 test="some $w in tokenize(normalize-space(.),               '[\s;,]+') satisfies matches($w,               '^(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A source note's words hold a code (<value-of select="normalize-space(.)"/>): it belongs in @source.</report>
+                 test="some $w in tokenize(normalize-space(.),                 '[\s;,]+') satisfies matches($w,                 '^(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A source note's words hold a code (<value-of select="normalize-space(.)"/>): it belongs in @source.</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-record-pointer-in-ref-26">
@@ -540,7 +540,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
          <assert test="contains(normalize-space(@target),' ')">You must supply at least two values for @target on &lt;<name/>&gt;.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-substContents1-83">
+   <pattern id="schematron-constraint-seg-term-declared-83">
+      <rule context="tei:seg[@ana]">
+         <let name="declared"
+              value="/tei:TEI/tei:teiHeader//tei:classDecl//tei:category/@xml:id"/>
+         <assert id="seg-term-declared"
+                 test="every $t in tokenize(normalize-space(@ana), ' ') satisfies                 (starts-with($t, '#') and substring($t, 2) = $declared)">A segment's term (<value-of select="normalize-space(@ana)"/>) points to a category of a taxonomy in the header's classDecl.</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-substContents1-84">
       <rule context="tei:subst">
          <assert test="child::tei:add and (child::tei:del or child::tei:surplus)"> &lt;<name/>&gt; must have at least one child &lt;add&gt; and at least one child &lt;del&gt; or &lt;surplus&gt;.</assert>
       </rule>
