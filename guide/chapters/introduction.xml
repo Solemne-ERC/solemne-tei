@@ -1,8 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 <div xmlns="http://www.tei-c.org/ns/1.0" xml:id="introduction">
-  <head>The Solemne TEI schema</head>
-  <p>The schema of the TEI files the application imports and exports: early medieval canon law texts, their
-    structure, what is marked in them, and the records they refer to. It is generated into RelaxNG, which the
-    import requires, and Schematron, whose findings the import reports and the exports must pass.</p>
+  <head>About this guide</head>
+  <p>This is SOLEMNE's encoding guide: how to encode the texts of early medieval canon law in TEI, so that the
+    project's application can import them, and how to read what the application exports. It is also the project's
+    TEI schema: one ODD holds the rules and explains them, and the schema that checks files is generated from it. A
+    change to a rule is made here, in the prose and the specification together.</p>
+  <p>It is written for someone who has never seen the project's corpus: they can encode a text from scratch, as far
+    as they can reasonably go, check it, and hand it to the import; and anyone can read what an export holds. SOLEMNE,
+    The Social Life of Early Medieval Normative Texts, is a project funded by the European Research Council (grant
+    101087979) at Radboud University.</p>
+  <p>This version covers the files of texts: Parts I to IV. Records, relations, dates, manuscripts, editions and
+    exports, Parts V to X, hold their rules and their counter-examples; their prose comes in later versions.</p>
+
+  <div xml:id="intro-checks">
+    <head>Must and should, and the checks</head>
+    <p>The guide says <hi>must</hi> for what the checks require, and <hi>should</hi> for what they report or what
+      the guide recommends. The schema checks a file twice:</p>
+    <list>
+      <item><hi>the RelaxNG</hi>: the structure, the elements and attributes the schema allows, the closed lists, the
+        forms of pointers and numbers. A file that fails it fails a <hi>must</hi>, and the import refuses it;</item>
+      <item><hi>the Schematron</hi>: the rules that the structure can't express, each with its name. An
+        <hi>error</hi> is a <hi>must</hi>; a <hi>warning</hi> is a <hi>should</hi>. The import reports both, and
+        imports the file.</item>
+    </list>
+    <p>An export passes both, without a Schematron error. Appendix B lists every rule, with its check, its severity
+      and its tier; each part shows a counter-example of each of its rules, a fragment that breaks it.</p>
+    <p>To check a file, install the package (its README says how) and run <code>solemne-tei validate
+        file.xml</code>: it prints each problem with its line, its check, its severity, its rule and its message;
+      <code>--strict</code> makes a Schematron error fail too, as an export must. In Oxygen, a file made from one of
+      the templates is checked as it is typed: the template declares the schema by two <code>xml-model</code>
+      processing instructions, one for the RelaxNG, with the Schematron inside it, and one for the Schematron, for
+      other tools:</p>
+    <eg>&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.rng"
+  type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?&gt;
+&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.sch"
+  type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?&gt;</eg>
+    <p>The schema is published at its version's address once the release is published; until then, a template is
+      checked with <code>solemne-tei validate</code>.</p>
+  </div>
+
+  <div xml:id="intro-tiers">
+    <head>The boundary and the tiers</head>
+    <p>A file may state any scholarly claim about the text, its source or the world, at any depth, signed and with
+      its evidence, including pointers to the application's records by permalink, which the import takes as given.
+      Facts that tools establish better, codes, the bounds of a date read from its wording, page breaks joined to
+      images, the identifiers of a text's levels, a file may give too, and they're checked strictly. The
+      application's own state, its nodes' ids, its text versions, change sets, releases, review states and the data
+      it computes, only its exports write, and the guide documents it so that anyone can read an export.</p>
+    <p>So every element, attribute and rule of the schema has a tier:</p>
+    <list>
+      <item><hi>required</hi>: what every file has; without it, a file fails the checks;</item>
+      <item><hi>common</hi>: what most encoders add, as most of the project's coded files do;</item>
+      <item><hi>full</hi>: every other claim, at full depth;</item>
+      <item><hi>export only</hi>: the application's state, which its exports write.</item>
+    </list>
+    <p>Only the required tier is required, so a minimal file, a rich one and an export pass the same checks. Each part
+      goes from the minimum to the full form, and says each form's tier; appendices A and B give every element's,
+      attribute's and rule's.</p>
+  </div>
+
+  <div xml:id="intro-templates">
+    <head>The templates</head>
+    <p>The templates, in the guide's folder <code>templates</code>, are whole files to start from, each a short real
+      text of the corpus, and each checked with the guide's examples:</p>
+    <list>
+      <item><code>minimal.xml</code>: only the required tier;</item>
+      <item><code>rich.xml</code>: every common form for a text, and some of the full ones;</item>
+      <item><code>council-edition.xml</code>: a council, from an edition;</item>
+      <item><code>collection-edition.xml</code>: a collection, from an edition;</item>
+      <item><code>decretal.xml</code>: a decretal;</item>
+      <item><code>penitential.xml</code>: a penitential.</item>
+    </list>
+    <p>A collection in a manuscript, with its description, a reconstruction and an export come with later
+      versions.</p>
+  </div>
+
+  <div xml:id="intro-principles">
+    <head>Principles</head>
+    <list type="ordered">
+      <item><hi>The model decides.</hi> Where the application's model has a concept, the schema has one form for it;
+        where it has none, the schema doesn't invite one: one element or attribute for each thing, one attribute for
+        pointing to a record, one form of date.</item>
+      <item><hi>One form in and out.</hi> What an export writes, an import reads: an exported file imports again
+        without loss. For each form, the guide says what the import makes of it and what an export writes.</item>
+      <item><hi>TEI as it is.</hi> The guide restricts TEI and documents it, and adds to it only where TEI has no way
+        to say something, saying so: so far, a type on <gi>segmentation</gi>.</item>
+      <item><hi>Closed where the model is fixed, seeded where it grows.</hi> The types the application's code relies
+        on are closed lists, which the RelaxNG checks; the vocabularies that grow in the application start from the
+        guide's seeds.</item>
+      <item><hi>Others' TEI through their own schemas.</hi> The Bodleian's descriptions, SCTA's Gratian, the files
+        of the Patrologia Latina and the transcriptions of handwritten text recognition are checked against their
+        own schemas and converted, never let in by widening this one.</item>
+      <item><hi>Versioned.</hi> Every release says what changed, and whether files that passed may now fail: a major
+        version where they may, a minor one for additions, a patch for the prose.</item>
+    </list>
+  </div>
+
+  <div xml:id="intro-paths">
+    <head>Two ways through the guide</head>
+    <p><hi>A first file.</hi> To encode a text from scratch, read in this order, starting from the minimal
+      template:</p>
+    <list type="ordered">
+      <item><ptr target="#documents-and-nodes"/> and <ptr target="#levels"/>;</item>
+      <item><ptr target="#header-title"/>, <ptr target="#header-categories"/> and <ptr target="#header-codes"/>;</item>
+      <item><ptr target="#header-publication"/>;</item>
+      <item><ptr target="#text-divisions"/>, <ptr target="#text-headings"/> and <ptr target="#text-numbers"/>;</item>
+      <item><ptr target="#transcription-sources"/>, <ptr target="#transcription-page-breaks"/> and <ptr
+          target="#transcription-gaps"/>;</item>
+      <item><ptr target="#marked-names"/>, <ptr target="#marked-statements"/>, <ptr target="#marked-pointers"/> and
+        <ptr target="#marked-notes"/>, as far as the file goes;</item>
+      <item><ptr target="#header-curation"/>; then check the file (<ptr target="#intro-checks"/>).</item>
+    </list>
+    <p><hi>Reading an export.</hi> To read what the application writes:</p>
+    <list type="ordered">
+      <item><ptr target="#what-a-file-describes"/>, all of it;</item>
+      <item><ptr target="#header-title"/>, for the levels' permalinks, and <ptr target="#header-revisions"/>;</item>
+      <item><ptr target="#text"/>;</item>
+      <item><ptr target="#marked-in-the-text"/>, with <ptr target="#marked-fragments"/> and <ptr
+          target="#marked-anchors"/>;</item>
+      <item><ptr target="#records"/>, <ptr target="#relations"/> and <ptr target="#dates"/>;</item>
+      <item><ptr target="#exports"/>.</item>
+    </list>
+  </div>
 </div>
