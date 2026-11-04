@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: MIT -->
+<!-- Breaks one rule: fragment-prev (a fragment's @prev points to the previous fragment, whose @next points back), checked by the Schematron. Otherwise the skeleton of a valid file. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="formal">
+          <idno>C.SAM-0600</idno>
+          <idno type="category">C</idno>
+          <idno type="type">edition</idno>
+        </title>
+        <title type="alias">Council of Samplia, 600</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>A sample of the project's schema</publisher>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Made up.</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="chapter" n="1">
+        <head type="number">I.</head>
+        <p><quote xml:id="q1a">Placuit ut episcopi in ciuitatibus suis</quote></p>
+        <p><quote xml:id="q1b" prev="#q1a">maneant.</quote></p>
+      </div>
+    </body>
+  </text>
+</TEI>

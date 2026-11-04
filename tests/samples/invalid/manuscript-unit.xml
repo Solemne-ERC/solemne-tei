@@ -29,6 +29,13 @@
               <textLang mainLang="la">Latin</textLang>
             </msItem>
           </msContents>
+          <physDesc>
+            <objectDesc form="codex">
+              <supportDesc material="perg">
+                <support>Parchment.</support>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
         </msDesc>
       </sourceDesc>
     </fileDesc>

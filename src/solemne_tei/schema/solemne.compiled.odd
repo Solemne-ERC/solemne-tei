@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.1.0 (SHA-256 fc28b210244efc5b7c4d3c02ba0453ee8a3e2340563c26bffd414e92455df851) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.1.0 (SHA-256 6e1bc4d866801a6c5df7f525d1a08633adf48a5a53591338c0797d8faf3222a0) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -131,7 +131,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           addition is <gi>supplied</gi>, and an abbreviation with its expansion a <gi>choice</gi> of
           <gi>abbr</gi> and <gi>expan</gi>. A record of a kind no name element fits is <gi>rs</gi>, its kind in
           <att>type</att> and its record in <att>ref</att>, in the names' forms; a point that a stand-off
-          annotation refers to is an <gi>anchor</gi>.</p>
+          annotation refers to is an <gi>anchor</gi>. A span that crosses others or the structure, such as a
+          quotation over several paragraphs, is split into fragments, each nesting where it stands, joined by
+          <att>next</att> and <att>prev</att>, which point to each other.</p>
         <p>A quotation and a note point to their sources in <att>source</att>, in one of these forms: a document's
           code (<code>C.NIC-0325</code>), alone or with a citation after an underscore
           (<code>C.NIC-0325_3</code>, <code>COLL.Dach.ms-Brn-Burg-425_2.49</code>); a Bible reference, by one
@@ -7493,7 +7495,24 @@ Ce ne seroyt que bon que nous rendissiez noz cloches...</egXML>
   <listRef>
     <ref target="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/CO.html#COHQHF">3.3.2.1. Foreign Words or Expressions</ref>
   </listRef>
-</elementSpec><elementSpec rend="change" module="core" xml:id="gi-quote" ident="quote"><gloss versionDate="2005-01-14" xml:lang="en">quotation</gloss><gloss versionDate="2007-12-20" xml:lang="ko">인용</gloss><gloss versionDate="2007-05-02" xml:lang="zh-TW">引文</gloss><gloss versionDate="2009-01-06" xml:lang="fr">citation</gloss><gloss versionDate="2007-05-04" xml:lang="es">cita</gloss><gloss versionDate="2007-01-21" xml:lang="it">citazione</gloss><desc versionDate="2005-01-14" xml:lang="en">contains a phrase or passage attributed by the narrator or author to some agency external to the text.</desc><desc versionDate="2007-12-20" xml:lang="ko"> 해설자 또는 저자에 의해, 텍스트의 외부 주체에 의해 생성된 것이라 밝혀진 구 또는 단락을 포함한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">包含敘述者或作者引用自文本以外來源的字 (句) 詞或段落。</desc><desc versionDate="2008-04-05" xml:lang="ja">語り手や著者が、当該テキスト外にあるものに向けた、一節を示す。</desc><desc versionDate="2009-01-06" xml:lang="fr">contient une expression ou un passage que le narrateur ou l'auteur attribue à une origine extérieure au texte.</desc><desc versionDate="2007-05-04" xml:lang="es">contiene una frase o pasaje atribuido por el narrador o autor a un agente externo al texto.</desc><desc versionDate="2007-01-21" xml:lang="it">contiene una frase o un brano attribuito dall'autore o dal narratore a soggetti esterni al testo.</desc><classes><memberOf key="att.global"/><memberOf key="att.cmc"/><memberOf key="att.msExcerpt"/><memberOf key="att.notated"/><memberOf key="att.typed"/><memberOf key="model.biblPart"/><memberOf key="model.quoteLike"/></classes><content><macroRef key="macro.specialPara"/></content><attList><attDef ident="source" mode="change">
+</elementSpec><elementSpec rend="change" module="core" xml:id="gi-quote" ident="quote"><gloss versionDate="2005-01-14" xml:lang="en">quotation</gloss><gloss versionDate="2007-12-20" xml:lang="ko">인용</gloss><gloss versionDate="2007-05-02" xml:lang="zh-TW">引文</gloss><gloss versionDate="2009-01-06" xml:lang="fr">citation</gloss><gloss versionDate="2007-05-04" xml:lang="es">cita</gloss><gloss versionDate="2007-01-21" xml:lang="it">citazione</gloss><desc versionDate="2005-01-14" xml:lang="en">contains a phrase or passage attributed by the narrator or author to some agency external to the text.</desc><desc versionDate="2007-12-20" xml:lang="ko"> 해설자 또는 저자에 의해, 텍스트의 외부 주체에 의해 생성된 것이라 밝혀진 구 또는 단락을 포함한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">包含敘述者或作者引用自文本以外來源的字 (句) 詞或段落。</desc><desc versionDate="2008-04-05" xml:lang="ja">語り手や著者が、当該テキスト外にあるものに向けた、一節を示す。</desc><desc versionDate="2009-01-06" xml:lang="fr">contient une expression ou un passage que le narrateur ou l'auteur attribue à une origine extérieure au texte.</desc><desc versionDate="2007-05-04" xml:lang="es">contiene una frase o pasaje atribuido por el narrador o autor a un agente externo al texto.</desc><desc versionDate="2007-01-21" xml:lang="it">contiene una frase o un brano attribuito dall'autore o dal narratore a soggetti esterni al testo.</desc><classes><memberOf key="att.global"/><memberOf key="att.cmc"/><memberOf key="att.msExcerpt"/><memberOf key="att.notated"/><memberOf key="att.typed"/><memberOf key="model.biblPart"/><memberOf key="model.quoteLike"/></classes><content><macroRef key="macro.specialPara"/></content><constraintSpec ident="fragments" scheme="schematron">
+            <desc>Fragments point to each other within the file: @next to an element of the same kind whose @prev
+              points back, and @prev likewise.</desc>
+            <constraint>
+              <sch:rule context="tei:*[@next]">
+                <sch:let name="next" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@next), '#')]"/>
+                <sch:assert id="fragment-next" test="count($next) = 1 and local-name($next) = local-name() and                   normalize-space($next/@prev) = concat('#', @xml:id)">&lt;<sch:name/>&gt;'s @next
+                  (<sch:value-of select="@next"/>) points to the next fragment in the file, a &lt;<sch:name/>&gt;
+                  whose @prev points back.</sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:*[@prev]">
+                <sch:let name="prev" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@prev), '#')]"/>
+                <sch:assert id="fragment-prev" test="count($prev) = 1 and local-name($prev) = local-name() and                   normalize-space($prev/@next) = concat('#', @xml:id)">&lt;<sch:name/>&gt;'s @prev
+                  (<sch:value-of select="@prev"/>) points to the previous fragment in the file, a
+                  &lt;<sch:name/>&gt; whose @next points back.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec><attList><attDef ident="source" mode="change">
               <desc>the source quoted: see the pointers' forms</desc>
               <datatype minOccurs="1" maxOccurs="unbounded">
                 <macroRef key="solemne.pointer"/>

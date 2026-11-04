@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: MIT -->
 <!-- A collection in a printed edition, its chapters given the Clavis canonum's keys in @sameAs, with the prefix
-     declared in the header, the edition's identifiers typed by kind, and the units inferred in one
-     chapter. Made up: the collection, its edition and
+     declared in the header, the edition's identifiers typed by kind, the units inferred in one
+     chapter, and a quotation over two paragraphs, in fragments joined by @next and @prev. Made up: the collection, its edition and
      its keys are not real. -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
   <teiHeader>
@@ -66,6 +66,14 @@
           <head type="number">II.</head>
           <head type="rubric">De baptismo.</head>
           <p>Baptismus in nomine trinitatis detur.</p>
+        </div>
+        <div type="chapter" n="3" sameAs="clavis:SA01.003">
+          <head type="number">III.</head>
+          <head type="inscription">Ex epistola Exempli papae.</head>
+          <p><quote xml:id="q3a" next="#q3b" source="D.EXE-0600_1">Placuit ut omnes episcopi in ciuitatibus suis
+              maneant,</quote></p>
+          <p><quote xml:id="q3b" prev="#q3a">et non transeant.</quote> Item: <gap reason="sampling"
+              extent="the rest of the letter"/></p>
         </div>
       </div>
     </body>

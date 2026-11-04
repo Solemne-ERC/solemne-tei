@@ -71,7 +71,9 @@
           addition is <gi>supplied</gi>, and an abbreviation with its expansion a <gi>choice</gi> of
           <gi>abbr</gi> and <gi>expan</gi>. A record of a kind no name element fits is <gi>rs</gi>, its kind in
           <att>type</att> and its record in <att>ref</att>, in the names' forms; a point that a stand-off
-          annotation refers to is an <gi>anchor</gi>.</p>
+          annotation refers to is an <gi>anchor</gi>. A span that crosses others or the structure, such as a
+          quotation over several paragraphs, is split into fragments, each nesting where it stands, joined by
+          <att>next</att> and <att>prev</att>, which point to each other.</p>
         <p>A quotation and a note point to their sources in <att>source</att>, in one of these forms: a document's
           code (<code>C.NIC-0325</code>), alone or with a citation after an underscore
           (<code>C.NIC-0325_3</code>, <code>COLL.Dach.ms-Brn-Burg-425_2.49</code>); a Bible reference, by one
@@ -387,7 +389,29 @@
           </attList>
         </elementSpec>
 
+        <!-- Fragments: a span that crosses others or the structure is split into fragments joined by @next and
+             @prev, each nesting where it stands. -->
         <elementSpec ident="quote" module="core" mode="change">
+          <constraintSpec ident="fragments" scheme="schematron">
+            <desc>Fragments point to each other within the file: @next to an element of the same kind whose @prev
+              points back, and @prev likewise.</desc>
+            <constraint>
+              <sch:rule context="tei:*[@next]">
+                <sch:let name="next" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@next), '#')]"/>
+                <sch:assert id="fragment-next" test="count($next) = 1 and local-name($next) = local-name() and
+                  normalize-space($next/@prev) = concat('#', @xml:id)">&lt;<sch:name/>&gt;'s @next
+                  (<sch:value-of select="@next"/>) points to the next fragment in the file, a &lt;<sch:name/>&gt;
+                  whose @prev points back.</sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:*[@prev]">
+                <sch:let name="prev" value="//tei:*[@xml:id = substring-after(normalize-space(current()/@prev), '#')]"/>
+                <sch:assert id="fragment-prev" test="count($prev) = 1 and local-name($prev) = local-name() and
+                  normalize-space($prev/@next) = concat('#', @xml:id)">&lt;<sch:name/>&gt;'s @prev
+                  (<sch:value-of select="@prev"/>) points to the previous fragment in the file, a
+                  &lt;<sch:name/>&gt; whose @next points back.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
           <attList>
             <attDef ident="source" mode="change">
               <desc>the source quoted: see the pointers' forms</desc>

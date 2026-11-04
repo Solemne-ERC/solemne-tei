@@ -54,3 +54,6 @@ Files written for the draft of this schema need these changes to pass.
   alone), or, with `@default` false and an id, for the divisions that point to it by `@decls`; a statement for
   divisions that none points to is a warning.
 - **Manuscripts:** a description (`msDesc`) has at least one codicological unit (`msPart`), with its own identifier.
+- **Fragments:** a span that crosses others or the structure, such as a quotation over several paragraphs, is split
+  into fragments joined by `@next` and `@prev`; each points to the other within the file, on an element of the same
+  kind.
