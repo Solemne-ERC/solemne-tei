@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.rng" type="application/xml"
+  schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.sch" type="application/xml"
+  schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- A council from an edition: the Council of Soissons, 744, from the project's file C.SOI-0744, its preface, two
+  chapters and two signatories; what is left out is marked by gaps. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="formal">
+          <idno>C.SOI-0744</idno>
+          <idno type="category">C</idno>
+          <idno type="type">edition</idno>
+        </title>
+        <title type="alias">Council of Soissons, 744</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts</publisher>
+        <address>
+          <orgName type="institution">Radboud University</orgName>
+          <street>Houtlaan 4</street>
+          <settlement>Nijmegen</settlement>
+          <postCode>6525 XZ</postCode>
+          <country>Netherlands</country>
+        </address>
+      </publicationStmt>
+      <sourceDesc>
+        <biblStruct>
+          <analytic>
+            <title level="a">Concilium Suessionense. 744. Mart. 2.</title>
+          </analytic>
+          <monogr>
+            <editor>
+              <persName>
+                <forename>Albert</forename>
+                <surname>Werminghoff</surname>
+              </persName>
+            </editor>
+            <title level="m">Concilia aevi Karolini</title>
+            <imprint>
+              <publisher>Hahn</publisher>
+              <pubPlace>Hannover</pubPlace>
+              <pubPlace>Leipzig</pubPlace>
+              <date>1906</date>
+            </imprint>
+            <biblScope unit="part">1</biblScope>
+            <biblScope unit="page">33-36</biblScope>
+          </monogr>
+          <series>
+            <title level="s">Monumenta Germaniae Historica, Concilia</title>
+            <biblScope unit="volume">2.1</biblScope>
+          </series>
+        </biblStruct>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="preface">
+        <p><pb n="33"/>In Dei nomine trinitatis. Anno septingentesimo quadragesimo quarto ab incarnatione Christi sub
+          die VI. Nonas Martii et luna XIIII. in anno secundo Childerici regis Francorum ego Pippinus, dux et princeps
+          Francorum. Dum plures non habetur incognitum, qualiter nos in Dei nomine una cum consensu episcoporum sive
+          sacerdotum vel servorum Dei consilio seu comitibus et obtimatibus Francorum conloqui apud Suessionis civitas
+          synodum vel concilio facere decrevimus; quod ita in Dei nomine et fecimus.</p>
+      </div>
+      <div type="chapter" n="1">
+        <head type="number"><pb n="34"/>(I).</head>
+        <p>In primitus constituimus fide catholica, quam constituerunt CCCXVIII episcopi in Niceno concilio, ut
+          denuntiaretur per universa regione nostra, et iudicias canonicas aliorum sanctorum, que constituerunt in
+          synodis suis, quomodo lex Dei et ecclaesiastica regula recuperetur, que in diebus priorum principum dissipata
+          corruit.</p>
+      </div>
+      <div type="chapter" n="2">
+        <head type="number">(II).</head>
+        <p>Propterea nos una cum consensu episcoporum sive sacerdotum seu servorum Dei et optimatum meorum consilio
+          decrevimus, ut annis singulis synodo renovare debeamus, … <gap reason="sampling"/></p>
+      </div>
+      <gap reason="sampling"/>
+      <div type="subscriptions">
+        <div type="unit">
+          <p>Signum inluster vir Pippino, maiorum domius.</p>
+        </div>
+        <div type="unit">
+          <p>Signum Radobodo.</p>
+        </div>
+        <gap reason="sampling"/>
+      </div>
+    </body>
+  </text>
+</TEI>

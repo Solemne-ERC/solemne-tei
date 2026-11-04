@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.rng" type="application/xml"
+  schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.sch" type="application/xml"
+  schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- A rich file: every common form for a text, and some of the full ones. The Council of Mainz, 813, from the
+  project's file C.MAI-0813, its preface and first two chapters, cut; what is left out is marked by gaps. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="formal">
+          <idno>C.MAI-0813</idno>
+          <idno type="category">C</idno>
+          <idno type="type">edition</idno>
+        </title>
+        <title type="alias">Council of Mainz, 813</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts</publisher>
+        <address>
+          <orgName type="institution">Radboud University</orgName>
+          <street>Houtlaan 4</street>
+          <settlement>Nijmegen</settlement>
+          <postCode>6525 XZ</postCode>
+          <country>Netherlands</country>
+        </address>
+      </publicationStmt>
+      <sourceDesc>
+        <biblStruct>
+          <analytic>
+            <title level="a">Concilium Moguntinense. 813. (mense Maio) - Iun. 9.</title>
+          </analytic>
+          <monogr>
+            <editor>
+              <persName>
+                <forename>Albert</forename>
+                <surname>Werminghoff</surname>
+              </persName>
+            </editor>
+            <title level="m">Concilia aevi Karolini</title>
+            <imprint>
+              <publisher>Hahn</publisher>
+              <pubPlace>Hannover</pubPlace>
+              <pubPlace>Leipzig</pubPlace>
+              <date>1906</date>
+            </imprint>
+            <biblScope unit="part">1</biblScope>
+            <biblScope unit="page">258-273</biblScope>
+          </monogr>
+          <series>
+            <title level="s">Monumenta Germaniae Historica, Concilia</title>
+            <biblScope unit="volume">2.1</biblScope>
+          </series>
+        </biblStruct>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <editorialDecl>
+        <correction status="medium">
+          <p>Checked once against the edition.</p>
+        </correction>
+      </editorialDecl>
+    </encodingDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="preface">
+        <div type="unit">
+          <p><pb n="259"/>In nomine <persName ref="#new_person_Holytrinity">patris et filii et Spiritus
+              sancti.</persName> Gloriosissimo et christianissimo <persName ref="#new_person_EmperorCharles">imperatori
+              Karolo Augusto</persName>, verae religionis rectori ac defensori sanctae <persName
+              ref="#new_person_god">Dei</persName> eclesiae, una cum prole sua eiusque fidelibus vita et salus, honor
+            et benedictio cum victoria sine fine mansura.</p>
+        </div>
+        <div type="unit">
+          <p>Almifice reverentiae vestrae patefacimus nos humillimi famuli ac missi vestri, <persName
+              ref="#new_person_Hildibaldus">Hildibaldus</persName> scilicet sacri palatii archiepiscopus, <persName
+              ref="#new_person_rihholfus">Rihholfus</persName> et <persName ref="#new_person_Arno">Arno</persName>
+            archiepiscopi seu <persName ref="#new_person_Bernhard">Bernharius</persName>, una cum reliquis coepiscopis
+            atque abbatibus et caetero clero, quia venimus secundum iussionem vestram in civitatem <placeName
+              ref="#new_place_Mainz">Mogontiam</placeName> <gap reason="sampling"/></p>
+        </div>
+        <gap reason="sampling"/>
+      </div>
+      <div type="chapter" n="1">
+        <head type="rubric"><pb n="261"/>De fide catholica firmiter retinenda.</head>
+        <head type="number">Cap.I</head>
+        <p>Initium enim actionis nostrae de fide esse decrevimus, quae bonorum est omnium fundamentum, et quia sine
+          fide, <cit><ref><seg type="formula">ut dicit apostolus,</seg></ref> <quote source="HEB_11_6">inpossibile est
+              placere <persName ref="#new_person_god">Deo</persName>.</quote></cit> Fides tamen indiget opere, quia
+            <cit><quote source="JAM_2_26">fides sine operibus mortua est.</quote></cit>
+          <cit><ref>Ideo beatus <persName ref="#new_person_greg">Gregorius</persName>:</ref> <quote><note
+                type="source">Gregorius M., Homil. in evangel. I. II, 26 §9; Opp. I, 1557</note> Ille, inquit, vere
+              credit, qui exercet operando quod credit.</quote></cit> <gap reason="sampling"/></p>
+      </div>
+      <div type="chapter" n="2">
+        <head type="rubric">De spe habenda in <persName ref="#new_person_god">Deum</persName>.</head>
+        <head type="number">Cap.II</head>
+        <p>Spes vero in <persName ref="#new_person_god">Deum</persName> firmiter a cunctis Christianis tenenda est.
+            <cit><ref><seg type="formula">Unde psalmista commemorat:</seg></ref> <quote source="PSA_61_9">Sperate in eo
+              omnis congregatio populi et reliqua</quote></cit>, <cit><ref><seg type="formula">et
+              iterum:</seg></ref> <quote source="PSA_36_3">Spera in <persName ref="#new_person_god">Domino</persName>
+            et fac bonitatem</quote></cit>, <gap reason="sampling"/></p>
+      </div>
+      <gap reason="sampling"/>
+    </body>
+  </text>
+  <standOff>
+    <listPerson>
+      <person xml:id="new_person_god">
+        <persName type="main">God</persName>
+      </person>
+      <person xml:id="new_person_Holytrinity">
+        <persName type="main">The Holy Trinity</persName>
+      </person>
+      <person xml:id="new_person_EmperorCharles">
+        <persName type="main">Emperor Charles</persName>
+      </person>
+      <person xml:id="new_person_Hildibaldus">
+        <persName type="main">Hildibaldus</persName>
+      </person>
+      <person xml:id="new_person_rihholfus">
+        <persName type="main">Rihholfus</persName>
+      </person>
+      <person xml:id="new_person_Arno">
+        <persName type="main">Arnold</persName>
+      </person>
+      <person xml:id="new_person_Bernhard">
+        <persName type="main">Bernard</persName>
+      </person>
+      <person xml:id="new_person_greg">
+        <persName type="main">Gregorius</persName>
+      </person>
+    </listPerson>
+    <listPlace>
+      <place xml:id="new_place_Mainz">
+        <placeName>Mainz</placeName>
+      </place>
+    </listPlace>
+  </standOff>
+</TEI>

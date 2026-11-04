@@ -11,7 +11,7 @@ from lxml import etree
 from solemne_tei.build import ODD_PATH, BuildError, check_odd, check_specification_groups, expand
 from solemne_tei.examples import EXAMPLES, Example, Outcome, check, examples, placed
 from solemne_tei.rules import attribute_tiers, element_tiers, rules, tiers
-from solemne_tei.schema_files import COMPILED_ODD, SCHEMA_DIR
+from solemne_tei.schema_files import COMPILED_ODD, SCHEMA_DIR, odd_version
 from solemne_tei.validate import Validator
 
 TEI = "http://www.tei-c.org/ns/1.0"
@@ -241,3 +241,45 @@ def test_the_build_stops_on_a_specification_group_that_isn_t_referred_to(root: P
     part.write_text(PART.replace("</div>\n", '<specGrp xml:id="lost"/>\n</div>\n', 1), encoding="utf-8")
     with pytest.raises(BuildError, match=r"chapters/part\.xml:\d+: the specGrp lost, which no specGrpRef names"):
         check_specification_groups(expand(root))
+
+
+TEMPLATES = sorted((GUIDE / "templates").glob("*.xml"))
+
+
+@pytest.mark.parametrize("template", TEMPLATES, ids=lambda p: p.stem)
+def test_a_template_passes_both_checks(template: Path) -> None:
+    result = Validator().check(template)
+    assert result.problems == [], "\n".join(str(p) for p in result.problems)
+
+
+@pytest.mark.parametrize("template", TEMPLATES, ids=lambda p: p.stem)
+def test_a_template_declares_the_schema_of_its_version(template: Path) -> None:
+    version = odd_version(ODD_PATH)
+    tree = etree.parse(str(template))
+    models = [pi for pi in tree.getroot().itersiblings(preceding=True) if isinstance(pi, etree._ProcessingInstruction)]
+    hrefs = sorted(pi.get("href") for pi in models if pi.target == "xml-model")
+    base = f"https://solemne-erc.github.io/solemne-tei/schema/{version}/"
+    assert hrefs == [f"{base}solemne.rng", f"{base}solemne.sch"]
+    assert "<!-- SPDX-License-Identifier: CC-BY-4.0 -->" in template.read_text("utf-8").splitlines()[1]
+
+
+def test_the_templates_are_those_the_front_matter_names(odd: etree._Element) -> None:
+    section = odd.find(f".//{{{TEI}}}div[@{XML_ID}='intro-templates']")
+    named = sorted("".join(code.itertext()) for code in section.iter(f"{{{TEI}}}code") if code.text.endswith(".xml"))
+    assert named == [p.name for p in TEMPLATES]
+
+
+def template_elements(name: str) -> set[str]:
+    return {etree.QName(el).localname for el in etree.parse(str(GUIDE / "templates" / name)).iter(tag=etree.Element)}
+
+
+def test_the_minimal_template_holds_only_the_required_tier(odd: etree._Element) -> None:
+    tiers = {element: named[0] for element, named in element_tiers(odd).items()}
+    # TEI requires a paragraph in the publication statement and the source description, and it holds the text.
+    assert {e for e in template_elements("minimal.xml") if tiers[e] != "required"} == {"p"}
+
+
+def test_the_rich_template_holds_every_common_element(odd: etree._Element) -> None:
+    common = {element for element, named in element_tiers(odd).items() if named[0] == "common"}
+    # The project's files give a person's address for contact, which a public template leaves out.
+    assert common - template_elements("rich.xml") == {"distributor", "email"}

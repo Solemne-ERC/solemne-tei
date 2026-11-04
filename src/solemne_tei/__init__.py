@@ -6,7 +6,7 @@ grant 101087979)"""
 from solemne_tei.schema_files import ClosedLists, closed_lists, schema_version
 from solemne_tei.validate import Problem, Result, Validator, validate
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 # The version of the ODD the package's schema was generated from.
 SCHEMA_VERSION = schema_version()

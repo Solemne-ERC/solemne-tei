@@ -36,6 +36,9 @@ segments with terms.
   beside the specification. Each Schematron rule has a `constraintSpec` of its own, and each restriction the RelaxNG
   checks (a closed list, a required attribute, a pattern) an `xml:id` on the specification that makes it. Nothing
   changes for files.
+- The templates, in `guide/templates/`, are whole files to start from, each a short text of the corpus: a minimal
+  file, a rich one, a council and a collection from editions, a decretal and a penitential. Each declares the schema
+  by two `<?xml-model?>` lines, at its version's address on GitHub Pages, and passes both checks.
 - The guide's examples are tests: an example passes both checks, a counter-example (`valid="false"`) fails on the
   rule its `@n` names, and every rule has one. Fragments are checked in a minimal file. The invalid samples that
   tested each rule are now counter-examples in the parts that explain their rules.
