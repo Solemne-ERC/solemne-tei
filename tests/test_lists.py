@@ -21,7 +21,7 @@ def odd() -> etree._ElementTree:
 
 
 def test_the_bible_codes_are_those_of_the_odd_s_pointer_pattern() -> None:
-    pattern = odd().find(f".//{{{TEI}}}macroSpec[@ident='solemne.pointer']//{{{TEI}}}dataRef").get("restriction")
+    pattern = odd().find(f".//{{{TEI}}}dataSpec[@ident='solemne.pointer']//{{{TEI}}}dataRef").get("restriction")
     books = re.search(r"\((GEN\|[0-9A-Z|]+)\)", pattern)
     assert books
     assert [book.code for book in bible_books()] == books.group(1).split("|")
