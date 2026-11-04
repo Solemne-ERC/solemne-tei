@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 from lxml import etree
 
-from solemne_tei.build import ODD_PATH, BuildError, check_odd, expand
+from solemne_tei.build import ODD_PATH, BuildError, check_odd, check_specification_groups, expand
 from solemne_tei.examples import EXAMPLES, Example, Outcome, check, examples, placed
 from solemne_tei.rules import attribute_tiers, element_tiers, rules, tiers
 from solemne_tei.schema_files import COMPILED_ODD, SCHEMA_DIR
@@ -18,6 +18,7 @@ TEI = "http://www.tei-c.org/ns/1.0"
 XI = "http://www.w3.org/2001/XInclude"
 GUIDE = ODD_PATH.parent
 TIERS = ("required", "common", "full", "export only")
+XML_ID = "{http://www.w3.org/XML/1998/namespace}id"
 
 
 @pytest.fixture(scope="module")
@@ -214,3 +215,29 @@ def test_a_whole_file_is_checked_as_it_is() -> None:
     tree = placed(example("<TEI><teiHeader/><text><body/></text></TEI>"))
     assert tree.getroot().tag == f"{{{TEI}}}TEI"
     assert tree.find(f".//{{{TEI}}}fileDesc") is None
+
+
+def test_every_pointer_of_the_guide_leads_somewhere(odd: etree._Element) -> None:
+    ids = {el.get(XML_ID) for el in odd.iter() if isinstance(el.tag, str) and el.get(XML_ID)}
+    pointers = [
+        (etree.QName(el).localname, target)
+        for el in odd.iter(f"{{{TEI}}}ptr", f"{{{TEI}}}ref", f"{{{EXAMPLES}}}egXML")
+        for target in (el.get("target") or el.get("source") or "").split()
+        if target.startswith("#")
+    ]
+    assert pointers
+    assert [(name, target) for name, target in pointers if target[1:] not in ids] == []
+
+
+def test_every_source_of_an_example_is_used(odd: etree._Element) -> None:
+    sources = odd.find(f".//{{{TEI}}}div[@{XML_ID}='example-sources']")
+    listed = {b.get(XML_ID) for b in sources.iter(f"{{{TEI}}}bibl")}
+    used = {eg.get("source")[1:] for eg in odd.iter(f"{{{EXAMPLES}}}egXML") if eg.get("source")}
+    assert listed == used
+
+
+def test_the_build_stops_on_a_specification_group_that_isn_t_referred_to(root: Path) -> None:
+    part = root.parent / "chapters" / "part.xml"
+    part.write_text(PART.replace("</div>\n", '<specGrp xml:id="lost"/>\n</div>\n', 1), encoding="utf-8")
+    with pytest.raises(BuildError, match=r"chapters/part\.xml:\d+: the specGrp lost, which no specGrpRef names"):
+        check_specification_groups(expand(root))

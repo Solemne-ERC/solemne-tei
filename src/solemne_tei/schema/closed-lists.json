@@ -1,6 +1,6 @@
 {
   "SPDX-License-Identifier": "MIT",
-  "generated": "Generated from solemne.odd 0.1.0 (SHA-256 01f7eb63f7571eb8ba6ade4a698494bb0a9bc01f11f2ff9decbb78896bcfe29b) by solemne-tei build. Edit the ODD, not this file.",
+  "generated": "Generated from solemne.odd 0.1.0 (SHA-256 a7dd6a38c0fa0ad2c7e0b0d1064963f8f5b757f787675e29444f8c3f4494ae3f) by solemne-tei build. Edit the ODD, not this file.",
   "lists": {
     "annotation": {
       "motivation": [

@@ -26,7 +26,8 @@ Files that passed 0.1.0 may now fail where they have fragments or codes of the c
   messages. Oxygen checks the root with its parts included.
 - The build checks the ODD with its parts included, reports each error at its part's file and line, and writes the
   expanded ODD into the package as `solemne.expanded.odd`. The stamp in each generated file names the expanded ODD's
-  SHA-256.
+  SHA-256. It stops when a `specGrpRef` leads nowhere or a `specGrp` isn't referred to, which TEI's stylesheets would
+  pass over without a word.
 - Every element, attribute and rule names its tier, `required`, `common`, `full` or `export only`, by `@corresp`
   pointing to the tiers' taxonomy in the ODD's header; the elements taken from TEI unchanged take theirs from a table
   beside the specification. Each Schematron rule has a `constraintSpec` of its own, and each restriction the RelaxNG

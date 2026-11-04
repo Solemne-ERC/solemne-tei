@@ -304,6 +304,25 @@ def _remove(node: etree._Element) -> None:
     parent.remove(node)
 
 
+def check_specification_groups(expanded: Expanded) -> None:
+    """Stops the build when a `specGrpRef` leads to no `specGrp`, or a `specGrp` isn't referred to: TEI's
+    stylesheets would leave its specifications out of the schema without a word."""
+    root = etree.fromstring(expanded.text)
+    xml_id = "{http://www.w3.org/XML/1998/namespace}id"
+    groups = {g.get(xml_id): g for g in root.iter(f"{{{TEI}}}specGrp")}
+    refs = {r.get("target", "")[1:]: r for r in root.iter(f"{{{TEI}}}specGrpRef")}
+
+    def place(el: etree._Element) -> str:
+        file, line = expanded.places.get(el.sourceline or 0, (ODD, el.sourceline))
+        return f"{file}:{line}"
+
+    problems = [f"  {place(r)}: a specGrpRef to #{t}, which no specGrp has" for t, r in refs.items() if t not in groups]
+    unnamed = [(i, g) for i, g in groups.items() if i not in refs]
+    problems += [f"  {place(g)}: the specGrp {i}, which no specGrpRef names" for i, g in unnamed]
+    if problems:
+        raise BuildError("the schema's specification groups don't match:\n" + "\n".join(problems))
+
+
 def check_odd(odd: Path, validator: Validator, places: Places | None = None) -> None:
     """Stops the build when the ODD isn't valid against the validator's schema; its warnings are logged. With the
     places of an expanded ODD, each problem is reported at the file and line it was written on."""
@@ -385,6 +404,7 @@ def build(odd: Path = ODD_PATH, out: Path = SCHEMA_DIR, cache: Path = CACHE_DIR)
     shutil.rmtree(work, ignore_errors=True)
     work.mkdir(parents=True)
     expanded = expand(odd)
+    check_specification_groups(expanded)
     (work / ODD).write_bytes(expanded.text)
     logger.info("Checking %s, its parts included, against TEI's schema for ODD files", ODD)
     check_odd(work / ODD, odd_validator(tools, cache), expanded.places)

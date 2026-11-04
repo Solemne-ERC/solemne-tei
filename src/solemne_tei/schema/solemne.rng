@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: MIT -->
-<!-- Generated from solemne.odd 0.1.0 (SHA-256 01f7eb63f7571eb8ba6ade4a698494bb0a9bc01f11f2ff9decbb78896bcfe29b) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.1.0 (SHA-256 a7dd6a38c0fa0ad2c7e0b0d1064963f8f5b757f787675e29444f8c3f4494ae3f) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -4188,7 +4188,7 @@ Normalization 13. Critical Apparatus]</a:documentation>
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:gap[@quantity or @unit]">
                <sch:assert id="gap-quantity-unit" test="@quantity and @unit">A gap's quantity is given with its unit
-              (leaves, lines, words or chars), and a unit with its quantity.</sch:assert>
+                  (leaves, lines, words or chars), and a unit with its quantity.</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -6770,7 +6770,7 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:body//tei:*">
                <sch:assert id="text-elements"
-                           test="local-name() = ('div', 'head', 'p', 'note', 'pb', 'lb', 'gap',               'persName', 'placeName', 'eventName', 'bibl', 'cit', 'quote', 'ref', 'seg', 'date', 'subst', 'add',               'del', 'unclear', 'foreign', 'choice', 'corr', 'sic', 'abbr', 'expan', 'supplied', 'rs',               'anchor')">&lt;<sch:name/>&gt; isn't one of the text's elements.</sch:assert>
+                           test="local-name() = ('div', 'head', 'p', 'note', 'pb', 'lb', 'gap',                 'persName', 'placeName', 'eventName', 'bibl', 'cit', 'quote', 'ref', 'seg', 'date', 'subst', 'add',                 'del', 'unclear', 'foreign', 'choice', 'corr', 'sic', 'abbr', 'expan', 'supplied', 'rs',                 'anchor')">&lt;<sch:name/>&gt; isn't one of the text's elements.</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -6789,7 +6789,7 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:div[@type = 'unit']">
                <sch:assert id="unit-alone" test="count(../tei:div) gt 1">A unit stands alone in its division: its
-              paragraphs belong to the division itself.</sch:assert>
+                paragraphs belong to the division itself.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -6799,7 +6799,7 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:div[@type = 'unit']">
                <sch:assert id="unit-holds-text" test="not(tei:div) and not(tei:head)">A unit holds paragraphs only,
-              without headings or divisions.</sch:assert>
+                without headings or divisions.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -6810,7 +6810,7 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
                       context="tei:div[@type = 'registerItem']">
                <sch:assert id="register-item-in-register"
                            test="parent::tei:div[@type = 'register']">A register item
-              stands in a register.</sch:assert>
+                stands in a register.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -6820,7 +6820,7 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:div[tei:head[@type = 'number']]">
                <sch:assert id="number-heading-n" test="@n">A division with a number heading
-              (<sch:value-of select="normalize-space(tei:head[@type = 'number'][1])"/>) has @n.</sch:assert>
+                (<sch:value-of select="normalize-space(tei:head[@type = 'number'][1])"/>) has @n.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"

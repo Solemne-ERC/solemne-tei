@@ -176,7 +176,10 @@
 
           <!-- Each part's specifications, in the parts' order. -->
           <specGrpRef target="#file-and-header-specs"/>
-          <specGrpRef target="#text-specs"/>
+          <specGrpRef target="#text-divisions-specs"/>
+          <specGrpRef target="#text-headings-specs"/>
+          <specGrpRef target="#text-page-breaks-specs"/>
+          <specGrpRef target="#text-gaps-specs"/>
           <specGrpRef target="#marked-in-the-text-specs"/>
           <specGrpRef target="#records-specs"/>
           <specGrpRef target="#relations-specs"/>
@@ -186,5 +189,38 @@
         </schemaSpec>
       </div>
     </body>
+    <back>
+      <div xml:id="example-sources">
+        <head>The sources of the examples</head>
+        <p>The guide's examples quote short excerpts of the project's corpus, cut where the point is made, in the forms
+          this guide decides, as the corrected copy of each file encodes them. Each example names its file here, by
+          <att>source</att>: the file's code, the text, and the edition or the manuscript it was transcribed from. An
+          example without a source is made up, where the corpus has nothing to show, and so are the
+          counter-examples.</p>
+        <listBibl>
+          <bibl xml:id="source-C.AAC-0816"><idno>C.AAC-0816</idno>: <title>Council of Aachen, 816</title>, ed.
+            <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> I, MGH Concilia 2.1 (Hannover
+            and Leipzig, <date>1906</date>), pp. 307–464.</bibl>
+          <bibl xml:id="source-C.ASC-0756"><idno>C.ASC-0756</idno>: <title>Council of Aschheim, 756 or
+              755–760</title>, ed. <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> I, MGH
+            Concilia 2.1 (Hannover and Leipzig, <date>1906</date>), pp. 56–58.</bibl>
+          <bibl xml:id="source-C.MAI-0813"><idno>C.MAI-0813</idno>: <title>Council of Mainz, 813</title>, ed.
+            <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> I, MGH Concilia 2.1 (Hannover
+            and Leipzig, <date>1906</date>), pp. 258–273.</bibl>
+          <bibl xml:id="source-C.ROM-0826"><idno>C.ROM-0826</idno>: <title>Council of Rome, 826</title>, ed.
+            <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> II, MGH Concilia 2.2 (Hannover
+            and Leipzig, <date>1908</date>), pp. 552–583.</bibl>
+          <bibl xml:id="source-C.SOI-0744"><idno>C.SOI-0744</idno>: <title>Council of Soissons, 744</title>, ed.
+            <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> I, MGH Concilia 2.1 (Hannover
+            and Leipzig, <date>1906</date>), pp. 33–36.</bibl>
+          <bibl xml:id="source-COLL.400.ms-Mun-BSB-4592"><idno>COLL.400.ms-Mun-BSB-4592</idno>: <title>Collectio 400
+              capitulorum</title>, transcribed by the project from Munich, Bayerische Staatsbibliothek, Clm
+            4592.</bibl>
+          <bibl xml:id="source-COLL.Dach"><idno>COLL.Dach</idno>: <title>Collectio Dacheriana</title>, ed.
+            <editor>Luc d'Achery</editor>, <title>Spicilegium</title>, vol. 11 (Paris, <date>1723</date>),
+            pp. 1–200.</bibl>
+        </listBibl>
+      </div>
+    </back>
   </text>
 </TEI>
