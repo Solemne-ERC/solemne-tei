@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.rng" type="application/xml"
+  schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.sch" type="application/xml"
+  schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- A decretal: Innocent I's letter to Juliana, 413 (JK 302), from the project's file D.INN-0413-302, its address and
+  the beginning of the letter; the rest is marked by a gap. The persons it names are listed in the standOff. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="formal">
+          <idno>D.INN-0413-302</idno>
+          <idno type="category">D</idno>
+          <idno type="type">edition</idno>
+        </title>
+        <title type="alias">Innocent I to Juliana, 413 (JK 302)</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts</publisher>
+        <address>
+          <orgName type="institution">Radboud University</orgName>
+          <street>Houtlaan 4</street>
+          <settlement>Nijmegen</settlement>
+          <postCode>6525 XZ</postCode>
+          <country>Netherlands</country>
+        </address>
+      </publicationStmt>
+      <sourceDesc>
+        <biblStruct>
+          <analytic>
+            <title level="a">Epistola XV. Innocentii papae, ad Julianam nobilem exhortatoria</title>
+          </analytic>
+          <monogr>
+            <editor>
+              <persName>
+                <forename>Pierre</forename>
+                <surname>Coustant</surname>
+              </persName>
+            </editor>
+            <title level="m">Epistolae Romanorum pontificum, et quae ad eos scriptae sunt a S. Clemente I. usque ad
+              Innocentium III</title>
+            <imprint>
+              <publisher>Delatour</publisher>
+              <publisher>Coustelier</publisher>
+              <pubPlace>Paris</pubPlace>
+              <date>1721</date>
+            </imprint>
+            <biblScope unit="volume">1</biblScope>
+            <biblScope unit="column">819</biblScope>
+          </monogr>
+        </biblStruct>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="preface">
+        <p><persName ref="#new_person_innocent">Innocentii papae</persName>, ad <persName
+            ref="#new_person_juliana">Julianam</persName> nobilem exhortatoria</p>
+      </div>
+      <div type="chapter">
+        <p>Singulare membrum Ecclesiae, tuae religionis amplitudinem exsistere, et à nobis reverentissimè coli, satis est
+          omnibus manifestum. In ipso enim apice nobilitatis multo nobiliorem Ecclesae devotionem impendis, et magis
+          laeta <persName ref="#new_person_christ">Christi</persName> agnitione, praeceptis ejus obtemperas, et in fide
+          potiùs exsultas, quàm tanti generis flore jactaris. <gap reason="sampling"/></p>
+      </div>
+    </body>
+  </text>
+  <standOff>
+    <listPerson>
+      <person xml:id="new_person_innocent">
+        <persName type="main">Innocent I, pope</persName>
+      </person>
+      <person xml:id="new_person_juliana">
+        <persName type="main">Juliana</persName>
+      </person>
+      <person xml:id="new_person_christ">
+        <persName type="main">Christ</persName>
+      </person>
+    </listPerson>
+  </standOff>
+</TEI>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.rng" type="application/xml"
+  schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.sch" type="application/xml"
+  schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- A penitential: Halitgar of Cambrai's, from the project's file P.HAL, the beginning of its third book; the other
+  books, and the rest of this one, are marked by gaps. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="formal">
+          <idno>P.HAL</idno>
+          <idno type="category">P</idno>
+          <idno type="type">edition</idno>
+        </title>
+        <title type="alias">Penitential of Halitgar</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts</publisher>
+        <address>
+          <orgName type="institution">Radboud University</orgName>
+          <street>Houtlaan 4</street>
+          <settlement>Nijmegen</settlement>
+          <postCode>6525 XZ</postCode>
+          <country>Netherlands</country>
+        </address>
+      </publicationStmt>
+      <sourceDesc>
+        <biblStruct>
+          <analytic>
+            <title level="a">Halitgarii Episcopi Cameracensis, De Vitiis et Virtutibus et De Ordine Poenitentium, Libri
+              Quinque</title>
+          </analytic>
+          <monogr>
+            <editor>
+              <persName>
+                <forename>Jacques-Paul</forename>
+                <surname>Migne</surname>
+              </persName>
+            </editor>
+            <title level="m">Patrologiae cursus completus, series Latina</title>
+            <imprint>
+              <publisher>Migne</publisher>
+              <pubPlace>Paris</pubPlace>
+            </imprint>
+            <biblScope unit="volume">105</biblScope>
+            <biblScope unit="column">649-710</biblScope>
+          </monogr>
+        </biblStruct>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <gap reason="sampling"/>
+      <div type="section" n="3">
+        <head type="number">LIBER TERTIUS.</head>
+        <div type="chapter" n="1">
+          <head type="number">CAPUT PRIMUM.</head>
+          <head type="rubric">Ut penitentiae tempora juxta qualitatem peccati decernantur.</head>
+          <p>Poenitentibus secundum differentiam peccatorum episcopi arbitrio poenitentiae tempora decernantur.</p>
+          <p>Item in eodem.</p>
+          <p>Sacerdos poenitentiam imploranti absque personae acceptiene penitentise leges injungat.</p>
+        </div>
+        <div type="chapter" n="2">
+          <head type="number">CAPUT II.</head>
+          <head type="rubric">Quod nulli sit ultima penitentia deneganda.</head>
+          <p>Vera ergo ad Deum conversio in ultimis positorum mente potius est aestimanda, quam tempore, Propheta hoc
+            taliter asserente: <quote source="cf_ISA_30_15">Cum conversus ingemueris, tunc salvus eris.</quote> Cum ergo
+            Dominus sit cordis inspector, quovis tempore non est deneganda penitentia postulanti, cum illl se obliget
+            judici, cui occulta omnianoverit revelari.</p>
+        </div>
+        <gap reason="sampling"/>
+      </div>
+      <gap reason="sampling"/>
+    </body>
+  </text>
+</TEI>

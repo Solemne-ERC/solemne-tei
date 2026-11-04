@@ -25,12 +25,12 @@ jobs:
         run: |
           ruff check
           ruff format --check
-      - name: Tests
-        run: pytest
       - name: The schema rebuilt from an empty cache equals the committed one
         run: |
           solemne-tei build
           git diff --exit-code -- src/solemne_tei/schema
+      - name: Tests, the guide's HTML among them, from the build's cache
+        run: pytest
       - name: The wheel, installed, validates outside the repository
         run: |
           python -m pip wheel --no-deps -w "$RUNNER_TEMP/dist" .

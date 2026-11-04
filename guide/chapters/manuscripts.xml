@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="manuscripts" n="VIII">
+  <head>Manuscripts</head>
+  <p>This part's prose comes in a later version of the guide.</p>
+
+  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="manuscript-unit">
+    <msDesc>
+      <msIdentifier>
+        <settlement>Nowhere</settlement>
+        <repository>National Library</repository>
+        <idno type="shelfmark">MS 12</idno>
+      </msIdentifier>
+    </msDesc>
+  </egXML>
+
+  <specGrp xml:id="manuscripts-specs">
+    <!-- A description has at least one codicological unit. -->
+    <elementSpec ident="msDesc" module="msdescription" mode="change" corresp="#tier-full">
+      <constraintSpec ident="manuscript-unit" scheme="schematron" corresp="#tier-full">
+        <desc>A manuscript's description has at least one codicological unit.</desc>
+        <constraint>
+          <sch:rule context="tei:msDesc">
+            <sch:assert id="manuscript-unit" test="tei:msPart">A manuscript's description has at least one
+              codicological unit (msPart), with its own identifier: the unit holds the physical description, the
+              date, the hands and the decoration.</sch:assert>
+          </sch:rule>
+        </constraint>
+      </constraintSpec>
+    </elementSpec>
+
+    <!-- The manuscript's place and library point to their records. -->
+    <elementSpec ident="country" module="namesdates" mode="change" corresp="#tier-common">
+      <attList>
+        <attDef ident="ref" mode="change" corresp="#tier-full">
+          <datatype minOccurs="1" maxOccurs="unbounded">
+            <dataRef key="solemne.recordPointer"/>
+          </datatype>
+        </attDef>
+      </attList>
+    </elementSpec>
+    <elementSpec ident="region" module="namesdates" mode="change" corresp="#tier-full">
+      <attList>
+        <attDef ident="ref" mode="change" corresp="#tier-full">
+          <datatype minOccurs="1" maxOccurs="unbounded">
+            <dataRef key="solemne.recordPointer"/>
+          </datatype>
+        </attDef>
+      </attList>
+    </elementSpec>
+    <elementSpec ident="settlement" module="namesdates" mode="change" corresp="#tier-common">
+      <attList>
+        <attDef ident="ref" mode="change" corresp="#tier-full">
+          <datatype minOccurs="1" maxOccurs="unbounded">
+            <dataRef key="solemne.recordPointer"/>
+          </datatype>
+        </attDef>
+      </attList>
+    </elementSpec>
+    <elementSpec ident="origPlace" module="msdescription" mode="change" corresp="#tier-full">
+      <attList>
+        <attDef ident="ref" mode="change" corresp="#tier-full">
+          <datatype minOccurs="1" maxOccurs="unbounded">
+            <dataRef key="solemne.recordPointer"/>
+          </datatype>
+        </attDef>
+      </attList>
+    </elementSpec>
+    <elementSpec ident="repository" module="msdescription" mode="change" corresp="#tier-full">
+      <attList>
+        <attDef ident="ref" mode="change" corresp="#tier-full">
+          <datatype minOccurs="1" maxOccurs="unbounded">
+            <dataRef key="solemne.recordPointer"/>
+          </datatype>
+        </attDef>
+      </attList>
+    </elementSpec>
+    <elementSpec ident="institution" module="msdescription" mode="change" corresp="#tier-full">
+      <attList>
+        <attDef ident="ref" mode="change" corresp="#tier-full">
+          <datatype minOccurs="1" maxOccurs="unbounded">
+            <dataRef key="solemne.recordPointer"/>
+          </datatype>
+        </attDef>
+      </attList>
+    </elementSpec>
+  </specGrp>
+</div>

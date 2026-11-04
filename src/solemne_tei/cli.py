@@ -36,6 +36,16 @@ def parser() -> argparse.ArgumentParser:
     )
     b.add_argument("--cache", type=Path, help="where the fetched sources are kept (default: build/tei)")
 
+    d = commands.add_parser(
+        "docs",
+        help="the guide as HTML, in a clone of the repository",
+        description="Write the guide as one HTML page, its appendices generated from the specifications, by TEI's "
+        "odd2html. The first run fetches the build's pinned sources; later runs are offline.",
+    )
+    d.add_argument("--html", action="store_true", help="write the HTML (the default, and for now the only output)")
+    d.add_argument("--out", type=Path, help="where to write guide.html (default: build/html)")
+    d.add_argument("--cache", type=Path, help="where the fetched sources are kept (default: build/tei)")
+
     li = commands.add_parser(
         "lists",
         help="the closed lists, the categories and the Bible's codes",
@@ -81,6 +91,20 @@ def build_command(args: argparse.Namespace) -> int:
     return 0
 
 
+def docs_command(args: argparse.Namespace) -> int:
+    from solemne_tei.build import CACHE_DIR, BuildError
+    from solemne_tei.docs import HTML_DIR, html
+
+    logs.setup(verbose=True)
+    try:
+        path = html(out=args.out or HTML_DIR, cache=args.cache or CACHE_DIR)
+    except BuildError as e:
+        print(f"solemne-tei docs: {e}", file=sys.stderr)
+        return 1
+    print(f"wrote {path}")
+    return 0
+
+
 def lists_command(args: argparse.Namespace) -> int:
     from solemne_tei.codes import CATEGORIES, bible_books
     from solemne_tei.schema_files import closed_lists, schema_version
@@ -111,7 +135,7 @@ def lists_command(args: argparse.Namespace) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
-    commands = {"validate": validate_command, "build": build_command, "lists": lists_command}
+    commands = {"validate": validate_command, "build": build_command, "docs": docs_command, "lists": lists_command}
     return commands[args.command](args)
 
 

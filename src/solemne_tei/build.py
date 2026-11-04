@@ -2,20 +2,22 @@
 """Generate the schema from the ODD.
 
 Fetches TEI P5's `p5subset.xml`, TEI's schema for ODD files, TEI's stylesheets, the Bodleian's consolidated msDesc
-ODD with its licence, and SchXslt2 at pinned versions, checked by SHA-256, into the cache. First it checks our ODD
-against TEI's schema for ODD files, its RelaxNG and the Schematron rules embedded in it, as Oxygen does, and stops if
-the ODD isn't valid. Then, with SaxonC-HE: compiles the Bodleian's ODD and ours with TEI's `odd2odd` (ours takes its
-`msdescription` module from the Bodleian's), writes the RelaxNG with `odd2relax`, extracts the Schematron with
-`extract-isosch`, and compiles it to XSLT with SchXslt2. It keeps the compiled ODD, and writes its closed lists as
-`closed-lists.json`. Each generated file names the ODD it came from by its version and SHA-256, and carries the
-notices of the material it contains.
+ODD with its licence, and SchXslt2 at pinned versions, checked by SHA-256, into the cache. First it expands our ODD,
+`guide/solemne.odd` with its parts in `guide/chapters/` included by XInclude, and checks the expanded ODD against
+TEI's schema for ODD files, its RelaxNG and the Schematron rules embedded in it, as Oxygen does; it stops if the ODD
+isn't valid, naming each error's part and line. Then, with SaxonC-HE: compiles the Bodleian's ODD and ours with TEI's
+`odd2odd` (ours takes its `msdescription` module from the Bodleian's), writes the RelaxNG with `odd2relax`, extracts
+the Schematron with `extract-isosch`, and compiles it to XSLT with SchXslt2. It keeps the expanded and the compiled
+ODD, and writes the closed lists as `closed-lists.json`. Each generated file names the ODD it came from by its version
+and the expanded ODD's SHA-256, and carries the notices of the material it contains.
 
-The build runs in a clone of the repository: it reads `guide/solemne.odd` and writes into the package's `schema/`.
+The build runs in a clone of the repository: it reads `guide/` and writes into the package's `schema/`.
 """
 
 from __future__ import annotations
 
 import copy
+import dataclasses
 import hashlib
 import json
 import shutil
@@ -32,6 +34,7 @@ from solemne_tei.logs import logger
 from solemne_tei.schema_files import (
     CLOSED_LISTS,
     COMPILED_ODD,
+    EXPANDED_ODD,
     GENERATED,
     ODD,
     RELAXNG,
@@ -57,6 +60,7 @@ MSDESC_COMPILED = "msdesc.compiled.odd"
 SPDX = "<!-- SPDX-License-Identifier: MIT -->"
 SPDX_GUIDE = "<!-- SPDX-License-Identifier: CC-BY-4.0 -->"
 SCH = "http://purl.oclc.org/dsdl/schematron"
+XML_BASE = "{http://www.w3.org/XML/1998/namespace}base"
 
 
 @dataclass(frozen=True)
@@ -250,9 +254,82 @@ def odd_validator(tools: Tools, cache: Path) -> Validator:
     return Validator(relaxng=tools.tei_odds, schematron_xslt=xslt)
 
 
-def check_odd(odd: Path, validator: Validator) -> None:
-    """Stops the build when the ODD isn't valid against the validator's schema; its warnings are logged."""
-    problems = validator.check(odd).problems
+Places = dict[int, tuple[str, int]]
+
+
+@dataclass(frozen=True)
+class Expanded:
+    """The ODD with its parts included: its text, and for each line of it where an element starts, the file (relative
+    to the ODD's folder) and the line that element was written on."""
+
+    text: bytes
+    places: Places
+
+    @property
+    def sha256(self) -> str:
+        return hashlib.sha256(self.text).hexdigest()
+
+
+def expand(odd: Path) -> Expanded:
+    """The ODD with the parts it includes by XInclude, without the `xml:base` the inclusion adds and without the SPDX
+    lines: each generated file carries its own."""
+    tree = etree.parse(str(odd))
+    tree.xinclude()
+    root = tree.getroot()
+    origins = []
+    for el in root.iter(tag=etree.Element):
+        base = el.get(XML_BASE) or next((a.get(XML_BASE) for a in el.iterancestors() if a.get(XML_BASE)), odd.name)
+        origins.append((base, el.sourceline))
+    for el in root.iter(tag=etree.Element):
+        el.attrib.pop(XML_BASE, None)
+    for spdx in [c for c in root.iter(tag=etree.Comment) if "SPDX-License-Identifier" in (c.text or "")]:
+        _remove(spdx)
+    # XInclude's namespace, which nothing uses once the parts are included.
+    etree.cleanup_namespaces(root, keep_ns_prefixes=[p for p in root.nsmap if p and p != "xi"])
+    text = etree.tostring(root, xml_declaration=True, encoding="UTF-8") + b"\n"
+    places: Places = {}
+    for el, origin in zip(etree.fromstring(text).iter(tag=etree.Element), origins, strict=True):
+        places.setdefault(el.sourceline, origin)
+    return Expanded(text, places)
+
+
+def _remove(node: etree._Element) -> None:
+    """Remove a node, keeping the text after it."""
+    parent = node.getparent()
+    previous = node.getprevious()
+    if previous is not None:
+        previous.tail = (previous.tail or "") + (node.tail or "")
+    else:
+        parent.text = (parent.text or "") + (node.tail or "")
+    parent.remove(node)
+
+
+def check_specification_groups(expanded: Expanded) -> None:
+    """Stops the build when a `specGrpRef` leads to no `specGrp`, or a `specGrp` isn't referred to: TEI's
+    stylesheets would leave its specifications out of the schema without a word."""
+    root = etree.fromstring(expanded.text)
+    xml_id = "{http://www.w3.org/XML/1998/namespace}id"
+    groups = {g.get(xml_id): g for g in root.iter(f"{{{TEI}}}specGrp")}
+    refs = {r.get("target", "")[1:]: r for r in root.iter(f"{{{TEI}}}specGrpRef")}
+
+    def place(el: etree._Element) -> str:
+        file, line = expanded.places.get(el.sourceline or 0, (ODD, el.sourceline))
+        return f"{file}:{line}"
+
+    problems = [f"  {place(r)}: a specGrpRef to #{t}, which no specGrp has" for t, r in refs.items() if t not in groups]
+    unnamed = [(i, g) for i, g in groups.items() if i not in refs]
+    problems += [f"  {place(g)}: the specGrp {i}, which no specGrpRef names" for i, g in unnamed]
+    if problems:
+        raise BuildError("the schema's specification groups don't match:\n" + "\n".join(problems))
+
+
+def check_odd(odd: Path, validator: Validator, places: Places | None = None) -> None:
+    """Stops the build when the ODD isn't valid against the validator's schema; its warnings are logged. With the
+    places of an expanded ODD, each problem is reported at the file and line it was written on."""
+    problems = []
+    for problem in validator.check(odd).problems:
+        file, line = (places or {}).get(problem.line or 0, (odd.name, problem.line))
+        problems.append(dataclasses.replace(problem, file=file, line=line))
     for problem in problems:
         if problem.severity != "error":
             logger.warning("%s", problem)
@@ -317,41 +394,56 @@ def closed_lists_json(compiled_odd: Path, version: str, odd_sha256: str) -> str:
     return json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
 
 
+def stylesheet_params(tools: Tools) -> dict[str, str]:
+    """The parameters every run of TEI's stylesheets takes: TEI P5 from the cache, and no date of the day."""
+    return {"defaultSource": tools.p5subset.as_uri(), "useFixedDate": "true", "verbose": "false"}
+
+
+def compile_odd(saxon: Saxon, tools: Tools, source: Path, compiled: Path) -> None:
+    """Compile an ODD with TEI's `odd2odd`, after the Bodleian's, which it takes its `msdescription` module from:
+    the Bodleian's compiled ODD is written beside the source, under the name the source's `moduleRef` gives."""
+    odd2odd = tools.stylesheets / "odds" / "odd2odd.xsl"
+    common = stylesheet_params(tools)
+    logger.info("Compiling the Bodleian's ODD")
+    shutil.copy(tools.msdesc, source.parent / "msdesc.odd")
+    (source.parent / MSDESC_COMPILED).write_text(saxon.run(odd2odd, source.parent / "msdesc.odd", **common), "utf-8")
+    logger.info("Compiling %s", source.name)
+    compiled.write_text(saxon.run(odd2odd, source, **common), "utf-8")
+
+
 def build(odd: Path = ODD_PATH, out: Path = SCHEMA_DIR, cache: Path = CACHE_DIR) -> list[Path]:
     """Generate the schema's files from the ODD into `out`; returns those it wrote, which are those that changed."""
     if not odd.exists():
         raise BuildError(f"no ODD at {odd}: the build runs in a clone of the repository")
     tools = Tools.prepare(cache)
     saxon = Saxon()
-    logger.info("Checking %s against TEI's schema for ODD files", ODD)
-    check_odd(odd, odd_validator(tools, cache))
     work = cache / "work"
     shutil.rmtree(work, ignore_errors=True)
     work.mkdir(parents=True)
-    common = {"defaultSource": tools.p5subset.as_uri(), "useFixedDate": "true", "verbose": "false"}
+    expanded = expand(odd)
+    check_specification_groups(expanded)
+    (work / ODD).write_bytes(expanded.text)
+    logger.info("Checking %s, its parts included, against TEI's schema for ODD files", ODD)
+    check_odd(work / ODD, odd_validator(tools, cache), expanded.places)
+    common = stylesheet_params(tools)
     odds = tools.stylesheets / "odds"
-
-    logger.info("Compiling the Bodleian's ODD")
-    shutil.copy(tools.msdesc, work / "msdesc.odd")
-    (work / MSDESC_COMPILED).write_text(saxon.run(odds / "odd2odd.xsl", work / "msdesc.odd", **common), "utf-8")
-
-    logger.info("Compiling %s", ODD)
-    odd_sha256 = sha256(odd)
+    odd_sha256 = expanded.sha256
     version = odd_version(odd)
-    shutil.copy(odd, work / ODD)
     compiled = work / COMPILED_ODD
-    compiled.write_text(saxon.run(odds / "odd2odd.xsl", work / ODD, **common), "utf-8")
+    compile_odd(saxon, tools, work / ODD, compiled)
 
     logger.info("Writing the RelaxNG, the Schematron and its XSLT, and the closed lists")
     outputs = {RELAXNG: saxon.run(odds / "odd2relax.xsl", compiled, **common)}
     outputs[SCHEMATRON] = saxon.run(odds / "extract-isosch.xsl", compiled, **common)
     (work / SCHEMATRON).write_text(outputs[SCHEMATRON], "utf-8")
     outputs[SCHEMATRON_XSLT] = saxon.run(tools.transpiler, work / SCHEMATRON)
+    outputs[EXPANDED_ODD] = expanded.text.decode("utf-8")
     outputs[COMPILED_ODD] = compiled.read_text("utf-8")
     credits = credits_notice(tools)
-    notices = {SCHEMATRON_XSLT: f"{credits}\n{schxslt_notice(tools)}"}
-    # The compiled ODD is the guide's, so under its licence.
-    spdx = {COMPILED_ODD: SPDX_GUIDE}
+    # The expanded ODD holds only the guide's own text.
+    notices = {SCHEMATRON_XSLT: f"{credits}\n{schxslt_notice(tools)}", EXPANDED_ODD: ""}
+    # The expanded and the compiled ODD are the guide's, so under its licence.
+    spdx = {EXPANDED_ODD: SPDX_GUIDE, COMPILED_ODD: SPDX_GUIDE}
     files = {
         name: stamped(
             _without_paths(text, work, tools.p5subset),

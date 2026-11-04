@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="text" n="III">
+  <head>The text</head>
+  <p>The text of a file is its <gi>body</gi>: the document as the source gives it, its divisions, their headings and
+    their paragraphs. The import makes each of them a node of the document's tree (<ptr target="#documents-and-nodes"/>)
+    and keeps the order the file gives; an export writes them back in the same form, each with the id the node got at
+    import. This part says how the text is divided and how it is transcribed; <ptr target="#marked-in-the-text"/> says
+    what may be marked inside it.</p>
+  <p>A file needs no division at all: a body holding paragraphs is a document of one node's text, and an empty body
+    passes the checks. Most files divide their text, and divisions, their headings and page breaks are
+    <hi>common</hi>; units, registers and the transcription's finer marks are <hi>full</hi>.</p>
+  <p>Inside the body stand only the elements of the text's structure and of the annotation layers
+    (<ptr target="#marked-in-the-text"/>). An element the schema doesn't take from TEI at all fails the RelaxNG; one
+    that the schema takes for the header or the records, such as <gi>orgName</gi>, fails the Schematron when it stands
+    in the text.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="element-outside-the-schema">
+    <p>Placuit ut <hi rend="italic">episcopi</hi> maneant.</p><!-- breaks the rule -->
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="text-elements">
+    <p>Placuit ut episcopi <orgName>ecclesiae</orgName> maneant.</p>
+  </egXML>
+
+  <div xml:id="text-divisions">
+    <head>Divisions</head>
+    <p>A division (<gi>div</gi>) holds headings, then either paragraphs or divisions, never both. Its headings stand
+      where the source puts them, usually first. Page breaks, notes and gaps may stand between headings, paragraphs
+      and divisions (<ptr target="#text-between"/>). The body follows the same rule: it holds headings with either
+      paragraphs or divisions.</p>
+    <p>Every division has a type, from a closed list, so that a misspelled type fails the RelaxNG:</p>
+    <list>
+      <item><val>section</val>: a book, a part, or one text inside a document, such as a council in a collection;</item>
+      <item><val>chapter</val>: a numbered or titled unit, as the source divides it; chapters may hold chapters;</item>
+      <item><val>unit</val>: a subdivision without a heading of its own, where several stand side by side
+        (<ptr target="#text-units"/>);</item>
+      <item><val>preface</val>, <val>closer</val> and <val>subscriptions</val>: what opens a text, what closes it
+        (a closing rubric, a letter's farewell and date), and its signatories
+        (<ptr target="#text-prefaces-and-closers"/>);</item>
+      <item><val>register</val> and <val>registerItem</val>: a list of chapter titles and its entries
+        (<ptr target="#text-registers"/>);</item>
+      <item><val>part</val>, <val>distinctio</val>, <val>causa</val>, <val>quaestio</val>, <val>capitulum</val> and
+        <val>dictum</val>: Gratian's levels (<ptr target="#text-gratian"/>).</item>
+    </list>
+    <p>Divisions follow the source: an edition's chapters as its editor numbers them, a manuscript's as its rubrics
+      and initials mark them. Where the source marks no division, the text stays in paragraphs; the guide doesn't
+      ask for divisions the source doesn't have. The Council of Mainz of 813, in Werminghoff's edition, is a series
+      of chapters, each with a rubric and a number:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.MAI-0813">
+      <div type="chapter" n="1">
+        <head type="rubric"><pb n="261"/>De fide catholica firmiter retinenda.</head>
+        <head type="number">Cap.I</head>
+        <p>Initium enim actionis nostrae de fide esse decrevimus, quae bonorum est omnium fundamentum, …</p>
+      </div>
+      <div type="chapter" n="2">
+        <head type="rubric">De spe habenda in Deum.</head>
+        <head type="number">Cap.II</head>
+        <p>Spes vero in Deum firmiter a cunctis Christianis tenenda est. …</p>
+      </div>
+    </egXML>
+    <p>The names and quotations that the file marks in these chapters are left out here; <ptr
+        target="#marked-in-the-text"/> shows them. A division without its type, or with a type not in the list, fails
+      the RelaxNG, and so does a division that holds paragraphs and divisions side by side:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="division-type-missing">
+      <div n="1"><!-- breaks the rule -->
+        <head type="number">I.</head>
+        <head type="rubric">De episcopis.</head>
+        <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      </div>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="division-type-misspelled">
+      <div type="chpater" n="1"><!-- breaks the rule -->
+        <head type="number">I.</head>
+        <head type="rubric">De episcopis.</head>
+        <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      </div>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="division-holds-paragraphs-and-divisions">
+      <div type="chapter" n="1"><!-- breaks the rule -->
+        <head type="number">I.</head>
+        <head type="rubric">De episcopis.</head>
+        <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+        <div type="unit">
+          <p>Et clerici.</p>
+        </div>
+      </div>
+    </egXML>
+    <p>The import makes each division a node of the kind <term>division</term>, with its type; a division's
+      paragraphs, where it holds no divisions, are one unit of reception (<ptr target="#text-units"/>).</p>
+    <specGrp xml:id="text-divisions-specs">
+      <!-- The structure of the text. -->
+      <macroSpec ident="solemne.structure" mode="add" xml:id="division-holds-paragraphs-and-divisions"
+        corresp="#tier-required">
+        <desc>What a division or the body holds: headings with either paragraphs or divisions, never both, and page
+          breaks, notes and gaps between them.</desc>
+        <content>
+          <alternate>
+            <alternate minOccurs="0" maxOccurs="unbounded">
+              <elementRef key="head"/>
+              <macroRef key="solemne.between"/>
+              <elementRef key="p"/>
+            </alternate>
+            <alternate minOccurs="0" maxOccurs="unbounded">
+              <elementRef key="head"/>
+              <macroRef key="solemne.between"/>
+              <elementRef key="div"/>
+            </alternate>
+          </alternate>
+        </content>
+      </macroSpec>
+
+      <macroSpec ident="solemne.between" mode="add">
+        <desc>What may stand between headings, paragraphs and divisions.</desc>
+        <content>
+          <alternate>
+            <elementRef key="pb"/>
+            <elementRef key="note"/>
+            <elementRef key="gap"/>
+          </alternate>
+        </content>
+      </macroSpec>
+
+      <elementSpec ident="body" module="textstructure" mode="change" corresp="#tier-required">
+        <content>
+          <macroRef key="solemne.structure"/>
+        </content>
+        <constraintSpec ident="text-elements" scheme="schematron" corresp="#tier-required">
+          <desc>Inside the text, only the annotation layers' elements.</desc>
+          <constraint>
+            <sch:rule context="tei:body//tei:*">
+              <sch:assert id="text-elements" test="local-name() = ('div', 'head', 'p', 'note', 'pb', 'lb', 'gap',
+                'persName', 'placeName', 'eventName', 'bibl', 'cit', 'quote', 'ref', 'seg', 'date', 'subst', 'add',
+                'del', 'unclear', 'foreign', 'choice', 'corr', 'sic', 'abbr', 'expan', 'supplied', 'rs',
+                'anchor')">&lt;<sch:name/>&gt; isn't one of the text's elements.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+      </elementSpec>
+
+      <elementSpec ident="div" module="textstructure" mode="change" corresp="#tier-common">
+        <content>
+          <macroRef key="solemne.structure"/>
+        </content>
+        <constraintSpec ident="unit-alone" scheme="schematron" corresp="#tier-full">
+          <desc>Units are written only where they stand side by side.</desc>
+          <constraint>
+            <sch:rule context="tei:div[@type = 'unit']">
+              <sch:assert id="unit-alone" test="count(../tei:div) gt 1">A unit stands alone in its division: its
+                paragraphs belong to the division itself.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="unit-holds-text" scheme="schematron" corresp="#tier-full">
+          <desc>A unit holds paragraphs only.</desc>
+          <constraint>
+            <sch:rule context="tei:div[@type = 'unit']">
+              <sch:assert id="unit-holds-text" test="not(tei:div) and not(tei:head)">A unit holds paragraphs only,
+                without headings or divisions.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="register-item-in-register" scheme="schematron" corresp="#tier-full">
+          <desc>A register's items stand in a register.</desc>
+          <constraint>
+            <sch:rule context="tei:div[@type = 'registerItem']">
+              <sch:assert id="register-item-in-register" test="parent::tei:div[@type = 'register']">A register item
+                stands in a register.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="number-heading-n" scheme="schematron" corresp="#tier-common">
+          <desc>A division with a number heading carries the number as a value.</desc>
+          <constraint>
+            <sch:rule context="tei:div[tei:head[@type = 'number']]">
+              <sch:assert id="number-heading-n" test="@n">A division with a number heading
+                (<sch:value-of select="normalize-space(tei:head[@type = 'number'][1])"/>) has @n.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="type" mode="change" usage="req" xml:id="division-type-missing" corresp="#tier-common">
+            <valList type="closed" mode="replace" xml:id="division-type-misspelled" corresp="#tier-common">
+              <valItem ident="section">
+                <desc>a book, a part, or one text inside a document (a council in a collection)</desc>
+              </valItem>
+              <valItem ident="chapter">
+                <desc>a numbered or titled unit; chapters may hold chapters</desc>
+              </valItem>
+              <valItem ident="unit">
+                <desc>a subdivision without a heading of its own, where several stand side by side: a norm and its
+                  authority statements, one signatory among the subscriptions</desc>
+              </valItem>
+              <valItem ident="preface"/>
+              <valItem ident="closer">
+                <desc>a closing rubric, or a letter's farewell and date</desc>
+              </valItem>
+              <valItem ident="subscriptions">
+                <desc>the signatories</desc>
+              </valItem>
+              <valItem ident="register">
+                <desc>the list of chapter titles</desc>
+              </valItem>
+              <valItem ident="registerItem">
+                <desc>one entry of a register</desc>
+              </valItem>
+              <valItem ident="part">
+                <desc>a part of Gratian's Decretum</desc>
+              </valItem>
+              <valItem ident="distinctio">
+                <desc>a distinction of Gratian's Decretum</desc>
+              </valItem>
+              <valItem ident="causa">
+                <desc>a causa of Gratian's Decretum</desc>
+              </valItem>
+              <valItem ident="quaestio">
+                <desc>a question of a causa</desc>
+              </valItem>
+              <valItem ident="capitulum">
+                <desc>a canon of Gratian's Decretum</desc>
+              </valItem>
+              <valItem ident="dictum">
+                <desc>Gratian's own words between the canons</desc>
+              </valItem>
+            </valList>
+          </attDef>
+          <attDef ident="n" mode="change" corresp="#tier-common">
+            <desc>the division's number, as a value: 49 for a heading XLVIIII; a letter after it for a chapter after a
+              numbered one, or for a number repeated</desc>
+            <datatype xml:id="division-number-not-a-value" corresp="#tier-common">
+              <dataRef name="token" restriction="[0-9]+[a-z]?"/>
+            </datatype>
+          </attDef>
+          <attDef ident="subtype" mode="delete"/>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="text-headings">
+    <head>Headings</head>
+    <p>A heading (<gi>head</gi>) is a node of its own, with its own text, and has a type:</p>
+    <list>
+      <item><val>number</val>: the division's number as the source writes it, with the word that goes with it
+        ("Cap. II.", "CAPUT V.", "XLVIIII.");</item>
+      <item><val>rubric</val>: what the text is about ("De spe habenda in Deum.");</item>
+      <item><val>inscription</val>: where the text comes from ("Ex eadem Epistola."). A heading that begins with its
+        source is an inscription, even when it goes on with its subject.</item>
+    </list>
+    <p>A division may have several headings, of one type or of several, in the order the source gives them. The
+      Collectio Dacheriana, in d'Achery's edition, gives a chapter's number, its rubric and its inscription:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.Dach">
+      <div type="chapter" n="5">
+        <pb n="519"/>
+        <head type="number">CAPUT V.</head>
+        <head type="rubric">Quod ad militiam saecularem post poenitentiam redire non liceat.</head>
+        <head type="inscription">Ex eadem Epistola.</head>
+        <p>Contrarium est omnino ecclesiasticis regulis post poenitentiae actionem redire ad militiam saecularem, cum
+          Apostolus dicat: Nemo militans Deo implicat se negotiis saecularibus. …</p>
+      </div>
+    </egXML>
+    <p>The Council of Aachen of 816 heads a chapter with its source, then its subject: one inscription.</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.AAC-0816">
+      <div type="chapter" n="49">
+        <head type="number">XLVIIII.</head>
+        <head type="inscription">In Antioceno concilio de peregrinorum susceptione, t. VII.</head>
+        <p>Nullus peregrinorum sine pacificis, id est commendaticiis, suscipiatur epistolis.</p>
+      </div>
+    </egXML>
+    <p>A heading without a type, or with one not in the list, fails the RelaxNG:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="heading-type-missing">
+      <div type="chapter" n="1">
+        <head type="number">I.</head>
+        <head>De episcopis.</head><!-- breaks the rule -->
+        <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      </div>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="heading-type-misspelled">
+      <div type="chapter" n="1">
+        <head type="number">I.</head>
+        <head type="inscripto">De episcopis.</head><!-- breaks the rule -->
+        <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      </div>
+    </egXML>
+    <p>An inscription is also a claim about the text's source: the application reads it as an attribution, the source
+      the text claims (<ptr target="#marked-statements"/>).</p>
+    <specGrp xml:id="text-headings-specs">
+      <elementSpec ident="head" module="core" mode="change" corresp="#tier-common">
+        <attList>
+          <attDef ident="type" mode="change" usage="req" xml:id="heading-type-missing" corresp="#tier-common">
+            <valList type="closed" mode="replace" xml:id="heading-type-misspelled" corresp="#tier-common">
+              <valItem ident="number">
+                <desc>the division's number as written ("Cap. II.")</desc>
+              </valItem>
+              <valItem ident="rubric">
+                <desc>what the text is about ("De subintroductis mulieribus")</desc>
+              </valItem>
+              <valItem ident="inscription">
+                <desc>where the text comes from ("Ex concilio Nicaeno"), even when it goes on with its subject</desc>
+              </valItem>
+            </valList>
+          </attDef>
+          <attDef ident="subtype" mode="delete"/>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="text-numbers">
+    <head>Numbers</head>
+    <p>A numbered division carries its number as a value in <att>n</att>: digits, and a letter after them where
+      needed. The number heading keeps the number as the source writes it; <att>n</att> gives what it counts, so that
+      citations can use it: <val>49</val> for "XLVIIII.", <val>5</val> for "CAPUT V.". A chapter without a number
+      after a numbered one takes that number and a letter (<val>11a</val> after 11); a number the source repeats
+      takes the next letter. A division with a number heading has <att>n</att> (a Schematron error otherwise), and
+      <att>n</att> holds nothing but the value (a RelaxNG error):</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="number-heading-n">
+      <div type="chapter">
+        <head type="number">I.</head>
+        <head type="rubric">De episcopis.</head>
+        <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      </div>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="division-number-not-a-value">
+      <div type="chapter" n="I"><!-- breaks the rule -->
+        <head type="number">I.</head>
+        <head type="rubric">De episcopis.</head>
+        <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      </div>
+    </egXML>
+    <p>The import keeps the value as the node's number, and the citation of a chapter or a register item is made from
+      it (<ptr target="#citations-and-permalinks"/>). A division without a number heading may still have
+      <att>n</att>, where the numbering of the file gives one.</p>
+  </div>
+
+  <div xml:id="text-units">
+    <head>Units</head>
+    <p>A unit (<val>unit</val>) is a subdivision without a heading of its own, written only where several stand side
+      by side: a norm and the authority statements that follow it, each signatory among the subscriptions, the
+      paragraphs of a preface that are read one by one. A division whose text is one unit holds its paragraphs
+      itself: a unit that stands alone is an error, and so is a unit that holds headings or divisions.</p>
+    <p>The preface of the Council of Mainz of 813 is three units, the greeting, the account of the council, and its
+      decision:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.MAI-0813">
+      <div type="preface">
+        <div type="unit">
+          <p><pb n="259"/>In nomine patris et filii et Spiritus sancti. Gloriosissimo et christianissimo imperatori
+            Karolo Augusto, verae religionis rectori ac defensori sanctae Dei eclesiae, una cum prole sua eiusque
+            fidelibus vita et salus, honor et benedictio cum victoria sine fine mansura.</p>
+        </div>
+        <div type="unit">
+          <p>Almifice reverentiae vestrae patefacimus nos humillimi famuli ac missi vestri, … modis quibus poterant
+            iusticias terminantes.</p>
+        </div>
+        <div type="unit">
+          <p>In his itaque omnibus primo decrevimus unicuique personae vel sexui congruum honorem impendere … in
+            omnes aeternitates saeculi, amen.</p>
+        </div>
+      </div>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="unit-alone">
+      <div type="chapter" n="1">
+        <head type="number">I.</head>
+        <head type="rubric">De episcopis.</head>
+        <div type="unit">
+          <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+        </div>
+      </div>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="unit-holds-text">
+      <div type="chapter" n="1">
+        <head type="number">I.</head>
+        <head type="rubric">De episcopis.</head>
+        <div type="unit">
+          <head type="rubric">De eodem.</head>
+          <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+        </div>
+        <div type="unit">
+          <p>Et clerici.</p>
+        </div>
+      </div>
+    </egXML>
+    <p>The text of a division that holds no divisions, a unit or a chapter of paragraphs, is one unit of reception:
+      what a reader, a search or the detection of text reuse takes as one piece. Where the encoder didn't mark the
+      units, so that a chapter's paragraphs may be several units, the header says so, for the whole file or for some
+      divisions (<ptr target="#header-inferred-units"/>).</p>
+  </div>
+
+  <div xml:id="text-registers">
+    <head>Registers</head>
+    <p>A register (<val>register</val>) is a list of a text's chapter titles; each entry is a
+      <val>registerItem</val>, with the number and the title the register gives, and stands in a register (a
+      Schematron error otherwise). A file that is only a register holds one register division in its body. The
+      register of the Collectio 400 capitulorum in a Munich manuscript begins:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+      <div type="register">
+        <div type="registerItem" n="1">
+          <head type="number"><pb n="158ra"/>I</head>
+          <head type="rubric">De confirmatione caritatis dei</head>
+        </div>
+        <div type="registerItem" n="2">
+          <head type="number">II</head>
+          <head type="rubric">De amore confirmata proximi per deum</head>
+        </div>
+        <div type="registerItem" n="3">
+          <head type="number">III</head>
+          <head type="rubric">De deo quod non est personarum acceptor</head>
+        </div>
+      </div>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="register-item-in-register">
+      <div type="registerItem" n="2">
+        <head type="number">II.</head>
+      </div>
+    </egXML>
+    <p>Which chapter a register item lists is a relation (<ptr target="#relations"/>), not a pointer in the
+      text.</p>
+  </div>
+
+  <div xml:id="text-prefaces-and-closers">
+    <head>Prefaces, closers and subscriptions</head>
+    <p>What opens a text before its chapters is a <val>preface</val> (above, <ptr target="#text-units"/>); what
+      closes it, a closing rubric or a letter's farewell and date, a <val>closer</val>; its signatories,
+      <val>subscriptions</val>, each signatory a unit. The Council of Aschheim, 756, ends with a closing rubric, and
+      the Council of Soissons, 744, with its signatories:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.ASC-0756">
+      <div type="closer">
+        <head type="rubric">FINIT.</head>
+      </div>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.SOI-0744">
+      <div type="subscriptions">
+        <div type="unit">
+          <p>Signum inluster vir Pippino, maiorum domius.</p>
+        </div>
+        <div type="unit">
+          <p>Signum Radobodo.</p>
+        </div>
+        <div type="unit">
+          <p>Signum Ariberto.</p>
+        </div>
+      </div>
+    </egXML>
+  </div>
+
+  <div xml:id="text-gratian">
+    <head>Gratian's levels</head>
+    <p>Gratian's Decretum has levels of its own, which the citations of its readers use ("C. 16 q. 6 c. 2"): a
+      <val>part</val>, a <val>distinctio</val>, a <val>causa</val> and a <val>quaestio</val> are kinds of section; a
+      <val>capitulum</val> (a canon) and a <val>dictum</val> (Gratian's own words between the canons) are kinds of
+      chapter. They're types like the others, each with its number in <att>n</att>. The skeleton of a question of a
+      causa, its text left out:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <div type="part" n="2">
+        <div type="causa" n="16">
+          <div type="quaestio" n="6">
+            <div type="dictum" n="1">
+              <p>…</p>
+            </div>
+            <div type="capitulum" n="2">
+              <p>…</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </egXML>
+  </div>
+
+  <div xml:id="text-between">
+    <head>What stands between</head>
+    <p>Page breaks, notes and gaps may stand between headings, paragraphs and divisions, where the source has them.
+      The application anchors each at the start of the next node: a page break before a chapter belongs to the
+      chapter's first heading. The edition of the Roman council of 826 leaves out several pages after a heading,
+      which the file says by a gap and a note:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.ROM-0826">
+      <div type="section">
+        <head type="rubric">B. CANONES CONCILII ROMANI.</head>
+        <gap reason="editorial"/>
+        <note type="editorial">Several pages of the edition are left out here: the introduction and the register of
+          the council.</note>
+        <div type="chapter" n="1">
+          <head type="number"><pb n="566"/>I.</head>
+          <head type="rubric">Ut episcopus bono adprobatus opere ordinetur.</head>
+          <p>Beatissimi Pauli discretione atque ammonitione episcopum consecrari omnino oportet desiderabilem boni
+            operis, … quae <pb n="567"/>secuntur, …</p>
+        </div>
+      </div>
+    </egXML>
+  </div>
+
+  <div xml:id="text-transcription">
+    <head>The transcription</head>
+    <p>These rules strike a balance between the practices of two projects, Capitularia and Carolingian Canon Law:
+      precise where the text is concerned, plain where its layout is.</p>
+
+    <div xml:id="transcription-sources">
+      <head>Editions and manuscripts</head>
+      <p>The transcription gives the text of the source, whatever it is, keeping its structure, its spelling and its
+        punctuation, with the exceptions below. From an edition, the text, its divisions, spelling and punctuation are
+        the editor's, obvious misprints aside. The critical apparatus isn't encoded; where it gives something the
+        guide needs, such as a later hand's change, it may be used. From a manuscript, the spelling and punctuation
+        are the scribe's, obvious slips aside, and the divisions follow the rubrication.</p>
+      <p>Layout comes second: what is written, and how the text is organised, rather than where it stands on the
+        page. So the layout is encoded only in page breaks, in where a change was made (above the line, in the
+        margin), and in what can't be read.</p>
+    </div>
+
+    <div xml:id="transcription-page-breaks">
+      <head>Page breaks</head>
+      <p>A page break (<gi>pb</gi>) stands where the page begins, and gives the page in <att>n</att>, which is
+        required: an edition's page (<val>255</val>), a manuscript's folio with <val>r</val> or <val>v</val>
+        (<val>120r</val>), and a column by a letter after it (<val>356vb</val>). There's no column break: a page
+        break carries its column. A page break may point to its image, the canvas of a IIIF manifest, in
+        <att>facs</att>; in an edition that gives the pages of several manuscripts, each page break names its
+        manuscript in <att>edRef</att> (<ptr target="#manuscripts"/>). A Munich manuscript of the Collectio 400
+        capitulorum turns to folio 177r inside a quotation:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+        <p>… Non duplicatio <pb n="177r"/>coniugii sed profectus est honestatis.</p>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="page-break-without-number">
+        <p>Placuit ut episcopi<pb/><!-- breaks the rule --> in ciuitatibus suis maneant.</p>
+      </egXML>
+      <specGrp xml:id="text-page-breaks-specs">
+        <elementSpec ident="pb" module="core" mode="change" corresp="#tier-common">
+          <attList>
+            <attDef ident="n" mode="change" usage="req" xml:id="page-break-without-number" corresp="#tier-common">
+              <desc>the page, folio or column: 255, 120ra, 0187A</desc>
+            </attDef>
+          </attList>
+        </elementSpec>
+      </specGrp>
+    </div>
+
+    <div xml:id="transcription-spelling">
+      <head>Abbreviations, spelling, punctuation</head>
+      <p>Abbreviations are expanded silently. One whose expansion is doubtful may be given with its expansions, as a
+        <gi>choice</gi> of <gi>abbr</gi> and <gi>expan</gi>; the corpus has none so far, so the example is made
+        up:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples">
+        <p>… secundum <choice><abbr>rem</abbr><expan>rationem</expan></choice> …</p>
+      </egXML>
+      <p>The spelling is the source's: "ę" for an e caudata, the diphthongs <q>ae</q> and <q>oe</q> as written, and
+        capitals where the manuscript has them. The transcription isn't diplomatic: no special characters for the
+        letters' forms. A manuscript's punctuation may be simplified: a point as <q>.</q>, a punctus elevatus and
+        other double signs as <q>;</q>, a comma as <q>,</q>. An edition's punctuation is kept. What the file
+        normalises, it says once in the header (<ptr target="#header-encoding"/>).</p>
+    </div>
+
+    <div xml:id="transcription-gaps">
+      <head>Gaps and lacunae</head>
+      <p>A gap (<gi>gap</gi>) stands where the text is missing, and may say why, in <att>reason</att>, from a closed
+        list; without a reason, the reason is unknown:</p>
+      <list>
+        <item><val>lacuna</val>: the witness lacks the text: lost leaves, or a lacuna in the edition it comes
+          from;</item>
+        <item><val>damage</val>: the support is damaged where the text stood;</item>
+        <item><val>illegible</val>: the text can't be read (<gi>unclear</gi> is for what can be half read);</item>
+        <item><val>reproduction</val>: the text can't be read in the images or the film used;</item>
+        <item><val>deleted</val>: struck out, and not readable;</item>
+        <item><val>sampling</val>: not transcribed, by the encoder's choice, as when a text is given by its incipit
+          and explicit;</item>
+        <item><val>editorial</val>: left out for another reason, which a note gives.</item>
+      </list>
+      <p>Its extent, where known, is a <att>quantity</att> with its <att>unit</att> (<val>leaves</val>,
+        <val>lines</val>, <val>words</val>, <val>chars</val>), which go together, or <att>extent</att> in words. A
+        text given by its incipit and explicit is one paragraph, with a gap for what is left out between them:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples">
+        <p>Incipit … <gap reason="sampling" extent="the rest of the letter"/> … explicit.</p>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="gap-reason-unknown">
+        <p>Placuit ut episcopi in ciuitatibus suis maneant. <gap reason="missing"/><!-- breaks the rule --></p>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="gap-unit-unknown">
+        <p>Placuit ut episcopi in ciuitatibus suis maneant. <gap reason="lacuna" quantity="2" unit="folios"/><!-- breaks the rule --></p>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="gap-quantity-unit">
+        <p>Placuit ut episcopi in ciuitatibus suis maneant. <gap reason="lacuna" quantity="2"/></p>
+      </egXML>
+      <p>The application counts a text's completeness from its gaps: it is never stated.</p>
+      <specGrp xml:id="text-gaps-specs">
+        <!-- Gaps: why the text is missing, and how much, where known. -->
+        <elementSpec ident="gap" module="core" mode="change" corresp="#tier-full">
+          <constraintSpec ident="gap-quantity-unit" scheme="schematron" corresp="#tier-full">
+            <desc>A gap's quantity is given with its unit.</desc>
+            <constraint>
+              <sch:rule context="tei:gap[@quantity or @unit]">
+                <sch:assert id="gap-quantity-unit" test="@quantity and @unit">A gap's quantity is given with its unit
+                  (leaves, lines, words or chars), and a unit with its quantity.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <attList>
+            <attDef ident="reason" mode="change" usage="opt" corresp="#tier-full">
+              <desc>why the text is missing; without a reason, it's unknown</desc>
+              <valList type="closed" mode="replace" xml:id="gap-reason-unknown" corresp="#tier-full">
+                <valItem ident="lacuna">
+                  <desc>the witness lacks the text: lost leaves, or a lacuna in the edition it comes from</desc>
+                </valItem>
+                <valItem ident="damage">
+                  <desc>the support is damaged where the text stood</desc>
+                </valItem>
+                <valItem ident="illegible">
+                  <desc>the text can't be read (unclear is for what can be half read)</desc>
+                </valItem>
+                <valItem ident="reproduction">
+                  <desc>the text can't be read in the images or the film used</desc>
+                </valItem>
+                <valItem ident="deleted">
+                  <desc>struck out, and not readable</desc>
+                </valItem>
+                <valItem ident="sampling">
+                  <desc>not transcribed, by the encoder's choice: an incipit and an explicit only</desc>
+                </valItem>
+                <valItem ident="editorial">
+                  <desc>left out for another reason, given in a note</desc>
+                </valItem>
+              </valList>
+            </attDef>
+            <attDef ident="unit" mode="change" corresp="#tier-full">
+              <desc>the unit of the gap's quantity</desc>
+              <valList type="closed" mode="replace" xml:id="gap-unit-unknown" corresp="#tier-full">
+                <valItem ident="leaves"/>
+                <valItem ident="lines"/>
+                <valItem ident="words"/>
+                <valItem ident="chars">
+                  <desc>characters</desc>
+                </valItem>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+      </specGrp>
+    </div>
+
+    <div xml:id="transcription-unclear">
+      <head>Illegible text and errors</head>
+      <p>What can be half read is <gi>unclear</gi>; what can't be read at all is a <gi>gap</gi> with the reason
+        <val>illegible</val>, or <val>damage</val>, or <val>reproduction</val>:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+        <head type="rubric">De ablutione <unclear>infantis</unclear>.</head>
+      </egXML>
+      <p>An error of the source is kept, and may be marked by <gi>sic</gi>, alone or in a <gi>choice</gi> with its
+        correction, <gi>corr</gi>. For the rare cases where the editor of the file adds what the source lacks, the
+        addition is <gi>supplied</gi>. Both are editorial notes on the text (<ptr target="#marked-notes"/>).</p>
+    </div>
+
+    <div xml:id="transcription-changes">
+      <head>Scribal changes and their hands</head>
+      <p>A scribe's or a later reader's change is encoded where it stands: an addition by <gi>add</gi>, with
+        <att>place</att> (<val>above</val>, <val>below</val>, <val>margin</val>, …), a deletion by <gi>del</gi>, and
+        a correction, the one replacing the other, by <gi>subst</gi> holding both. Where a scribe corrected a word,
+        the corrected reading is the text, and the application keeps the other reading with the change. A change
+        may name the hand that made it, in <att>hand</att>, pointing to the hand described in the manuscript's
+        description (<ptr target="#manuscripts"/>). In the Munich manuscript of the Collectio 400 capitulorum, a
+        letter is added above the line, and a word replaced:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+        <quote source="LEO_ep.167_6">Ancillam a thoro abi<add place="above">g</add>ere. …</quote>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+        <head type="rubric">Non coire cum omni <subst><del>pecode</del><add>masculo</add></subst></head>
+      </egXML>
+      <p>A correction whose added and deleted parts can't be told apart is a <gi>seg</gi> typed <val>corr</val>.
+        Line breaks (<gi>lb</gi>) are kept where a file has them, and the import drops them.</p>
+    </div>
+  </div>
+</div>

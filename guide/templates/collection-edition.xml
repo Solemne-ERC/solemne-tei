@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.rng" type="application/xml"
+  schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.sch" type="application/xml"
+  schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- A collection from an edition: the Collectio Dacheriana, from the project's file COLL.Dach, the beginning of the
+  register of its first book and of the book itself; what is left out is marked by gaps. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="formal">
+          <idno>COLL.Dach</idno>
+          <idno type="category">SYSCOLL</idno>
+          <idno type="type">edition</idno>
+        </title>
+        <title type="alias">Collectio Dacheriana</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts</publisher>
+        <address>
+          <orgName type="institution">Radboud University</orgName>
+          <street>Houtlaan 4</street>
+          <settlement>Nijmegen</settlement>
+          <postCode>6525 XZ</postCode>
+          <country>Netherlands</country>
+        </address>
+      </publicationStmt>
+      <sourceDesc>
+        <biblStruct>
+          <analytic>
+            <title level="a">Collectio antiqua canonum poenitentialium</title>
+          </analytic>
+          <monogr>
+            <editor>
+              <persName>
+                <forename>Luc</forename>
+                <surname>d'Achery</surname>
+              </persName>
+            </editor>
+            <title level="m">Spicilegium</title>
+            <imprint>
+              <publisher>Montalant</publisher>
+              <pubPlace>Paris</pubPlace>
+              <date>1723</date>
+            </imprint>
+            <biblScope unit="volume">11</biblScope>
+            <biblScope unit="page">1-200</biblScope>
+          </monogr>
+        </biblStruct>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <gap reason="sampling"/>
+      <div type="register">
+        <head type="rubric">INCIPIUNT CAPITULA Libri primi.</head>
+        <div type="registerItem" n="1">
+          <head type="number">I.</head>
+          <head type="rubric">Quod nulli sit ultima poenitentia deneganda.</head>
+        </div>
+        <div type="registerItem" n="2">
+          <head type="number">II.</head>
+          <head type="rubric">De his qui necessitate mortis urgente poenitentiam simul et Viaticum petunt: et de his qui
+            obtumescunt antequam ad eos Sacerdos daturus poenitentiam accedat.</head>
+        </div>
+        <gap reason="sampling"/>
+      </div>
+      <gap reason="sampling"/>
+      <div type="section" n="1">
+        <head type="rubric"><pb n="518"/>CANONUM POENITENTIALIUM LIBER PRIMUS.</head>
+        <div type="chapter" n="1">
+          <head type="number">CAPUT PRIMUM.</head>
+          <head type="rubric">Quod nulli sit in morte ultima poenitentia deneganda.</head>
+          <p>Agnouimus enim poenitentiam morientibus denegari, nec illorum desideriis annui, qui obitus sui tempore hoc
+            animae suae cupiunt remedio subueniri. <gap reason="sampling"/> cum Deus ad subueniendum sit paratissimus,
+            et inuitans ad poenitentiam sic promittat: <quote source="cf_EZE_33_12">Peccator</quote>, inquit, <quote
+              source="cf_EZE_33_12">quacumque die conuersus fuerit, peccata eius non reputabuntur ei.</quote> Et
+            iterum: <quote source="cf_EZE_18_32">Nolo mortem peccatoris, sed tantum ut conuertatur et uiuat.</quote>
+            <gap reason="sampling"/></p>
+          <note type="source" source="D.CEL-0428-369"/>
+          <note type="source">Coelestini Papae I. Epist. 2. ad Episcopos prouinciae Uiennensis et Narbonensis, cap.
+            2.</note>
+        </div>
+        <gap reason="sampling"/>
+      </div>
+      <gap reason="sampling"/>
+    </body>
+  </text>
+</TEI>

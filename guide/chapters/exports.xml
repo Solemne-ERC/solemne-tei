@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<div xmlns="http://www.tei-c.org/ns/1.0" xml:id="exports" n="X">
+  <head>Exports</head>
+  <p>Exports add what inline markup can't hold: the citation structure (<gi>citeStructure</gi>);
+    annotations in the standOff (<gi>listAnnotation</gi>); relations (<gi>listRelation</gi>), each an
+    observation or a judgement; text reuse as link groups (<gi>linkGrp</gi>); the revision history; and
+    the records, as manuscript descriptions after the Bodleian's rules, bibliographic records and lists of
+    persons, places, events and organizations.</p>
+</div>

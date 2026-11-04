@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="relations" n="VI">
+  <head>Relations</head>
+  <p>This part's prose comes in a later version of the guide.</p>
+
+  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-without-name">
+    <relation type="observation" active="#ch1" passive="https://example.org/id/canon/C.NIC-0325_3"/><!-- breaks the rule -->
+  </egXML>
+  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-type-unknown">
+    <relation name="isTextOf" type="opinion" active="#ch1" passive="https://example.org/id/canon/C.NIC-0325_3"/><!-- breaks the rule -->
+  </egXML>
+
+  <specGrp xml:id="relations-specs">
+    <!-- Relations are observations or judgements. -->
+    <elementSpec ident="relation" module="namesdates" mode="change" corresp="#tier-full">
+      <attList>
+        <attDef ident="name" mode="change" usage="req" xml:id="relation-without-name" corresp="#tier-full"/>
+        <attDef ident="type" mode="change" corresp="#tier-full">
+          <valList type="closed" mode="replace" xml:id="relation-type-unknown" corresp="#tier-full">
+            <valItem ident="observation">
+              <desc>what a witness shows</desc>
+            </valItem>
+            <valItem ident="judgement">
+              <desc>what holds of a version or a work, with its method</desc>
+            </valItem>
+          </valList>
+        </attDef>
+      </attList>
+    </elementSpec>
+  </specGrp>
+</div>

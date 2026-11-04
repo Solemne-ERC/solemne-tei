@@ -2,16 +2,17 @@
 
 XML-TEI schema and guidelines for encoding witnesses of early medieval canon law texts. Developed and used within the framework of SOLEMNE - The Social Life of Early Medieval Normative Texts project (ERC Consolidator grant 101087979)
 
-The schema's one source is the ODD, `guide/solemne.odd`, which explains each rule. The package `solemne-tei` holds
-what is generated from it, a RelaxNG and a Schematron, and checks TEI files against them: files must pass the
-RelaxNG, and the Schematron's findings are reported.
+The schema's one source is the ODD, `guide/solemne.odd`, which explains each rule: a root file with the guide's
+parts in `guide/chapters/`, included by XInclude, each holding its prose and the specifications of the rules it
+explains. The package `solemne-tei` holds what is generated from it, a RelaxNG and a Schematron, and checks TEI files
+against them: files must pass the RelaxNG, and the Schematron's findings are reported.
 
 ## Install
 
 With Python 3.12 or newer, from the repository at a release's tag:
 
 ```
-pip install git+https://github.com/Solemne-ERC/solemne-tei@v0.1.0
+pip install git+https://github.com/Solemne-ERC/solemne-tei@v0.2.0
 ```
 
 For development, from a clone:
@@ -53,20 +54,35 @@ It prints the schema's closed lists (the types of divisions, headings, notes and
 the categories a document's code begins with, and the codes of the Bible's 73 books with their Vulgate names; `--json`
 gives the same as data.
 
+## The guide
+
+The guide is the ODD itself: `guide/solemne.odd` holds the header, the front matter and the parts by XInclude, from
+`guide/chapters/`, and the specification. Each part explains its forms with examples from the project's corpus, and
+holds the specifications of the rules it explains, with a counter-example of each. `guide/templates/` holds whole
+files to start from. To read it:
+
+```
+solemne-tei docs --html
+```
+
+It writes `build/html/guide.html`, one page made by TEI's `odd2html`, with appendix A (the elements and attributes)
+and appendix B (every rule, with its check, severity and tier) generated from the specifications. The HTML is plain;
+it isn't committed. In a clone, the command runs offline once `solemne-tei build` has cached the sources.
+
 ## Regenerating the schema
 
-After changing the ODD, in a clone:
+After changing the ODD or one of its parts, in a clone:
 
 ```
 solemne-tei build
 ```
 
-It first checks the ODD against TEI's schema for ODD files, its RelaxNG and the Schematron rules embedded in it,
-as Oxygen does, and stops with the problems listed if the ODD isn't valid. Then it writes the RelaxNG
-(`solemne.rng`), the Schematron (`solemne.sch`), the Schematron compiled to XSLT
-(`solemne-schematron.xsl`), the compiled ODD (`solemne.compiled.odd`) and its closed lists (`closed-lists.json`) into
-`src/solemne_tei/schema/`. Each names the version and the SHA-256 of the ODD it came from; a test fails when the ODD
-has changed since. The version is the ODD's `editionStmt/edition/@n`, kept equal to the package's. Running the build
+It first expands the ODD, its parts included, and checks it against TEI's schema for ODD files, its RelaxNG and the
+Schematron rules embedded in it, as Oxygen does; it stops with the problems listed, each at its part's file and line,
+if the ODD isn't valid. Then it writes the RelaxNG (`solemne.rng`), the Schematron (`solemne.sch`), the Schematron
+compiled to XSLT (`solemne-schematron.xsl`), the expanded ODD (`solemne.expanded.odd`), the compiled ODD
+(`solemne.compiled.odd`) and its closed lists (`closed-lists.json`) into `src/solemne_tei/schema/`. Each names the
+version and the SHA-256 of the expanded ODD it came from; a test fails when the ODD or a part has changed since. The version is the ODD's `editionStmt/edition/@n`, kept equal to the package's. Running the build
 again on the same ODD writes nothing, and says so.
 
 The first run fetches what the build needs into `build/tei/` (ignored by git), at pinned versions checked by their
@@ -85,8 +101,12 @@ description module from the Bodleian's; `odd2relax` writes the RelaxNG; `extract
 SchXslt2 compiles it to XSLT. The development install pins SaxonC-HE's version, since the compiled Schematron
 differs between versions; the package itself works with a range of them.
 
-A new rule goes into the ODD as a Schematron assertion with an `id`, or as a RelaxNG constraint, with an invalid
-sample in `tests/samples/invalid/` named by the rule; the tests check that every assertion of the ODD has its sample.
+A new rule goes into the part of the guide that explains it, in that part's `specGrp`: a Schematron assertion with
+an `id`, in a `constraintSpec` of its own, or a restriction the RelaxNG checks, named by the `xml:id` of the
+specification that makes it (a `valList`, an `attDef`, a `datatype`). It names its tier by `@corresp`, and comes
+with a counter-example: an `egXML` with `valid="false"` and the rule's name in `@n`. The tests check every example of
+the guide: one without `@valid` passes both checks, placed in a minimal file when it's a fragment; a counter-example
+fails on its rule; and every rule has one.
 
 ## Tests
 

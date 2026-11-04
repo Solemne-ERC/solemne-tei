@@ -7,7 +7,7 @@ import re
 import pytest
 from lxml import etree
 
-from solemne_tei.build import ODD_PATH
+from solemne_tei.build import ODD_PATH, expand
 from solemne_tei.cli import main
 from solemne_tei.codes import CATEGORIES, bible_books
 from solemne_tei.schema_files import closed_lists
@@ -17,7 +17,7 @@ SCH = "http://purl.oclc.org/dsdl/schematron"
 
 
 def odd() -> etree._ElementTree:
-    return etree.parse(str(ODD_PATH))
+    return etree.ElementTree(etree.fromstring(expand(ODD_PATH).text))
 
 
 def test_the_bible_codes_are_those_of_the_odd_s_pointer_pattern() -> None:
@@ -53,3 +53,9 @@ def test_the_lists_command_prints_json(capsys: pytest.CaptureFixture[str]) -> No
     assert payload["closed_lists"] == closed_lists()
     assert payload["categories"] == list(CATEGORIES)
     assert payload["bible"][0] == {"code": "GEN", "name": "Genesis", "testament": "ot"}
+
+
+def test_the_guide_s_table_of_bible_codes_is_the_package_s() -> None:
+    table = odd().find(f".//{{{TEI}}}table[@{{http://www.w3.org/XML/1998/namespace}}id='bible-codes']")
+    rows = [[" ".join("".join(c.itertext()).split()) for c in row] for row in table.iter(f"{{{TEI}}}row")]
+    assert rows[1:] == [[book.code, book.name] for book in bible_books()]

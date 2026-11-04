@@ -3,6 +3,58 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
+## 0.2.0 (2026-11-04)
+
+The guide for texts: the front matter and Parts I to IV, the templates, and the guide as HTML. Encoders can use this
+version for texts; manuscripts, records, relations and dates come in the next.
+
+### What changes for existing files
+
+Files that passed 0.1.0 may now fail where they have fragments, codes of the categories `LR`, `CPT` and `CHA`, or
+segments with terms. No file of the project's corpus has any of these yet: on its 411 coded files, this version
+reports the same problems as 0.1.0.
+
+- **Fragments, two new errors:** `fragment-attributes`: a later fragment (one with `@prev`) carries only its
+  `xml:id`, `@prev` and `@next`, and the span's other attributes go on its first fragment; a segment's later
+  fragments repeat its `@type`, which the RelaxNG requires, with the same value. `fragment-order`: `@next` points to
+  an element later in the file, so that the fragments follow the text's order.
+- **Codes:** a code of the categories `LR`, `CPT` and `CHA` begins with `LR.`, `CPT.` and `CHA.` (`code-category`),
+  as the old guide's coding rules have it; it took any prefix before. `UNK` still takes any.
+- **File names:** `code-matches-file-name` reads any category's prefix in a file's name, not only `C`, `D`, `COLL`,
+  `P`, `EP`, `H` and `EX`.
+- **A segment's term:** `seg` takes `@ana`, pointing to a category of a taxonomy in the header's `classDecl`; a term
+  that isn't declared there is an error (`seg-term-declared`).
+
+### The guide
+
+- The ODD is split into the guide's parts: `guide/solemne.odd` is the root, and includes by XInclude one file per
+  part in `guide/chapters/`, each holding its prose and the specifications of the rules it explains, which the
+  `schemaSpec` takes by `specGrpRef`. Oxygen checks the root with its parts included.
+- The front matter and Parts I to IV are written: what a file describes; the file and its header, the coding rules
+  among them; the text and its transcription; what is marked in the text. Each section has examples from the corpus,
+  credited in a list of the examples' sources, and the counter-examples of its rules. Parts V to X hold their rules
+  and counter-examples; their prose comes later.
+- Every element, attribute and rule names its tier, `required`, `common`, `full` or `export only`, by `@corresp`
+  pointing to the tiers' taxonomy in the ODD's header; the elements taken from TEI unchanged take theirs from a table
+  beside the specification. Each Schematron rule has a `constraintSpec` of its own, and each restriction the RelaxNG
+  checks (a closed list, a required attribute, a pattern) an `xml:id` on the specification that makes it.
+- The guide's examples are tests: an example passes both checks, a counter-example (`valid="false"`) fails on the
+  rule its `@n` names, and every rule has one. Fragments are checked in a minimal file. The invalid samples that
+  tested each rule are now counter-examples in the parts that explain their rules.
+- The templates, in `guide/templates/`, are whole files to start from, each a short text of the corpus: a minimal
+  file, a rich one, a council and a collection from editions, a decretal and a penitential. Each declares the schema
+  by two `<?xml-model?>` lines, at its version's address on GitHub Pages, and passes both checks.
+
+### The package
+
+- `solemne-tei docs --html [--out DIR]` writes the guide as one HTML page, by TEI's `odd2html`, with appendix A (the
+  elements and attributes) and appendix B (every rule, with its check, severity, tier and part) generated from the
+  specifications, and each counter-example labelled with the rule it breaks.
+- The build checks the ODD with its parts included, reports each error at its part's file and line, and writes the
+  expanded ODD into the package as `solemne.expanded.odd`. The stamp in each generated file names the expanded ODD's
+  SHA-256. It stops when a `specGrpRef` leads nowhere or a `specGrp` isn't referred to, which TEI's stylesheets would
+  pass over without a word.
+
 ## 0.1.0 (2026-11-04)
 
 The first release: SOLEMNE's TEI schema as a package.

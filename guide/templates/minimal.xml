@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.rng" type="application/xml"
+  schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.sch" type="application/xml"
+  schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- A minimal file: the required tier, and the paragraphs that TEI requires in the publication statement and the
+  source description, and that hold the text. The Council of Les Estinnes, 743, its first two chapters, from the
+  project's file C.EST-0743; the rest of the council is left out. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="formal">
+          <idno>C.EST-0743</idno>
+          <idno type="category">C</idno>
+          <idno type="type">edition</idno>
+        </title>
+      </titleStmt>
+      <publicationStmt>
+        <p>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University, Nijmegen.</p>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Concilium Liftinense, 743, ed. Albert Werminghoff, Concilia aevi Karolini I, Monumenta Germaniae Historica,
+          Concilia 2.1 (Hannover and Leipzig, 1906), pp. 5–7.</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <p>Modo autem in hoc synodali conventu, qui congregatus est ad Kalendas Martias in loco, qui dicitur Liftinas,
+        omnes venerabiles sacerdotes Dei et comites et praefecti prioris synodus decreta consentientes firmaverunt, se
+        inplere veile et observare promiserunt. Et omnis aecclesiastici ordinis clerus, episcopi et presbiteri et
+        diaconi cum clericis, suscipientes antiquorum patrum canones, promiserunt se velle aecclesiastica iura moribus
+        et doctrinis et ministerio recuperare. Abbates et monachi receperunt sancti patris Benedicti regulam ad
+        restaurandam normam regularis vitae. Fornicatores et adulteros clericos, qui sancta loca vel monasteria ante
+        tenentes coinquinaverunt, praecipimus inde tollere et ad poenitentiam redigere; et si post hanc definicionem in
+        crimen fornicationis vel adulterii ceciderint, prioris synodus iudicium sustineant; similiter et monachi et
+        nonne.</p>
+      <p>Statuimus quoque cum consilio servorum Dei et populi Christiani propter inminentia bella et persecutiones
+        ceterarum gentium, que in circuitu nostro sunt, ut sub precario et censu aliquam partem aecclesialis pecuniae
+        in adiutorium exercitus nostri cum indulgentia Dei aliquanto tempore retineamus, ea conditione, ut annis
+        singulis de unaquaque casata solidus, id est duodecim denarii, ad aecclesiam vel ad monasterium reddatur;
+        …</p>
+    </body>
+  </text>
+</TEI>
