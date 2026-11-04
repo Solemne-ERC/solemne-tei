@@ -19,15 +19,15 @@
       <sourceDesc>
         <msDesc xml:id="Now-NL-12" xml:lang="en">
           <msIdentifier>
-            <country>Nowhereland</country>
-            <settlement>Nowhere</settlement>
-            <repository>National Library</repository>
+            <country ref="#new_place_Nowhereland">Nowhereland</country>
+            <settlement ref="#new_place_Nowhere">Nowhere</settlement>
+            <repository ref="#new_institution_National-Library">National Library</repository>
             <idno type="shelfmark">MS 12</idno>
           </msIdentifier>
           <msContents>
             <msItem>
               <locus from="1r" to="40v">fols. 1r–40v</locus>
-              <title>Collectio Sampliensis</title>
+              <title ref="#new_work_Collectio-Sampliensis">Collectio Sampliensis</title>
               <textLang mainLang="la">Latin</textLang>
             </msItem>
           </msContents>
@@ -46,8 +46,10 @@
             <origin>
               <origDate calendar="Gregorian" notBefore="0800" notAfter="0850">first half of the ninth
                 century</origDate>
-              <origPlace>Somewhere in the north</origPlace>
+              <origPlace ref="#new_place_North">Somewhere in the north</origPlace>
             </origin>
+            <provenance>Owned by <orgName ref="#new_institution_Cathedral-of-Nowhere">the
+                cathedral of Nowhere</orgName> in the twelfth century.</provenance>
           </history>
         </msDesc>
       </sourceDesc>

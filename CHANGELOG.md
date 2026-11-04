@@ -29,3 +29,7 @@ Files written for the draft of this schema need these changes to pass.
   gain `LR`, `CPT` and `CHA`, which take any prefix for now, as `UNK` does. A manuscript's code (`.ms-`) and the type
   `manuscript` go with the manuscript's description in the `sourceDesc`. An export adds there the permalinks of the
   levels the file belongs to, typed `work`, `version`, `witness` and `transcription`.
+- **Pointers to records in the header:** `@ref`, in the same forms as in the text (a placeholder `#new_person_…`, an
+  id in the file, or a permalink), on `title`, `author`, `editor`, `country`, `region`, `settlement`, `origPlace`,
+  `repository`, `institution` and the names. `provenance`, `acquisition` and `origin` name their record inside them,
+  by a name with `@ref`. A record's pointer in `@key` or `@corresp` is reported, as a warning.

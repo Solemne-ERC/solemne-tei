@@ -82,6 +82,13 @@
           <val>witness</val> or <val>transcription</val>. Further titles are aliases or other titles. Dates are given as one point
           (<att>when</att>) or as a span with both bounds. Persons, places and events listed in the standOff
           either point to a record or describe one.</p>
+        <p>The header points to records as the text does, by <att>ref</att> in the same forms: a title to its
+          work, an author or an editor to a person, a country, region, settlement, place of origin, repository or
+          institution to its record, and the names (<gi>persName</gi>, <gi>orgName</gi>, <gi>placeName</gi>) to
+          theirs. <gi>provenance</gi>, <gi>acquisition</gi> and <gi>origin</gi> have no <att>ref</att> in TEI: the
+          record they point to is named inside them, by a name with <att>ref</att>, and the import makes the
+          relation from that name. <att>key</att> and <att>corresp</att> keep TEI's other uses; a record's pointer
+          in them is reported.</p>
       </div>
 
       <div>
@@ -435,6 +442,100 @@
           </attList>
         </elementSpec>
 
+        <!-- The header points to records the same way: titles to works, authors and editors to persons, places
+             and institutions to theirs. provenance, acquisition and origin have no @ref in TEI: the record they
+             point to is named inside them, by a name with @ref. -->
+        <elementSpec ident="title" module="core" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <macroRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="author" module="core" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <macroRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="editor" module="core" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <macroRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="orgName" module="namesdates" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <macroRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="country" module="namesdates" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <macroRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="region" module="namesdates" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <macroRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="settlement" module="namesdates" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <macroRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="origPlace" module="msdescription" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <macroRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="repository" module="msdescription" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <macroRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec ident="institution" module="msdescription" mode="change">
+          <attList>
+            <attDef ident="ref" mode="change">
+              <datatype minOccurs="1" maxOccurs="unbounded">
+                <macroRef key="solemne.recordPointer"/>
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+
         <!-- The pointers' forms, for quote/@source and note/@source. -->
         <macroSpec ident="solemne.pointer" type="dt" mode="add">
           <desc>A pointer to a source: a document's code, alone or with a citation after an underscore
@@ -563,6 +664,17 @@
                 self::tei:citedRange)]">
                 <sch:assert id="date-from-to" role="warning" test="@from and @to">A span gives both its ends,
                   @from and @to.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <constraintSpec ident="record-pointers" scheme="schematron">
+            <desc>A record is pointed to by @ref, not by @key or @corresp.</desc>
+            <constraint>
+              <sch:rule context="tei:*[@key or @corresp]">
+                <sch:report id="record-pointer-in-ref" role="warning" test="some $p in tokenize(normalize-space(string-join((@key, @corresp), ' ')), ' ') satisfies matches($p, '^#?[Nn]ew_[A-Za-z]+_|^#?(PERS\.\d+|solemne_person_\d+)$|^https?://\S+/id/(person|place|institution|event|manuscript|publication)/')">&lt;<sch:name/>&gt;
+                  points to a record in @key or @corresp (<sch:value-of select="normalize-space(string-join((@key,
+                  @corresp), ' '))"/>): a record is pointed to by @ref, on a name inside provenance, acquisition and
+                  origin.</sch:report>
               </sch:rule>
             </constraint>
           </constraintSpec>
