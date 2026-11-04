@@ -3,7 +3,7 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
-## Unreleased
+## 0.1.0 (2026-11-04)
 
 The first release: SOLEMNE's TEI schema as a package.
 
