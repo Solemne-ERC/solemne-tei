@@ -1,29 +1,12 @@
 {
   "SPDX-License-Identifier": "MIT",
-  "generated": "Generated from solemne.odd 0.3.0 (SHA-256 676b102164988738035d14362a66d8dbf9ca1f557f86294307514a6520065ca7) by solemne-tei build. Edit the ODD, not this file.",
+  "generated": "Generated from solemne.odd 0.3.0 (SHA-256 a3583e05f4923170d632ad019e0abbc998cfbb3a4616fc87a0cba0d80e74024a) by solemne-tei build. Edit the ODD, not this file.",
   "lists": {
     "altIdentifier": {
       "type": [
         "code",
         "former",
         "siglum"
-      ]
-    },
-    "annotation": {
-      "motivation": [
-        "assessing",
-        "bookmarking",
-        "classifying",
-        "commenting",
-        "describing",
-        "editing",
-        "highlighting",
-        "identifying",
-        "linking",
-        "moderating",
-        "questioning",
-        "replying",
-        "tagging"
       ]
     },
     "att.declarable": {
@@ -82,11 +65,34 @@
         "unknown"
       ]
     },
+    "biblScope": {
+      "unit": [
+        "column",
+        "issue",
+        "page",
+        "part",
+        "volume"
+      ]
+    },
     "binding": {
       "contemporary": [
         "false",
         "true",
         "unknown"
+      ]
+    },
+    "change": {
+      "type": [
+        "release"
+      ]
+    },
+    "citedRange": {
+      "unit": [
+        "column",
+        "issue",
+        "page",
+        "part",
+        "volume"
       ]
     },
     "correction": {
@@ -171,6 +177,11 @@
         "wikidata",
         "witness",
         "work"
+      ]
+    },
+    "linkGrp": {
+      "type": [
+        "reuse"
       ]
     },
     "normalization": {

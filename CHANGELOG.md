@@ -10,9 +10,26 @@ Each release says what changed, and whether files that passed may now fail.
 - **A date in a code is joined by a hyphen:** `code-format` refuses a date joined by a dot, as the coding rules have
   it (`P.THB.0700` is `P.THB-0700`). A part of a code after a second dot is a source part, beginning with a letter
   (`.ms-`, `.ed-`).
+- **Publications:** the units of `biblScope` and `citedRange` are a closed list, `volume`, `part`, `issue`, `page` and
+  `column` (`scope-unit`, `cited-range-unit`), so that each is a field of biblatex: a `tome`, `vol`, `band`,
+  `fascicle` or `heft` now fails the RelaxNG. A title in a `biblStruct` has the level of its part, `a` in `analytic`,
+  `m` or `j` in `monogr`, `s` in `series` (`title-level`, an error). A `biblStruct`'s `@type` is biblatex's entry
+  type, a warning outside biblatex's types (`entry-type`); `@subtype` goes.
+- **Stand-off annotations:** a target is an id in the file, a range, a span by `string-range()` or a permalink
+  (`annotation-target`), and the body is one `note`, holding the layer's element alone or typed by a note's layer
+  (`annotation-body`); both errors. `annotation/@motivation` goes: the body says the layer.
+- **Exports' elements:** a `linkGrp` is typed `reuse` or not at all (`link-group-type`), and a hit of text reuse
+  has two targets (`reuse-link`); a `change` is typed `release` or not at all (`change-type`), and a release has
+  `@n` and `@when` (`release-named`).
 
 ### The guide
 
+- **Part IX, editions and literature:** a publication's parts and their titles' levels, the MGH case and texts
+  with editors of their own, the two kinds of pages, the units, biblatex's entry types and the table of its
+  fields, publications as records, and reconstructions.
+- **Part X, exports:** the nodes' ids, permalinks and the records listed; the citation structure; annotations in the
+  standOff, each with its layer's element; text reuse; releases and change sets; the vocabularies' terms with their
+  permalinks; both checks. The template `export.xml` is a short export of the Council of Soissons of 744.
 - **Appendices C to F:** C, the code tables and the vocabularies' seeds, each seed with where it comes from and its
   Oxford term; D, older encodings and what they became; E, the import formats' tables, the Bodleian's moved there
   from Part VIII; F, the changes, from this changelog. C and F are generated, as A and B are, into the HTML; the

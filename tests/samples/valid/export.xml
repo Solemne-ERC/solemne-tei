@@ -57,7 +57,7 @@
     <revisionDesc>
       <change when="2026-05-02" who="https://example.org/id/person/PERS.12"
         target="#P.SAM_2.p1">A reading corrected.</change>
-      <change when="2026-06-01" type="release">The first release.</change>
+      <change when="2026-06-01" type="release" n="2026.1">The first release.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -78,12 +78,12 @@
   </text>
   <standOff>
     <listAnnotation>
-      <annotation xml:id="ann-1" target="#P.SAM_1.p1" motivation="commenting">
+      <annotation xml:id="ann-1" target="#P.SAM_1.p1">
         <respStmt>
           <resp>annotated by</resp>
           <persName ref="https://example.org/id/person/PERS.12">An editor</persName>
         </respStmt>
-        <note>The penance agrees with the older penitentials.</note>
+        <note type="editorial">The penance agrees with the older penitentials.</note>
       </annotation>
     </listAnnotation>
     <listRelation>

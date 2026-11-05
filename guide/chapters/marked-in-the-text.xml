@@ -672,7 +672,7 @@
         <p>Placuit <anchor xml:id="span-start"/>ut episcopi in ciuitatibus suis maneant<anchor xml:id="span-end"/>.</p>
         <listAnnotation>
           <annotation xml:id="annotation-1" target="#range(span-start,span-end)">
-            <note>A remark on the whole clause.</note>
+            <note type="editorial">A remark on the whole clause.</note>
           </annotation>
         </listAnnotation>
       </egXML>

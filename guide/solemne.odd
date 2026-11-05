@@ -106,7 +106,7 @@
           <row corresp="#tier-common">
             <cell>common</cell>
             <cell>
-              <gi>address</gi> <gi>analytic</gi> <gi>biblScope</gi> <gi>biblStruct</gi>
+              <gi>address</gi> <gi>analytic</gi>
               <gi>distributor</gi> <gi>email</gi> <gi>forename</gi> <gi>imprint</gi> <gi>listPerson</gi>
               <gi>monogr</gi> <gi>p</gi> <gi>postCode</gi> <gi>publisher</gi> <gi>pubPlace</gi>
               <gi>series</gi> <gi>standOff</gi> <gi>street</gi> <gi>surname</gi>
@@ -117,9 +117,9 @@
             <cell>
               <gi>abbr</gi> <gi>abstract</gi> <gi>acquisition</gi> <gi>add</gi> <gi>additional</gi> <gi>additions</gi>
               <gi>addName</gi> <gi>addrLine</gi> <gi>adminInfo</gi> <gi>affiliation</gi> <gi>anchor</gi>
-              <gi>annotation</gi> <gi>authority</gi> <gi>availability</gi> <gi>bindingDesc</gi> <gi>birth</gi>
-              <gi>bloc</gi> <gi>calendarDesc</gi> <gi>catDesc</gi> <gi>category</gi> <gi>change</gi> <gi>choice</gi>
-              <gi>cit</gi> <gi>citedRange</gi> <gi>classDecl</gi> <gi>collation</gi> <gi>colophon</gi>
+              <gi>authority</gi> <gi>availability</gi> <gi>bindingDesc</gi> <gi>birth</gi>
+              <gi>bloc</gi> <gi>calendarDesc</gi> <gi>catDesc</gi> <gi>category</gi> <gi>choice</gi>
+              <gi>cit</gi> <gi>classDecl</gi> <gi>collation</gi> <gi>colophon</gi>
               <gi>condition</gi> <gi>corr</gi> <gi>correction</gi> <gi>creation</gi> <gi>death</gi> <gi>decoDesc</gi>
               <gi>del</gi> <gi>depth</gi> <gi>desc</gi> <gi>district</gi> <gi>edition</gi> <gi>editionStmt</gi>
               <gi>encodingDesc</gi> <gi>expan</gi> <gi>explicit</gi> <gi>extent</gi> <gi>f</gi> <gi>finalRubric</gi>
@@ -143,7 +143,7 @@
           <row corresp="#tier-export-only">
             <cell>export only</cell>
             <cell>
-              <gi>citeData</gi> <gi>citeStructure</gi> <gi>link</gi> <gi>linkGrp</gi>
+              <gi>citeData</gi> <gi>citeStructure</gi> <gi>link</gi>
             </cell>
           </row>
         </table>
@@ -214,6 +214,11 @@
           <specGrpRef target="#manuscripts-decoration-specs"/>
           <specGrpRef target="#manuscripts-binding-specs"/>
           <specGrpRef target="#manuscripts-history-specs"/>
+          <specGrpRef target="#editions-pages-specs"/>
+          <specGrpRef target="#editions-biblatex-specs"/>
+          <specGrpRef target="#exports-annotations-specs"/>
+          <specGrpRef target="#exports-reuse-specs"/>
+          <specGrpRef target="#exports-history-specs"/>
 
         </schemaSpec>
       </div>
@@ -446,12 +451,29 @@
           <bibl xml:id="source-C.SOI-0744"><idno>C.SOI-0744</idno>: <title>Council of Soissons, 744</title>, ed.
             <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> I, MGH Concilia 2.1 (Hannover
             and Leipzig, <date>1906</date>), pp. 33–36.</bibl>
+          <bibl xml:id="source-C.SOI-0744-export"><idno>C.SOI-0744</idno>, exported: <title>Council of Soissons,
+              744</title>, from the edition of <editor>Albert Werminghoff</editor>, as the template
+            <code>export.xml</code> gives it, as the application would export it; the ids, the records' numbers, the
+            release and the hit of text reuse are made up.</bibl>
           <bibl xml:id="source-C.VLA-0549"><idno>C.VLA-0549</idno>: <title>Council of Valencia, 549</title>, ed.
             <editor>José Vives</editor>, <title>Concilios visigóticos e hispano-romanos</title>, España Cristiana 1
             (Barcelona and Madrid, <date>1963</date>), pp. 61–64.</bibl>
+          <bibl xml:id="source-C.CON-0381-v5"><idno>C.CON-0381-v5</idno>: <title>First Council of Constantinople,
+              381</title>, ed. <editor>Adolf Martin Ritter</editor>, in <title>The oecumenical councils: from Nicaea I
+              to Nicaea II (325-787)</title>, ed. <editor>Giuseppe Alberigo</editor>, Corpus Christianorum,
+            Conciliorum Oecumenicorum Generaliumque Decreta 1 (Turnhout, <date>2006</date>), pp. 35–70: the file's
+            description of its edition.</bibl>
+          <bibl xml:id="source-D.CEL-0428-369"><idno>D.CEL-0428-369</idno>: <title>Celestine I, letter to the bishops
+              of Vienne and Narbonne, 428</title>, ed. <editor>Pierre Coustant</editor>, <title>Epistolae Romanorum
+              pontificum</title> I (Paris, <date>1721</date>), cols. 1065–1072: the file's description of its
+            edition.</bibl>
           <bibl xml:id="source-COLL.400.ms-Mun-BSB-4592"><idno>COLL.400.ms-Mun-BSB-4592</idno>: <title>Collectio 400
               capitulorum</title>, transcribed by the project from Munich, Bayerische Staatsbibliothek, Clm
             4592.</bibl>
+          <bibl xml:id="source-COLL.Benedictus"><idno>COLL.Benedictus</idno>: <title>Collection of Benedictus
+              Levita</title>, put together by the project from the edition of <editor>Georg Heinrich Pertz</editor>,
+            MGH Leges 2.2 (Hannover, <date>1837</date>), pp. 17–158, and <editor>Gerhard Schmitz</editor>'s of Additio
+            1 (2008): the file's description of its sources.</bibl>
           <bibl xml:id="source-COLL.Dach"><idno>COLL.Dach</idno>: <title>Collectio Dacheriana</title>, ed.
             <editor>Luc d'Achery</editor>, <title>Spicilegium</title>, vol. 11 (Paris, <date>1723</date>),
             pp. 1–200.</bibl>

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.3.0 (SHA-256 676b102164988738035d14362a66d8dbf9ca1f557f86294307514a6520065ca7) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.3.0 (SHA-256 a3583e05f4923170d632ad019e0abbc998cfbb3a4616fc87a0cba0d80e74024a) by solemne-tei build. Edit the ODD, not this file. -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:lang="en">
   <teiHeader>
     <fileDesc>
@@ -82,8 +82,10 @@
     as they can reasonably go, check it, and hand it to the import; and anyone can read what an export holds. SOLEMNE,
     The Social Life of Early Medieval Normative Texts, is a project funded by the European Research Council (grant
     101087979) at Radboud University.</p>
-  <p>This version covers texts, records, relations, dates and manuscripts: Parts I to VIII. Editions and exports,
-    Parts IX and X, hold their rules and their counter-examples; their prose comes in a later version.</p>
+  <p>Its ten parts go from what a file describes to what an export holds: the file and its header, the text, what is
+    marked in it, records, relations, dates, manuscripts, editions and literature, and exports. The appendices list
+    every element and rule, the code tables and the vocabularies' seeds, older encodings, the import formats' tables,
+    and the changes from one version to the next.</p>
   <p>Part VIII's description of manuscripts is modelled on the Bodleian Libraries' <title>TEI P5 Customization and
       Encoding Guidelines for Manuscript Description</title> (Bodleian Library, Oxford, version 1.0, 2020; the
     guidelines for medieval manuscripts by James Freeman and Matthew Holford;
@@ -151,9 +153,10 @@
       <item><code>penitential.xml</code>: a penitential;</item>
       <item><code>manuscript-collection.xml</code>: a collection in one manuscript, with the manuscript's
         description;</item>
-      <item><code>reconstruction.xml</code>: a reconstruction, with the witnesses it was made from.</item>
+      <item><code>reconstruction.xml</code>: a reconstruction, with the witnesses it was made from;</item>
+      <item><code>export.xml</code>: an export, as the application writes it, with what it adds to an imported
+        file.</item>
     </list>
-    <p>An export comes with a later version.</p>
   </div>
 
   <div xml:id="intro-principles">
@@ -198,8 +201,8 @@
       <item><ptr target="#header-title"/>, for the levels' permalinks, and <ptr target="#header-revisions"/>;</item>
       <item><ptr target="#text"/>;</item>
       <item><ptr target="#marked-in-the-text"/>, with <ptr target="#marked-fragments"/> and <ptr target="#marked-anchors"/>;</item>
-      <item><ptr target="#records"/>, <ptr target="#relations"/> and <ptr target="#dates"/>;</item>
-      <item><ptr target="#exports"/>.</item>
+      <item><ptr target="#records"/>, <ptr target="#relations"/>, <ptr target="#dates"/> and <ptr target="#editions-and-literature"/>;</item>
+      <item><ptr target="#exports"/>, with the template <code>export.xml</code>.</item>
     </list>
   </div>
 </div>
@@ -2577,7 +2580,7 @@
         <p>Placuit <anchor xml:id="span-start"/>ut episcopi in ciuitatibus suis maneant<anchor xml:id="span-end"/>.</p>
         <listAnnotation>
           <annotation xml:id="annotation-1" target="#range(span-start,span-end)">
-            <note>A remark on the whole clause.</note>
+            <note type="editorial">A remark on the whole clause.</note>
           </annotation>
         </listAnnotation>
       </egXML>
@@ -4473,17 +4476,807 @@
       corrections bring them to the guide's form.</p>
   </div>
 </div>
-      <div xmlns="http://www.tei-c.org/ns/1.0" xml:id="editions-and-literature" n="IX">
+      <div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="editions-and-literature" n="IX">
   <head>Editions and literature</head>
-  <p>This part's prose comes in a later version of the guide.</p>
+  <p>A publication, the edition a text was transcribed from or the literature on it, is a <gi>biblStruct</gi>: in the
+    source description of a file that transcribes an edition (<ptr target="#header-publication"/>); in the standOff's
+    <gi>listBibl</gi>, as a record that witnesses and other records point to (<ptr target="#records-witnesses"/>); in
+    a manuscript's literature (<ptr target="#manuscripts-additional"/>). The application keeps publications as
+    records modelled on biblatex, related to one another, a text in a volume and a volume in a series, and one kind
+    serves for the editions and the literature. Pages belong to the relation, not to the publication: a council's
+    canons are in Werminghoff's volume at pages 318 to 421, and the volume's record says nothing of them.</p>
+  <p>The source description's <gi>biblStruct</gi> is <hi>common</hi>, since most files transcribe an edition; its
+    entry type and a biblatex key are <hi>full</hi>.</p>
+
+  <div xml:id="editions-parts">
+    <head>A publication's parts</head>
+    <p>A <gi>biblStruct</gi> has up to three parts, each with its title, whose <att>level</att> says which part it
+      belongs to:</p>
+    <list>
+      <item><gi>analytic</gi>: a text with its own title in a larger publication, a council in a volume of councils,
+        an article in a journal; its title is level <val>a</val>, and it names its own author or editor where it has
+        one;</item>
+      <item><gi>monogr</gi>: the publication itself, a book or a volume (its title level <val>m</val>, a second title
+        typed <val>sub</val> where the title page has one) or a journal (<val>j</val>); its authors or editors; its
+        <gi>imprint</gi>, with the publisher, the place and the date; and, in <gi>biblScope</gi>, the volume, part or
+        issue, and the pages where the text of the <gi>analytic</gi> stands;</item>
+      <item><gi>series</gi>: the series the volume belongs to, its title level <val>s</val>, its editor where it has
+        one, and the volume's number in it, in <gi>biblScope</gi>.</item>
+    </list>
+    <p>The edition of the Monumenta Germaniae Historica is the case the parts are made for: a series with its editor,
+      the society that publishes it; a titled volume, edited by a scholar; and in it the texts. The Council of Aachen
+      of 816:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.AAC-0816">
+      <biblStruct>
+        <analytic>
+          <title level="a">Concilium Aquisgranense a. 816 (mensibus Augusto et Septembri)</title>
+        </analytic>
+        <monogr>
+          <editor>
+            <persName>
+              <forename>Albert</forename>
+              <surname>Werminghoff</surname>
+            </persName>
+          </editor>
+          <title level="m" type="main">Concilia aevi Karolini</title>
+          <title level="m" type="sub">Pars I</title>
+          <imprint>
+            <publisher>impensis Bibliopolii Hahniani</publisher>
+            <pubPlace>Hannover</pubPlace>
+            <pubPlace>Leipzig</pubPlace>
+            <date>1906</date>
+          </imprint>
+          <biblScope unit="part">1</biblScope>
+          <biblScope unit="page">307-464</biblScope>
+        </monogr>
+        <series>
+          <editor>
+            <orgName>Societas Aperiendis Fontibus Rerum Germanicarum Medii Aevi</orgName>
+          </editor>
+          <title level="s">Monumenta Germaniae Historica</title>
+          <title level="s">Concilia</title>
+          <biblScope unit="volume">2.1</biblScope>
+        </series>
+        <citedRange unit="page">318-421</citedRange>
+      </biblStruct>
+    </egXML>
+    <p>Where the texts of a volume have editors of their own, each <gi>analytic</gi> names its editor, and the
+      <gi>monogr</gi> the volume's. The First Council of Constantinople, edited by Adolf Martin Ritter in Giuseppe
+      Alberigo's volume of the Conciliorum Oecumenicorum Generaliumque Decreta:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.CON-0381-v5">
+      <biblStruct>
+        <analytic>
+          <editor>
+            <persName>
+              <forename>Adolf Martin</forename>
+              <surname>Ritter</surname>
+            </persName>
+          </editor>
+          <title level="a">Concilium Constantinopolitanum I - 381</title>
+        </analytic>
+        <monogr>
+          <editor>
+            <persName>
+              <forename>Giuseppe</forename>
+              <surname>Alberigo</surname>
+            </persName>
+          </editor>
+          <title level="m">The oecumenical councils: from Nicaea I to Nicaea II (325-787)</title>
+          <idno type="ISBN">978-2-503-52363-7</idno>
+          <imprint>
+            <publisher>Brepols</publisher>
+            <pubPlace>Turnhout</pubPlace>
+            <date>2006</date>
+          </imprint>
+          <biblScope unit="page">35-70</biblScope>
+        </monogr>
+        <series>
+          <title level="s">Corpus Christianorum</title>
+          <title level="s">Conciliorum Oecumenicorum Generaliumque Decreta</title>
+          <biblScope unit="volume">1</biblScope>
+        </series>
+        <citedRange unit="page">64-70</citedRange>
+      </biblStruct>
+    </egXML>
+    <p>A title of the wrong level for its part is an error, since the level says what the title is:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-level">
+      <biblStruct>
+        <monogr>
+          <title level="a">Concilia exempli gratia</title><!-- breaks the rule -->
+          <imprint>
+            <date>1906</date>
+          </imprint>
+        </monogr>
+      </biblStruct>
+    </egXML>
+  </div>
+
+  <div xml:id="editions-pages">
+    <head>Pages</head>
+    <p>A publication has two kinds of pages, and each has its element:</p>
+    <list>
+      <item><gi>biblScope</gi> in <gi>monogr</gi>, typed by its <att>unit</att> <val>page</val>, says where the text of
+        the <gi>analytic</gi> stands in the volume: Aachen's council at pages 307 to 464 of the MGH's volume. It's part
+        of the publication's description, and the import relates the text to the volume by it;</item>
+      <item><gi>citedRange</gi>, after the <gi>monogr</gi> and the <gi>series</gi>, says which pages the file's text
+        comes from: the canons at pages 318 to 421. They're the witness's pages, the relation's. Where the file
+        transcribes the whole text of the <gi>analytic</gi>, there's none: its pages are the witness's.</item>
+    </list>
+    <p>Either may give its range in <att>from</att> and <att>to</att> beside its words. An older edition printed in
+      columns counts columns: the letter of Pope Celestine I to the bishops of Vienne and Narbonne, in Coustant's
+      edition of the popes' letters:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-D.CEL-0428-369">
+      <biblStruct>
+        <analytic>
+          <title level="a">Epistola IV / Caelestini papae I. ad episcopos prouinciae Viennensis &amp;
+            Narbonensis</title>
+        </analytic>
+        <monogr>
+          <editor>
+            <persName>
+              <forename>Pierre</forename>
+              <surname>Coustant</surname>
+            </persName>
+          </editor>
+          <title level="m" type="main">Epistolae Romanorum pontificum, et quae ad eos scriptae sunt a S. Clemente I.
+            usque ad Innocentium III</title>
+          <title level="m" type="sub">Tom. I: ab anno Christi 67 ad annum 440</title>
+          <imprint>
+            <publisher>Ludovicus-Dionysius Delatour</publisher>
+            <publisher>Antonius-Urbanus Coustelier</publisher>
+            <pubPlace>Paris</pubPlace>
+            <date>1721</date>
+          </imprint>
+          <biblScope unit="volume">1</biblScope>
+          <biblScope unit="column" from="1065" to="1072">1065-1072</biblScope>
+        </monogr>
+      </biblStruct>
+    </egXML>
+    <p>The units are a closed list, since each is a field of biblatex: <val>volume</val>, <val>part</val>,
+      <val>issue</val>, <val>page</val> and <val>column</val>. A volume in a <gi>series</gi> is the volume's number in
+      the series, a tome or a fascicle of it too; an issue is a journal's, a <foreign xml:lang="de">Heft</foreign>.
+      Another unit fails the RelaxNG:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="scope-unit">
+      <biblStruct>
+        <monogr>
+          <title level="m">Concilia exempli gratia</title>
+          <imprint>
+            <date>1906</date>
+          </imprint>
+        </monogr>
+        <series>
+          <title level="s">Monumenta exempli gratia</title>
+          <biblScope unit="tome">2</biblScope><!-- breaks the rule -->
+        </series>
+      </biblStruct>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="cited-range-unit">
+      <biblStruct>
+        <monogr>
+          <title level="m">Concilia exempli gratia</title>
+          <imprint>
+            <date>1906</date>
+          </imprint>
+        </monogr>
+        <citedRange unit="folio">12</citedRange><!-- breaks the rule -->
+      </biblStruct>
+    </egXML>
+    <specGrp xml:id="editions-pages-specs">
+      <!-- The units of a publication's scope and of the pages cited from it: biblatex's fields. -->
+      <elementSpec ident="biblScope" module="core" mode="change" corresp="#tier-common">
+        <attList>
+          <attDef ident="unit" mode="change" corresp="#tier-common">
+            <valList type="closed" mode="replace" xml:id="scope-unit" corresp="#tier-common">
+              <valItem ident="volume">
+                <desc>a volume; in a series, the volume's number in it</desc>
+              </valItem>
+              <valItem ident="part">
+                <desc>a part of a volume</desc>
+              </valItem>
+              <valItem ident="issue">
+                <desc>an issue of a journal</desc>
+              </valItem>
+              <valItem ident="page">
+                <desc>pages</desc>
+              </valItem>
+              <valItem ident="column">
+                <desc>columns, where the publication counts them</desc>
+              </valItem>
+            </valList>
+          </attDef>
+        </attList>
+      </elementSpec>
+      <elementSpec ident="citedRange" module="core" mode="change" corresp="#tier-full">
+        <attList>
+          <attDef ident="unit" mode="change" corresp="#tier-full">
+            <valList type="closed" mode="replace" xml:id="cited-range-unit" corresp="#tier-full">
+              <valItem ident="volume">
+                <desc>a volume</desc>
+              </valItem>
+              <valItem ident="part">
+                <desc>a part of a volume</desc>
+              </valItem>
+              <valItem ident="issue">
+                <desc>an issue of a journal</desc>
+              </valItem>
+              <valItem ident="page">
+                <desc>pages</desc>
+              </valItem>
+              <valItem ident="column">
+                <desc>columns, where the publication counts them</desc>
+              </valItem>
+            </valList>
+          </attDef>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="editions-biblatex">
+    <head>Entry types and biblatex</head>
+    <p>The application's publications are biblatex's entries, and the import and the exports turn one into the other
+      by the tables below. A publication's entry type is in <att>type</att>, by biblatex's name; where it's missing,
+      the parts say which it is:</p>
+    <table xml:id="biblatex-types">
+      <head>The entry type, where <att>type</att> doesn't give it</head>
+      <row role="label">
+        <cell>The parts</cell>
+        <cell>biblatex's type</cell>
+      </row>
+      <row>
+        <cell>an <gi>analytic</gi>, in a <gi>monogr</gi> whose title is level <val>j</val></cell>
+        <cell><val>article</val></cell>
+      </row>
+      <row>
+        <cell>an <gi>analytic</gi>, in a <gi>monogr</gi> whose title is level <val>m</val></cell>
+        <cell><val>incollection</val></cell>
+      </row>
+      <row>
+        <cell>a <gi>monogr</gi> alone, with editors and no author</cell>
+        <cell><val>collection</val></cell>
+      </row>
+      <row>
+        <cell>a <gi>monogr</gi> alone, otherwise</cell>
+        <cell><val>book</val></cell>
+      </row>
+    </table>
+    <p>A thesis, a report or a page on the web looks like a book in its parts, and so says what it is by
+      <att>type</att>; an export always does, so that a publication exported and imported again keeps its type. The
+      types are biblatex's, a vocabulary whose seeds are biblatex's own types; another is reported, to be checked or
+      added. A biblatex key, where a publication has one, is an <gi>idno</gi> typed <val>biblatex</val> in the part
+      the entry describes. A made-up thesis:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listBibl>
+        <biblStruct type="thesis" xml:id="new_bibl_exemplum_thesis">
+          <monogr>
+            <author>
+              <persName>
+                <forename>Anna</forename>
+                <surname>Exempla</surname>
+              </persName>
+            </author>
+            <title level="m">Canones exempli gratia</title>
+            <idno type="biblatex">exempla2020</idno>
+            <imprint>
+              <publisher>Universitas Exemplensis</publisher>
+              <date>2020</date>
+            </imprint>
+          </monogr>
+        </biblStruct>
+      </listBibl>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="entry-type">
+      <listBibl>
+        <biblStruct type="volume" xml:id="new_bibl_exemplum_volume">
+          <monogr>
+            <title level="m">Concilia exempli gratia</title>
+            <imprint>
+              <date>1906</date>
+            </imprint>
+          </monogr>
+        </biblStruct>
+      </listBibl>
+    </egXML>
+    <p>Each element of a <gi>biblStruct</gi> is a field of the entry:</p>
+    <table xml:id="biblatex-fields">
+      <head>A publication's elements and biblatex's fields</head>
+      <row role="label">
+        <cell>The element</cell>
+        <cell>biblatex's field</cell>
+      </row>
+      <row role="label">
+        <cell cols="2">The text in the publication</cell>
+      </row>
+      <row>
+        <cell><gi>analytic</gi>/<gi>title</gi></cell>
+        <cell><code>title</code></cell>
+      </row>
+      <row>
+        <cell><gi>analytic</gi>/<gi>author</gi></cell>
+        <cell><code>author</code></cell>
+      </row>
+      <row>
+        <cell><gi>analytic</gi>/<gi>editor</gi></cell>
+        <cell><code>editora</code>, with <code>editoratype</code> <code>editor</code>: the text's own editor, beside
+          the volume's</cell>
+      </row>
+      <row role="label">
+        <cell cols="2">The publication</cell>
+      </row>
+      <row>
+        <cell><gi>monogr</gi>/<gi>title</gi>, level <val>m</val></cell>
+        <cell><code>booktitle</code> where there's an <gi>analytic</gi>, <code>title</code> otherwise; one typed
+          <val>sub</val>, <code>booksubtitle</code> or <code>subtitle</code></cell>
+      </row>
+      <row>
+        <cell><gi>monogr</gi>/<gi>title</gi>, level <val>j</val></cell>
+        <cell><code>journaltitle</code></cell>
+      </row>
+      <row>
+        <cell><gi>monogr</gi>/<gi>author</gi></cell>
+        <cell><code>bookauthor</code> where there's an <gi>analytic</gi>, <code>author</code> otherwise</cell>
+      </row>
+      <row>
+        <cell><gi>monogr</gi>/<gi>editor</gi></cell>
+        <cell><code>editor</code></cell>
+      </row>
+      <row>
+        <cell><gi>imprint</gi>/<gi>publisher</gi>, <gi>pubPlace</gi>, <gi>date</gi></cell>
+        <cell><code>publisher</code>, <code>location</code>, <code>date</code></cell>
+      </row>
+      <row>
+        <cell><gi>monogr</gi>/<gi>biblScope</gi>: <val>volume</val>, <val>part</val>, <val>issue</val></cell>
+        <cell><code>volume</code>, <code>part</code>, <code>number</code></cell>
+      </row>
+      <row>
+        <cell><gi>monogr</gi>/<gi>biblScope</gi>: <val>page</val>, <val>column</val></cell>
+        <cell><code>pages</code>; for columns, <code>pagination</code> <code>column</code></cell>
+      </row>
+      <row>
+        <cell><gi>idno</gi> typed <val>ISBN</val>, <val>url</val>, <val>biblatex</val></cell>
+        <cell><code>isbn</code>, <code>url</code>, and the entry's key</cell>
+      </row>
+      <row role="label">
+        <cell cols="2">The series</cell>
+      </row>
+      <row>
+        <cell><gi>series</gi>/<gi>title</gi></cell>
+        <cell><code>series</code></cell>
+      </row>
+      <row>
+        <cell><gi>series</gi>/<gi>biblScope</gi>, <val>volume</val></cell>
+        <cell><code>number</code></cell>
+      </row>
+      <row>
+        <cell><gi>series</gi>/<gi>editor</gi></cell>
+        <cell>none: the application keeps it in the series' record</cell>
+      </row>
+      <row role="label">
+        <cell cols="2">What isn't a field</cell>
+      </row>
+      <row>
+        <cell><gi>citedRange</gi></cell>
+        <cell>none: the pages of the relation, a witness's in the publication</cell>
+      </row>
+      <row>
+        <cell><gi>note</gi></cell>
+        <cell><code>note</code></cell>
+      </row>
+    </table>
+    <specGrp xml:id="editions-biblatex-specs">
+      <!-- A publication: its titles' levels by its parts, and its entry type from biblatex's. -->
+      <elementSpec ident="biblStruct" module="core" mode="change" corresp="#tier-common">
+        <constraintSpec ident="title-level" scheme="schematron" corresp="#tier-common">
+          <desc>A title's level says which part of a publication it belongs to: a for the analytic, m or j for the
+            monogr, s for the series.</desc>
+          <constraint>
+            <sch:rule context="tei:biblStruct/tei:*[self::tei:analytic or self::tei:monogr or self::tei:series]/tei:title">
+              <sch:let name="levels" value="if (parent::tei:analytic) then 'a' else if (parent::tei:monogr) then ('m',                 'j') else 's'"/>
+              <sch:assert id="title-level" test="@level = $levels">A title in <sch:value-of select="local-name(..)"/> has the level <sch:value-of select="string-join($levels, ' or ')"/>, which
+                says which part of the publication it belongs to.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="entry-type" scheme="schematron" corresp="#tier-full">
+          <desc>A publication's entry type is one of biblatex's, or a new term of the vocabulary.</desc>
+          <constraint>
+            <sch:rule context="tei:biblStruct[@type]">
+              <sch:let name="terms" value="('article', 'book', 'mvbook', 'inbook', 'bookinbook', 'suppbook', 'booklet',                 'collection', 'mvcollection', 'incollection', 'suppcollection', 'dataset', 'manual', 'misc', 'online',                 'patent', 'periodical', 'suppperiodical', 'proceedings', 'mvproceedings', 'inproceedings', 'reference',                 'mvreference', 'inreference', 'report', 'software', 'thesis', 'unpublished')"/>
+              <sch:assert id="entry-type" role="warning" test="@type = $terms">The entry type <sch:value-of select="@type"/> isn't one of biblatex's: check its spelling, or add it to the application's
+                vocabulary.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="type" mode="change" corresp="#tier-full">
+            <desc>the publication's entry type, by biblatex's name</desc>
+            <valList type="semi" mode="replace">
+              <valItem ident="article"><desc>an article in a journal</desc></valItem>
+              <valItem ident="book"><desc>a book by its authors</desc></valItem>
+              <valItem ident="mvbook"><desc>a book in several volumes</desc></valItem>
+              <valItem ident="inbook"><desc>a part of a book with its own title, by the book's authors</desc></valItem>
+              <valItem ident="bookinbook"><desc>a book printed within another</desc></valItem>
+              <valItem ident="suppbook"><desc>what a book adds to its text: a preface, an index</desc></valItem>
+              <valItem ident="booklet"><desc>a printed work without a publisher</desc></valItem>
+              <valItem ident="collection"><desc>a book of texts by several authors, with its editors</desc></valItem>
+              <valItem ident="mvcollection"><desc>a collection in several volumes</desc></valItem>
+              <valItem ident="incollection"><desc>a text with its own title in a collection</desc></valItem>
+              <valItem ident="suppcollection"><desc>what a collection adds to its texts</desc></valItem>
+              <valItem ident="dataset"><desc>a set of data</desc></valItem>
+              <valItem ident="manual"><desc>a manual</desc></valItem>
+              <valItem ident="misc"><desc>a publication no other type fits</desc></valItem>
+              <valItem ident="online"><desc>a resource on the web</desc></valItem>
+              <valItem ident="patent"><desc>a patent</desc></valItem>
+              <valItem ident="periodical"><desc>an issue of a journal, as a whole</desc></valItem>
+              <valItem ident="suppperiodical"><desc>what a journal's issue adds to its articles</desc></valItem>
+              <valItem ident="proceedings"><desc>the proceedings of a conference</desc></valItem>
+              <valItem ident="mvproceedings"><desc>proceedings in several volumes</desc></valItem>
+              <valItem ident="inproceedings"><desc>a paper in a conference's proceedings</desc></valItem>
+              <valItem ident="reference"><desc>a work of reference: a dictionary, an encyclopaedia</desc></valItem>
+              <valItem ident="mvreference"><desc>a work of reference in several volumes</desc></valItem>
+              <valItem ident="inreference"><desc>an entry in a work of reference</desc></valItem>
+              <valItem ident="report"><desc>a report by an institution</desc></valItem>
+              <valItem ident="software"><desc>a program</desc></valItem>
+              <valItem ident="thesis"><desc>a thesis for a degree</desc></valItem>
+              <valItem ident="unpublished"><desc>a work not published</desc></valItem>
+            </valList>
+          </attDef>
+          <attDef ident="subtype" mode="delete"/>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="editions-records">
+    <head>Publications as records</head>
+    <p>A publication that more than one thing refers to, the edition several witnesses are in, the catalogue a
+      manuscript's literature cites, is listed once in the standOff's <gi>listBibl</gi>, with an <att>xml:id</att>,
+      a record's or a placeholder's (<code>new_bibl_</code> and a name), and pointed to: a witness by a
+      <gi>ptr</gi> and its pages in <gi>citedRange</gi> (<ptr target="#records-witnesses"/>), a manuscript's
+      literature the same way. The import makes the application's records from a <gi>biblStruct</gi>: the volume, the
+      text in it and the series, related to one another; then the file's witness, in the publication at the pages of
+      the <gi>citedRange</gi>. An export writes each publication it points to as a <gi>biblStruct</gi> with its entry
+      type.</p>
+  </div>
+
+  <div xml:id="editions-reconstructions">
+    <head>Reconstructions</head>
+    <p>A reconstruction is a text put together from others: a collection known only from what later collections took
+      from it, or a text the project assembles from several editions. Its file's type is <val>reconstruction</val>
+      (<ptr target="#header-categories"/>), and its source description names the publication it comes from, says in a
+      <gi>note</gi> that it's a reconstruction, and lists what it was made from in a <gi>listWit</gi>: the editions,
+      for one the project put together; the manuscripts, for one a scholar made from them. The collection of
+      Benedictus Levita, which the project puts together from Pertz's edition and Schmitz's of the first
+      Additio:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.Benedictus">
+      <sourceDesc>
+        <biblStruct xml:id="pertz-1837">
+          <analytic>
+            <title level="a">Benedicti Capitularia</title>
+          </analytic>
+          <monogr>
+            <editor>
+              <persName>
+                <forename>Georg Heinrich</forename>
+                <surname>Pertz</surname>
+              </persName>
+            </editor>
+            <title level="m">Supplementa tomi I</title>
+            <imprint>
+              <publisher>Hahnsche Buchhandlung</publisher>
+              <pubPlace>Hannover</pubPlace>
+              <date>1837</date>
+            </imprint>
+            <biblScope unit="page">17-158</biblScope>
+          </monogr>
+          <series>
+            <title level="s">Monumenta Germaniae Historica</title>
+            <title level="s">Leges</title>
+            <biblScope unit="volume">2.2</biblScope>
+          </series>
+          <note>A reconstruction: the collection as the project puts it together, from Pertz's edition for the whole
+            text, and from Schmitz's for Additio 1, which Pertz's lacks.</note>
+        </biblStruct>
+        <biblStruct xml:id="schmitz-2008">
+          <monogr>
+            <editor>
+              <persName>
+                <forename>Gerhard</forename>
+                <surname>Schmitz</surname>
+              </persName>
+            </editor>
+            <title level="m">Additio 1</title>
+            <idno type="url">https://www.benedictus.mgh.de/edition/aktuell/additio1.pdf</idno>
+            <imprint>
+              <publisher>Gerhard Schmitz</publisher>
+              <date>2008</date>
+            </imprint>
+          </monogr>
+        </biblStruct>
+        <listWit>
+          <witness xml:id="wit-pertz"><bibl><ptr target="#pertz-1837"/><citedRange unit="page" from="17" to="158">17–158</citedRange></bibl>: the whole text but Additio 1</witness>
+          <witness xml:id="wit-schmitz"><bibl><ptr target="#schmitz-2008"/></bibl>: Additio 1</witness>
+        </listWit>
+      </sourceDesc>
+    </egXML>
+    <p>The import makes the reconstruction a version whose witness is the publication, and joins it to the witnesses
+      it lists. The template <code>reconstruction.xml</code> holds the whole header.</p>
+  </div>
 </div>
-      <div xmlns="http://www.tei-c.org/ns/1.0" xml:id="exports" n="X">
+      <div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="exports" n="X">
   <head>Exports</head>
-  <p>Exports add what inline markup can't hold: the citation structure (<gi>citeStructure</gi>);
-    annotations in the standOff (<gi>listAnnotation</gi>); relations (<gi>listRelation</gi>), each an
-    observation or a judgement; text reuse as link groups (<gi>linkGrp</gi>); the revision history; and
-    the records, as manuscript descriptions after the Bodleian's rules, bibliographic records and lists of
-    persons, places, events and organizations.</p>
+  <p>An export is what the application writes: a transcription, or a selection of it, with its structure, the
+    annotations its reader may see, and the records it points to. It's written in the forms this guide gives for
+    every file, so that an export imported again gives the same text and the same annotations, and it adds what only
+    the application knows: its ids, its permalinks, its history and its statuses. This part says what an export adds,
+    for anyone reading one. The elements that only exports write are <hi>export only</hi>: the citation structure,
+    and text reuse; what an encoder may write too keeps its tier.</p>
+  <p>The template <code>export.xml</code> is a short export of the Council of Soissons of 744, as the application
+    writes it; the examples below come from it.</p>
+
+  <div xml:id="exports-ids">
+    <head>Ids, permalinks and records</head>
+    <p>Every node has its <att>xml:id</att>, the id the application gave it when it was imported or made: the
+      document's code, <code>_</code>, and the node's citation at that moment, with <code>.h1</code> or
+      <code>.p1</code> for a heading or a paragraph (<ptr target="#codes-and-ids"/>). A node keeps its id when it
+      moves, so an id may no longer match the node's citation. The formal title gives the levels the file belongs
+      to, each by its permalink (<ptr target="#header-title"/>):</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.SOI-0744-export">
+      <div type="chapter" n="1" xml:id="C.SOI-0744_1">
+        <head type="number" xml:id="C.SOI-0744_1.h1"><pb n="34"/>(I).</head>
+        <p xml:id="C.SOI-0744_1.p1">In primitus constituimus fide catholica, quam constituerunt CCCXVIII episcopi in
+          <eventName ref="https://example.org/id/event/EVENT.1">Niceno concilio</eventName>, ut denuntiaretur per
+          universa regione nostra …</p>
+      </div>
+    </egXML>
+    <p>A pointer to anything outside the file, a record, a canon, another document, is a permalink, since one code can
+      name several kinds of thing (<ptr target="#citations-and-permalinks"/>). The records an export points to are
+      listed in its standOff, each with its own id as its <att>xml:id</att>, the permalink's last step, and its names,
+      so that the file reads on its own. A record's links to pages that aren't an authority's record are written
+      back in its note of links (<ptr target="#records-external-ids"/>), and every manuscript's date and every date in
+      the text names its calendar (<ptr target="#dates-calendars"/>).</p>
+  </div>
+
+  <div xml:id="exports-citations">
+    <head>The citation structure</head>
+    <p>An export says how its nodes are cited, in the encoding description's <gi>refsDecl</gi>, by TEI's
+      <gi>citeStructure</gi>: one for each kind of division at each depth the document has, its <att>match</att>
+      selecting the divisions and its <att>use</att> giving each one's step of the citation, by the rules of <ptr target="#citations-and-permalinks"/>. A chapter or a register item is cited by its number, in <att>n</att>
+      (<code>11a</code> for one without a number after 11); a section by its number, or its position; the other
+      divisions by a prefix and their position among their kind. Nested divisions nest their
+      <gi>citeStructure</gi>s, and their steps are joined by <att>delim</att>, a dot. The council's preface and its
+      chapters:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.SOI-0744-export">
+      <refsDecl>
+        <citeStructure unit="preface" match="/TEI/text/body/div[@type = 'preface']" use="concat('pr', count(preceding-sibling::div[@type = 'preface']) + 1)"/>
+        <citeStructure unit="chapter" match="/TEI/text/body/div[@type = 'chapter']" use="@n"/>
+      </refsDecl>
+    </egXML>
+    <p>DTS reads the same structure. A version's canons have their own citations; a transcription's chapters are
+      joined to them by relations, not by its citation structure.</p>
+  </div>
+
+  <div xml:id="exports-annotations">
+    <head>Annotations in the standOff</head>
+    <p>An export writes an annotation inline, in the element of its layer, where it nests in the others; where it
+      would cross one, it writes it in the standOff's <gi>listAnnotation</gi>, as an <gi>annotation</gi>. An encoder
+      may do the same, by anchors (<ptr target="#marked-anchors"/>). A stand-off annotation has:</p>
+    <list>
+      <item><hi>its target</hi>, in <att>target</att>: a span of a node's text, by TEI's <code>string-range()</code>,
+        the node's id, where the span begins and how long it is (<code>#string-range(C.SOI-0744_pr1.p1,26,137)</code>),
+        counted in characters of the node's text as the application holds it, its words without the markup and each
+        run of spaces as one, from 0; or a node, an anchor or the range between two, by their ids. An annotation
+        over several spans or nodes has several targets;</item>
+      <item><hi>its author</hi>, in a <gi>respStmt</gi> naming them by permalink, and its licence, in a
+        <gi>licence</gi>;</item>
+      <item><hi>its body</hi>: a <gi>note</gi> holding the element of its layer, with the attributes it has inline and
+        the span's words, which the import checks the target against; for a note's layers, a source note, a parallel
+        or an editorial remark, the <gi>note</gi> itself, typed by its layer. One form for each layer, inline or not,
+        so that the import reads both alike. TEI's <att>motivation</att> isn't used: the body says the layer.</item>
+    </list>
+    <p>The council's date, from its year to the king's, crosses the name of Childeric, which runs on past it, so it
+      stands in the standOff:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.SOI-0744-export">
+      <p xml:id="C.SOI-0744_pr1.p1"><pb n="33"/>In Dei nomine trinitatis. Anno septingentesimo quadragesimo quarto ab
+        incarnatione Christi sub die VI. Nonas Martii et luna XIIII. in anno secundo <persName ref="https://example.org/id/person/PERS.31">Childerici regis Francorum</persName> ego <persName ref="https://example.org/id/person/PERS.32">Pippinus, dux et princeps Francorum</persName>. …</p>
+      <listAnnotation>
+        <annotation xml:id="annotation-date" target="#string-range(C.SOI-0744_pr1.p1,26,137)">
+          <respStmt>
+            <resp>dated</resp>
+            <persName ref="https://example.org/id/person/PERS.12">An editor</persName>
+          </respStmt>
+          <licence target="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</licence>
+          <note><date when="0744-03-06" calendar="#julian">Anno septingentesimo quadragesimo quarto ab incarnatione
+              Christi sub die VI. Nonas Martii et luna XIIII. in anno secundo Childerici regis</date></note>
+        </annotation>
+      </listAnnotation>
+    </egXML>
+    <p>A target points into the file or to a permalink, and a body is one <gi>note</gi>, which holds the layer's
+      element alone, or is typed by a note's layer:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="annotation-target">
+      <listAnnotation>
+        <annotation xml:id="annotation-lost" target="#string-range(nowhere,0,10)"><!-- breaks the rule -->
+          <note type="editorial">A remark.</note>
+        </annotation>
+      </listAnnotation>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="annotation-body">
+      <p xml:id="annotated">Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      <listAnnotation>
+        <annotation xml:id="annotation-words" target="#string-range(annotated,0,7)">
+          <note>A remark, and <persName ref="#new_person_Primus">Primus</persName>.</note><!-- breaks the rule -->
+        </annotation>
+      </listAnnotation>
+    </egXML>
+    <p>The relations an export writes, its nodes' observations and, on request, the judgements on its canons, are in
+      its standOff's <gi>listRelation</gi>, in their one form (<ptr target="#relations"/>).</p>
+    <specGrp xml:id="exports-annotations-specs">
+      <!-- A stand-off annotation: its targets in the file or elsewhere, and its body the layer's element in a note. -->
+      <elementSpec ident="annotation" module="linking" mode="change" corresp="#tier-full">
+        <constraintSpec ident="annotation-target" scheme="schematron" corresp="#tier-full">
+          <desc>An annotation's targets are ids in the file, ranges between them, spans of their text, or
+            permalinks.</desc>
+          <constraint>
+            <sch:rule context="tei:annotation">
+              <sch:let name="ids" value="//@xml:id"/>
+              <sch:assert id="annotation-target" test="every $t in tokenize(normalize-space(@target), ' ') satisfies                 (matches($t, '^https?://\S+$') or (matches($t, '^#[^()]+$') and substring($t, 2) = $ids) or                 (matches($t, '^#range\([^,()]+,[^,()]+\)$') and replace($t, '^#range\(([^,()]+),.*$', '$1') = $ids and                 replace($t, '^#range\([^,()]+,([^,()]+)\)$', '$1') = $ids) or (matches($t,                 '^#string-range\([^,()]+,\d+,\d+\)$') and replace($t, '^#string-range\(([^,()]+),.*$', '$1') =                 $ids))">An annotation's target (<sch:value-of select="normalize-space(@target)"/>) is an id in the
+                file, a range between two, a span of one's text by string-range(), or a permalink.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="annotation-body" scheme="schematron" corresp="#tier-full">
+          <desc>An annotation's body is one note: holding the element of its layer alone, or typed by a note's
+            layer.</desc>
+          <constraint>
+            <sch:rule context="tei:annotation">
+              <sch:assert id="annotation-body" test="count(tei:note) = 1 and not(tei:ptr or tei:ref) and                 (tei:note/@type = ('source', 'parallel', 'editorial') or (count(tei:note/*) = 1 and                 not(tei:note/text()[normalize-space()])))">An annotation's body is one note, which holds the element of
+                its layer alone, or is typed by a note's layer (source, parallel, editorial).</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="motivation" mode="delete"/>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="exports-reuse">
+    <head>Text reuse</head>
+    <p>Text reuse the project has accepted is a relation, "is a text of", with its evidence (<ptr target="#relations-levels"/>). The raw hits of a run of the reuse detection go into an export only on
+      request, filtered as the export is: one <gi>linkGrp</gi> typed <val>reuse</val> for each run, pointing to the
+      run by <att>resp</att>, and one <gi>link</gi> for each hit, its <att>xml:id</att> the hit's, with two targets:
+      the passage in the file, and the passage in the other document, its permalink followed by the same pointer.
+      Scores and lengths go in the CSV export of the same selection, under the same ids. A made-up hit:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <p xml:id="C.SOI-0744_2.p1">Propterea nos una cum consensu episcoporum sive sacerdotum seu servorum Dei …</p>
+      <linkGrp type="reuse" resp="https://example.org/id/run/3">
+        <link xml:id="hit-41" target="#string-range(C.SOI-0744_2.p1,0,40) https://example.org/id/transcription/C.ASC-0756#string-range(C.ASC-0756_1.p1,0,40)"/>
+      </linkGrp>
+    </egXML>
+    <p>A hit joins two passages:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="reuse-link">
+      <p xml:id="reused">Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      <linkGrp type="reuse" resp="https://example.org/id/run/1">
+        <link xml:id="hit-1" target="#string-range(reused,0,7)"/><!-- breaks the rule -->
+      </linkGrp>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="link-group-type">
+      <p xml:id="grouped">Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      <linkGrp type="parallels"><!-- breaks the rule -->
+        <link xml:id="hit-2" target="#string-range(grouped,0,7) https://example.org/id/node/C.NIC-0325_15.p1"/>
+      </linkGrp>
+    </egXML>
+    <specGrp xml:id="exports-reuse-specs">
+      <!-- Text reuse: a run's hits, each joining two passages. -->
+      <elementSpec ident="linkGrp" module="linking" mode="change" corresp="#tier-export-only">
+        <constraintSpec ident="reuse-link" scheme="schematron" corresp="#tier-export-only">
+          <desc>A hit of text reuse joins two passages.</desc>
+          <constraint>
+            <sch:rule context="tei:linkGrp[@type = 'reuse']/tei:link">
+              <sch:assert id="reuse-link" test="count(tokenize(normalize-space(@target), ' ')) = 2">A hit of text
+                reuse has two targets: the passage in the file, and the passage in the other document.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="type" mode="change" corresp="#tier-export-only">
+            <valList type="closed" mode="replace" xml:id="link-group-type" corresp="#tier-export-only">
+              <valItem ident="reuse">
+                <desc>the hits of a run of the reuse detection</desc>
+              </valItem>
+            </valList>
+          </attDef>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="exports-history">
+    <head>Statuses and history</head>
+    <p>The text's curation is in the encoding description's <gi>correction</gi>, as in any file (<ptr target="#header-curation"/>); its completeness isn't stated, since the gaps give it. Its history is in the
+      <gi>revisionDesc</gi>, the latest first:</p>
+    <list>
+      <item><hi>the releases</hi>: each a <gi>change</gi> typed <val>release</val>, its name in <att>n</att>
+        (<code>2027.1</code>), its date in <att>when</att>, and as its words a summary of the changes since the last
+        release;</item>
+      <item><hi>the change sets</hi>, on request: each a <gi>change</gi> without a type, its date, its author's
+        permalink in <att>who</att>, the nodes it touched in <att>target</att>, and its message as its words. An
+        earlier text of a node is pointed to by its permalink and version (<code>…@t3</code>), not copied.</item>
+    </list>
+    <p>The history a file had before its import stays as it was, read-only (<ptr target="#header-revisions"/>). The
+      council's first release, and a change set before it:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.SOI-0744-export">
+      <revisionDesc>
+        <change type="release" n="2027.1" when="2027-06-30">The project's first release: the council checked against
+          its edition, its persons, places and events identified.</change>
+        <change when="2027-05-02" who="https://example.org/id/person/PERS.12" target="#C.SOI-0744_2.p1">A reading
+          corrected against the edition.</change>
+      </revisionDesc>
+    </egXML>
+    <p>A release has its name and its date, and a change is a release or a change set:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="release-named">
+      <revisionDesc>
+        <change type="release">A release.</change><!-- breaks the rule -->
+      </revisionDesc>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="change-type">
+      <revisionDesc>
+        <change type="correction" when="2027-05-02">A reading corrected.</change><!-- breaks the rule -->
+      </revisionDesc>
+    </egXML>
+    <specGrp xml:id="exports-history-specs">
+      <!-- The history: releases, each named and dated, and change sets. -->
+      <elementSpec ident="change" module="header" mode="change" corresp="#tier-full">
+        <constraintSpec ident="release-named" scheme="schematron" corresp="#tier-export-only">
+          <desc>A release has its name and its date.</desc>
+          <constraint>
+            <sch:rule context="tei:change[@type = 'release']">
+              <sch:assert id="release-named" test="@n and @when">A release names itself in @n and gives its date in
+                @when.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="type" mode="change" corresp="#tier-export-only">
+            <valList type="closed" mode="replace" xml:id="change-type" corresp="#tier-export-only">
+              <valItem ident="release">
+                <desc>a release of the application's data</desc>
+              </valItem>
+            </valList>
+          </attDef>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="exports-vocabularies">
+    <head>The vocabularies</head>
+    <p>An export declares the terms of the application's vocabularies it uses, in the encoding description's
+      <gi>classDecl</gi>: a <gi>taxonomy</gi> for each vocabulary, and in it a <gi>category</gi> for each term, its
+      <att>xml:id</att> the term's name, its labels in <gi>catDesc</gi>, one for each language, its permalink in
+      <att>sameAs</att>, since the category is that term, and its equivalents elsewhere in <att>corresp</att>. An
+      element that uses a term names it, as an attribute's value or by a pointer, as the guide's parts say. The
+      council's relations use one term:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.SOI-0744-export">
+      <classDecl>
+        <taxonomy xml:id="relation-types">
+          <category xml:id="isTextOf" sameAs="https://example.org/id/term/isTextOf">
+            <catDesc xml:lang="en">is a text of</catDesc>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </egXML>
+  </div>
+
+  <div xml:id="exports-checks">
+    <head>Both checks</head>
+    <p>An export passes both checks, the RelaxNG and the Schematron, without an error, and declares the schema it was
+      checked against by <code>&lt;?xml-model?&gt;</code>, as the templates do (<ptr target="#intro-checks"/>). The
+      application's own tests check its exports so, against the release of this package it installs; what an export
+      must hold beyond what every file may, they check too. The template <code>export.xml</code> passes both checks
+      without a warning.</p>
+  </div>
 </div>
 
       <div xml:id="specification">
@@ -4506,7 +5299,7 @@
           <row corresp="#tier-common">
             <cell>common</cell>
             <cell>
-              <gi>address</gi> <gi>analytic</gi> <gi>biblScope</gi> <gi>biblStruct</gi>
+              <gi>address</gi> <gi>analytic</gi>
               <gi>distributor</gi> <gi>email</gi> <gi>forename</gi> <gi>imprint</gi> <gi>listPerson</gi>
               <gi>monogr</gi> <gi>p</gi> <gi>postCode</gi> <gi>publisher</gi> <gi>pubPlace</gi>
               <gi>series</gi> <gi>standOff</gi> <gi>street</gi> <gi>surname</gi>
@@ -4517,9 +5310,9 @@
             <cell>
               <gi>abbr</gi> <gi>abstract</gi> <gi>acquisition</gi> <gi>add</gi> <gi>additional</gi> <gi>additions</gi>
               <gi>addName</gi> <gi>addrLine</gi> <gi>adminInfo</gi> <gi>affiliation</gi> <gi>anchor</gi>
-              <gi>annotation</gi> <gi>authority</gi> <gi>availability</gi> <gi>bindingDesc</gi> <gi>birth</gi>
-              <gi>bloc</gi> <gi>calendarDesc</gi> <gi>catDesc</gi> <gi>category</gi> <gi>change</gi> <gi>choice</gi>
-              <gi>cit</gi> <gi>citedRange</gi> <gi>classDecl</gi> <gi>collation</gi> <gi>colophon</gi>
+              <gi>authority</gi> <gi>availability</gi> <gi>bindingDesc</gi> <gi>birth</gi>
+              <gi>bloc</gi> <gi>calendarDesc</gi> <gi>catDesc</gi> <gi>category</gi> <gi>choice</gi>
+              <gi>cit</gi> <gi>classDecl</gi> <gi>collation</gi> <gi>colophon</gi>
               <gi>condition</gi> <gi>corr</gi> <gi>correction</gi> <gi>creation</gi> <gi>death</gi> <gi>decoDesc</gi>
               <gi>del</gi> <gi>depth</gi> <gi>desc</gi> <gi>district</gi> <gi>edition</gi> <gi>editionStmt</gi>
               <gi>encodingDesc</gi> <gi>expan</gi> <gi>explicit</gi> <gi>extent</gi> <gi>f</gi> <gi>finalRubric</gi>
@@ -4543,7 +5336,7 @@
           <row corresp="#tier-export-only">
             <cell>export only</cell>
             <cell>
-              <gi>citeData</gi> <gi>citeStructure</gi> <gi>link</gi> <gi>linkGrp</gi>
+              <gi>citeData</gi> <gi>citeStructure</gi> <gi>link</gi>
             </cell>
           </row>
         </table>
@@ -4594,6 +5387,11 @@
           <specGrpRef target="#manuscripts-decoration-specs"/>
           <specGrpRef target="#manuscripts-binding-specs"/>
           <specGrpRef target="#manuscripts-history-specs"/>
+          <specGrpRef target="#editions-pages-specs"/>
+          <specGrpRef target="#editions-biblatex-specs"/>
+          <specGrpRef target="#exports-annotations-specs"/>
+          <specGrpRef target="#exports-reuse-specs"/>
+          <specGrpRef target="#exports-history-specs"/>
 
         </schemaSpec>
       </div>
@@ -5298,12 +6096,29 @@
           <bibl xml:id="source-C.SOI-0744"><idno>C.SOI-0744</idno>: <title>Council of Soissons, 744</title>, ed.
             <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> I, MGH Concilia 2.1 (Hannover
             and Leipzig, <date>1906</date>), pp. 33–36.</bibl>
+          <bibl xml:id="source-C.SOI-0744-export"><idno>C.SOI-0744</idno>, exported: <title>Council of Soissons,
+              744</title>, from the edition of <editor>Albert Werminghoff</editor>, as the template
+            <code>export.xml</code> gives it, as the application would export it; the ids, the records' numbers, the
+            release and the hit of text reuse are made up.</bibl>
           <bibl xml:id="source-C.VLA-0549"><idno>C.VLA-0549</idno>: <title>Council of Valencia, 549</title>, ed.
             <editor>José Vives</editor>, <title>Concilios visigóticos e hispano-romanos</title>, España Cristiana 1
             (Barcelona and Madrid, <date>1963</date>), pp. 61–64.</bibl>
+          <bibl xml:id="source-C.CON-0381-v5"><idno>C.CON-0381-v5</idno>: <title>First Council of Constantinople,
+              381</title>, ed. <editor>Adolf Martin Ritter</editor>, in <title>The oecumenical councils: from Nicaea I
+              to Nicaea II (325-787)</title>, ed. <editor>Giuseppe Alberigo</editor>, Corpus Christianorum,
+            Conciliorum Oecumenicorum Generaliumque Decreta 1 (Turnhout, <date>2006</date>), pp. 35–70: the file's
+            description of its edition.</bibl>
+          <bibl xml:id="source-D.CEL-0428-369"><idno>D.CEL-0428-369</idno>: <title>Celestine I, letter to the bishops
+              of Vienne and Narbonne, 428</title>, ed. <editor>Pierre Coustant</editor>, <title>Epistolae Romanorum
+              pontificum</title> I (Paris, <date>1721</date>), cols. 1065–1072: the file's description of its
+            edition.</bibl>
           <bibl xml:id="source-COLL.400.ms-Mun-BSB-4592"><idno>COLL.400.ms-Mun-BSB-4592</idno>: <title>Collectio 400
               capitulorum</title>, transcribed by the project from Munich, Bayerische Staatsbibliothek, Clm
             4592.</bibl>
+          <bibl xml:id="source-COLL.Benedictus"><idno>COLL.Benedictus</idno>: <title>Collection of Benedictus
+              Levita</title>, put together by the project from the edition of <editor>Georg Heinrich Pertz</editor>,
+            MGH Leges 2.2 (Hannover, <date>1837</date>), pp. 17–158, and <editor>Gerhard Schmitz</editor>'s of Additio
+            1 (2008): the file's description of its sources.</bibl>
           <bibl xml:id="source-COLL.Dach"><idno>COLL.Dach</idno>: <title>Collectio Dacheriana</title>, ed.
             <editor>Luc d'Achery</editor>, <title>Spicilegium</title>, vol. 11 (Paris, <date>1723</date>),
             pp. 1–200.</bibl>
