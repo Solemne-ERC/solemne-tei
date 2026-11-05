@@ -107,11 +107,6 @@
           <attDef ident="period" mode="delete"/>
         </attList>
       </classSpec>
-      <!-- A unit's date is in the one form; date-calendar, below, requires its calendar. The Bodleian's module,
-           which the schema takes until our own description replaces it, has a rule of its own for it. -->
-      <elementSpec ident="origDate" module="msdescription" mode="change" corresp="#tier-full">
-        <constraintSpec ident="origDate.check" scheme="schematron" mode="delete"/>
-      </elementSpec>
     </specGrp>
   </div>
 

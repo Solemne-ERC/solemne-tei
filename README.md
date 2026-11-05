@@ -96,8 +96,7 @@ SHA-256:
 | The Bodleian's consolidated TEI schema, `msdesc.odd` | commit `7e8b89c` | <https://github.com/msDesc/consolidated-tei-schema> |
 | SchXslt2 | 1.11.3 | <https://codeberg.org/SchXslt/schxslt2> |
 
-The build runs with SaxonC-HE: TEI's `odd2odd` compiles the Bodleian's ODD, then ours, which takes its manuscript
-description module from the Bodleian's; `odd2relax` writes the RelaxNG; `extract-isosch` extracts the Schematron;
+The build runs with SaxonC-HE: TEI's `odd2odd` compiles the ODD; `odd2relax` writes the RelaxNG; `extract-isosch` extracts the Schematron;
 SchXslt2 compiles it to XSLT. The development install pins SaxonC-HE's version, since the compiled Schematron
 differs between versions; the package itself works with a range of them.
 
@@ -127,6 +126,6 @@ The code and the schema are under the MIT licence ([LICENSE](LICENSE)); the guid
 - **SchXslt2**, by David Maus, under the MIT licence: its code is in the compiled Schematron,
   `solemne-schematron.xsl`, which carries its copyright line and licence.
 - **The Bodleian Libraries' consolidated TEI schema**, by James Cummings and the Bodleian Libraries, University of
-  Oxford, under the BSD 2-Clause licence: the schema takes its manuscript description module.
+  Oxford, under the BSD 2-Clause licence: the schema's manuscript description is modelled on it.
 - **TEI's stylesheets**, by the TEI Consortium, distributed under CC BY-SA 3.0 and the BSD 2-Clause licence: they
   generate the schema. They're fetched by the build, not distributed with this package.

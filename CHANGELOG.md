@@ -7,6 +7,32 @@ Each release says what changed, and whether files that passed may now fail.
 
 ### What changes for existing files
 
+- **Manuscript descriptions, our own:** the schema takes TEI P5's manuscript description module, restricted to the
+  guide's profile, in place of the Bodleian Libraries' consolidated schema. Descriptions that passed may now fail:
+  - 21 of the module's elements are left out, each said another way: `accMat`, `catchwords`, `custEvent`,
+    `custodialHist`, `dim`, `filiation`, `heraldry`, `material`, `msFrag`, `msItemStruct`, `musicNotation`,
+    `objectType`, `scriptDesc`, `scriptNote`, `seal`, `sealDesc`, `secFol`, `signatures`, `stamp`, `typeDesc`,
+    `typeNote`, `watermark`; so are `msItem/@class`, `handDesc/@hands`, `handNote`'s `@scribe`, `@scribeRef`,
+    `@scriptRef` and `@medium`, and the Bodleian's additions (`collation/@mainStructures`, `layout/@topLine`,
+    `layout/@rulingMedium`);
+  - `altIdentifier` is typed `former`, `siglum` or `code` (`alt-identifier-type`); `origDate/@type` is `undated`
+    or nothing (`orig-date-type`); `binding/@contemporary` is `true`, `false` or `unknown` (`binding-contemporary`);
+  - new errors: inside a description, only the profile's elements, in their places, and the prose's `locus`, names,
+    `title`, `date`, `foreign`, `hi` and `ref` (`description-elements`): contents and the physical description go on
+    a unit, the manuscript's own physical description holds the binding alone, and `num` is left out; every unit
+    is dated, or said undated by `origDate type="undated"` (`unit-dated`); dimensions give their unit
+    (`dimensions-unit`); a binding is dated or says whether it's contemporary (`binding-dated`); a `@hand` pointing
+    into the file points to a `handNote` (`hand-declared`);
+  - new warnings: an item without its folios (`item-locus`); an object's form, a support's material, a hand's script
+    and execution, and a decoration's type outside their vocabularies' seeds (`form-term`, `material-term`,
+    `script-term`, `execution-term`, `decoration-term`);
+  - the Bodleian's own rules go, among them its warnings on an item's language;
+  - `hi` joins the schema, for italics and the like in a description's prose; `handNote` gains `@execution`;
+    `ref/@type` gains `iiif`, for a manuscript's IIIF manifests in `surrogates`.
+
+  On the corpus's 38 descriptions: 110 new errors of `description-elements` (60 `num`, 37 physical descriptions of
+  the whole manuscript, 9 contents on the manuscript, 3 `filiation`, a unit's binding), 56 items without folios, 86
+  new RelaxNG errors (73 `altIdentifier`s, 7 `msItem/@class`, `filiation`), and the Bodleian's 35 warnings gone.
 - **Dates, in one form:** a date's bounds in TEI's W3C attributes, its EDTF in `@when-custom`, `@from-custom` and
   `@to-custom` with `@datingMethod="#edtf"`. TEI's other forms of the same date are left out: the ISO attributes
   (`@when-iso`, …), `@period`, `@datingPoint`, `@notBefore-custom` and `@notAfter-custom`. No file of the corpus uses
@@ -33,6 +59,11 @@ Each release says what changed, and whether files that passed may now fail.
   an `idno` typed by the authority. Notes of links keep the links to other pages. The corpus's 294 Mirabile links
   in notes of links are reported.
 - **Extra fields:** `fs` and `f` join the schema, for a record's fields that no element holds.
+
+### The package
+
+- The build no longer compiles the Bodleian's ODD for the schema, and the generated files no longer carry its notice:
+  they hold none of its material.
 
 ### The guide
 

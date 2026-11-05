@@ -142,7 +142,8 @@
     </egXML>
     <p>The application reads a statement as three annotations: the reference, the quotation with its source, and the
       attribution, the source the reference claims. A reference whose claim sits in a heading rather than in the
-      text's words is typed <val>from_paratext</val>, the only type a reference takes. A quotation has no type: its
+      text's words is typed <val>from_paratext</val>, the only type a reference in the text takes; a link to a
+      manuscript's images is typed <val>iiif</val> (<ptr target="#manuscripts"/>). A quotation has no type: its
       source goes in <att>source</att>. A formula, and every other <gi>seg</gi>, has a type from its closed list.</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="reference-type-unknown">
       <cit><ref type="paratext">Dominus ait:</ref><!-- breaks the rule --> <quote source="MAT_5_3">Beati pauperes</quote></cit>
@@ -231,6 +232,9 @@
             <valList type="closed" mode="replace" xml:id="reference-type-unknown" corresp="#tier-full">
               <valItem ident="from_paratext">
                 <desc>a statement's reference whose claim sits in a heading</desc>
+              </valItem>
+              <valItem ident="iiif">
+                <desc>in a manuscript's surrogates: a IIIF manifest of its images</desc>
               </valItem>
             </valList>
           </attDef>

@@ -1,7 +1,14 @@
 {
   "SPDX-License-Identifier": "MIT",
-  "generated": "Generated from solemne.odd 0.2.0 (SHA-256 6a98217cdcbfef096ff113b8e560ac6da34627695cc37c7b58870a17eafd7cb0) by solemne-tei build. Edit the ODD, not this file.",
+  "generated": "Generated from solemne.odd 0.2.0 (SHA-256 75a18c3e279ea719a2323eefc5c09d40ec06e9dd63fa7b68027e01ab6c9b52a9) by solemne-tei build. Edit the ODD, not this file.",
   "lists": {
+    "altIdentifier": {
+      "type": [
+        "code",
+        "former",
+        "siglum"
+      ]
+    },
     "annotation": {
       "motivation": [
         "assessing",
@@ -72,6 +79,13 @@
       "status": [
         "free",
         "restricted",
+        "unknown"
+      ]
+    },
+    "binding": {
+      "contemporary": [
+        "false",
+        "true",
         "unknown"
       ]
     },
@@ -159,13 +173,6 @@
         "work"
       ]
     },
-    "layout": {
-      "topLine": [
-        "above",
-        "below",
-        "mixed"
-      ]
-    },
     "normalization": {
       "method": [
         "markup",
@@ -180,6 +187,11 @@
         "links",
         "parallel",
         "source"
+      ]
+    },
+    "origDate": {
+      "type": [
+        "undated"
       ]
     },
     "ptr": {
@@ -209,7 +221,8 @@
     },
     "ref": {
       "type": [
-        "from_paratext"
+        "from_paratext",
+        "iiif"
       ]
     },
     "relation": {

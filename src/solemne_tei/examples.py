@@ -55,7 +55,7 @@ HOST = f"""<TEI xmlns="{TEI}">
   </text>
 </TEI>"""
 
-# The minimal description a part of a manuscript's description is placed in: the manuscript and its one unit.
+# The minimal description a part of a manuscript's description is placed in: the manuscript and its one unit, dated.
 DESCRIPTION = f"""<msDesc xmlns="{TEI}">
   <msIdentifier>
     <settlement>Nowhere</settlement>
@@ -66,6 +66,11 @@ DESCRIPTION = f"""<msDesc xmlns="{TEI}">
     <msIdentifier>
       <idno>A</idno>
     </msIdentifier>
+    <history>
+      <origin>
+        <origDate notBefore="0801" notAfter="0900" calendar="#gregorian">sec. IX</origDate>
+      </origin>
+    </history>
   </msPart>
 </msDesc>"""
 DESCRIPTION_PATH = "teiHeader/fileDesc/sourceDesc/msDesc"
@@ -149,10 +154,30 @@ PARENT = {
     "div": "text/body",
     "head": "text/body",
     "p": "text/body",
+    "msIdentifier": DESCRIPTION_PATH,
+    "msPart": DESCRIPTION_PATH,
+    "bindingDesc": f"{DESCRIPTION_PATH}/physDesc",
+    "binding": f"{DESCRIPTION_PATH}/physDesc/bindingDesc",
+    "additional": DESCRIPTION_PATH,
+    "adminInfo": f"{DESCRIPTION_PATH}/additional",
+    "surrogates": f"{DESCRIPTION_PATH}/additional",
+    "msContents": UNIT,
+    "msItem": f"{UNIT}/msContents",
+    "physDesc": UNIT,
+    "objectDesc": f"{UNIT}/physDesc",
+    "supportDesc": f"{UNIT}/physDesc/objectDesc",
+    "layoutDesc": f"{UNIT}/physDesc/objectDesc",
+    "handDesc": f"{UNIT}/physDesc",
+    "handNote": f"{UNIT}/physDesc/handDesc",
+    "decoDesc": f"{UNIT}/physDesc",
+    "decoNote": f"{UNIT}/physDesc/decoDesc",
+    "additions": f"{UNIT}/physDesc",
     "history": UNIT,
     "origin": f"{UNIT}/history",
     "origDate": f"{UNIT}/history/origin",
     "origPlace": f"{UNIT}/history/origin",
+    "provenance": f"{UNIT}/history",
+    "acquisition": f"{UNIT}/history",
 }
 # TEI's order of the children that the host makes, so that a part made later stands where TEI puts it.
 ORDER = {
@@ -169,10 +194,28 @@ ORDER = {
     ),
     "encodingDesc": ("projectDesc", "samplingDecl", "editorialDecl", "refsDecl", "classDecl", "listPrefixDef"),
     "titleStmt": ("title", "author", "editor", "respStmt", "funder", "sponsor", "principal"),
+    "msDesc": ("msIdentifier", "msContents", "physDesc", "history", "additional", "msPart"),
     "msPart": ("msIdentifier", "msContents", "physDesc", "history", "additional"),
+    "physDesc": ("objectDesc", "handDesc", "decoDesc", "additions", "bindingDesc"),
+    "objectDesc": ("supportDesc", "layoutDesc"),
+    "history": ("origin", "provenance", "acquisition"),
+    "additional": ("adminInfo", "surrogates", "listBibl"),
 }
-# Fragments that replace the host's own element rather than join it.
-REPLACES = {"teiHeader", "text", "fileDesc", "titleStmt", "publicationStmt", "sourceDesc", "body"}
+# Fragments that replace the host's own element rather than join it: the header's, and the minimal description's
+# identifier and date.
+REPLACES = {
+    "teiHeader",
+    "text",
+    "fileDesc",
+    "titleStmt",
+    "publicationStmt",
+    "sourceDesc",
+    "body",
+    "msIdentifier",
+    "history",
+    "origin",
+    "origDate",
+}
 
 
 @dataclass(frozen=True)

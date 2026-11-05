@@ -1,15 +1,14 @@
 # SPDX-License-Identifier: MIT
 """Generate the schema from the ODD.
 
-Fetches TEI P5's `p5subset.xml`, TEI's schema for ODD files, TEI's stylesheets, the Bodleian's consolidated msDesc
-ODD with its licence, and SchXslt2 at pinned versions, checked by SHA-256, into the cache. First it expands our ODD,
-`guide/solemne.odd` with its parts in `guide/chapters/` included by XInclude, and checks the expanded ODD against
-TEI's schema for ODD files, its RelaxNG and the Schematron rules embedded in it, as Oxygen does; it stops if the ODD
-isn't valid, naming each error's part and line. Then, with SaxonC-HE: compiles the Bodleian's ODD and ours with TEI's
-`odd2odd` (ours takes its `msdescription` module from the Bodleian's), writes the RelaxNG with `odd2relax`, extracts
-the Schematron with `extract-isosch`, and compiles it to XSLT with SchXslt2. It keeps the expanded and the compiled
-ODD, and writes the closed lists as `closed-lists.json`. Each generated file names the ODD it came from by its version
-and the expanded ODD's SHA-256, and carries the notices of the material it contains.
+Fetches TEI P5's `p5subset.xml`, TEI's schema for ODD files, TEI's stylesheets, the Bodleian's consolidated msDesc ODD
+with its licence, and SchXslt2 at pinned versions, checked by SHA-256, into the cache. First it expands our ODD,
+`guide/solemne.odd` with its parts in `guide/chapters/` included by XInclude, and checks the expanded ODD against TEI's
+schema for ODD files, its RelaxNG and the Schematron rules embedded in it, as Oxygen does; it stops if the ODD isn't
+valid, naming each error's part and line. Then, with SaxonC-HE: compiles our ODD with TEI's `odd2odd`, writes the
+RelaxNG with `odd2relax`, extracts the Schematron with `extract-isosch`, and compiles it to XSLT with SchXslt2. It keeps
+the expanded and the compiled ODD, and writes the closed lists as `closed-lists.json`. Each generated file names the ODD
+it came from by its version and the expanded ODD's SHA-256, and carries the notices of the material it contains.
 
 The build runs in a clone of the repository: it reads `guide/` and writes into the package's `schema/`.
 """
@@ -53,9 +52,6 @@ from solemne_tei.validate import Validator
 REPOSITORY = Path(__file__).resolve().parents[2]
 ODD_PATH = REPOSITORY / "guide" / ODD
 CACHE_DIR = REPOSITORY / "build" / "tei"
-
-# The name the ODD gives the Bodleian's compiled ODD, in `moduleRef/@source`; the build puts it next to our ODD.
-MSDESC_COMPILED = "msdesc.compiled.odd"
 
 SPDX = "<!-- SPDX-License-Identifier: MIT -->"
 SPDX_GUIDE = "<!-- SPDX-License-Identifier: CC-BY-4.0 -->"
@@ -347,15 +343,12 @@ def comment(text: str) -> str:
 
 
 def credits_notice(tools: Tools) -> str:
-    """TEI P5's and the Bodleian's copyright lines and licences, for the top of every generated file."""
+    """TEI P5's copyright line and licences, for the top of every generated file."""
     return comment(
         f"This schema is made from TEI P5 {P5SUBSET.version} by the TEI Consortium (https://tei-c.org/), which"
         " distributes it under the Creative Commons Attribution 3.0 Unported licence"
         " (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:\n\n"
-        f"{tools.tei_licence}\n\n"
-        "Its manuscript description module comes from the Bodleian Libraries' consolidated TEI schema"
-        f" (https://github.com/msDesc/consolidated-tei-schema, commit {MSDESC.version}), under its licence:\n\n"
-        f"{tools.msdesc_licence}"
+        f"{tools.tei_licence}"
     )
 
 
@@ -400,15 +393,10 @@ def stylesheet_params(tools: Tools) -> dict[str, str]:
 
 
 def compile_odd(saxon: Saxon, tools: Tools, source: Path, compiled: Path) -> None:
-    """Compile an ODD with TEI's `odd2odd`, after the Bodleian's, which it takes its `msdescription` module from:
-    the Bodleian's compiled ODD is written beside the source, under the name the source's `moduleRef` gives."""
-    odd2odd = tools.stylesheets / "odds" / "odd2odd.xsl"
-    common = stylesheet_params(tools)
-    logger.info("Compiling the Bodleian's ODD")
-    shutil.copy(tools.msdesc, source.parent / "msdesc.odd")
-    (source.parent / MSDESC_COMPILED).write_text(saxon.run(odd2odd, source.parent / "msdesc.odd", **common), "utf-8")
+    """Compile an ODD with TEI's `odd2odd`."""
     logger.info("Compiling %s", source.name)
-    compiled.write_text(saxon.run(odd2odd, source, **common), "utf-8")
+    odd2odd = tools.stylesheets / "odds" / "odd2odd.xsl"
+    compiled.write_text(saxon.run(odd2odd, source, **stylesheet_params(tools)), "utf-8")
 
 
 def build(odd: Path = ODD_PATH, out: Path = SCHEMA_DIR, cache: Path = CACHE_DIR) -> list[Path]:

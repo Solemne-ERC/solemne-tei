@@ -215,7 +215,14 @@ def test_a_formal_title_replaces_the_host_s_and_a_description_its_paragraph() ->
 
 # The vocabularies a Schematron rule warns outside of: the rule, and the element and attribute whose semi-open list
 # holds the same terms.
-VOCABULARIES = {"relation-term": ("relation", "name")}
+VOCABULARIES = {
+    "relation-term": ("relation", "name"),
+    "form-term": ("objectDesc", "form"),
+    "material-term": ("supportDesc", "material"),
+    "script-term": ("handNote", "script"),
+    "execution-term": ("handNote", "execution"),
+    "decoration-term": ("decoNote", "type"),
+}
 
 
 @pytest.mark.parametrize("rule", sorted(VOCABULARIES))
