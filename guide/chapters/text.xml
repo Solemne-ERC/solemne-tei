@@ -15,7 +15,7 @@
     that the schema takes for the header or the records, such as <gi>orgName</gi>, fails the Schematron when it stands
     in the text.</p>
   <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="element-outside-the-schema">
-    <p>Placuit ut <hi rend="italic">episcopi</hi> maneant.</p><!-- breaks the rule -->
+    <p>Placuit ut <emph>episcopi</emph> maneant.</p><!-- breaks the rule -->
   </egXML>
   <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="text-elements">
     <p>Placuit ut episcopi <orgName>ecclesiae</orgName> maneant.</p>

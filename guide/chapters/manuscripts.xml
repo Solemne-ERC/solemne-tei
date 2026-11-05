@@ -1,89 +1,857 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="manuscripts" n="VIII">
+<div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+  xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="manuscripts" n="VIII">
   <head>Manuscripts</head>
-  <p>This part's prose comes in a later version of the guide.</p>
+  <p>A manuscript is described once, in an <gi>msDesc</gi>: in the source description of a file that transcribes a
+    text from it (<ptr target="#file-and-header"/>), or as a record in a <gi>listBibl</gi> (<ptr target="#records"/>).
+    The description is TEI's own, restricted to what the application holds of a manuscript: the manuscript, its
+    codicological units, each unit's contents and physical description, its hands and decoration, the binding, and
+    the history of each. It is modelled on the Bodleian Libraries' guidelines for their catalogues, whose
+    descriptions the project converts into its own (<ptr target="#manuscripts-bodleian"/>).</p>
+  <p>The import makes the manuscript's record, its units, and an item for each text, joined to the work's record; it
+    makes the relations a description states: where a unit was made, who owned the manuscript, which scribe a hand
+    was. An export writes the same form. Everything in a description is <hi>full</hi>.</p>
 
-  <p>Counter-examples of this part's rules: each breaks the rule its <att>n</att> names.</p>
-  <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="manuscript-unit">
-    <msDesc>
+  <div xml:id="manuscripts-description">
+    <head>The description and the manuscript's identifier</head>
+    <p>A description holds the manuscript's identifier; its binding, in a physical description of its own; the
+      history of the whole book, where its units were joined and who has owned it since; what is additional, its
+      images, literature and sources; and its units, one at least, each with its contents, physical description and
+      history. The Collectio 400 capitulorum's manuscript, Munich, Clm 4592, in short: the binding and the
+      additional are left out, and of its three units, the one that holds the collection:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+      <msDesc>
+        <msIdentifier>
+          <settlement ref="#new_place_muenchen">München</settlement>
+          <repository ref="#new_org_bsb">Bayerische Staatsbibliothek</repository>
+          <idno type="shelfmark">Clm 4592</idno>
+        </msIdentifier>
+        <history>
+          <provenance><orgName ref="#new_org_benediktbeuern">SS. Benedikt und Jakob</orgName>,
+            Benediktbeuern</provenance>
+        </history>
+        <msPart n="3">
+          <msIdentifier>
+            <idno>3, ff. 120–207</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem n="1" corresp="COLL.400.ms-Mun-BSB-4592">
+              <locus from="158r" to="207v">ff. 158r–207v</locus>
+              <title ref="#new_work_collectio_cd">Collectio CD capitulorum</title>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc form="codex">
+              <supportDesc material="perg">
+                <support>membr.</support>
+                <extent>ff. 120–207, of ff. II, 207, II' in all <dimensions type="leaf" unit="mm">
+                    <height>240</height>
+                    <width>160</width>
+                  </dimensions></extent>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+          <history>
+            <origin>
+              <origPlace ref="#new_place_salzburg">Salzburg</origPlace>
+              <origDate notBefore="0826" notAfter="0850" calendar="#gregorian">sec. IX secondo quarto</origDate>
+            </origin>
+          </history>
+        </msPart>
+      </msDesc>
+    </egXML>
+    <p>The file gives the physical description of the whole book too, and repeats it in each unit; the leaves are
+      wrapped in <gi>num</gi>, the places and the library have no records, the units are numbered 11, 22 and 33, and
+      the items point to the works by <att>key</att>. The template <code>manuscript-collection.xml</code> holds the
+      whole description. Here, as everywhere in this part, the example is revised to the guide's forms.</p>
+    <p>The identifier names the manuscript's country, region and town, and its library, each pointing to its record
+      by <att>ref</att>; the library's fonds, where it has one, in <gi>collection</gi>, the shelfmark still written
+      whole in <gi>idno</gi> typed <val>shelfmark</val>; the manuscript's ids in other catalogues, each an
+      <gi>idno</gi> typed by the authority (<ptr target="#records-external-ids"/>); its other identifiers, each an
+      <gi>altIdentifier</gi> typed <val>former</val> (a former shelfmark), <val>siglum</val> (an editor's siglum) or
+      <val>code</val> (the short code that files of the manuscript carry, <code>Mun-BSB-4592</code>); and its
+      conventional names, in <gi>msName</gi>, one per language. A made-up manuscript:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <msIdentifier>
+        <country ref="#new_place_exemplia">Exemplia</country>
+        <region ref="#new_place_exemplia_borealis">Exemplia borealis</region>
+        <settlement ref="#new_place_exemplum">Exemplum</settlement>
+        <repository ref="#new_org_bibliotheca_exemplensis">Bibliotheca Exemplensis</repository>
+        <collection ref="#new_org_codices_canonici">Codices canonici</collection>
+        <idno type="shelfmark">Can. 12</idno>
+        <idno type="mirabile">123456</idno>
+        <altIdentifier type="former">
+          <idno>Theol. 7</idno>
+        </altIdentifier>
+        <altIdentifier type="siglum">
+          <idno>E</idno>
+        </altIdentifier>
+        <msName xml:lang="la">Codex Exemplensis</msName>
+      </msIdentifier>
+    </egXML>
+    <p>A description holds only the elements this part names, each in its place: the contents and the physical
+      description on a unit; on the manuscript, a physical description of the binding alone; no unit inside a unit;
+      in <gi>adminInfo</gi>, the record's history alone; terms in a binding. Its prose, beside every value, holds a
+      small set, so that what it mentions stays readable: <gi>locus</gi>; <gi>persName</gi>, <gi>placeName</gi> and
+      <gi>orgName</gi> with <att>ref</att>; <gi>title</gi> with <att>ref</att>; <gi>date</gi>; <gi>foreign</gi>;
+      <gi>hi</gi>, for italics and the like; and <gi>ref</gi>. A bibliography inside it keeps the forms of Part IX.
+      Not the diplomatic set of the Bodleian's catalogues (<gi>am</gi>, <gi>ex</gi>, <gi>supplied</gi>,
+      <gi>damage</gi>, <gi>fw</gi>, <gi>figure</gi>, <gi>formula</gi>, verse): quoting the manuscript is what
+      transcriptions do. A count of leaves is words, without <gi>num</gi>. Each of these is an error; a description
+      without a unit is one too:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="manuscript-unit">
+      <msDesc>
+        <msIdentifier>
+          <settlement>Nowhere</settlement>
+          <repository>National Library</repository>
+          <idno type="shelfmark">MS 12</idno>
+        </msIdentifier>
+      </msDesc>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="description-elements">
+      <supportDesc material="perg">
+        <support>Parchment.</support>
+        <extent>ff. <num>207</num><!-- breaks the rule --></extent>
+      </supportDesc>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="alt-identifier-type">
       <msIdentifier>
         <settlement>Nowhere</settlement>
         <repository>National Library</repository>
         <idno type="shelfmark">MS 12</idno>
+        <altIdentifier type="full_shelfmark"><!-- breaks the rule -->
+          <idno>Nowhere, National Library, MS 12</idno>
+        </altIdentifier>
       </msIdentifier>
-    </msDesc>
-  </egXML>
+    </egXML>
+    <specGrp xml:id="manuscripts-description-specs">
+      <!-- A description has at least one unit, and holds only the profile's elements, in their places. -->
+      <elementSpec ident="msDesc" module="msdescription" mode="change" corresp="#tier-full">
+        <constraintSpec ident="manuscript-unit" scheme="schematron" corresp="#tier-full">
+          <desc>A manuscript's description has at least one codicological unit.</desc>
+          <constraint>
+            <sch:rule context="tei:msDesc">
+              <sch:assert id="manuscript-unit" test="tei:msPart">A manuscript's description has at least one
+                codicological unit (msPart), with its own identifier: the unit holds the physical description, the
+                date, the hands and the decoration.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="description-elements" scheme="schematron" corresp="#tier-full">
+          <desc>Inside a description, only the profile's elements, in their places, and the prose's phrase-level
+            elements.</desc>
+          <constraint>
+            <!-- The literature and the names keep their own forms (Parts V and IX), so what they hold isn't looked
+                 at here. -->
+            <sch:rule context="tei:msDesc//*[not(ancestor::*[self::tei:bibl or self::tei:biblStruct or self::tei:listBibl
+              or self::tei:persName or self::tei:placeName or self::tei:orgName][ancestor::tei:msDesc])]">
+              <sch:let name="profile" value="('msIdentifier', 'country', 'region', 'settlement', 'institution',
+                'repository', 'collection', 'idno', 'altIdentifier', 'msName', 'msPart', 'msContents', 'summary',
+                'textLang', 'msItem', 'locus', 'locusGrp', 'author', 'title', 'rubric', 'incipit', 'explicit',
+                'finalRubric', 'colophon', 'note', 'bibl', 'biblStruct', 'listBibl', 'physDesc', 'p', 'objectDesc',
+                'supportDesc', 'support', 'extent', 'dimensions', 'height', 'width', 'depth', 'foliation',
+                'collation', 'condition', 'layoutDesc', 'layout', 'handDesc', 'handNote', 'decoDesc', 'decoNote',
+                'additions', 'bindingDesc', 'binding', 'term', 'history', 'origin', 'origDate', 'origPlace',
+                'provenance', 'acquisition', 'additional', 'adminInfo', 'recordHist', 'source', 'surrogates',
+                'persName', 'placeName', 'orgName', 'date', 'foreign', 'hi', 'ref')"/>
+              <!-- The places: contents on a unit; on the manuscript, a physical description of the binding alone,
+                   and a binding only there; no unit inside a unit; the record's history alone in adminInfo; terms
+                   in a binding. -->
+              <sch:let name="placed" value="(not(self::tei:msContents) or parent::tei:msPart) and
+                (not(parent::tei:physDesc/parent::tei:msDesc) or self::tei:bindingDesc) and (not(self::tei:bindingDesc)
+                or ../parent::tei:msDesc) and (not(self::tei:msPart) or parent::tei:msDesc) and
+                (not(parent::tei:adminInfo) or self::tei:recordHist) and (not(self::tei:term) or
+                ancestor::tei:binding)"/>
+              <sch:assert id="description-elements" test="local-name() = $profile and $placed">&lt;<sch:name/>&gt;
+                isn't one of a manuscript description's elements here. A description holds the profile's elements in
+                their places: the contents and the physical description on a unit, the binding alone on the
+                manuscript, no unit inside a unit; its prose holds only locus, names, title, date, foreign, hi and
+                ref.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+      </elementSpec>
 
-  <specGrp xml:id="manuscripts-specs">
-    <!-- A description has at least one codicological unit. -->
-    <elementSpec ident="msDesc" module="msdescription" mode="change" corresp="#tier-full">
-      <constraintSpec ident="manuscript-unit" scheme="schematron" corresp="#tier-full">
-        <desc>A manuscript's description has at least one codicological unit.</desc>
-        <constraint>
-          <sch:rule context="tei:msDesc">
-            <sch:assert id="manuscript-unit" test="tei:msPart">A manuscript's description has at least one
-              codicological unit (msPart), with its own identifier: the unit holds the physical description, the
-              date, the hands and the decoration.</sch:assert>
-          </sch:rule>
-        </constraint>
-      </constraintSpec>
-    </elementSpec>
+      <!-- The manuscript's place, library and fonds point to their records. -->
+      <elementSpec ident="country" module="namesdates" mode="change" corresp="#tier-common">
+        <attList>
+          <attDef ident="ref" mode="change" corresp="#tier-full">
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.recordPointer"/>
+            </datatype>
+          </attDef>
+        </attList>
+      </elementSpec>
+      <elementSpec ident="region" module="namesdates" mode="change" corresp="#tier-full">
+        <attList>
+          <attDef ident="ref" mode="change" corresp="#tier-full">
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.recordPointer"/>
+            </datatype>
+          </attDef>
+        </attList>
+      </elementSpec>
+      <elementSpec ident="settlement" module="namesdates" mode="change" corresp="#tier-common">
+        <attList>
+          <attDef ident="ref" mode="change" corresp="#tier-full">
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.recordPointer"/>
+            </datatype>
+          </attDef>
+        </attList>
+      </elementSpec>
+      <elementSpec ident="institution" module="msdescription" mode="change" corresp="#tier-full">
+        <attList>
+          <attDef ident="ref" mode="change" corresp="#tier-full">
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.recordPointer"/>
+            </datatype>
+          </attDef>
+        </attList>
+      </elementSpec>
+      <elementSpec ident="repository" module="msdescription" mode="change" corresp="#tier-full">
+        <attList>
+          <attDef ident="ref" mode="change" corresp="#tier-full">
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.recordPointer"/>
+            </datatype>
+          </attDef>
+        </attList>
+      </elementSpec>
+      <elementSpec ident="collection" module="msdescription" mode="change" corresp="#tier-full">
+        <attList>
+          <attDef ident="ref" mode="change" corresp="#tier-full">
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.recordPointer"/>
+            </datatype>
+          </attDef>
+        </attList>
+      </elementSpec>
+      <!-- A manuscript's other identifiers: a former shelfmark, an editor's siglum, the project's short code. -->
+      <elementSpec ident="altIdentifier" module="msdescription" mode="change" corresp="#tier-full">
+        <attList>
+          <attDef ident="type" mode="change" usage="req" corresp="#tier-full">
+            <valList type="closed" mode="replace" xml:id="alt-identifier-type" corresp="#tier-full">
+              <valItem ident="former">
+                <desc>a former shelfmark</desc>
+              </valItem>
+              <valItem ident="siglum">
+                <desc>an editor's siglum for the manuscript</desc>
+              </valItem>
+              <valItem ident="code">
+                <desc>the project's short code for the manuscript, as in a file's code (Mun-BSB-4592)</desc>
+              </valItem>
+            </valList>
+          </attDef>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
 
-    <!-- The manuscript's place and library point to their records. -->
-    <elementSpec ident="country" module="namesdates" mode="change" corresp="#tier-common">
-      <attList>
-        <attDef ident="ref" mode="change" corresp="#tier-full">
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.recordPointer"/>
-          </datatype>
-        </attDef>
-      </attList>
-    </elementSpec>
-    <elementSpec ident="region" module="namesdates" mode="change" corresp="#tier-full">
-      <attList>
-        <attDef ident="ref" mode="change" corresp="#tier-full">
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.recordPointer"/>
-          </datatype>
-        </attDef>
-      </attList>
-    </elementSpec>
-    <elementSpec ident="settlement" module="namesdates" mode="change" corresp="#tier-common">
-      <attList>
-        <attDef ident="ref" mode="change" corresp="#tier-full">
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.recordPointer"/>
-          </datatype>
-        </attDef>
-      </attList>
-    </elementSpec>
-    <elementSpec ident="origPlace" module="msdescription" mode="change" corresp="#tier-full">
-      <attList>
-        <attDef ident="ref" mode="change" corresp="#tier-full">
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.recordPointer"/>
-          </datatype>
-        </attDef>
-      </attList>
-    </elementSpec>
-    <elementSpec ident="repository" module="msdescription" mode="change" corresp="#tier-full">
-      <attList>
-        <attDef ident="ref" mode="change" corresp="#tier-full">
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.recordPointer"/>
-          </datatype>
-        </attDef>
-      </attList>
-    </elementSpec>
-    <elementSpec ident="institution" module="msdescription" mode="change" corresp="#tier-full">
-      <attList>
-        <attDef ident="ref" mode="change" corresp="#tier-full">
-          <datatype minOccurs="1" maxOccurs="unbounded">
-            <dataRef key="solemne.recordPointer"/>
-          </datatype>
-        </attDef>
-      </attList>
-    </elementSpec>
-  </specGrp>
+  <div xml:id="manuscripts-units">
+    <head>Units</head>
+    <p>A unit (<gi>msPart</gi>) is a codicological unit: leaves made together, which the manuscript may have joined to
+      others. Every description has one at least: a manuscript made in one go has one. A unit's identifier is an
+      <gi>idno</gi> without a type, with its number or letter and its leaves (<code>3, ff. 120–207</code>);
+      <att>n</att> gives its order. A unit holds its own contents, physical description and history; the manuscript
+      holds only what belongs to the whole book: its binding, its history since its units were joined, and what is
+      additional. A unit isn't divided into units: a unit made of smaller ones that were once a book of their own is
+      described by its parts, each a unit of the manuscript, with that history in each.</p>
+    <p>Every unit is dated, in its origin's <gi>origDate</gi> (<ptr target="#manuscripts-history"/>), or said undated,
+      by an <gi>origDate</gi> typed <val>undated</val>, holding the source's words if it has any, and no bounds. The
+      import refuses neither, but reports a unit that says nothing:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <origDate type="undated">s. d.</origDate>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="unit-dated">
+      <msPart>
+        <msIdentifier>
+          <idno>B</idno>
+        </msIdentifier>
+      </msPart>
+    </egXML>
+    <specGrp xml:id="manuscripts-units-specs">
+      <!-- Every unit is dated, or said undated. -->
+      <elementSpec ident="msPart" module="msdescription" mode="change" corresp="#tier-full">
+        <constraintSpec ident="unit-dated" scheme="schematron" corresp="#tier-full">
+          <desc>Every unit is dated, or said undated.</desc>
+          <constraint>
+            <sch:rule context="tei:msPart">
+              <sch:assert id="unit-dated" test="tei:history/tei:origin/tei:origDate[@when or @notBefore or @notAfter or
+                @from or @to or @type = 'undated']">A unit is dated, in its origin's origDate with its bounds, or
+                said undated (origDate type="undated").</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="manuscripts-contents">
+    <head>Contents</head>
+    <p>A unit's contents (<gi>msContents</gi>) are its items, each a text in it (<gi>msItem</gi>): its folios, by
+      <gi>locus</gi> with <att>from</att> and <att>to</att>, or <gi>locusGrp</gi> for leaves apart; its
+      <gi>author</gi> and its <gi>title</gi>, each pointing to its record by <att>ref</att>, the title to the work;
+      the manuscript's own words, <gi>rubric</gi>, <gi>incipit</gi>, <gi>explicit</gi>, <gi>finalRubric</gi> and
+      <gi>colophon</gi>; its languages, <gi>textLang</gi>; and notes. An item's parts are items inside it: a
+      collection's register and prefaces, a text copied within another. Contents not listed one by one are said in
+      <gi>summary</gi>. An item that a file transcribes names its transcription by <att>corresp</att>: the file's
+      code, as source notes name documents (<ptr target="#marked-pointers"/>), or, in exports, the transcription's
+      permalink; each file's description can point to every transcription of the manuscript. An item's category is
+      its work's, not the item's. In Clm 4592, the Constitutum Silvestri is excerpted inside the collection:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+      <msContents>
+        <msItem n="1" corresp="COLL.400.ms-Mun-BSB-4592">
+          <locus from="158r" to="207v">ff. 158r–207v</locus>
+          <title ref="#new_work_collectio_cd">Collectio CD capitulorum</title>
+          <textLang mainLang="la">Latin</textLang>
+          <msItem n="2">
+            <locus from="194r" to="195r">ff. 194r–195r</locus>
+            <author ref="#new_person_symmachus_pseudo">Symmachus papa pseudo</author>
+            <title ref="#new_work_constitutum_silvestri">Constitutum Silvestri</title>
+            <note>Excerpts, <foreign xml:lang="la">in collectionem CD capitulorum</foreign>.</note>
+          </msItem>
+        </msItem>
+      </msContents>
+    </egXML>
+    <p>The file lists the excerpts as two more items of the unit, one with the author and one without, with escaped
+      italics in their notes. An item without its folios is reported, since sources often give none:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="item-locus">
+      <msContents>
+        <msItem n="1">
+          <title>Collectio CD capitulorum</title>
+        </msItem>
+      </msContents>
+    </egXML>
+    <specGrp xml:id="manuscripts-contents-specs">
+      <!-- An item has its folios; its category is its work's. -->
+      <elementSpec ident="msItem" module="msdescription" mode="change" corresp="#tier-full">
+        <constraintSpec ident="item-locus" scheme="schematron" corresp="#tier-full">
+          <desc>An item has its folios.</desc>
+          <constraint>
+            <sch:rule context="tei:msItem">
+              <sch:assert id="item-locus" role="warning" test="tei:locus or tei:locusGrp">An item gives its folios,
+                by locus, or locusGrp for leaves apart, where its source gives them.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="class" mode="delete"/>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="manuscripts-physical">
+    <head>The physical description</head>
+    <p>A unit's physical description (<gi>physDesc</gi>) may begin with paragraphs, then holds its parts, each in
+      prose with its values in attributes: the object (<gi>objectDesc</gi>), its form in <att>form</att>
+      (<val>codex</val>, <val>roll</val>, …); its support (<gi>supportDesc</gi>), the material in
+      <att>material</att> (<val>perg</val>, <val>chart</val>, …), described in <gi>support</gi>, with the
+      <gi>extent</gi> in words and the leaves' <gi>dimensions</gi>, their unit always given, <gi>foliation</gi>,
+      <gi>collation</gi> and <gi>condition</gi>; its layout (<gi>layoutDesc</gi>), each <gi>layout</gi> with its
+      <att>columns</att>, <att>ruledLines</att> and <att>writtenLines</att>; then its hands, decoration and
+      additions. A unit's extent may say what the whole book counts. Forms and materials come from vocabularies that
+      grow: a term outside the guide's seeds is reported, to be checked or added to the application's vocabulary
+      (appendix A lists the seeds). Clm 4592's second unit:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+      <physDesc>
+        <objectDesc form="codex">
+          <supportDesc material="perg">
+            <support>membr.</support>
+            <extent>ff. 76–117 (78–119) <dimensions type="leaf" unit="mm">
+                <height>240</height>
+                <width>160</width>
+              </dimensions></extent>
+          </supportDesc>
+          <layoutDesc>
+            <layout columns="2">2 colonne</layout>
+          </layoutDesc>
+        </objectDesc>
+      </physDesc>
+    </egXML>
+    <p>The file gives the material only in words; the vocabulary's <val>perg</val> says it for the application.
+      Dimensions without their unit are an error, and a form or a material outside the seeds is reported:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="dimensions-unit">
+      <supportDesc material="perg">
+        <support>Parchment.</support>
+        <extent>ff. 207 <dimensions type="leaf"><!-- breaks the rule -->
+            <height>250</height>
+            <width>170</width>
+          </dimensions></extent>
+      </supportDesc>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="form-term">
+      <objectDesc form="libellus"><!-- breaks the rule -->
+        <supportDesc material="perg">
+          <support>Parchment.</support>
+        </supportDesc>
+      </objectDesc>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="material-term">
+      <supportDesc material="vellum"><!-- breaks the rule -->
+        <support>Vellum.</support>
+      </supportDesc>
+    </egXML>
+    <specGrp xml:id="manuscripts-physical-specs">
+      <!-- The object's form and its material from their vocabularies; dimensions with their unit. -->
+      <elementSpec ident="objectDesc" module="msdescription" mode="change" corresp="#tier-full">
+        <constraintSpec ident="form-term" scheme="schematron" corresp="#tier-full">
+          <desc>An object's form is one of the vocabulary's seeds, or a new term of it.</desc>
+          <constraint>
+            <sch:rule context="tei:objectDesc[@form]">
+              <sch:let name="terms" value="('codex', 'roll', 'sheet', 'faltbuch', 'roll-codex', 'booklet', 'quire',
+                'other', 'unknown')"/>
+              <sch:assert id="form-term" role="warning" test="@form = $terms">The form <sch:value-of select="@form"/>
+                isn't among the vocabulary's seeds: check its spelling, or add it to the application's
+                vocabulary.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="form" mode="change" corresp="#tier-full">
+            <valList type="semi" mode="replace">
+              <valItem ident="codex"><desc>leaves in gatherings, bound, read by turning them</desc></valItem>
+              <valItem ident="roll"><desc>membranes sewn or glued end to end, read by unrolling</desc></valItem>
+              <valItem ident="sheet"><desc>a single sheet, kept flat or folded, not part of a codex</desc></valItem>
+              <valItem ident="faltbuch"><desc>a codex whose leaves are unfolded rather than turned</desc></valItem>
+              <valItem ident="roll-codex"><desc>a roll folded and bound as a codex</desc></valItem>
+              <valItem ident="booklet"><desc>a gathering of bifolia with a cover, complete in its text</desc></valItem>
+              <valItem ident="quire"><desc>a complete gathering of bifolia, without a cover</desc></valItem>
+              <valItem ident="other"><desc>another form</desc></valItem>
+              <valItem ident="unknown"><desc>the form isn't known</desc></valItem>
+            </valList>
+          </attDef>
+        </attList>
+      </elementSpec>
+      <elementSpec ident="supportDesc" module="msdescription" mode="change" corresp="#tier-full">
+        <constraintSpec ident="material-term" scheme="schematron" corresp="#tier-full">
+          <desc>A support's material is one of the vocabulary's seeds, or a new term of it.</desc>
+          <constraint>
+            <sch:rule context="tei:supportDesc[@material]">
+              <sch:let name="terms" value="('perg', 'chart', 'papyrus', 'palm', 'mixed', 'other', 'unknown')"/>
+              <sch:assert id="material-term" role="warning" test="@material = $terms">The material <sch:value-of
+                  select="@material"/> isn't among the vocabulary's seeds: check its spelling, or add it to the
+                application's vocabulary.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="material" mode="change" corresp="#tier-full">
+            <valList type="semi" mode="replace">
+              <valItem ident="perg"><desc>parchment</desc></valItem>
+              <valItem ident="chart"><desc>paper</desc></valItem>
+              <valItem ident="papyrus"><desc>papyrus</desc></valItem>
+              <valItem ident="palm"><desc>palm leaves</desc></valItem>
+              <valItem ident="mixed"><desc>paper and parchment together</desc></valItem>
+              <valItem ident="other"><desc>another material</desc></valItem>
+              <valItem ident="unknown"><desc>the material isn't known</desc></valItem>
+            </valList>
+          </attDef>
+        </attList>
+      </elementSpec>
+      <elementSpec ident="dimensions" module="msdescription" mode="change" corresp="#tier-full">
+        <constraintSpec ident="dimensions-unit" scheme="schematron" corresp="#tier-full">
+          <desc>Dimensions give their unit.</desc>
+          <constraint>
+            <sch:rule context="tei:dimensions">
+              <sch:assert id="dimensions-unit" test="@unit">Dimensions give their unit (@unit, such as
+                mm).</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="manuscripts-hands">
+    <head>Hands</head>
+    <p>A unit's hands are its <gi>handDesc</gi>'s <gi>handNote</gi>s, one per hand, each with an <att>xml:id</att>,
+      its script and its execution from vocabularies (<att>script</att>, <att>execution</att>, which TEI lacks and
+      the guide adds, as the Bodleian's guidelines do), its share of the unit (<att>scope</att>: <val>sole</val>,
+      <val>major</val> or <val>minor</val>), its folios, and prose. The hands are counted from their notes. A scribe
+      is named in the prose by <gi>persName</gi> with <att>ref</att>, and the hand is the scribe's by a relation
+      (<ptr target="#relations"/>), which can carry its certainty and evidence. A change in the text, an
+      <gi>add</gi>, a <gi>del</gi> or a <gi>subst</gi>, points to the hand that made it by <att>hand</att>
+      (<ptr target="#transcription-changes"/>); a hand pointed to in the file is described there. A made-up unit with two
+      hands, a correction by the second, and the main hand's scribe:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <handDesc>
+        <handNote xml:id="hand-A" script="minusculeCaroline" execution="libraria" scope="major">
+          <locus from="1r" to="40v">ff. 1r–40v</locus>: the main hand, perhaps <persName
+            ref="#new_person_exemplus_scriba">Exemplus</persName>, whose name stands at the foot of f. 40v.</handNote>
+        <handNote xml:id="hand-B" script="minusculeCaroline" scope="minor">Corrections between the lines, in a
+          browner ink.</handNote>
+      </handDesc>
+      <p>Si quis <add hand="#hand-B">episcopus</add> migrauerit, deponatur.</p>
+      <listRelation>
+        <relation name="scribe" type="judgement" cert="medium" active="#hand-A" passive="#new_person_exemplus_scriba"/>
+      </listRelation>
+    </egXML>
+    <p>A hand pointed to that the file doesn't describe is an error, and a script or an execution outside the seeds
+      is reported:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="hand-declared">
+      <p>Si quis <add hand="#hand-B">episcopus</add><!-- breaks the rule --> deponatur.</p>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="script-term">
+      <handDesc>
+        <handNote xml:id="hand-carolingian" script="carolingian"><!-- breaks the rule -->
+          <p>The main hand.</p>
+        </handNote>
+      </handDesc>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="execution-term">
+      <handDesc>
+        <handNote xml:id="hand-calligraphic" script="minusculeCaroline" execution="calligraphic"><!-- breaks the rule -->
+          <p>The main hand.</p>
+        </handNote>
+      </handDesc>
+    </egXML>
+    <specGrp xml:id="manuscripts-hands-specs">
+      <!-- A unit's hands: counted from their notes; each with its script and execution from the vocabularies; the
+           scribe by a name in the prose and a relation; a hand pointed to exists. -->
+      <elementSpec ident="handDesc" module="msdescription" mode="change" corresp="#tier-full">
+        <attList>
+          <attDef ident="hands" mode="delete"/>
+        </attList>
+      </elementSpec>
+      <elementSpec ident="handNote" module="header" mode="change" corresp="#tier-full">
+        <constraintSpec ident="script-term" scheme="schematron" corresp="#tier-full">
+          <desc>A hand's script is one of the vocabulary's seeds, or a new term of it.</desc>
+          <constraint>
+            <sch:rule context="tei:handNote[@script]">
+              <sch:let name="terms" value="('capitalsSquare', 'capitalsRustic', 'uncial', 'halfUncial',
+                'minusculeInsular', 'minusculeVernacular', 'minusculeCaroline', 'minuscule', 'protogothic',
+                'textualisNorthern', 'textualisSouthern', 'semitextualis', 'cursivaAntiquior', 'cursiva', 'hybrida',
+                'gothicoAntiqua', 'humanistica', 'humanisticaTextualis', 'humanisticaSemitextualis',
+                'humanisticaCursiva', 'muhaqqaq', 'rayhani', 'naskh', 'maghribi', 'bihari', 'nasta_liq', 'thuluth',
+                'tawqi_', 'riqa_', 'ghubar', 'ta_liq', 'diwani', 'ruq_ah', 'siyaqah', 'unknown')"/>
+              <sch:assert id="script-term" role="warning" test="every $s in tokenize(normalize-space(@script), ' ')
+                satisfies $s = $terms">The script <sch:value-of select="@script"/> isn't among the vocabulary's seeds:
+                check its spelling, or add it to the application's vocabulary.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="execution-term" scheme="schematron" corresp="#tier-full">
+          <desc>A hand's execution is one of the vocabulary's seeds, or a new term of it.</desc>
+          <constraint>
+            <sch:rule context="tei:handNote[@execution]">
+              <sch:let name="terms" value="('formata', 'libraria', 'currens')"/>
+              <sch:assert id="execution-term" role="warning" test="@execution = $terms">The execution <sch:value-of
+                  select="@execution"/> isn't among the vocabulary's seeds: check its spelling, or add it to the
+                application's vocabulary.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="hand-declared" scheme="schematron" corresp="#tier-full">
+          <desc>A hand pointed to in the file is described there.</desc>
+          <constraint>
+            <sch:rule context="tei:*[@hand]">
+              <sch:assert id="hand-declared" test="every $h in tokenize(normalize-space(@hand), ' ')[starts-with(.,
+                '#')] satisfies //tei:handNote[@xml:id = substring($h, 2)]">@hand points to a hand the file describes,
+                a handNote with that xml:id (<sch:value-of select="@hand"/>).</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="script" mode="change" corresp="#tier-full">
+            <valList type="semi" mode="replace">
+              <valItem ident="capitalsSquare"><desc>square capitals</desc></valItem>
+              <valItem ident="capitalsRustic"><desc>rustic capitals</desc></valItem>
+              <valItem ident="uncial"><desc>uncial</desc></valItem>
+              <valItem ident="halfUncial"><desc>half-uncial</desc></valItem>
+              <valItem ident="minusculeInsular"><desc>insular minuscule</desc></valItem>
+              <valItem ident="minusculeVernacular"><desc>English vernacular minuscule</desc></valItem>
+              <valItem ident="minusculeCaroline"><desc>Caroline minuscule</desc></valItem>
+              <valItem ident="minuscule"><desc>a minuscule not named otherwise</desc></valItem>
+              <valItem ident="protogothic"><desc>protogothic, praegothica</desc></valItem>
+              <valItem ident="textualisNorthern"><desc>northern textualis</desc></valItem>
+              <valItem ident="textualisSouthern"><desc>southern textualis</desc></valItem>
+              <valItem ident="semitextualis"><desc>semitextualis</desc></valItem>
+              <valItem ident="cursivaAntiquior"><desc>cursiva antiquior</desc></valItem>
+              <valItem ident="cursiva"><desc>cursiva</desc></valItem>
+              <valItem ident="hybrida"><desc>hybrida</desc></valItem>
+              <valItem ident="gothicoAntiqua"><desc>gothico-antiqua</desc></valItem>
+              <valItem ident="humanistica"><desc>a humanistic script not named otherwise</desc></valItem>
+              <valItem ident="humanisticaTextualis"><desc>humanistic textualis</desc></valItem>
+              <valItem ident="humanisticaSemitextualis"><desc>humanistic semitextualis</desc></valItem>
+              <valItem ident="humanisticaCursiva"><desc>humanistic cursive</desc></valItem>
+              <valItem ident="muhaqqaq"><desc>muhaqqaq</desc></valItem>
+              <valItem ident="rayhani"><desc>rayhani</desc></valItem>
+              <valItem ident="naskh"><desc>naskh</desc></valItem>
+              <valItem ident="maghribi"><desc>maghribi</desc></valItem>
+              <valItem ident="bihari"><desc>bihari</desc></valItem>
+              <valItem ident="nasta_liq"><desc>nasta'liq</desc></valItem>
+              <valItem ident="thuluth"><desc>thuluth</desc></valItem>
+              <valItem ident="tawqi_"><desc>tawqi'</desc></valItem>
+              <valItem ident="riqa_"><desc>riqa'</desc></valItem>
+              <valItem ident="ghubar"><desc>ghubar</desc></valItem>
+              <valItem ident="ta_liq"><desc>ta'liq</desc></valItem>
+              <valItem ident="diwani"><desc>diwani</desc></valItem>
+              <valItem ident="ruq_ah"><desc>ruq'ah</desc></valItem>
+              <valItem ident="siyaqah"><desc>siyaqah</desc></valItem>
+              <valItem ident="unknown"><desc>the script isn't known</desc></valItem>
+            </valList>
+          </attDef>
+          <attDef ident="execution" mode="add" corresp="#tier-full">
+            <desc>how carefully the hand writes its script</desc>
+            <datatype>
+              <dataRef key="teidata.enumerated"/>
+            </datatype>
+            <valList type="semi">
+              <valItem ident="formata"><desc>calligraphic</desc></valItem>
+              <valItem ident="libraria"><desc>an ordinary book hand</desc></valItem>
+              <valItem ident="currens"><desc>informal, cursive</desc></valItem>
+            </valList>
+          </attDef>
+          <attDef ident="scribe" mode="delete"/>
+          <attDef ident="scribeRef" mode="delete"/>
+          <attDef ident="scriptRef" mode="delete"/>
+          <attDef ident="medium" mode="delete"/>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="manuscripts-decoration">
+    <head>Decoration</head>
+    <p>A unit's decoration is its <gi>decoDesc</gi>'s <gi>decoNote</gi>s, each of a kind, in <att>type</att> from the
+      vocabulary of decoration (<val>colInit</val> for coloured initials, <val>rubrication</val>,
+      <val>miniature</val>, …), with its folios and prose. A made-up unit:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <decoDesc>
+        <decoNote type="colInit"><locus from="1r" to="40v">ff. 1r–40v</locus>: red and green initials at the
+          chapters.</decoNote>
+        <decoNote type="rubrication">Rubrics in red.</decoNote>
+      </decoDesc>
+    </egXML>
+    <p>A kind outside the seeds is reported:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="decoration-term">
+      <decoDesc>
+        <decoNote type="initials"><!-- breaks the rule -->
+          <p>Red initials.</p>
+        </decoNote>
+      </decoDesc>
+    </egXML>
+    <specGrp xml:id="manuscripts-decoration-specs">
+      <!-- A decoration's type from its vocabulary. -->
+      <elementSpec ident="decoNote" module="msdescription" mode="change" corresp="#tier-full">
+        <constraintSpec ident="decoration-term" scheme="schematron" corresp="#tier-full">
+          <desc>A decoration's type is one of the vocabulary's seeds, or a new term of it.</desc>
+          <constraint>
+            <sch:rule context="tei:decoNote[@type]">
+              <sch:let name="terms" value="('border', 'diagram', 'illustration', 'initial', 'marginal', 'micrography',
+                'miniature', 'drawing', 'rubrication', 'bas-de-page', 'map', 'headpiece', 'canonTable', 'carpetPage',
+                'histInit', 'decInit', 'flourInit', 'colInit', 'plainInit', 'chrysography', 'lineFill', 'cadel',
+                'instructions', 'unfilled', 'none', 'other', 'foreedge')"/>
+              <sch:assert id="decoration-term" role="warning" test="@type = $terms">The decoration <sch:value-of
+                  select="@type"/> isn't among the vocabulary's seeds: check its spelling, or add it to the
+                application's vocabulary.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="type" mode="change" corresp="#tier-full">
+            <valList type="semi" mode="replace">
+              <valItem ident="border"><desc>borders</desc></valItem>
+              <valItem ident="diagram"><desc>diagrams</desc></valItem>
+              <valItem ident="illustration"><desc>illustrations</desc></valItem>
+              <valItem ident="initial"><desc>initials</desc></valItem>
+              <valItem ident="marginal"><desc>marginal decoration</desc></valItem>
+              <valItem ident="micrography"><desc>micrography</desc></valItem>
+              <valItem ident="miniature"><desc>miniatures, coloured drawings</desc></valItem>
+              <valItem ident="drawing"><desc>uncoloured drawings, sketches</desc></valItem>
+              <valItem ident="rubrication"><desc>rubrication and other highlighting</desc></valItem>
+              <valItem ident="bas-de-page"><desc>scenes at the foot of the page</desc></valItem>
+              <valItem ident="map"><desc>maps</desc></valItem>
+              <valItem ident="headpiece"><desc>a headpiece</desc></valItem>
+              <valItem ident="canonTable"><desc>canon tables</desc></valItem>
+              <valItem ident="carpetPage"><desc>carpet pages</desc></valItem>
+              <valItem ident="histInit"><desc>historiated initials</desc></valItem>
+              <valItem ident="decInit"><desc>decorated initials, not historiated</desc></valItem>
+              <valItem ident="flourInit"><desc>pen-flourished initials or borders</desc></valItem>
+              <valItem ident="colInit"><desc>coloured initials, not decorated or flourished</desc></valItem>
+              <valItem ident="plainInit"><desc>plain initials, in the ink of the text</desc></valItem>
+              <valItem ident="chrysography"><desc>writing in gold</desc></valItem>
+              <valItem ident="lineFill"><desc>line fillers</desc></valItem>
+              <valItem ident="cadel"><desc>cadels</desc></valItem>
+              <valItem ident="instructions"><desc>instructions for the decoration</desc></valItem>
+              <valItem ident="unfilled"><desc>space left for decoration, unfilled</desc></valItem>
+              <valItem ident="none"><desc>no decoration</desc></valItem>
+              <valItem ident="other"><desc>another kind</desc></valItem>
+              <valItem ident="foreedge"><desc>a painted or decorated fore-edge</desc></valItem>
+            </valList>
+          </attDef>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="manuscripts-binding">
+    <head>The binding</head>
+    <p>The binding is the manuscript's, in its own physical description, which holds nothing else: a
+      <gi>bindingDesc</gi> with a <gi>binding</gi>, described in paragraphs. Oxford encoding guide: "The standard
+      dating attributes should be used on the binding element if information about the date of the binding is
+      available." Its bounds go on <gi>binding</gi>, in the one form of dates (<ptr target="#dates"/>), and where
+      they aren't known, <att>contemporary</att> says whether it is the manuscript's first binding: <val>true</val>,
+      <val>false</val>, or <val>unknown</val> where nothing is known. The binding's materials and techniques are
+      <gi>term</gi>s in its prose, each pointing by <att>ref</att> to its concept in Ligatus's Language of Bindings;
+      its dimensions, with <gi>depth</gi> beside height and width, stand in its prose too. An earlier binding of one
+      unit, before it was joined to the others, is said in a paragraph of the unit's physical description. A made-up
+      binding:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <bindingDesc>
+        <binding notBefore="1450" notAfter="1500" contemporary="false">
+          <p><term ref="http://w3id.org/lob/concept/1238">Calfskin</term> over wooden boards, blind-tooled; two clasps,
+            lost. <dimensions type="binding" unit="mm">
+              <height>250</height>
+              <width>175</width>
+              <depth>60</depth>
+            </dimensions></p>
+        </binding>
+      </bindingDesc>
+    </egXML>
+    <p>A binding neither dated nor said contemporary is an error, and so is a value of <att>contemporary</att> outside
+      the three:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="binding-dated">
+      <binding><!-- breaks the rule -->
+        <p>Calf over boards.</p>
+      </binding>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="binding-contemporary">
+      <binding contemporary="inapplicable"><!-- breaks the rule -->
+        <p>Calf over boards.</p>
+      </binding>
+    </egXML>
+    <specGrp xml:id="manuscripts-binding-specs">
+      <!-- A binding is dated, or said contemporary, not, or unknown. -->
+      <elementSpec ident="binding" module="msdescription" mode="change" corresp="#tier-full">
+        <constraintSpec ident="binding-dated" scheme="schematron" corresp="#tier-full">
+          <desc>A binding is dated, or says whether it is contemporary.</desc>
+          <constraint>
+            <sch:rule context="tei:binding">
+              <sch:assert id="binding-dated" test="@contemporary or @when or @notBefore or @notAfter or @from or
+                @to">A binding is dated by its bounds, or says whether it is contemporary with the manuscript
+                (@contemporary: true, false, or unknown where nothing is known).</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="contemporary" mode="change" corresp="#tier-full">
+            <valList type="closed" mode="replace" xml:id="binding-contemporary" corresp="#tier-full">
+              <valItem ident="true">
+                <desc>the binding is contemporary with the manuscript</desc>
+              </valItem>
+              <valItem ident="false">
+                <desc>the binding is later</desc>
+              </valItem>
+              <valItem ident="unknown">
+                <desc>whether it is contemporary isn't known</desc>
+              </valItem>
+            </valList>
+          </attDef>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="manuscripts-history">
+    <head>History</head>
+    <p>A unit's history (<gi>history</gi>) is its origin and its owners; the manuscript's, the owners of the whole book
+      since its units were joined, and where it was assembled. The origin (<gi>origin</gi>) holds the unit's date,
+      <gi>origDate</gi>, in the one form of dates, its calendar named (<ptr target="#dates"/>), and its place,
+      <gi>origPlace</gi>, pointing to the place's record by <att>ref</att>; the import makes the relation
+      <val>origin</val> from them. Each owner is a <gi>provenance</gi>, or an <gi>acquisition</gi> for the library
+      that holds the manuscript now, with its dates and the owner named inside by <gi>persName</gi>,
+      <gi>orgName</gi> or <gi>placeName</gi> with <att>ref</att>, since TEI gives neither a pointer of its own; the
+      import makes the relation <val>ownedBy</val>. Oxford encoding guide: "where possible each provenance event
+      should occur in its own provenance element, which should have relevant dating attributes (when, notBefore,
+      etc.)." Clm 4592's third unit was made at Salzburg in the second quarter of the ninth century:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+      <origin>
+        <origPlace ref="#new_place_salzburg">Salzburg</origPlace>
+        <origDate notBefore="0826" notAfter="0850" calendar="#gregorian">sec. IX secondo quarto</origDate>
+      </origin>
+    </egXML>
+    <p>A made-up owner, with the years of its ownership:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <provenance notBefore="1460" notAfter="1520">Owned by <orgName ref="#new_org_ecclesia_exemplensis">the cathedral
+          of Exemplum</orgName>, whose ex libris stands on f. 1r.</provenance>
+    </egXML>
+    <p>An <gi>origDate</gi> has no type but <val>undated</val> (<ptr target="#manuscripts-units"/>):</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="orig-date-type">
+      <origDate type="circa" notBefore="0776" notAfter="0825" calendar="#gregorian">ca. 800</origDate><!-- breaks the rule -->
+    </egXML>
+    <specGrp xml:id="manuscripts-history-specs">
+      <!-- A unit's date, or its statement that it is undated; its place points to its record. -->
+      <elementSpec ident="origDate" module="msdescription" mode="change" corresp="#tier-full">
+        <attList>
+          <attDef ident="type" mode="change" corresp="#tier-full">
+            <valList type="closed" mode="replace" xml:id="orig-date-type" corresp="#tier-full">
+              <valItem ident="undated">
+                <desc>the unit is undated: no bounds, and the source's words if it has any</desc>
+              </valItem>
+            </valList>
+          </attDef>
+        </attList>
+      </elementSpec>
+      <elementSpec ident="origPlace" module="msdescription" mode="change" corresp="#tier-full">
+        <attList>
+          <attDef ident="ref" mode="change" corresp="#tier-full">
+            <datatype minOccurs="1" maxOccurs="unbounded">
+              <dataRef key="solemne.recordPointer"/>
+            </datatype>
+          </attDef>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="manuscripts-additional">
+    <head>Images, literature, sources</head>
+    <p>What a description adds about the manuscript goes in the manuscript's <gi>additional</gi>: the description's
+      own sources, in <gi>adminInfo</gi>'s <gi>recordHist</gi>, each a <gi>bibl</gi> typed <val>source</val> in
+      <gi>source</gi>, as every record names its own (<ptr target="#records-sources"/>); the manuscript's images, in
+      <gi>surrogates</gi>, each IIIF manifest a <gi>ref</gi> typed <val>iiif</val>, its address in <att>target</att>
+      and its provider in its words, which the application shows the pages from (a page break's canvas is the page
+      break's, <ptr target="#transcription-page-breaks"/>); and the literature on it, in <gi>listBibl</gi>, in the
+      forms of Part IX. A made-up manuscript's:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <additional>
+        <adminInfo>
+          <recordHist>
+            <source>
+              <bibl type="source">
+                <title>Mirabile</title>
+                <idno type="mirabile">123456</idno>
+                <date type="retrieved" when="2026-11-04">4 November 2026</date>
+              </bibl>
+            </source>
+          </recordHist>
+        </adminInfo>
+        <surrogates>
+          <ref type="iiif" target="https://example.org/iiif/can-12/manifest.json">Bibliotheca Exemplensis</ref>
+        </surrogates>
+        <listBibl>
+          <bibl><ptr target="#new_bibl_catalogue_exemplensis"/><citedRange unit="page" from="12" to="13">12–13</citedRange></bibl>
+        </listBibl>
+      </additional>
+    </egXML>
+  </div>
+
+  <div xml:id="manuscripts-bodleian">
+    <head>The Bodleian's descriptions</head>
+    <p>The Bodleian Libraries' catalogues, and others written in their form, describe manuscripts in TEI with a schema
+      of their own, which this part's description is modelled on. Their descriptions are an import format: the
+      application converts them into the project's form, as a tool of this package will. They needn't pass this
+      guide's schema; before they are converted, they are checked against their own, at the commit the package
+      pins:</p>
+    <eg>solemne-tei validate --format bodleian description.xml</eg>
+    <p>The table says what the conversion does with each element and attribute of the Bodleian's description: keeps
+      it, moves it, makes a record or a relation of it, or drops it, and why. Of the project's coded files, 38 carry
+      a description in the Bodleian's form, written before this guide; the corrections bring them to the guide's
+      form.</p>
+    <xi:include href="../mappings/bodleian.xml"/>
+  </div>
 </div>

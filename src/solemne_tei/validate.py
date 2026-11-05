@@ -18,12 +18,16 @@ from typing import Any
 
 from lxml import etree
 
+from solemne_tei.formats import import_format
 from solemne_tei.schema_files import RELAXNG, SCHEMA_DIR, SCHEMATRON_XSLT
 
 SVRL = "http://purl.oclc.org/dsdl/svrl"
 RNG = "http://relaxng.org/ns/structure/1.0"
 STEP = re.compile(r"/(?:Q\{([^}]*)\})?([^/\[{]+)(?:\[(\d+)\])?")
 PATTERN = re.compile(r"^schematron-constraint-(.+?)(?:-\d+)?$")
+# The pattern ids of TEI's older stylesheets, which made the Bodleian's published schema: the schema, the element, the
+# rule, then its kind and number (msdesc-origDate-origDate.check-constraint-rule-23).
+OLDER_PATTERN = re.compile(r"^[A-Za-z]+-[A-Za-z0-9]+-(.+)-constraint-(?:rule|assert|report)-\d+$")
 ERROR_ROLES = {"error", "fatal"}
 
 
@@ -64,8 +68,9 @@ class Result:
 
 
 class Validator:
-    """The schema's two checks, compiled once. Another schema's can be given by its RelaxNG and compiled Schematron:
-    the build checks the ODD with TEI's schema for ODD files."""
+    """The schema's two checks, compiled once. An import format's (`format="bodleian"`) can be checked instead, or
+    another schema's, given by its RelaxNG and compiled Schematron: the build checks the ODD with TEI's schema for
+    ODD files."""
 
     def __init__(
         self,
@@ -73,9 +78,13 @@ class Validator:
         *,
         relaxng: Path | None = None,
         schematron_xslt: Path | None = None,
+        format: str | None = None,
     ) -> None:
         from saxonche import PySaxonProcessor
 
+        if format is not None:
+            imported = import_format(format)
+            relaxng, schematron_xslt = imported.relaxng, imported.schematron_xslt
         relaxng = relaxng or schema_dir / RELAXNG
         schematron_xslt = schematron_xslt or schema_dir / SCHEMATRON_XSLT
         self._grammar = etree.parse(str(relaxng))
@@ -170,7 +179,7 @@ def _alone(el: Any) -> Any:
 
 
 def _rule_name(pattern_id: str) -> str:
-    m = PATTERN.match(pattern_id)
+    m = PATTERN.match(pattern_id) or OLDER_PATTERN.match(pattern_id)
     return m.group(1) if m else pattern_id or "schematron"
 
 
@@ -200,9 +209,9 @@ def _line(tree: Any, location: str) -> int | None:
 _validator: Validator | None = None
 
 
-def _init_worker(schema_dir: Path) -> None:
+def _init_worker(schema_dir: Path, format: str | None) -> None:
     global _validator
-    _validator = Validator(schema_dir)
+    _validator = Validator(schema_dir, format=format)
 
 
 def _check_in_worker(path: str | os.PathLike[str]) -> Result:
@@ -219,15 +228,21 @@ def xml_files(paths: Iterable[Path]) -> list[Path]:
 
 
 def validate(
-    paths: Sequence[str | os.PathLike[str]], jobs: int | None = None, schema_dir: Path = SCHEMA_DIR
+    paths: Sequence[str | os.PathLike[str]],
+    jobs: int | None = None,
+    schema_dir: Path = SCHEMA_DIR,
+    format: str | None = None,
 ) -> list[Result]:
-    """Check files with `jobs` workers (all cores by default), in the order given. A path may be a string."""
+    """Check files with `jobs` workers (all cores by default), in the order given. A path may be a string. With
+    `format` (`"bodleian"`), they're checked against that import format's own schema instead of the project's."""
     jobs = jobs or os.cpu_count() or 1
+    if format is not None:
+        import_format(format)
     if jobs <= 1 or len(paths) <= 1:
-        validator = Validator(schema_dir)
+        validator = Validator(schema_dir, format=format)
         return [validator.check(p) for p in paths]
     workers = min(jobs, len(paths))
-    with ProcessPoolExecutor(workers, initializer=_init_worker, initargs=(schema_dir,)) as pool:
+    with ProcessPoolExecutor(workers, initializer=_init_worker, initargs=(schema_dir, format)) as pool:
         return list(pool.map(_check_in_worker, paths))
 
 

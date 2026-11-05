@@ -11,21 +11,20 @@
         <author>Sven Meeder</author>
       </titleStmt>
       <editionStmt>
-        <edition n="0.2.0">Version 0.2.0</edition>
+        <edition n="0.3.0">Version 0.3.0</edition>
       </editionStmt>
       <publicationStmt>
         <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University</publisher>
         <availability>
           <licence target="https://creativecommons.org/licenses/by/4.0/">This ODD, the guide: CC BY 4.0.</licence>
           <licence target="https://opensource.org/license/mit">The schema generated from it: MIT. It contains
-            material of TEI P5 (the TEI Consortium: CC BY 3.0 and BSD 2-Clause) and of the Bodleian Libraries'
-            consolidated TEI schema (BSD 2-Clause), and its compiled Schematron the code of SchXslt2 (David Maus,
-            MIT): their notices are at the top of each generated file.</licence>
+            material of TEI P5 (the TEI Consortium: CC BY 3.0 and BSD 2-Clause), and its compiled Schematron the code
+            of SchXslt2 (David Maus, MIT): their notices are at the top of each generated file.</licence>
         </availability>
       </publicationStmt>
       <sourceDesc>
-        <p>Written for the project, on TEI P5 and the Bodleian's consolidated schema for manuscript
-          descriptions.</p>
+        <p>Written for the project, on TEI P5. Its manuscript description is modelled on the Bodleian Libraries'
+          consolidated TEI schema for manuscript descriptions.</p>
       </sourceDesc>
     </fileDesc>
     <encodingDesc>
@@ -100,41 +99,29 @@
           <row corresp="#tier-full">
             <cell>full</cell>
             <cell>
-              <gi>abbr</gi> <gi>abstract</gi> <gi>accMat</gi> <gi>acquisition</gi> <gi>add</gi>
-              <gi>additional</gi> <gi>additions</gi> <gi>addName</gi> <gi>addrLine</gi>
-              <gi>adminInfo</gi> <gi>affiliation</gi> <gi>altIdentifier</gi> <gi>anchor</gi>
-              <gi>annotation</gi> <gi>authority</gi> <gi>availability</gi> <gi>binding</gi>
-              <gi>bindingDesc</gi> <gi>birth</gi> <gi>bloc</gi> <gi>catchwords</gi> <gi>catDesc</gi>
-              <gi>category</gi> <gi>change</gi> <gi>choice</gi> <gi>cit</gi> <gi>citedRange</gi>
-              <gi>classDecl</gi> <gi>collation</gi> <gi>collection</gi> <gi>colophon</gi>
-              <gi>condition</gi> <gi>corr</gi> <gi>correction</gi> <gi>creation</gi> <gi>custEvent</gi>
-              <gi>custodialHist</gi> <gi>death</gi> <gi>decoDesc</gi> <gi>decoNote</gi> <gi>del</gi>
-              <gi>depth</gi> <gi>desc</gi> <gi>dim</gi> <gi>dimensions</gi> <gi>district</gi>
-              <gi>edition</gi> <gi>editionStmt</gi> <gi>encodingDesc</gi> <gi>expan</gi>
-              <gi>explicit</gi> <gi>extent</gi> <gi>filiation</gi> <gi>finalRubric</gi>
-              <gi>foliation</gi> <gi>foreign</gi> <gi>funder</gi> <gi>genName</gi> <gi>geo</gi>
-              <gi>geogName</gi> <gi>graphic</gi> <gi>handDesc</gi> <gi>handNote</gi> <gi>height</gi>
-              <gi>heraldry</gi> <gi>history</gi> <gi>incipit</gi> <gi>interpretation</gi> <gi>item</gi>
-              <gi>keywords</gi> <gi>label</gi> <gi>language</gi> <gi>langUsage</gi> <gi>layout</gi>
-              <gi>layoutDesc</gi> <gi>lb</gi> <gi>licence</gi> <gi>list</gi> <gi>listAnnotation</gi>
-              <gi>listBibl</gi> <gi>listChange</gi> <gi>listEvent</gi> <gi>listOrg</gi>
-              <gi>listPlace</gi> <gi>listPrefixDef</gi> <gi>listRelation</gi> <gi>listWit</gi>
-              <gi>location</gi> <gi>locus</gi> <gi>locusGrp</gi> <gi>material</gi> <gi>measure</gi>
-              <gi>msContents</gi> <gi>msFrag</gi> <gi>msIdentifier</gi> <gi>msItem</gi>
-              <gi>msItemStruct</gi> <gi>msName</gi> <gi>msPart</gi> <gi>musicNotation</gi> <gi>name</gi>
-              <gi>nameLink</gi> <gi>normalization</gi> <gi>notesStmt</gi> <gi>num</gi>
-              <gi>objectDesc</gi> <gi>objectType</gi> <gi>occupation</gi> <gi>org</gi> <gi>orig</gi>
-              <gi>origDate</gi> <gi>origin</gi> <gi>physDesc</gi> <gi>place</gi> <gi>principal</gi>
-              <gi>profileDesc</gi> <gi>projectDesc</gi> <gi>provenance</gi> <gi>ptr</gi>
-              <gi>punctuation</gi> <gi>q</gi> <gi>quotation</gi> <gi>recordHist</gi> <gi>refsDecl</gi>
-              <gi>reg</gi> <gi>resp</gi> <gi>respStmt</gi> <gi>revisionDesc</gi> <gi>roleName</gi>
-              <gi>rubric</gi> <gi>samplingDecl</gi> <gi>scriptDesc</gi> <gi>scriptNote</gi>
-              <gi>seal</gi> <gi>sealDesc</gi> <gi>secFol</gi> <gi>seriesStmt</gi> <gi>sic</gi>
-              <gi>signatures</gi> <gi>source</gi> <gi>sponsor</gi> <gi>stamp</gi> <gi>stdVals</gi>
-              <gi>subst</gi> <gi>summary</gi> <gi>supplied</gi> <gi>support</gi> <gi>supportDesc</gi>
-              <gi>surrogates</gi> <gi>taxonomy</gi> <gi>term</gi> <gi>textClass</gi> <gi>textLang</gi>
-              <gi>typeDesc</gi> <gi>typeNote</gi> <gi>unclear</gi> <gi>watermark</gi> <gi>width</gi>
-              <gi>witness</gi>
+              <gi>abbr</gi> <gi>abstract</gi> <gi>acquisition</gi> <gi>add</gi> <gi>additional</gi> <gi>additions</gi>
+              <gi>addName</gi> <gi>addrLine</gi> <gi>adminInfo</gi> <gi>affiliation</gi> <gi>anchor</gi>
+              <gi>annotation</gi> <gi>authority</gi> <gi>availability</gi> <gi>bindingDesc</gi> <gi>birth</gi>
+              <gi>bloc</gi> <gi>calendarDesc</gi> <gi>catDesc</gi> <gi>category</gi> <gi>change</gi> <gi>choice</gi>
+              <gi>cit</gi> <gi>citedRange</gi> <gi>classDecl</gi> <gi>collation</gi> <gi>colophon</gi>
+              <gi>condition</gi> <gi>corr</gi> <gi>correction</gi> <gi>creation</gi> <gi>death</gi> <gi>decoDesc</gi>
+              <gi>del</gi> <gi>depth</gi> <gi>desc</gi> <gi>district</gi> <gi>edition</gi> <gi>editionStmt</gi>
+              <gi>encodingDesc</gi> <gi>expan</gi> <gi>explicit</gi> <gi>extent</gi> <gi>f</gi> <gi>finalRubric</gi>
+              <gi>foliation</gi> <gi>foreign</gi> <gi>fs</gi> <gi>funder</gi> <gi>genName</gi> <gi>geo</gi>
+              <gi>geogName</gi> <gi>graphic</gi> <gi>height</gi> <gi>hi</gi> <gi>history</gi> <gi>incipit</gi>
+              <gi>interpretation</gi> <gi>item</gi> <gi>keywords</gi> <gi>label</gi> <gi>language</gi>
+              <gi>langUsage</gi> <gi>layout</gi> <gi>layoutDesc</gi> <gi>lb</gi> <gi>licence</gi>
+              <gi>listAnnotation</gi> <gi>listBibl</gi> <gi>listChange</gi> <gi>listEvent</gi> <gi>listOrg</gi>
+              <gi>listPlace</gi> <gi>listPrefixDef</gi> <gi>listWit</gi> <gi>location</gi> <gi>locus</gi>
+              <gi>locusGrp</gi> <gi>measure</gi> <gi>msContents</gi> <gi>msIdentifier</gi> <gi>msName</gi>
+              <gi>name</gi> <gi>nameLink</gi> <gi>normalization</gi> <gi>notesStmt</gi> <gi>num</gi>
+              <gi>occupation</gi> <gi>org</gi> <gi>orig</gi> <gi>origin</gi> <gi>physDesc</gi> <gi>place</gi>
+              <gi>principal</gi> <gi>profileDesc</gi> <gi>projectDesc</gi> <gi>provenance</gi> <gi>punctuation</gi>
+              <gi>q</gi> <gi>quotation</gi> <gi>recordHist</gi> <gi>refsDecl</gi> <gi>reg</gi> <gi>resp</gi>
+              <gi>respStmt</gi> <gi>revisionDesc</gi> <gi>roleName</gi> <gi>rubric</gi> <gi>samplingDecl</gi>
+              <gi>seriesStmt</gi> <gi>sic</gi> <gi>source</gi> <gi>sponsor</gi> <gi>stdVals</gi> <gi>subst</gi>
+              <gi>summary</gi> <gi>supplied</gi> <gi>support</gi> <gi>surrogates</gi> <gi>taxonomy</gi> <gi>term</gi>
+              <gi>textClass</gi> <gi>textLang</gi> <gi>unclear</gi> <gi>width</gi> <gi>witness</gi>
             </cell>
           </row>
           <row corresp="#tier-export-only">
@@ -153,26 +140,30 @@
             include="abbr add addrLine address analytic author bibl biblScope biblStruct choice cit citedRange corr
               date del desc editor email expan foreign gap graphic head imprint item label lb list listBibl measure
               monogr name note num orig p pb postCode ptr publisher pubPlace q quote ref reg resp respStmt rs series sic
-              street term textLang title unclear"/>
+              street term textLang title unclear hi"/>
           <moduleRef key="header"
-            include="abstract authority availability catDesc category change citeData citeStructure classDecl
-              correction creation distributor edition editionStmt editorialDecl encodingDesc extent fileDesc funder
-              handNote idno interpretation keywords langUsage language licence listChange listPrefixDef normalization
+            include="abstract authority availability calendar calendarDesc catDesc category change citeData
+              citeStructure classDecl correction creation distributor edition editionStmt editorialDecl encodingDesc
+              extent fileDesc funder handNote idno interpretation keywords langUsage language licence listChange listPrefixDef normalization
               notesStmt prefixDef principal profileDesc projectDesc publicationStmt punctuation quotation refsDecl
               revisionDesc
-              samplingDecl scriptNote segmentation seriesStmt sourceDesc sponsor stdVals taxonomy teiHeader
-              textClass titleStmt typeNote"/>
+              samplingDecl segmentation seriesStmt sourceDesc sponsor stdVals taxonomy teiHeader textClass
+              titleStmt"/>
           <moduleRef key="textstructure" include="TEI body div text"/>
           <moduleRef key="namesdates"
             include="addName affiliation birth bloc country death district event eventName floruit forename genName
               geo geogName listEvent listOrg listPerson listPlace listRelation location nameLink occupation org
               orgName persName person place placeName region relation roleName settlement surname"/>
-          <!-- Manuscript descriptions follow the Bodleian's consolidated schema: the build compiles its ODD and puts
-               it next to this one under this name. -->
-          <moduleRef key="msdescription" source="msdesc.compiled.odd"/>
+          <moduleRef key="msdescription"
+            include="acquisition additional additions adminInfo altIdentifier binding bindingDesc collation collection
+              colophon condition decoDesc decoNote depth dimensions explicit finalRubric foliation handDesc height
+              history incipit institution layout layoutDesc locus locusGrp msContents msDesc msIdentifier msItem msName
+              msPart objectDesc origDate origin origPlace physDesc provenance recordHist repository rubric source
+              summary support supportDesc surrogates width"/>
           <moduleRef key="linking" include="anchor annotation link linkGrp listAnnotation seg standOff"/>
           <moduleRef key="transcr" include="subst supplied"/>
           <moduleRef key="textcrit" include="listWit witness"/>
+          <moduleRef key="iso-fs" include="fs f"/>
 
           <!-- Each part's specifications, in the parts' order. -->
           <specGrpRef target="#header-title-specs"/>
@@ -189,10 +180,24 @@
           <specGrpRef target="#marked-pointers-specs"/>
           <specGrpRef target="#marked-notes-specs"/>
           <specGrpRef target="#marked-other-specs"/>
-          <specGrpRef target="#records-specs"/>
+          <specGrpRef target="#records-persons-specs"/>
+          <specGrpRef target="#records-institutions-specs"/>
+          <specGrpRef target="#records-events-specs"/>
+          <specGrpRef target="#records-works-specs"/>
+          <specGrpRef target="#records-external-ids-specs"/>
           <specGrpRef target="#relations-specs"/>
+          <specGrpRef target="#relations-types-specs"/>
+          <specGrpRef target="#dates-form-specs"/>
+          <specGrpRef target="#dates-calendars-specs"/>
           <specGrpRef target="#dates-specs"/>
-          <specGrpRef target="#manuscripts-specs"/>
+          <specGrpRef target="#manuscripts-description-specs"/>
+          <specGrpRef target="#manuscripts-units-specs"/>
+          <specGrpRef target="#manuscripts-contents-specs"/>
+          <specGrpRef target="#manuscripts-physical-specs"/>
+          <specGrpRef target="#manuscripts-hands-specs"/>
+          <specGrpRef target="#manuscripts-decoration-specs"/>
+          <specGrpRef target="#manuscripts-binding-specs"/>
+          <specGrpRef target="#manuscripts-history-specs"/>
 
         </schemaSpec>
       </div>
@@ -225,7 +230,8 @@
             Concilia 2.1 (Hannover and Leipzig, <date>1906</date>), pp. 56–58.</bibl>
           <bibl xml:id="source-C.CAR-0397"><idno>C.CAR-0397</idno>: <title>Council of Carthage, 397</title>, ed.
             <editor>Charles Munier</editor>, <title>Concilia Africae a. 345 – a. 525</title>, CCSL 149 (Turnhout,
-            <date>1974</date>), pp. 326–341: the file's header only.</bibl>
+            <date>1974</date>), pp. 326–341: the file's header and the records of its standOff, the project's
+            own.</bibl>
           <bibl xml:id="source-C.MAI-0813"><idno>C.MAI-0813</idno>: <title>Council of Mainz, 813</title>, ed.
             <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> I, MGH Concilia 2.1 (Hannover
             and Leipzig, <date>1906</date>), pp. 258–273.</bibl>
@@ -235,12 +241,26 @@
           <bibl xml:id="source-C.SOI-0744"><idno>C.SOI-0744</idno>: <title>Council of Soissons, 744</title>, ed.
             <editor>Albert Werminghoff</editor>, <title>Concilia aevi Karolini</title> I, MGH Concilia 2.1 (Hannover
             and Leipzig, <date>1906</date>), pp. 33–36.</bibl>
+          <bibl xml:id="source-C.VLA-0549"><idno>C.VLA-0549</idno>: <title>Council of Valencia, 549</title>, ed.
+            <editor>José Vives</editor>, <title>Concilios visigóticos e hispano-romanos</title>, España Cristiana 1
+            (Barcelona and Madrid, <date>1963</date>), pp. 61–64.</bibl>
           <bibl xml:id="source-COLL.400.ms-Mun-BSB-4592"><idno>COLL.400.ms-Mun-BSB-4592</idno>: <title>Collectio 400
               capitulorum</title>, transcribed by the project from Munich, Bayerische Staatsbibliothek, Clm
             4592.</bibl>
           <bibl xml:id="source-COLL.Dach"><idno>COLL.Dach</idno>: <title>Collectio Dacheriana</title>, ed.
             <editor>Luc d'Achery</editor>, <title>Spicilegium</title>, vol. 11 (Paris, <date>1723</date>),
             pp. 1–200.</bibl>
+          <bibl xml:id="source-COLL.Ans.ms-Par-BnF-15392"><idno>COLL.Ans.ms-Par-BnF-15392</idno>: <title>Collectio
+              Anselmo dedicata</title> in Paris, Bibliothèque nationale de France, lat. 15392: the file's description
+            of the manuscript.</bibl>
+          <bibl xml:id="source-COLL.Dach.ms-Brn-Burg-425"><idno>COLL.Dach.ms-Brn-Burg-425</idno>: <title>Collectio
+              Dacheriana</title> in Bern, Burgerbibliothek, 425: the file's description of the manuscript.</bibl>
+          <bibl xml:id="source-COLL.His.ms-Vat-BAV-Pal575"><idno>COLL.His.ms-Vat-BAV-Pal575</idno>: <title>Collectio
+              Hispana</title> in Vatican City, Biblioteca Apostolica Vaticana, Pal. lat. 575: the file's description
+            of the manuscript.</bibl>
+          <bibl xml:id="source-COLL.Laur.ms-Vat-BAV-Pal574"><idno>COLL.Laur.ms-Vat-BAV-Pal574</idno>:
+            <title>Collectio Laureshamensis</title> in Vatican City, Biblioteca Apostolica Vaticana, Pal. lat. 574:
+            the file's description of the manuscript.</bibl>
         </listBibl>
       </div>
     </back>

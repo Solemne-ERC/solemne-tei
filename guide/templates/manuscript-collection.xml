@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.3.0/solemne.rng" type="application/xml"
+  schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.3.0/solemne.sch" type="application/xml"
+  schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- A collection in one manuscript, with its description: the Collectio 400 capitulorum in Munich, Clm 4592, from the
+  project's file COLL.400.ms-Mun-BSB-4592, which transcribes it from the manuscript. The description has the
+  manuscript's three units, each with its contents, physical description and origin; the text is the beginning of
+  the register and of the preface. What is left out is marked by gaps. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="formal">
+          <idno>COLL.400.ms-Mun-BSB-4592</idno>
+          <idno type="category">SYSCOLL</idno>
+          <idno type="type">manuscript</idno>
+        </title>
+        <title type="alias">Collectio 400 capitulorum in Munich, Bayerische Staatsbibliothek, Clm 4592</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts</publisher>
+        <address>
+          <orgName type="institution">Radboud University</orgName>
+          <street>Houtlaan 4</street>
+          <settlement>Nijmegen</settlement>
+          <postCode>6525 XZ</postCode>
+          <country>Netherlands</country>
+        </address>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier>
+            <settlement ref="#new_place_muenchen">München</settlement>
+            <repository ref="#new_org_bsb">Bayerische Staatsbibliothek</repository>
+            <idno type="shelfmark">Clm 4592</idno>
+            <altIdentifier type="code">
+              <idno>Mun-BSB-4592</idno>
+            </altIdentifier>
+          </msIdentifier>
+          <history>
+            <provenance><orgName ref="#new_org_benediktbeuern">SS. Benedikt und Jakob</orgName>,
+              Benediktbeuern</provenance>
+          </history>
+          <msPart n="1">
+            <msIdentifier>
+              <idno>1, ff. 1–75 (77)</idno>
+            </msIdentifier>
+            <msContents>
+              <msItem n="1">
+                <locus from="1r" to="75v">ff. 1r–75v (77v)</locus>
+                <author ref="#new_person_iustinianus">Iustinianus imperator</author>
+                <title ref="#new_work_institutiones">Institutiones</title>
+                <note>With glosses.</note>
+              </msItem>
+            </msContents>
+            <physDesc>
+              <objectDesc form="codex">
+                <supportDesc material="perg">
+                  <support>membr.</support>
+                  <extent>ff. 1–75 (77), of ff. II, 207, II' in all <dimensions type="leaf" unit="mm">
+                      <height>240</height>
+                      <width>160</width>
+                    </dimensions></extent>
+                </supportDesc>
+              </objectDesc>
+            </physDesc>
+            <history>
+              <origin>
+                <origPlace ref="#new_place_arezzo">Arezzo</origPlace>, or <origPlace
+                  ref="#new_place_italia_centrale">Italia centrale</origPlace>
+                <origDate notBefore="1191" notAfter="1200" calendar="#gregorian">sec. XII ex.</origDate>
+              </origin>
+            </history>
+          </msPart>
+          <msPart n="2">
+            <msIdentifier>
+              <idno>2, ff. 76–117 (78–119)</idno>
+            </msIdentifier>
+            <msContents>
+              <msItem n="1">
+                <locus from="76r" to="117r">ff. 76r (78ra)–117r (119rb)</locus>
+                <author ref="#new_person_bernardus_papiensis">Bernardus Papiensis praepositus</author>
+                <title ref="#new_work_summa_decretalium">Summa decretalium</title>
+              </msItem>
+            </msContents>
+            <physDesc>
+              <objectDesc form="codex">
+                <supportDesc material="perg">
+                  <support>membr.</support>
+                  <extent>ff. 76–117 (78–119) <dimensions type="leaf" unit="mm">
+                      <height>240</height>
+                      <width>160</width>
+                    </dimensions></extent>
+                </supportDesc>
+                <layoutDesc>
+                  <layout columns="2">2 colonne</layout>
+                </layoutDesc>
+              </objectDesc>
+            </physDesc>
+            <history>
+              <origin>
+                <origPlace ref="#new_place_italia">Italia</origPlace>
+                <origDate notBefore="1201" notAfter="1250" calendar="#gregorian">sec. XIII prima metà</origDate>
+              </origin>
+            </history>
+          </msPart>
+          <msPart n="3">
+            <msIdentifier>
+              <idno>3, ff. 120–207</idno>
+            </msIdentifier>
+            <msContents>
+              <msItem n="1" corresp="COLL.400.ms-Mun-BSB-4592">
+                <locus from="158r" to="207v">ff. 158r–207v</locus>
+                <title ref="#new_work_collectio_cd">Collectio CD capitulorum</title>
+                <msItem n="2">
+                  <locus from="194r" to="195r">ff. 194r–195r</locus>
+                  <author ref="#new_person_symmachus_pseudo">Symmachus papa pseudo</author>
+                  <title ref="#new_work_constitutum_silvestri">Constitutum Silvestri</title>
+                  <note>Excerpts, <foreign xml:lang="la">in collectionem CD capitulorum</foreign>.</note>
+                </msItem>
+              </msItem>
+            </msContents>
+            <physDesc>
+              <objectDesc form="codex">
+                <supportDesc material="perg">
+                  <support>membr.</support>
+                  <extent>ff. 120–207 <dimensions type="leaf" unit="mm">
+                      <height>240</height>
+                      <width>160</width>
+                    </dimensions></extent>
+                </supportDesc>
+              </objectDesc>
+            </physDesc>
+            <history>
+              <origin>
+                <origPlace ref="#new_place_salzburg">Salzburg</origPlace>
+                <origDate notBefore="0826" notAfter="0850" calendar="#gregorian">sec. IX secondo quarto</origDate>
+              </origin>
+            </history>
+          </msPart>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <profileDesc>
+      <calendarDesc>
+        <calendar xml:id="gregorian">
+          <p>The Gregorian calendar, in the Christian era: the calendar of modern statements of date.</p>
+        </calendar>
+      </calendarDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="register">
+        <div type="registerItem" n="1">
+          <head type="number"><pb n="158ra"/>I</head>
+          <head type="rubric">De confirmatione caritatis <persName ref="#new_person_god">dei</persName></head>
+        </div>
+        <div type="registerItem" n="2">
+          <head type="number">II</head>
+          <head type="rubric">De amore confirmata proximi per <persName ref="#new_person_god">deum</persName></head>
+        </div>
+        <div type="registerItem" n="3">
+          <head type="number">III</head>
+          <head type="rubric">De <persName ref="#new_person_god">deo</persName> quod non est personarum
+            acceptor</head>
+        </div>
+        <gap reason="sampling"/>
+      </div>
+      <div type="section">
+        <div type="preface">
+          <head type="rubric"><pb n="161r"/>INCIPIT EXCERPTIO SYNODUM.</head>
+          <p><persName ref="#new_person_god">Domine et sancte pater patrum</persName>. si quis condemnet excerpentem aut
+            condemnet cribantem et limantem stantem in loco sancto. qui legit intellegat dominicam sermocinationem. et
+            <bibl ref="#new_bibl_apostolorum">canones sanctorum apostolorum</bibl>. et sanctos uniuersales quinque
+            synodos. et eadem in sancto sexto syno<add place="above">do</add> inuenit <eventName
+              ref="#new_event_nicaea">niceam</eventName> cum CCCXVIII episcopis. <gap reason="sampling"/></p>
+        </div>
+        <gap reason="sampling"/>
+      </div>
+    </body>
+  </text>
+</TEI>

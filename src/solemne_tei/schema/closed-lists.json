@@ -1,7 +1,14 @@
 {
   "SPDX-License-Identifier": "MIT",
-  "generated": "Generated from solemne.odd 0.2.0 (SHA-256 83c29329bb40f830b20f701ee1a0b1c27bcd8e11466d2f4262c6ea88fdcc040a) by solemne-tei build. Edit the ODD, not this file.",
+  "generated": "Generated from solemne.odd 0.3.0 (SHA-256 5f71084cdc798a55284df459235a3a68e2c5d39caf554efca9c74a43d8859d90) by solemne-tei build. Edit the ODD, not this file.",
   "lists": {
+    "altIdentifier": {
+      "type": [
+        "code",
+        "former",
+        "siglum"
+      ]
+    },
     "annotation": {
       "motivation": [
         "assessing",
@@ -72,6 +79,13 @@
       "status": [
         "free",
         "restricted",
+        "unknown"
+      ]
+    },
+    "binding": {
+      "contemporary": [
+        "false",
+        "true",
         "unknown"
       ]
     },
@@ -159,13 +173,6 @@
         "work"
       ]
     },
-    "layout": {
-      "topLine": [
-        "above",
-        "below",
-        "mixed"
-      ]
-    },
     "normalization": {
       "method": [
         "markup",
@@ -180,6 +187,18 @@
         "links",
         "parallel",
         "source"
+      ]
+    },
+    "origDate": {
+      "type": [
+        "undated"
+      ]
+    },
+    "ptr": {
+      "type": [
+        "canonical",
+        "stand-in",
+        "via"
       ]
     },
     "punctuation": {
@@ -202,10 +221,16 @@
     },
     "ref": {
       "type": [
-        "from_paratext"
+        "from_paratext",
+        "iiif"
       ]
     },
     "relation": {
+      "cert": [
+        "high",
+        "low",
+        "medium"
+      ],
       "type": [
         "judgement",
         "observation"

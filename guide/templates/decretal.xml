@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.rng" type="application/xml"
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.3.0/solemne.rng" type="application/xml"
   schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.2.0/solemne.sch" type="application/xml"
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.3.0/solemne.sch" type="application/xml"
   schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <!-- A decretal: Innocent I's letter to Juliana, 413 (JK 302), from the project's file D.INN-0413-302, its address and
   the beginning of the letter; the rest is marked by a gap. The persons it names are listed in the standOff. -->

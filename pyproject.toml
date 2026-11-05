@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "solemne-tei"
-version = "0.2.0"
+version = "0.3.0"
 description = "XML-TEI schema and guidelines for encoding witnesses of early medieval canon law texts. Developed and used within the framework of SOLEMNE - The Social Life of Early Medieval Normative Texts project (ERC Consolidator grant 101087979)"
 readme = "README.md"
 license = "MIT"
@@ -28,9 +28,10 @@ solemne-tei = "solemne_tei.cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["solemne_tei*"]
+exclude = ["*.__pycache__"]
 
 [tool.setuptools.package-data]
-solemne_tei = ["schema/*", "tables/*"]
+solemne_tei = ["schema/*", "tables/*", "formats/*/*.rng", "formats/*/*.xsl"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

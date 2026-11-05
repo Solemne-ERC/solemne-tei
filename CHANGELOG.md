@@ -3,6 +3,98 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
+## 0.3.0 (2026-11-05)
+
+The guide for records, relations, dates and manuscripts: Parts V to VIII, with the schema's own manuscript
+description in place of the Bodleian's module, the Bodleian's descriptions as an import format, and two templates.
+
+### What changes for existing files
+
+Files that passed 0.2.0 may now fail where they describe a manuscript, date by EDTF or name a calendar, or point to
+an authority's record from a note of links. On the project's 411 coded files, this version reports 125,685 problems,
+against 0.2.0's 125,126; the differences, by rule, are below.
+
+- **Manuscript descriptions, our own:** the schema takes TEI P5's manuscript description module, restricted to the
+  guide's profile, in place of the Bodleian Libraries' consolidated schema. Descriptions that passed may now fail:
+  - 21 of the module's elements are left out, each said another way: `accMat`, `catchwords`, `custEvent`,
+    `custodialHist`, `dim`, `filiation`, `heraldry`, `material`, `msFrag`, `msItemStruct`, `musicNotation`,
+    `objectType`, `scriptDesc`, `scriptNote`, `seal`, `sealDesc`, `secFol`, `signatures`, `stamp`, `typeDesc`,
+    `typeNote`, `watermark`; so are `msItem/@class`, `handDesc/@hands`, `handNote`'s `@scribe`, `@scribeRef`,
+    `@scriptRef` and `@medium`, and the Bodleian's additions (`collation/@mainStructures`, `layout/@topLine`,
+    `layout/@rulingMedium`);
+  - `altIdentifier` is typed `former`, `siglum` or `code` (`alt-identifier-type`); `origDate/@type` is `undated`
+    or nothing (`orig-date-type`); `binding/@contemporary` is `true`, `false` or `unknown` (`binding-contemporary`);
+  - new errors: inside a description, only the profile's elements, in their places, and the prose's `locus`, names,
+    `title`, `date`, `foreign`, `hi` and `ref` (`description-elements`): contents and the physical description go on
+    a unit, the manuscript's own physical description holds the binding alone, and `num` is left out; every unit
+    is dated, or said undated by `origDate type="undated"` (`unit-dated`); dimensions give their unit
+    (`dimensions-unit`); a binding is dated or says whether it's contemporary (`binding-dated`); a `@hand` pointing
+    into the file points to a `handNote` (`hand-declared`);
+  - new warnings: an item without its folios (`item-locus`); an object's form, a support's material, a hand's script
+    and execution, and a decoration's type outside their vocabularies' seeds (`form-term`, `material-term`,
+    `script-term`, `execution-term`, `decoration-term`);
+  - the Bodleian's own rules go, among them its warnings on an item's language;
+  - `hi` joins the schema, for italics and the like in a description's prose; `handNote` gains `@execution`;
+    `ref/@type` gains `iiif`, for a manuscript's IIIF manifests in `surrogates`.
+
+  On the corpus's 38 descriptions: 110 new errors of `description-elements` (60 `num`, 37 physical descriptions of
+  the whole manuscript, 9 contents on the manuscript, 3 `filiation`, a unit's binding), 56 items without folios, 86
+  new RelaxNG errors (73 `altIdentifier`s, 7 `msItem/@class`, `filiation`), and the Bodleian's 35 warnings gone.
+- **Dates, in one form:** a date's bounds in TEI's W3C attributes, its EDTF in `@when-custom`, `@from-custom` and
+  `@to-custom` with `@datingMethod="#edtf"`. TEI's other forms of the same date are left out: the ISO attributes
+  (`@when-iso`, …), `@period`, `@datingPoint`, `@notBefore-custom` and `@notAfter-custom`. No file of the corpus uses
+  them.
+- **Calendars declared:** `calendarDesc` and `calendar` join the schema, and every `@calendar` and `@datingMethod`
+  points to a declared calendar (`calendar-declared`, an error). Files that give `calendar="Gregorian"` without
+  declaring it now fail: 46 dates in the corpus's 38 manuscript descriptions, which become `calendar="#gregorian"`
+  with its declaration.
+- **Calendars named:** a manuscript's date (`origDate`) and a date in the text name the calendar of their words
+  (`date-calendar`, an error): `#gregorian` for a modern statement such as "sec. IX", the source's own otherwise (a
+  Julian day, an era). A unit said undated, and the dates of publications, records and the header, name none. The
+  corpus's `origDate`s all have one; no transcription marks a date yet.
+- **Dates checked:** no bound comes after its pair (`date-bounds-order`, an error; two dates in the corpus); an EDTF
+  value has EDTF's form (`date-edtf-form`, an error); the bounds agree with the EDTF by years
+  (`date-edtf-bounds`, a warning).
+- **Relations:** `@cert` on a relation is `high`, `medium` or `low` (`relation-certainty`, closed); a relation's
+  `@name` outside the guide's types is a warning (`relation-term`). No file of the corpus has relations.
+- **Pointers typed:** `ptr/@type` is `canonical` or `stand-in` (a work's choices of versions) or `via` (what a text
+  came through, in a relation), closed (`pointer-type`). No file of the corpus types a `ptr`.
+- **A work's choices of versions:** a work names at most one canonical version and one version that stands in for
+  it (`version-choices`, an error).
+- **Ids, not links, for an authority's records:** a link into an authority's records (Mirabile's authors, titles and
+  manuscripts, VIAF, GND, Wikidata, GeoNames, …) in a note of links is a warning (`link-authority`): its id goes in
+  an `idno` typed by the authority. Notes of links keep the links to other pages. The corpus's 294 Mirabile links
+  in notes of links are reported.
+- **Extra fields:** `fs` and `f` join the schema, for a record's fields that no element holds.
+
+### The package
+
+- **Import formats:** `solemne-tei validate --format bodleian`, and `validate(paths, format="bodleian")` and
+  `Validator(format="bodleian")` from Python, check manuscript descriptions in the Bodleian's form against the
+  Bodleian's own schema, which the project converts into its own. The package holds that schema at a pinned commit
+  (`7e8b89c`): its RelaxNG as the Bodleian publishes it, and its Schematron compiled to XSLT, with its notice. Its
+  rules are named as the Bodleian names them (`origDate.check`). `FORMATS` lists the formats.
+- The build no longer compiles the Bodleian's ODD for the schema, and the schema's generated files no longer carry
+  its notice: they hold none of its material. It fetches the Bodleian's RelaxNG in place of its ODD.
+
+### The guide
+
+- Part V, records: placeholders, ids and permalinks; persons, places, institutions, events, works and versions,
+  witnesses, work groups, rare kinds and their extra fields; ids elsewhere, with Mirabile's indices by the kind of
+  record; sources. A work names its canonical version, and the version that stands in for it.
+- Part VI, relations: their form, the types to start with and their reverses, the levels' relations.
+- Part VII, dates: the one form, with the corpus's own wordings; calendars and eras, with the Julian day converted to
+  the Gregorian in the bounds; what the checks require.
+- Part VIII, manuscripts: the description and the manuscript's identifier; units; contents, items inside items and
+  an item's transcription; the physical description; hands, decoration, the binding; history; images, literature
+  and sources; the Bodleian's descriptions as an import format, with the table of what the conversion does with each
+  of their elements and attributes, in `guide/mappings/`. It is modelled on the Bodleian Libraries' guidelines for
+  manuscript description, credited once in the front matter, and quotes them where their words fit.
+- A template for a collection in one manuscript, `manuscript-collection.xml`: the Collectio 400 capitulorum in
+  Munich, Clm 4592, with the manuscript's description in the guide's form.
+- A template for a reconstruction, `reconstruction.xml`: the collection of Benedictus Levita, with the two editions
+  it was put together from as its witnesses.
+
 ## 0.2.0 (2026-11-04)
 
 The guide for texts: the front matter and Parts I to IV, the templates, and the guide as HTML. Encoders can use this

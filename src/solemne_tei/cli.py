@@ -10,6 +10,7 @@ from pathlib import Path
 
 import solemne_tei
 from solemne_tei import logs
+from solemne_tei.formats import FORMATS
 
 
 def parser() -> argparse.ArgumentParser:
@@ -27,6 +28,12 @@ def parser() -> argparse.ArgumentParser:
     v.add_argument("--jobs", type=int, default=os.cpu_count() or 1, help="worker processes (default: all cores)")
     v.add_argument("--json", action="store_true", help="print the results as JSON")
     v.add_argument("--strict", action="store_true", help="fail on Schematron errors too, as exports must")
+    v.add_argument(
+        "--format",
+        choices=sorted(FORMATS),
+        help="check against an import format's own schema instead of the project's: bodleian, the Bodleian's "
+        "manuscript descriptions",
+    )
 
     b = commands.add_parser(
         "build",
@@ -59,7 +66,7 @@ def parser() -> argparse.ArgumentParser:
 def validate_command(args: argparse.Namespace) -> int:
     from solemne_tei.validate import summary, validate, xml_files
 
-    results = validate(xml_files(args.paths), args.jobs)
+    results = validate(xml_files(args.paths), args.jobs, format=args.format)
     if args.json:
         payload = [{**asdict(r), "well_formed": r.well_formed, "passes_relaxng": r.passes_relaxng} for r in results]
         json.dump(payload, sys.stdout, ensure_ascii=False, indent=1)

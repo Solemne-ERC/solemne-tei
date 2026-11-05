@@ -6,9 +6,12 @@ fail it). One with `@valid="false"` names in `@n` the rule it breaks, and fails 
 problems, with the RelaxNG passed; a RelaxNG rule at one of the elements it restricts.
 
 Most examples are fragments. Each is placed in a minimal valid file by its root elements: a part of the header where
-it stands in the header, a record in the standOff, divisions, headings and paragraphs in the body, anything else in a
-paragraph. An example that is a whole TEI file is checked as it is. An example saved under a file name of its own,
-for the rule on file names, says so in a comment before its root: `<!-- file name: C.NIC-0325.xml -->`."""
+it stands in the header, a part of a manuscript's description in a minimal description's unit, a record in the
+standOff, divisions, headings and paragraphs in the body, anything else in a paragraph. A fragment whose dates point
+to EDTF or to the Gregorian calendar without declaring them gets the declarations a file needs (`calendar
+xml:id="edtf"`, `calendar xml:id="gregorian"`), so that each date's example shows only the date. An example that
+is a whole TEI file is checked as it is. An example saved under a file name of its own, for the rule on file names,
+says so in a comment before its root: `<!-- file name: C.NIC-0325.xml -->`."""
 
 from __future__ import annotations
 
@@ -51,6 +54,38 @@ HOST = f"""<TEI xmlns="{TEI}">
     <body/>
   </text>
 </TEI>"""
+
+# The minimal description a part of a manuscript's description is placed in: the manuscript and its one unit, dated.
+DESCRIPTION = f"""<msDesc xmlns="{TEI}">
+  <msIdentifier>
+    <settlement>Nowhere</settlement>
+    <repository>The Library</repository>
+    <idno type="shelfmark">MS 1</idno>
+  </msIdentifier>
+  <msPart>
+    <msIdentifier>
+      <idno>A</idno>
+    </msIdentifier>
+    <history>
+      <origin>
+        <origDate notBefore="0801" notAfter="0900" calendar="#gregorian">sec. IX</origDate>
+      </origin>
+    </history>
+  </msPart>
+</msDesc>"""
+DESCRIPTION_PATH = "teiHeader/fileDesc/sourceDesc/msDesc"
+UNIT = f"{DESCRIPTION_PATH}/msPart"
+
+# The declarations a fragment's dates point to without declaring them: EDTF, by `@datingMethod="#edtf"`, and the
+# Gregorian calendar of modern statements, by `@calendar="#gregorian"`.
+CALENDARS = {
+    "edtf": f"""<calendar xmlns="{TEI}" xml:id="edtf" target="https://www.loc.gov/standards/datetime/">
+  <p>The Extended Date/Time Format (EDTF), ISO 8601-2.</p>
+</calendar>""",
+    "gregorian": f"""<calendar xmlns="{TEI}" xml:id="gregorian">
+  <p>The Gregorian calendar, in the Christian era.</p>
+</calendar>""",
+}
 
 # Where a fragment's root goes: the path of its parent in the host, made where it's missing, from the root's
 # children down. Each step names an element and the elements that come before it, so that it's made in TEI's order.
@@ -97,6 +132,8 @@ PARENT = {
     "prefixDef": "teiHeader/encodingDesc/listPrefixDef",
     "taxonomy": "teiHeader/encodingDesc/classDecl",
     "abstract": "teiHeader/profileDesc",
+    "calendarDesc": "teiHeader/profileDesc",
+    "calendar": "teiHeader/profileDesc/calendarDesc",
     "creation": "teiHeader/profileDesc",
     "langUsage": "teiHeader/profileDesc",
     "textClass": "teiHeader/profileDesc",
@@ -117,6 +154,30 @@ PARENT = {
     "div": "text/body",
     "head": "text/body",
     "p": "text/body",
+    "msIdentifier": DESCRIPTION_PATH,
+    "msPart": DESCRIPTION_PATH,
+    "bindingDesc": f"{DESCRIPTION_PATH}/physDesc",
+    "binding": f"{DESCRIPTION_PATH}/physDesc/bindingDesc",
+    "additional": DESCRIPTION_PATH,
+    "adminInfo": f"{DESCRIPTION_PATH}/additional",
+    "surrogates": f"{DESCRIPTION_PATH}/additional",
+    "msContents": UNIT,
+    "msItem": f"{UNIT}/msContents",
+    "physDesc": UNIT,
+    "objectDesc": f"{UNIT}/physDesc",
+    "supportDesc": f"{UNIT}/physDesc/objectDesc",
+    "layoutDesc": f"{UNIT}/physDesc/objectDesc",
+    "handDesc": f"{UNIT}/physDesc",
+    "handNote": f"{UNIT}/physDesc/handDesc",
+    "decoDesc": f"{UNIT}/physDesc",
+    "decoNote": f"{UNIT}/physDesc/decoDesc",
+    "additions": f"{UNIT}/physDesc",
+    "history": UNIT,
+    "origin": f"{UNIT}/history",
+    "origDate": f"{UNIT}/history/origin",
+    "origPlace": f"{UNIT}/history/origin",
+    "provenance": f"{UNIT}/history",
+    "acquisition": f"{UNIT}/history",
 }
 # TEI's order of the children that the host makes, so that a part made later stands where TEI puts it.
 ORDER = {
@@ -133,9 +194,28 @@ ORDER = {
     ),
     "encodingDesc": ("projectDesc", "samplingDecl", "editorialDecl", "refsDecl", "classDecl", "listPrefixDef"),
     "titleStmt": ("title", "author", "editor", "respStmt", "funder", "sponsor", "principal"),
+    "msDesc": ("msIdentifier", "msContents", "physDesc", "history", "additional", "msPart"),
+    "msPart": ("msIdentifier", "msContents", "physDesc", "history", "additional"),
+    "physDesc": ("objectDesc", "handDesc", "decoDesc", "additions", "bindingDesc"),
+    "objectDesc": ("supportDesc", "layoutDesc"),
+    "history": ("origin", "provenance", "acquisition"),
+    "additional": ("adminInfo", "surrogates", "listBibl"),
 }
-# Fragments that replace the host's own element rather than join it.
-REPLACES = {"teiHeader", "text", "fileDesc", "titleStmt", "publicationStmt", "sourceDesc", "body"}
+# Fragments that replace the host's own element rather than join it: the header's, and the minimal description's
+# identifier and date.
+REPLACES = {
+    "teiHeader",
+    "text",
+    "fileDesc",
+    "titleStmt",
+    "publicationStmt",
+    "sourceDesc",
+    "body",
+    "msIdentifier",
+    "history",
+    "origin",
+    "origDate",
+}
 
 
 @dataclass(frozen=True)
@@ -209,6 +289,8 @@ def _place(host: etree._Element, el: etree._Element) -> None:
     path = PARENT.get(local, "text/body/p")
     if local == "title":
         path = "teiHeader/fileDesc/titleStmt"
+    if path.startswith(DESCRIPTION_PATH):
+        _describe(host)
     parent = host
     for step in filter(None, path.split("/")):
         parent = _child(parent, step)
@@ -232,6 +314,27 @@ def _place(host: etree._Element, el: etree._Element) -> None:
     parent.append(el)
 
 
+def _describe(host: etree._Element) -> None:
+    """Put the minimal description in the host's source description, in place of its paragraph, unless one is
+    there."""
+    source = host.find(f"{{{TEI}}}teiHeader/{{{TEI}}}fileDesc/{{{TEI}}}sourceDesc")
+    if source.find(f"{{{TEI}}}msDesc") is not None:
+        return
+    for placeholder in source.findall(f"{{{TEI}}}p"):
+        source.remove(placeholder)
+    source.append(etree.fromstring(DESCRIPTION))
+
+
+def _declare_calendars(host: etree._Element) -> None:
+    """Declare EDTF and the Gregorian calendar where the file's dates point to them and nothing declares them."""
+    attributes = ("datingMethod", "calendar")
+    pointers = {p for el in host.iter(tag=etree.Element) for a in attributes for p in (el.get(a) or "").split()}
+    for name, declaration in CALENDARS.items():
+        if f"#{name}" in pointers and not host.xpath(f"//*[@xml:id = '{name}']"):
+            header = _child(host, "teiHeader")
+            _child(_child(header, "profileDesc"), "calendarDesc").append(etree.fromstring(declaration))
+
+
 def placed(example: Example) -> etree._ElementTree:
     """The file an example is checked as: itself if it's a whole TEI file, else the minimal file holding it."""
     roots = [_in_tei(el) for el in example.element if isinstance(el.tag, str)]
@@ -240,6 +343,7 @@ def placed(example: Example) -> etree._ElementTree:
     host = etree.fromstring(HOST)
     for el in roots:
         _place(host, el)
+    _declare_calendars(host)
     return etree.ElementTree(host)
 
 

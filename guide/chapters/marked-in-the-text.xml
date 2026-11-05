@@ -142,7 +142,8 @@
     </egXML>
     <p>The application reads a statement as three annotations: the reference, the quotation with its source, and the
       attribution, the source the reference claims. A reference whose claim sits in a heading rather than in the
-      text's words is typed <val>from_paratext</val>, the only type a reference takes. A quotation has no type: its
+      text's words is typed <val>from_paratext</val>, the only type a reference in the text takes; a link to a
+      manuscript's images is typed <val>iiif</val> (<ptr target="#manuscripts"/>). A quotation has no type: its
       source goes in <att>source</att>. A formula, and every other <gi>seg</gi>, has a type from its closed list.</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="reference-type-unknown">
       <cit><ref type="paratext">Dominus ait:</ref><!-- breaks the rule --> <quote source="MAT_5_3">Beati pauperes</quote></cit>
@@ -231,6 +232,9 @@
             <valList type="closed" mode="replace" xml:id="reference-type-unknown" corresp="#tier-full">
               <valItem ident="from_paratext">
                 <desc>a statement's reference whose claim sits in a heading</desc>
+              </valItem>
+              <valItem ident="iiif">
+                <desc>in a manuscript's surrogates: a IIIF manifest of its images</desc>
               </valItem>
             </valList>
           </attDef>
@@ -492,10 +496,16 @@
   <div xml:id="marked-dates">
     <head>Dates</head>
     <p>A date in the text is marked by <gi>date</gi>, in the one form of dates that records and relations use too:
-      the wording as the text gives it, and its bounds in attributes (<ptr target="#dates"/>). The coded files mark
-      none yet; the example is made up:</p>
+      the wording as the text gives it, and its bounds in attributes. It names the calendar of its words: a day the
+      text reckons in the Julian calendar says so, and its bounds give the Gregorian day (<ptr target="#dates"/>). The coded files mark none yet; the
+      example is made up: V Idus Iunias is 9 June in the Julian calendar, 13 June in the Gregorian in 813.</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
-      <p>… Data <date when="0813-06-09">V Idus Iunias</date> …</p>
+      <calendarDesc>
+        <calendar xml:id="julian-mainz">
+          <p>The Julian calendar.</p>
+        </calendar>
+      </calendarDesc>
+      <p>… Data <date when="0813-06-13" calendar="#julian-mainz">V Idus Iunias</date> …</p>
     </egXML>
   </div>
 
