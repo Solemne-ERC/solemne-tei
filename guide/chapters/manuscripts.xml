@@ -31,7 +31,7 @@
           <provenance><orgName ref="#new_org_benediktbeuern">SS. Benedikt und Jakob</orgName>,
             Benediktbeuern</provenance>
         </history>
-        <msPart n="33">
+        <msPart n="3">
           <msIdentifier>
             <idno>3, ff. 120–207</idno>
           </msIdentifier>
@@ -62,8 +62,9 @@
       </msDesc>
     </egXML>
     <p>The file gives the physical description of the whole book too, and repeats it in each unit; the leaves are
-      wrapped in <gi>num</gi>, the places and the library have no records, and the items point to the works by
-      <att>key</att>. Here, as everywhere in this part, the example is revised to the guide's forms.</p>
+      wrapped in <gi>num</gi>, the places and the library have no records, the units are numbered 11, 22 and 33, and
+      the items point to the works by <att>key</att>. The template <code>manuscript-collection.xml</code> holds the
+      whole description. Here, as everywhere in this part, the example is revised to the guide's forms.</p>
     <p>The identifier names the manuscript's country, region and town, and its library, each pointing to its record
       by <att>ref</att>; the library's fonds, where it has one, in <gi>collection</gi>, the shelfmark still written
       whole in <gi>idno</gi> typed <val>shelfmark</val>; the manuscript's ids in other catalogues, each an

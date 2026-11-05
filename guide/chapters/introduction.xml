@@ -77,9 +77,11 @@
       <item><code>collection-edition.xml</code>: a collection, from an edition;</item>
       <item><code>decretal.xml</code>: a decretal;</item>
       <item><code>penitential.xml</code>: a penitential;</item>
+      <item><code>manuscript-collection.xml</code>: a collection in one manuscript, with the manuscript's
+        description;</item>
       <item><code>reconstruction.xml</code>: a reconstruction, with the witnesses it was made from.</item>
     </list>
-    <p>A collection in a manuscript, with its description, and an export come with later versions.</p>
+    <p>An export comes with a later version.</p>
   </div>
 
   <div xml:id="intro-principles">

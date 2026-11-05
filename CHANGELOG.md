@@ -83,6 +83,8 @@ Each release says what changed, and whether files that passed may now fail.
   and sources; the Bodleian's descriptions as an import format, with the table of what the conversion does with each
   of their elements and attributes, in `guide/mappings/`. It is modelled on the Bodleian Libraries' guidelines for
   manuscript description, credited once in the front matter, and quotes them where their words fit.
+- A template for a collection in one manuscript, `manuscript-collection.xml`: the Collectio 400 capitulorum in
+  Munich, Clm 4592, with the manuscript's description in the guide's form.
 - A template for a reconstruction, `reconstruction.xml`: the collection of Benedictus Levita, with the two editions
   it was put together from as its witnesses.
 
