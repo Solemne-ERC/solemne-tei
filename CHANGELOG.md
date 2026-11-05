@@ -11,6 +11,13 @@ Each release says what changed, and whether files that passed may now fail.
   it (`P.THB.0700` is `P.THB-0700`). A part of a code after a second dot is a source part, beginning with a letter
   (`.ms-`, `.ed-`).
 
+### The guide
+
+- **Appendices C to F:** C, the code tables and the vocabularies' seeds, each seed with where it comes from and its
+  Oxford term; D, older encodings and what they became; E, the import formats' tables, the Bodleian's moved there
+  from Part VIII; F, the changes, from this changelog. C and F are generated, as A and B are, into the HTML; the
+  examples' sources follow them.
+
 ## 0.3.0 (2026-11-05)
 
 The guide for records, relations, dates and manuscripts: Parts V to VIII, with the schema's own manuscript

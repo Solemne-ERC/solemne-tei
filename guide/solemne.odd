@@ -203,12 +203,201 @@
       </div>
     </body>
     <back>
-      <!-- solemne-tei docs generates the appendices in place of these placeholders, from the specifications. -->
+      <!-- solemne-tei docs generates appendices A, B, C and F in place of these placeholders: A and B from the
+           specifications, C from the package's code tables and the vocabularies' seeds, F from the changelog. -->
       <divGen xml:id="appendix-elements" type="elements">
         <head>The elements and attributes</head>
       </divGen>
       <divGen xml:id="appendix-rules" type="rules">
         <head>The rules</head>
+      </divGen>
+      <divGen xml:id="appendix-tables" type="tables">
+        <head>The code tables and the vocabularies</head>
+      </divGen>
+      <div xml:id="appendix-older-forms">
+        <head>Older encodings</head>
+        <p>The project's files were encoded before this guide, after the old Solemne guide, and some of their forms
+          have changed. The corrections bring the project's own files to the guide's forms; this table is for anyone
+          reading a file in an older form. Each row gives the older form, what it became, and where the guide
+          explains it.</p>
+        <table xml:id="older-forms-table">
+          <row role="label">
+            <cell>The older form</cell>
+            <cell>What it became</cell>
+            <cell>Where</cell>
+          </row>
+          <row role="label">
+            <cell cols="3">The header</cell>
+          </row>
+          <row>
+            <cell>The formal title's <gi>idno</gi> typed <val>collCode</val>, <val>collCat</val> and
+              <val>collType</val></cell>
+            <cell>an untyped <gi>idno</gi> for the code, <gi>idno</gi> typed <val>category</val> and
+              <val>type</val></cell>
+            <cell><ptr target="#header-title"/></cell>
+          </row>
+          <row>
+            <cell>The category <val>DP</val></cell>
+            <cell><val>D</val></cell>
+            <cell><ptr target="#header-categories"/></cell>
+          </row>
+          <row>
+            <cell>A date joined to a code by a dot: <code>P.THB.0700</code></cell>
+            <cell>joined by a hyphen: <code>P.THB-0700</code></cell>
+            <cell><ptr target="#header-codes"/></cell>
+          </row>
+          <row>
+            <cell><att>key</att> on <gi>title</gi>, <gi>author</gi>, <gi>origPlace</gi> and <gi>country</gi>;
+              <att>corresp</att> on <gi>provenance</gi>; persons by short keys (<code>who="#GS"</code>)</cell>
+            <cell><att>ref</att>, pointing to a record by a placeholder, an id in the file or a permalink; in
+              <gi>provenance</gi>, on the name inside it</cell>
+            <cell><ptr target="#header-responsibility"/></cell>
+          </row>
+          <row>
+            <cell>Clavis's keys as <att>xml:id</att>s</cell>
+            <cell>in <att>sameAs</att>, with the <code>clavis</code> prefix declared in <gi>listPrefixDef</gi></cell>
+            <cell><ptr target="#header-external-ids"/></cell>
+          </row>
+          <row>
+            <cell>The root's <att>xml:id</att> as the document's address (<code>collection_1234</code>); the
+              document as one <gi>div</gi> typed <val>collection</val></cell>
+            <cell>the document's code in the formal title; the <gi>body</gi> is the document</cell>
+            <cell><ptr target="#documents-and-nodes"/></cell>
+          </row>
+          <row role="label">
+            <cell cols="3">The text's structure</cell>
+          </row>
+          <row>
+            <cell><gi>div</gi> typed <val>atomicUnit</val></cell>
+            <cell><val>unit</val>, where several stand side by side; a lone one dissolves into its parent</cell>
+            <cell><ptr target="#text-units"/></cell>
+          </row>
+          <row>
+            <cell><gi>div</gi> typed <val>opener</val></cell>
+            <cell>dissolved: its headings are the headings of the division it opens</cell>
+            <cell><ptr target="#text-headings"/></cell>
+          </row>
+          <row>
+            <cell><gi>div</gi> typed <val>chapterGroup</val>, and untyped divisions</cell>
+            <cell><val>chapter</val>: a chapter may hold chapters</cell>
+            <cell><ptr target="#text-divisions"/></cell>
+          </row>
+          <row>
+            <cell><gi>div</gi> typed <val>part</val>, at the top</cell>
+            <cell><val>section</val></cell>
+            <cell><ptr target="#text-divisions"/></cell>
+          </row>
+          <row>
+            <cell>The old guide's division types: <val>canon</val>, <val>norm</val>, <val>authGrp</val>,
+              <val>authStmt</val>, <val>authStmtGrp</val>, <val>decretal</val>, <val>registerCanon</val>,
+              <val>romanLaw</val>, <val>act</val></cell>
+            <cell>the closed list of division types</cell>
+            <cell><ptr target="#text-divisions"/></cell>
+          </row>
+          <row>
+            <cell>A file that is only a register, its items in the body</cell>
+            <cell>one <gi>div</gi> typed <val>register</val> around its items</cell>
+            <cell><ptr target="#text-registers"/></cell>
+          </row>
+          <row>
+            <cell><gi>head</gi> typed <val>num</val></cell>
+            <cell><val>number</val>, the division's number as a value in <att>n</att></cell>
+            <cell><ptr target="#text-numbers"/></cell>
+          </row>
+          <row>
+            <cell><gi>head</gi> typed <val>inscriptio</val>; the old guide's <val>denom</val>,
+              <val>highlight</val> and <val>paragr</val></cell>
+            <cell><val>inscription</val> where the heading begins with its source, <val>rubric</val> where it begins
+              with its subject</cell>
+            <cell><ptr target="#text-headings"/></cell>
+          </row>
+          <row>
+            <cell>Misspelt types (<val>chpater</val>, <val>inscripto</val>, <val>atoimcUnit</val>,
+              <val>souce</val>)</cell>
+            <cell>the closed lists' values: a misspelt type fails the RelaxNG</cell>
+            <cell><ptr target="#text-divisions"/></cell>
+          </row>
+          <row>
+            <cell><gi>gap</gi> with <att>reason</att> <val>missing</val></cell>
+            <cell><val>lacuna</val></cell>
+            <cell><ptr target="#transcription-gaps"/></cell>
+          </row>
+          <row role="label">
+            <cell cols="3">What is marked in the text</cell>
+          </row>
+          <row>
+            <cell><gi>note</gi> typed <val>corresp</val>; untyped notes; the old guide's <val>filiation</val>,
+              <val>physDesc</val>, <val>warning</val>, <val>comment</val>, <val>memo</val> and <val>desc</val></cell>
+            <cell><val>parallel</val>; <val>editorial</val> or <val>source</val>, by what the note does</cell>
+            <cell><ptr target="#marked-notes"/></cell>
+          </row>
+          <row>
+            <cell>A source note's codes in its words</cell>
+            <cell>in its <att>source</att></cell>
+            <cell><ptr target="#marked-notes"/></cell>
+          </row>
+          <row>
+            <cell>Codes in older styles: <code>CNIC.325.2</code>; <code>CanApost_N</code>, <code>Apost_N</code>,
+              <code>SEA_N</code>; <code>DCEL.422.369</code>, whose year isn't the file's; pointers to the
+              standOff's entries (<code>quote source="#CNIC"</code>)</cell>
+            <cell>codes and citations as the coding rules make them: <code>C.NIC-0325_2</code>;
+              <code>COLL.CanApost_N</code>, <code>COLL.SEA_N</code>; <code>D.CEL-0428-369</code>, by the table of
+              files</cell>
+            <cell><ptr target="#marked-pointers"/></cell>
+          </row>
+          <row>
+            <cell>Placeholders without their <code>#</code>, or capitalised</cell>
+            <cell><code>#new_person_…</code>, in lower case before the encoder's name</cell>
+            <cell><ptr target="#records-ids"/></cell>
+          </row>
+          <row>
+            <cell>One <gi>quote</gi> around several paragraphs</cell>
+            <cell>fragments, one in each paragraph, joined by <att>next</att> and <att>prev</att></cell>
+            <cell><ptr target="#marked-fragments"/></cell>
+          </row>
+          <row role="label">
+            <cell cols="3">Records, relations and dates</cell>
+          </row>
+          <row>
+            <cell>An authority's records as links, in a <gi>note</gi> typed <val>links</val>; its bare numbers, in a
+              <gi>note</gi> typed <val>authorities</val></cell>
+            <cell><gi>idno</gi> typed by the authority (<code>&lt;idno type="mirabile"&gt;19840&lt;/idno&gt;</code>)</cell>
+            <cell><ptr target="#records-external-ids"/></cell>
+          </row>
+          <row>
+            <cell>Relations after SAWS and the project's own terms, their ends pointing to the standOff's
+              entries</cell>
+            <cell>the model's relation types, each with its permalink; SAWS's under "is a text of"</cell>
+            <cell><ptr target="#relations-types"/></cell>
+          </row>
+          <row>
+            <cell><att>calendar</att> <val>Gregorian</val>, undeclared</cell>
+            <cell><code>#gregorian</code>, pointing to a <gi>calendar</gi> declared in <gi>calendarDesc</gi></cell>
+            <cell><ptr target="#dates-calendars"/></cell>
+          </row>
+          <row role="label">
+            <cell cols="3">Manuscripts</cell>
+          </row>
+          <row>
+            <cell>The Bodleian's description: the whole manuscript's physical description and contents;
+              <gi>num</gi>; <gi>filiation</gi>; <gi>msItem</gi>/<att>class</att>; an untyped
+              <gi>altIdentifier</gi> as a unit's identifier</cell>
+            <cell>the guide's description: physical description and contents on the units; <gi>num</gi>'s words
+              kept as words; relations between the texts; the unit's own <gi>idno</gi></cell>
+            <cell><ptr target="#manuscripts-bodleian"/>, and the table in <ptr target="#appendix-mappings"/></cell>
+          </row>
+        </table>
+      </div>
+      <div xml:id="appendix-mappings">
+        <head>The import formats</head>
+        <p>Others' TEI comes in through its own schema, then a converter into the guide's forms (<ptr
+            target="#manuscripts-bodleian"/>). For each format, its table says what the conversion does with each of
+          its elements and attributes: keeps it, moves it, makes a record or a relation of it, or drops it, and
+          why.</p>
+        <xi:include href="mappings/bodleian.xml"/>
+      </div>
+      <divGen xml:id="appendix-changes" type="changes">
+        <head>The changes</head>
       </divGen>
       <div xml:id="example-sources">
         <head>The sources of the examples</head>

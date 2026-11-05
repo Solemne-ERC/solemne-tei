@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.3.0 (SHA-256 3a5f76c87dbd2051b15033b07ce726640b7f7b25893e2ed3cf7f7122c1a3a4f3) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.3.0 (SHA-256 b8a756dd52281896fd7b0867949e12079f35162ac67992dc6914761d9cfe5856) by solemne-tei build. Edit the ODD, not this file. -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:lang="en">
   <teiHeader>
     <fileDesc>
@@ -472,7 +472,7 @@
       <head>Categories and types</head>
       <p>The category says what kind of text the document is. The application keeps the categories as a vocabulary,
         which may grow; the schema checks them against its list, which these seed:</p>
-      <list>
+      <list xml:id="category-list">
         <item><val>SYSCOLL</val>: a collection arranged by subject;</item>
         <item><val>CHRCOLL</val>: a collection arranged chronologically;</item>
         <item><val>C</val>: a council;</item>
@@ -2362,13 +2362,13 @@
                 <desc>in the text: an editor's remark</desc>
               </valItem>
               <valItem ident="links">
-                <desc>in a record: the links to the record in other catalogues</desc>
+                <desc>in a record: links to pages about it that aren't an authority's record</desc>
               </valItem>
               <valItem ident="authorities">
-                <desc>in a record: the authority files that describe it</desc>
+                <desc>in a record, in earlier files: an authority's numbers, which the import reads as its ids</desc>
               </valItem>
               <valItem ident="extra">
-                <desc>in a bibliographic record: what fits nowhere else</desc>
+                <desc>in a record: the fields its form has no element for, in a feature structure</desc>
               </valItem>
             </valList>
           </attDef>
@@ -3973,7 +3973,7 @@
       <att>columns</att>, <att>ruledLines</att> and <att>writtenLines</att>; then its hands, decoration and
       additions. A unit's extent may say what the whole book counts. Forms and materials come from vocabularies that
       grow: a term outside the guide's seeds is reported, to be checked or added to the application's vocabulary
-      (appendix A lists the seeds). Clm 4592's second unit:</p>
+      (<ptr target="#appendix-tables"/> lists the seeds). Clm 4592's second unit:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
       <physDesc>
         <objectDesc form="codex">
@@ -4451,11 +4451,329 @@
       guide's schema; before they are converted, they are checked against their own, at the commit the package
       pins:</p>
     <eg>solemne-tei validate --format bodleian description.xml</eg>
-    <p>The table says what the conversion does with each element and attribute of the Bodleian's description: keeps
-      it, moves it, makes a record or a relation of it, or drops it, and why. Of the project's coded files, 38 carry
-      a description in the Bodleian's form, written before this guide; the corrections bring them to the guide's
-      form.</p>
-    <table xmlns="http://www.tei-c.org/ns/1.0" xml:id="bodleian-mapping">
+    <p>The table in <ptr target="#appendix-mappings"/> says what the conversion does with each element and attribute
+      of the Bodleian's description: keeps it, moves it, makes a record or a relation of it, or drops it, and why. Of
+      the project's coded files, 38 carry a description in the Bodleian's form, written before this guide; the
+      corrections bring them to the guide's form.</p>
+  </div>
+</div>
+      <div xmlns="http://www.tei-c.org/ns/1.0" xml:id="editions-and-literature" n="IX">
+  <head>Editions and literature</head>
+  <p>This part's prose comes in a later version of the guide.</p>
+</div>
+      <div xmlns="http://www.tei-c.org/ns/1.0" xml:id="exports" n="X">
+  <head>Exports</head>
+  <p>Exports add what inline markup can't hold: the citation structure (<gi>citeStructure</gi>);
+    annotations in the standOff (<gi>listAnnotation</gi>); relations (<gi>listRelation</gi>), each an
+    observation or a judgement; text reuse as link groups (<gi>linkGrp</gi>); the revision history; and
+    the records, as manuscript descriptions after the Bodleian's rules, bibliographic records and lists of
+    persons, places, events and organizations.</p>
+</div>
+
+      <div xml:id="specification">
+        <head>The specification</head>
+        <p>The schema takes the modules of TEI below, and from each only the elements listed: an element outside
+          them fails the RelaxNG. Each part's specifications follow, in the parts' order. An element the
+          specifications change carries its tier there; the others take theirs from this table.</p>
+        <table xml:id="element-tiers">
+          <head>The elements taken from TEI unchanged, by tier</head>
+          <row role="label">
+            <cell>Tier</cell>
+            <cell>Elements</cell>
+          </row>
+          <row corresp="#tier-required">
+            <cell>required</cell>
+            <cell>
+              <gi>fileDesc</gi> <gi>publicationStmt</gi> <gi>sourceDesc</gi> <gi>TEI</gi> <gi>text</gi>
+            </cell>
+          </row>
+          <row corresp="#tier-common">
+            <cell>common</cell>
+            <cell>
+              <gi>address</gi> <gi>analytic</gi> <gi>biblScope</gi> <gi>biblStruct</gi>
+              <gi>distributor</gi> <gi>email</gi> <gi>forename</gi> <gi>imprint</gi> <gi>listPerson</gi>
+              <gi>monogr</gi> <gi>p</gi> <gi>postCode</gi> <gi>publisher</gi> <gi>pubPlace</gi>
+              <gi>series</gi> <gi>standOff</gi> <gi>street</gi> <gi>surname</gi>
+            </cell>
+          </row>
+          <row corresp="#tier-full">
+            <cell>full</cell>
+            <cell>
+              <gi>abbr</gi> <gi>abstract</gi> <gi>acquisition</gi> <gi>add</gi> <gi>additional</gi> <gi>additions</gi>
+              <gi>addName</gi> <gi>addrLine</gi> <gi>adminInfo</gi> <gi>affiliation</gi> <gi>anchor</gi>
+              <gi>annotation</gi> <gi>authority</gi> <gi>availability</gi> <gi>bindingDesc</gi> <gi>birth</gi>
+              <gi>bloc</gi> <gi>calendarDesc</gi> <gi>catDesc</gi> <gi>category</gi> <gi>change</gi> <gi>choice</gi>
+              <gi>cit</gi> <gi>citedRange</gi> <gi>classDecl</gi> <gi>collation</gi> <gi>colophon</gi>
+              <gi>condition</gi> <gi>corr</gi> <gi>correction</gi> <gi>creation</gi> <gi>death</gi> <gi>decoDesc</gi>
+              <gi>del</gi> <gi>depth</gi> <gi>desc</gi> <gi>district</gi> <gi>edition</gi> <gi>editionStmt</gi>
+              <gi>encodingDesc</gi> <gi>expan</gi> <gi>explicit</gi> <gi>extent</gi> <gi>f</gi> <gi>finalRubric</gi>
+              <gi>foliation</gi> <gi>foreign</gi> <gi>fs</gi> <gi>funder</gi> <gi>genName</gi> <gi>geo</gi>
+              <gi>geogName</gi> <gi>graphic</gi> <gi>height</gi> <gi>hi</gi> <gi>history</gi> <gi>incipit</gi>
+              <gi>interpretation</gi> <gi>item</gi> <gi>keywords</gi> <gi>label</gi> <gi>language</gi>
+              <gi>langUsage</gi> <gi>layout</gi> <gi>layoutDesc</gi> <gi>lb</gi> <gi>licence</gi>
+              <gi>listAnnotation</gi> <gi>listBibl</gi> <gi>listChange</gi> <gi>listEvent</gi> <gi>listOrg</gi>
+              <gi>listPlace</gi> <gi>listPrefixDef</gi> <gi>listWit</gi> <gi>location</gi> <gi>locus</gi>
+              <gi>locusGrp</gi> <gi>measure</gi> <gi>msContents</gi> <gi>msIdentifier</gi> <gi>msName</gi>
+              <gi>name</gi> <gi>nameLink</gi> <gi>normalization</gi> <gi>notesStmt</gi> <gi>num</gi>
+              <gi>occupation</gi> <gi>org</gi> <gi>orig</gi> <gi>origin</gi> <gi>physDesc</gi> <gi>place</gi>
+              <gi>principal</gi> <gi>profileDesc</gi> <gi>projectDesc</gi> <gi>provenance</gi> <gi>punctuation</gi>
+              <gi>q</gi> <gi>quotation</gi> <gi>recordHist</gi> <gi>refsDecl</gi> <gi>reg</gi> <gi>resp</gi>
+              <gi>respStmt</gi> <gi>revisionDesc</gi> <gi>roleName</gi> <gi>rubric</gi> <gi>samplingDecl</gi>
+              <gi>seriesStmt</gi> <gi>sic</gi> <gi>source</gi> <gi>sponsor</gi> <gi>stdVals</gi> <gi>subst</gi>
+              <gi>summary</gi> <gi>supplied</gi> <gi>support</gi> <gi>surrogates</gi> <gi>taxonomy</gi> <gi>term</gi>
+              <gi>textClass</gi> <gi>textLang</gi> <gi>unclear</gi> <gi>width</gi> <gi>witness</gi>
+            </cell>
+          </row>
+          <row corresp="#tier-export-only">
+            <cell>export only</cell>
+            <cell>
+              <gi>citeData</gi> <gi>citeStructure</gi> <gi>link</gi> <gi>linkGrp</gi>
+            </cell>
+          </row>
+        </table>
+        <schemaSpec ident="solemne" start="TEI" docLang="en" targetLang="en" xml:id="element-outside-the-schema" corresp="#tier-required">
+
+          <!-- The modules, and the elements taken from each. -->
+          <moduleRef key="tei"/>
+          <moduleRef key="core" include="abbr add addrLine address analytic author bibl biblScope biblStruct choice cit citedRange corr               date del desc editor email expan foreign gap graphic head imprint item label lb list listBibl measure               monogr name note num orig p pb postCode ptr publisher pubPlace q quote ref reg resp respStmt rs series sic               street term textLang title unclear hi"/>
+          <moduleRef key="header" include="abstract authority availability calendar calendarDesc catDesc category change citeData               citeStructure classDecl correction creation distributor edition editionStmt editorialDecl encodingDesc               extent fileDesc funder handNote idno interpretation keywords langUsage language licence listChange listPrefixDef normalization               notesStmt prefixDef principal profileDesc projectDesc publicationStmt punctuation quotation refsDecl               revisionDesc               samplingDecl segmentation seriesStmt sourceDesc sponsor stdVals taxonomy teiHeader textClass               titleStmt"/>
+          <moduleRef key="textstructure" include="TEI body div text"/>
+          <moduleRef key="namesdates" include="addName affiliation birth bloc country death district event eventName floruit forename genName               geo geogName listEvent listOrg listPerson listPlace listRelation location nameLink occupation org               orgName persName person place placeName region relation roleName settlement surname"/>
+          <moduleRef key="msdescription" include="acquisition additional additions adminInfo altIdentifier binding bindingDesc collation collection               colophon condition decoDesc decoNote depth dimensions explicit finalRubric foliation handDesc height               history incipit institution layout layoutDesc locus locusGrp msContents msDesc msIdentifier msItem msName               msPart objectDesc origDate origin origPlace physDesc provenance recordHist repository rubric source               summary support supportDesc surrogates width"/>
+          <moduleRef key="linking" include="anchor annotation link linkGrp listAnnotation seg standOff"/>
+          <moduleRef key="transcr" include="subst supplied"/>
+          <moduleRef key="textcrit" include="listWit witness"/>
+          <moduleRef key="iso-fs" include="fs f"/>
+
+          <!-- Each part's specifications, in the parts' order. -->
+          <specGrpRef target="#header-title-specs"/>
+          <specGrpRef target="#header-pointers-specs"/>
+          <specGrpRef target="#header-encoding-specs"/>
+          <specGrpRef target="#header-external-ids-specs"/>
+          <specGrpRef target="#text-divisions-specs"/>
+          <specGrpRef target="#text-headings-specs"/>
+          <specGrpRef target="#text-page-breaks-specs"/>
+          <specGrpRef target="#text-gaps-specs"/>
+          <specGrpRef target="#marked-names-specs"/>
+          <specGrpRef target="#marked-works-specs"/>
+          <specGrpRef target="#marked-statements-specs"/>
+          <specGrpRef target="#marked-pointers-specs"/>
+          <specGrpRef target="#marked-notes-specs"/>
+          <specGrpRef target="#marked-other-specs"/>
+          <specGrpRef target="#records-persons-specs"/>
+          <specGrpRef target="#records-institutions-specs"/>
+          <specGrpRef target="#records-events-specs"/>
+          <specGrpRef target="#records-works-specs"/>
+          <specGrpRef target="#records-external-ids-specs"/>
+          <specGrpRef target="#relations-specs"/>
+          <specGrpRef target="#relations-types-specs"/>
+          <specGrpRef target="#dates-form-specs"/>
+          <specGrpRef target="#dates-calendars-specs"/>
+          <specGrpRef target="#dates-specs"/>
+          <specGrpRef target="#manuscripts-description-specs"/>
+          <specGrpRef target="#manuscripts-units-specs"/>
+          <specGrpRef target="#manuscripts-contents-specs"/>
+          <specGrpRef target="#manuscripts-physical-specs"/>
+          <specGrpRef target="#manuscripts-hands-specs"/>
+          <specGrpRef target="#manuscripts-decoration-specs"/>
+          <specGrpRef target="#manuscripts-binding-specs"/>
+          <specGrpRef target="#manuscripts-history-specs"/>
+
+        </schemaSpec>
+      </div>
+    </body>
+    <back>
+      <!-- solemne-tei docs generates appendices A, B, C and F in place of these placeholders: A and B from the
+           specifications, C from the package's code tables and the vocabularies' seeds, F from the changelog. -->
+      <divGen xml:id="appendix-elements" type="elements">
+        <head>The elements and attributes</head>
+      </divGen>
+      <divGen xml:id="appendix-rules" type="rules">
+        <head>The rules</head>
+      </divGen>
+      <divGen xml:id="appendix-tables" type="tables">
+        <head>The code tables and the vocabularies</head>
+      </divGen>
+      <div xml:id="appendix-older-forms">
+        <head>Older encodings</head>
+        <p>The project's files were encoded before this guide, after the old Solemne guide, and some of their forms
+          have changed. The corrections bring the project's own files to the guide's forms; this table is for anyone
+          reading a file in an older form. Each row gives the older form, what it became, and where the guide
+          explains it.</p>
+        <table xml:id="older-forms-table">
+          <row role="label">
+            <cell>The older form</cell>
+            <cell>What it became</cell>
+            <cell>Where</cell>
+          </row>
+          <row role="label">
+            <cell cols="3">The header</cell>
+          </row>
+          <row>
+            <cell>The formal title's <gi>idno</gi> typed <val>collCode</val>, <val>collCat</val> and
+              <val>collType</val></cell>
+            <cell>an untyped <gi>idno</gi> for the code, <gi>idno</gi> typed <val>category</val> and
+              <val>type</val></cell>
+            <cell><ptr target="#header-title"/></cell>
+          </row>
+          <row>
+            <cell>The category <val>DP</val></cell>
+            <cell><val>D</val></cell>
+            <cell><ptr target="#header-categories"/></cell>
+          </row>
+          <row>
+            <cell>A date joined to a code by a dot: <code>P.THB.0700</code></cell>
+            <cell>joined by a hyphen: <code>P.THB-0700</code></cell>
+            <cell><ptr target="#header-codes"/></cell>
+          </row>
+          <row>
+            <cell><att>key</att> on <gi>title</gi>, <gi>author</gi>, <gi>origPlace</gi> and <gi>country</gi>;
+              <att>corresp</att> on <gi>provenance</gi>; persons by short keys (<code>who="#GS"</code>)</cell>
+            <cell><att>ref</att>, pointing to a record by a placeholder, an id in the file or a permalink; in
+              <gi>provenance</gi>, on the name inside it</cell>
+            <cell><ptr target="#header-responsibility"/></cell>
+          </row>
+          <row>
+            <cell>Clavis's keys as <att>xml:id</att>s</cell>
+            <cell>in <att>sameAs</att>, with the <code>clavis</code> prefix declared in <gi>listPrefixDef</gi></cell>
+            <cell><ptr target="#header-external-ids"/></cell>
+          </row>
+          <row>
+            <cell>The root's <att>xml:id</att> as the document's address (<code>collection_1234</code>); the
+              document as one <gi>div</gi> typed <val>collection</val></cell>
+            <cell>the document's code in the formal title; the <gi>body</gi> is the document</cell>
+            <cell><ptr target="#documents-and-nodes"/></cell>
+          </row>
+          <row role="label">
+            <cell cols="3">The text's structure</cell>
+          </row>
+          <row>
+            <cell><gi>div</gi> typed <val>atomicUnit</val></cell>
+            <cell><val>unit</val>, where several stand side by side; a lone one dissolves into its parent</cell>
+            <cell><ptr target="#text-units"/></cell>
+          </row>
+          <row>
+            <cell><gi>div</gi> typed <val>opener</val></cell>
+            <cell>dissolved: its headings are the headings of the division it opens</cell>
+            <cell><ptr target="#text-headings"/></cell>
+          </row>
+          <row>
+            <cell><gi>div</gi> typed <val>chapterGroup</val>, and untyped divisions</cell>
+            <cell><val>chapter</val>: a chapter may hold chapters</cell>
+            <cell><ptr target="#text-divisions"/></cell>
+          </row>
+          <row>
+            <cell><gi>div</gi> typed <val>part</val>, at the top</cell>
+            <cell><val>section</val></cell>
+            <cell><ptr target="#text-divisions"/></cell>
+          </row>
+          <row>
+            <cell>The old guide's division types: <val>canon</val>, <val>norm</val>, <val>authGrp</val>,
+              <val>authStmt</val>, <val>authStmtGrp</val>, <val>decretal</val>, <val>registerCanon</val>,
+              <val>romanLaw</val>, <val>act</val></cell>
+            <cell>the closed list of division types</cell>
+            <cell><ptr target="#text-divisions"/></cell>
+          </row>
+          <row>
+            <cell>A file that is only a register, its items in the body</cell>
+            <cell>one <gi>div</gi> typed <val>register</val> around its items</cell>
+            <cell><ptr target="#text-registers"/></cell>
+          </row>
+          <row>
+            <cell><gi>head</gi> typed <val>num</val></cell>
+            <cell><val>number</val>, the division's number as a value in <att>n</att></cell>
+            <cell><ptr target="#text-numbers"/></cell>
+          </row>
+          <row>
+            <cell><gi>head</gi> typed <val>inscriptio</val>; the old guide's <val>denom</val>,
+              <val>highlight</val> and <val>paragr</val></cell>
+            <cell><val>inscription</val> where the heading begins with its source, <val>rubric</val> where it begins
+              with its subject</cell>
+            <cell><ptr target="#text-headings"/></cell>
+          </row>
+          <row>
+            <cell>Misspelt types (<val>chpater</val>, <val>inscripto</val>, <val>atoimcUnit</val>,
+              <val>souce</val>)</cell>
+            <cell>the closed lists' values: a misspelt type fails the RelaxNG</cell>
+            <cell><ptr target="#text-divisions"/></cell>
+          </row>
+          <row>
+            <cell><gi>gap</gi> with <att>reason</att> <val>missing</val></cell>
+            <cell><val>lacuna</val></cell>
+            <cell><ptr target="#transcription-gaps"/></cell>
+          </row>
+          <row role="label">
+            <cell cols="3">What is marked in the text</cell>
+          </row>
+          <row>
+            <cell><gi>note</gi> typed <val>corresp</val>; untyped notes; the old guide's <val>filiation</val>,
+              <val>physDesc</val>, <val>warning</val>, <val>comment</val>, <val>memo</val> and <val>desc</val></cell>
+            <cell><val>parallel</val>; <val>editorial</val> or <val>source</val>, by what the note does</cell>
+            <cell><ptr target="#marked-notes"/></cell>
+          </row>
+          <row>
+            <cell>A source note's codes in its words</cell>
+            <cell>in its <att>source</att></cell>
+            <cell><ptr target="#marked-notes"/></cell>
+          </row>
+          <row>
+            <cell>Codes in older styles: <code>CNIC.325.2</code>; <code>CanApost_N</code>, <code>Apost_N</code>,
+              <code>SEA_N</code>; <code>DCEL.422.369</code>, whose year isn't the file's; pointers to the
+              standOff's entries (<code>quote source="#CNIC"</code>)</cell>
+            <cell>codes and citations as the coding rules make them: <code>C.NIC-0325_2</code>;
+              <code>COLL.CanApost_N</code>, <code>COLL.SEA_N</code>; <code>D.CEL-0428-369</code>, by the table of
+              files</cell>
+            <cell><ptr target="#marked-pointers"/></cell>
+          </row>
+          <row>
+            <cell>Placeholders without their <code>#</code>, or capitalised</cell>
+            <cell><code>#new_person_…</code>, in lower case before the encoder's name</cell>
+            <cell><ptr target="#records-ids"/></cell>
+          </row>
+          <row>
+            <cell>One <gi>quote</gi> around several paragraphs</cell>
+            <cell>fragments, one in each paragraph, joined by <att>next</att> and <att>prev</att></cell>
+            <cell><ptr target="#marked-fragments"/></cell>
+          </row>
+          <row role="label">
+            <cell cols="3">Records, relations and dates</cell>
+          </row>
+          <row>
+            <cell>An authority's records as links, in a <gi>note</gi> typed <val>links</val>; its bare numbers, in a
+              <gi>note</gi> typed <val>authorities</val></cell>
+            <cell><gi>idno</gi> typed by the authority (<code>&lt;idno type="mirabile"&gt;19840&lt;/idno&gt;</code>)</cell>
+            <cell><ptr target="#records-external-ids"/></cell>
+          </row>
+          <row>
+            <cell>Relations after SAWS and the project's own terms, their ends pointing to the standOff's
+              entries</cell>
+            <cell>the model's relation types, each with its permalink; SAWS's under "is a text of"</cell>
+            <cell><ptr target="#relations-types"/></cell>
+          </row>
+          <row>
+            <cell><att>calendar</att> <val>Gregorian</val>, undeclared</cell>
+            <cell><code>#gregorian</code>, pointing to a <gi>calendar</gi> declared in <gi>calendarDesc</gi></cell>
+            <cell><ptr target="#dates-calendars"/></cell>
+          </row>
+          <row role="label">
+            <cell cols="3">Manuscripts</cell>
+          </row>
+          <row>
+            <cell>The Bodleian's description: the whole manuscript's physical description and contents;
+              <gi>num</gi>; <gi>filiation</gi>; <gi>msItem</gi>/<att>class</att>; an untyped
+              <gi>altIdentifier</gi> as a unit's identifier</cell>
+            <cell>the guide's description: physical description and contents on the units; <gi>num</gi>'s words
+              kept as words; relations between the texts; the unit's own <gi>idno</gi></cell>
+            <cell><ptr target="#manuscripts-bodleian"/>, and the table in <ptr target="#appendix-mappings"/></cell>
+          </row>
+        </table>
+      </div>
+      <div xml:id="appendix-mappings">
+        <head>The import formats</head>
+        <p>Others' TEI comes in through its own schema, then a converter into the guide's forms (<ptr target="#manuscripts-bodleian"/>). For each format, its table says what the conversion does with each of
+          its elements and attributes: keeps it, moves it, makes a record or a relation of it, or drops it, and
+          why.</p>
+        <table xmlns="http://www.tei-c.org/ns/1.0" xml:id="bodleian-mapping">
   <head>From the Bodleian's description to ours: what the conversion does with each element and attribute</head>
   <row role="label">
     <cell>The Bodleian's</cell>
@@ -4929,140 +5247,9 @@
     <cell>Keeps it, for pointers within the file.</cell>
   </row>
 </table>
-  </div>
-</div>
-      <div xmlns="http://www.tei-c.org/ns/1.0" xml:id="editions-and-literature" n="IX">
-  <head>Editions and literature</head>
-  <p>This part's prose comes in a later version of the guide.</p>
-</div>
-      <div xmlns="http://www.tei-c.org/ns/1.0" xml:id="exports" n="X">
-  <head>Exports</head>
-  <p>Exports add what inline markup can't hold: the citation structure (<gi>citeStructure</gi>);
-    annotations in the standOff (<gi>listAnnotation</gi>); relations (<gi>listRelation</gi>), each an
-    observation or a judgement; text reuse as link groups (<gi>linkGrp</gi>); the revision history; and
-    the records, as manuscript descriptions after the Bodleian's rules, bibliographic records and lists of
-    persons, places, events and organizations.</p>
-</div>
-
-      <div xml:id="specification">
-        <head>The specification</head>
-        <p>The schema takes the modules of TEI below, and from each only the elements listed: an element outside
-          them fails the RelaxNG. Each part's specifications follow, in the parts' order. An element the
-          specifications change carries its tier there; the others take theirs from this table.</p>
-        <table xml:id="element-tiers">
-          <head>The elements taken from TEI unchanged, by tier</head>
-          <row role="label">
-            <cell>Tier</cell>
-            <cell>Elements</cell>
-          </row>
-          <row corresp="#tier-required">
-            <cell>required</cell>
-            <cell>
-              <gi>fileDesc</gi> <gi>publicationStmt</gi> <gi>sourceDesc</gi> <gi>TEI</gi> <gi>text</gi>
-            </cell>
-          </row>
-          <row corresp="#tier-common">
-            <cell>common</cell>
-            <cell>
-              <gi>address</gi> <gi>analytic</gi> <gi>biblScope</gi> <gi>biblStruct</gi>
-              <gi>distributor</gi> <gi>email</gi> <gi>forename</gi> <gi>imprint</gi> <gi>listPerson</gi>
-              <gi>monogr</gi> <gi>p</gi> <gi>postCode</gi> <gi>publisher</gi> <gi>pubPlace</gi>
-              <gi>series</gi> <gi>standOff</gi> <gi>street</gi> <gi>surname</gi>
-            </cell>
-          </row>
-          <row corresp="#tier-full">
-            <cell>full</cell>
-            <cell>
-              <gi>abbr</gi> <gi>abstract</gi> <gi>acquisition</gi> <gi>add</gi> <gi>additional</gi> <gi>additions</gi>
-              <gi>addName</gi> <gi>addrLine</gi> <gi>adminInfo</gi> <gi>affiliation</gi> <gi>anchor</gi>
-              <gi>annotation</gi> <gi>authority</gi> <gi>availability</gi> <gi>bindingDesc</gi> <gi>birth</gi>
-              <gi>bloc</gi> <gi>calendarDesc</gi> <gi>catDesc</gi> <gi>category</gi> <gi>change</gi> <gi>choice</gi>
-              <gi>cit</gi> <gi>citedRange</gi> <gi>classDecl</gi> <gi>collation</gi> <gi>colophon</gi>
-              <gi>condition</gi> <gi>corr</gi> <gi>correction</gi> <gi>creation</gi> <gi>death</gi> <gi>decoDesc</gi>
-              <gi>del</gi> <gi>depth</gi> <gi>desc</gi> <gi>district</gi> <gi>edition</gi> <gi>editionStmt</gi>
-              <gi>encodingDesc</gi> <gi>expan</gi> <gi>explicit</gi> <gi>extent</gi> <gi>f</gi> <gi>finalRubric</gi>
-              <gi>foliation</gi> <gi>foreign</gi> <gi>fs</gi> <gi>funder</gi> <gi>genName</gi> <gi>geo</gi>
-              <gi>geogName</gi> <gi>graphic</gi> <gi>height</gi> <gi>hi</gi> <gi>history</gi> <gi>incipit</gi>
-              <gi>interpretation</gi> <gi>item</gi> <gi>keywords</gi> <gi>label</gi> <gi>language</gi>
-              <gi>langUsage</gi> <gi>layout</gi> <gi>layoutDesc</gi> <gi>lb</gi> <gi>licence</gi>
-              <gi>listAnnotation</gi> <gi>listBibl</gi> <gi>listChange</gi> <gi>listEvent</gi> <gi>listOrg</gi>
-              <gi>listPlace</gi> <gi>listPrefixDef</gi> <gi>listWit</gi> <gi>location</gi> <gi>locus</gi>
-              <gi>locusGrp</gi> <gi>measure</gi> <gi>msContents</gi> <gi>msIdentifier</gi> <gi>msName</gi>
-              <gi>name</gi> <gi>nameLink</gi> <gi>normalization</gi> <gi>notesStmt</gi> <gi>num</gi>
-              <gi>occupation</gi> <gi>org</gi> <gi>orig</gi> <gi>origin</gi> <gi>physDesc</gi> <gi>place</gi>
-              <gi>principal</gi> <gi>profileDesc</gi> <gi>projectDesc</gi> <gi>provenance</gi> <gi>punctuation</gi>
-              <gi>q</gi> <gi>quotation</gi> <gi>recordHist</gi> <gi>refsDecl</gi> <gi>reg</gi> <gi>resp</gi>
-              <gi>respStmt</gi> <gi>revisionDesc</gi> <gi>roleName</gi> <gi>rubric</gi> <gi>samplingDecl</gi>
-              <gi>seriesStmt</gi> <gi>sic</gi> <gi>source</gi> <gi>sponsor</gi> <gi>stdVals</gi> <gi>subst</gi>
-              <gi>summary</gi> <gi>supplied</gi> <gi>support</gi> <gi>surrogates</gi> <gi>taxonomy</gi> <gi>term</gi>
-              <gi>textClass</gi> <gi>textLang</gi> <gi>unclear</gi> <gi>width</gi> <gi>witness</gi>
-            </cell>
-          </row>
-          <row corresp="#tier-export-only">
-            <cell>export only</cell>
-            <cell>
-              <gi>citeData</gi> <gi>citeStructure</gi> <gi>link</gi> <gi>linkGrp</gi>
-            </cell>
-          </row>
-        </table>
-        <schemaSpec ident="solemne" start="TEI" docLang="en" targetLang="en" xml:id="element-outside-the-schema" corresp="#tier-required">
-
-          <!-- The modules, and the elements taken from each. -->
-          <moduleRef key="tei"/>
-          <moduleRef key="core" include="abbr add addrLine address analytic author bibl biblScope biblStruct choice cit citedRange corr               date del desc editor email expan foreign gap graphic head imprint item label lb list listBibl measure               monogr name note num orig p pb postCode ptr publisher pubPlace q quote ref reg resp respStmt rs series sic               street term textLang title unclear hi"/>
-          <moduleRef key="header" include="abstract authority availability calendar calendarDesc catDesc category change citeData               citeStructure classDecl correction creation distributor edition editionStmt editorialDecl encodingDesc               extent fileDesc funder handNote idno interpretation keywords langUsage language licence listChange listPrefixDef normalization               notesStmt prefixDef principal profileDesc projectDesc publicationStmt punctuation quotation refsDecl               revisionDesc               samplingDecl segmentation seriesStmt sourceDesc sponsor stdVals taxonomy teiHeader textClass               titleStmt"/>
-          <moduleRef key="textstructure" include="TEI body div text"/>
-          <moduleRef key="namesdates" include="addName affiliation birth bloc country death district event eventName floruit forename genName               geo geogName listEvent listOrg listPerson listPlace listRelation location nameLink occupation org               orgName persName person place placeName region relation roleName settlement surname"/>
-          <moduleRef key="msdescription" include="acquisition additional additions adminInfo altIdentifier binding bindingDesc collation collection               colophon condition decoDesc decoNote depth dimensions explicit finalRubric foliation handDesc height               history incipit institution layout layoutDesc locus locusGrp msContents msDesc msIdentifier msItem msName               msPart objectDesc origDate origin origPlace physDesc provenance recordHist repository rubric source               summary support supportDesc surrogates width"/>
-          <moduleRef key="linking" include="anchor annotation link linkGrp listAnnotation seg standOff"/>
-          <moduleRef key="transcr" include="subst supplied"/>
-          <moduleRef key="textcrit" include="listWit witness"/>
-          <moduleRef key="iso-fs" include="fs f"/>
-
-          <!-- Each part's specifications, in the parts' order. -->
-          <specGrpRef target="#header-title-specs"/>
-          <specGrpRef target="#header-pointers-specs"/>
-          <specGrpRef target="#header-encoding-specs"/>
-          <specGrpRef target="#header-external-ids-specs"/>
-          <specGrpRef target="#text-divisions-specs"/>
-          <specGrpRef target="#text-headings-specs"/>
-          <specGrpRef target="#text-page-breaks-specs"/>
-          <specGrpRef target="#text-gaps-specs"/>
-          <specGrpRef target="#marked-names-specs"/>
-          <specGrpRef target="#marked-works-specs"/>
-          <specGrpRef target="#marked-statements-specs"/>
-          <specGrpRef target="#marked-pointers-specs"/>
-          <specGrpRef target="#marked-notes-specs"/>
-          <specGrpRef target="#marked-other-specs"/>
-          <specGrpRef target="#records-persons-specs"/>
-          <specGrpRef target="#records-institutions-specs"/>
-          <specGrpRef target="#records-events-specs"/>
-          <specGrpRef target="#records-works-specs"/>
-          <specGrpRef target="#records-external-ids-specs"/>
-          <specGrpRef target="#relations-specs"/>
-          <specGrpRef target="#relations-types-specs"/>
-          <specGrpRef target="#dates-form-specs"/>
-          <specGrpRef target="#dates-calendars-specs"/>
-          <specGrpRef target="#dates-specs"/>
-          <specGrpRef target="#manuscripts-description-specs"/>
-          <specGrpRef target="#manuscripts-units-specs"/>
-          <specGrpRef target="#manuscripts-contents-specs"/>
-          <specGrpRef target="#manuscripts-physical-specs"/>
-          <specGrpRef target="#manuscripts-hands-specs"/>
-          <specGrpRef target="#manuscripts-decoration-specs"/>
-          <specGrpRef target="#manuscripts-binding-specs"/>
-          <specGrpRef target="#manuscripts-history-specs"/>
-
-        </schemaSpec>
       </div>
-    </body>
-    <back>
-      <!-- solemne-tei docs generates the appendices in place of these placeholders, from the specifications. -->
-      <divGen xml:id="appendix-elements" type="elements">
-        <head>The elements and attributes</head>
-      </divGen>
-      <divGen xml:id="appendix-rules" type="rules">
-        <head>The rules</head>
+      <divGen xml:id="appendix-changes" type="changes">
+        <head>The changes</head>
       </divGen>
       <div xml:id="example-sources">
         <head>The sources of the examples</head>

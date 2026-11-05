@@ -471,13 +471,13 @@
                 <desc>in the text: an editor's remark</desc>
               </valItem>
               <valItem ident="links">
-                <desc>in a record: the links to the record in other catalogues</desc>
+                <desc>in a record: links to pages about it that aren't an authority's record</desc>
               </valItem>
               <valItem ident="authorities">
-                <desc>in a record: the authority files that describe it</desc>
+                <desc>in a record, in earlier files: an authority's numbers, which the import reads as its ids</desc>
               </valItem>
               <valItem ident="extra">
-                <desc>in a bibliographic record: what fits nowhere else</desc>
+                <desc>in a record: the fields its form has no element for, in a feature structure</desc>
               </valItem>
             </valList>
           </attDef>
