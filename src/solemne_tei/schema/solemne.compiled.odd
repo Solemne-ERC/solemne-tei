@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.3.0 (SHA-256 84b3e7c72c26f62749b1a83074be9ef7a7233a3350a3291b9e6c215dc2e61619) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.4.0 (SHA-256 03c9285a07054faa9edb465848cf90d64e5afc5cf52c770e7ca17151381ff9df) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -37,7 +37,7 @@ the use of this software, even if advised of the possibility of such damage.
         <author>Sven Meeder</author>
       </titleStmt>
       <editionStmt>
-        <edition n="0.3.0">Version 0.3.0</edition>
+        <edition n="0.4.0">Version 0.4.0</edition>
       </editionStmt>
       <publicationStmt>
         <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University</publisher>
@@ -96,7 +96,7 @@ the use of this software, even if advised of the possibility of such damage.
         <docAuthor>Gleb Schmidt</docAuthor>
         <docAuthor>Friederike Voit</docAuthor>
         <docAuthor>Sven Meeder</docAuthor>
-        <docEdition>Version 0.3.0</docEdition>
+        <docEdition>Version 0.4.0</docEdition>
         <docDate when="2026-11-05">5 November 2026</docDate>
         <docImprint>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University, Nijmegen; funded by
           the European Research Council, grant 101087979. The guide is under the Creative Commons Attribution 4.0
@@ -142,9 +142,9 @@ the use of this software, even if advised of the possibility of such damage.
       the templates is checked as it is typed: the template declares the schema by two <code>xml-model</code>
       processing instructions, one for the RelaxNG, with the Schematron inside it, and one for the Schematron, for
       other tools:</p>
-    <eg>&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.3.0/solemne.rng"
+    <eg>&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.4.0/solemne.rng"
   type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?&gt;
-&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.3.0/solemne.sch"
+&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.4.0/solemne.sch"
   type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?&gt;</eg>
     <p>The schema is published at its version's address once the release is published; until then, a template is
       checked with <code>solemne-tei validate</code>.</p>

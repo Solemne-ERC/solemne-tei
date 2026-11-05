@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.3.0/solemne.rng" type="application/xml"
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.4.0/solemne.rng" type="application/xml"
   schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.3.0/solemne.sch" type="application/xml"
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.4.0/solemne.sch" type="application/xml"
   schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <!-- A collection in one manuscript, with its description: the Collectio 400 capitulorum in Munich, Clm 4592, from the
   project's file COLL.400.ms-Mun-BSB-4592, which transcribes it from the manuscript. The description has the

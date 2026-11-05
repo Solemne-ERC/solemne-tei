@@ -3,9 +3,19 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
-## Unreleased
+## 0.4.0 (2026-11-05)
+
+The guide finished and published: Parts IX and X, on editions and on exports, with the export template; appendices C
+to F; the guide as HTML pages and as a PDF; the release workflow, which publishes the schema and the guide on GitHub
+Pages. 1.0.0 follows once the project's corrected files pass.
 
 ### What changes for existing files
+
+Files that passed 0.3.0 may now fail where a publication's volume or pages are in a unit outside the five, or a
+code joins its date by a dot. On the project's 411 coded files, as received, this version reports 125,768 problems,
+against 0.3.0's 125,685: the 83 more are the units of `biblScope` and `citedRange` in 61 files, all RelaxNG errors
+until the corrections rewrite them. The dotted codes of four penitentials (`P.THB.0700` and three others) fail once
+the corrections move them to the formal title's code, unless the hyphen goes in with them.
 
 - **A date in a code is joined by a hyphen:** `code-format` refuses a date joined by a dot, as the coding rules have
   it (`P.THB.0700` is `P.THB-0700`). A part of a code after a second dot is a source part, beginning with a letter
