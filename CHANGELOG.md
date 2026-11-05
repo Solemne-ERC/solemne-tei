@@ -3,6 +3,14 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
+## Unreleased
+
+### What changes for existing files
+
+- **A date in a code is joined by a hyphen:** `code-format` refuses a date joined by a dot, as the coding rules have
+  it (`P.THB.0700` is `P.THB-0700`). A part of a code after a second dot is a source part, beginning with a letter
+  (`.ms-`, `.ed-`).
+
 ## 0.3.0 (2026-11-05)
 
 The guide for records, relations, dates and manuscripts: Parts V to VIII, with the schema's own manuscript

@@ -176,10 +176,21 @@
       <p>No file of the corpus has the categories <code>LR</code>, <code>CPT</code> or <code>CHA</code> yet. Their
         codes follow the general rule, with their own prefixes; how their title parts are made, the guide will say
         with the first files.</p>
+      <p>The Schematron checks the form: the prefix and its dot; the title part, whose subparts, the date among them,
+        are joined by hyphens; and any source part after a dot, which begins with a letter. A code with an
+        underscore fails, and so does a date joined by a dot (<code>P.SAM.0700</code> for
+        <code>P.SAM-0700</code>):</p>
       <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-format">
         <title type="formal">
           <idno>C.SAM_0600</idno>
           <idno type="category">C</idno>
+          <idno type="type">edition</idno>
+        </title>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="code-format">
+        <title type="formal">
+          <idno>P.SAM.0700</idno><!-- breaks the rule -->
+          <idno type="category">P</idno>
           <idno type="type">edition</idno>
         </title>
       </egXML>
@@ -311,14 +322,15 @@
             </constraint>
           </constraintSpec>
           <constraintSpec ident="code-format" scheme="schematron" corresp="#tier-required">
-            <desc>The document's code is a prefix of capitals, a dot, then letters and digits joined by dots or
-              hyphens.</desc>
+            <desc>The document's code is a prefix of capitals, a dot, the title part, its subparts joined by hyphens,
+              and any source part after a dot, beginning with a letter: a date is joined by a hyphen.</desc>
             <constraint>
               <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
                 <sch:assert id="code-format" test="matches(normalize-space(.),
-                  '^[A-Z]+\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*$')">The document's code (<sch:value-of
-                  select="normalize-space(.)"/>) begins with its category's prefix and a dot, and holds only letters,
-                  digits, dots and hyphens.</sch:assert>
+                  '^[A-Z]+\.[A-Za-z0-9]+(-[A-Za-z0-9]+)*(\.[A-Za-z][A-Za-z0-9]*(-[A-Za-z0-9]+)*)*$')">The document's
+                  code (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix and a dot, holds
+                  only letters, digits, dots and hyphens, and joins its title's parts, the date among them, by
+                  hyphens; a part after another dot is a source part, beginning with a letter.</sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>
