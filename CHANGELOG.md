@@ -3,9 +3,16 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
-## Unreleased
+## 0.3.0 (2026-11-05)
+
+The guide for records, relations, dates and manuscripts: Parts V to VIII, with the schema's own manuscript
+description in place of the Bodleian's module, the Bodleian's descriptions as an import format, and two templates.
 
 ### What changes for existing files
+
+Files that passed 0.2.0 may now fail where they describe a manuscript, date by EDTF or name a calendar, or point to
+an authority's record from a note of links. On the project's 411 coded files, this version reports 125,685 problems,
+against 0.2.0's 125,126; the differences, by rule, are below.
 
 - **Manuscript descriptions, our own:** the schema takes TEI P5's manuscript description module, restricted to the
   guide's profile, in place of the Bodleian Libraries' consolidated schema. Descriptions that passed may now fail:
