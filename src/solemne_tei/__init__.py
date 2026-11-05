@@ -7,7 +7,7 @@ from solemne_tei.formats import FORMATS
 from solemne_tei.schema_files import ClosedLists, closed_lists, schema_version
 from solemne_tei.validate import Problem, Result, Validator, validate
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 # The version of the ODD the package's schema was generated from.
 SCHEMA_VERSION = schema_version()

@@ -10,8 +10,10 @@
     as they can reasonably go, check it, and hand it to the import; and anyone can read what an export holds. SOLEMNE,
     The Social Life of Early Medieval Normative Texts, is a project funded by the European Research Council (grant
     101087979) at Radboud University.</p>
-  <p>This version covers texts, records, relations, dates and manuscripts: Parts I to VIII. Editions and exports,
-    Parts IX and X, hold their rules and their counter-examples; their prose comes in a later version.</p>
+  <p>Its ten parts go from what a file describes to what an export holds: the file and its header, the text, what is
+    marked in it, records, relations, dates, manuscripts, editions and literature, and exports. The appendices list
+    every element and rule, the code tables and the vocabularies' seeds, older encodings, the import formats' tables,
+    and the changes from one version to the next.</p>
   <p>Part VIII's description of manuscripts is modelled on the Bodleian Libraries' <title>TEI P5 Customization and
       Encoding Guidelines for Manuscript Description</title> (Bodleian Library, Oxford, version 1.0, 2020; the
     guidelines for medieval manuscripts by James Freeman and Matthew Holford;
@@ -38,9 +40,9 @@
       the templates is checked as it is typed: the template declares the schema by two <code>xml-model</code>
       processing instructions, one for the RelaxNG, with the Schematron inside it, and one for the Schematron, for
       other tools:</p>
-    <eg>&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.3.0/solemne.rng"
+    <eg>&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.4.0/solemne.rng"
   type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?&gt;
-&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.3.0/solemne.sch"
+&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.4.0/solemne.sch"
   type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?&gt;</eg>
     <p>The schema is published at its version's address once the release is published; until then, a template is
       checked with <code>solemne-tei validate</code>.</p>
@@ -79,9 +81,10 @@
       <item><code>penitential.xml</code>: a penitential;</item>
       <item><code>manuscript-collection.xml</code>: a collection in one manuscript, with the manuscript's
         description;</item>
-      <item><code>reconstruction.xml</code>: a reconstruction, with the witnesses it was made from.</item>
+      <item><code>reconstruction.xml</code>: a reconstruction, with the witnesses it was made from;</item>
+      <item><code>export.xml</code>: an export, as the application writes it, with what it adds to an imported
+        file.</item>
     </list>
-    <p>An export comes with a later version.</p>
   </div>
 
   <div xml:id="intro-principles">
@@ -128,8 +131,9 @@
       <item><ptr target="#text"/>;</item>
       <item><ptr target="#marked-in-the-text"/>, with <ptr target="#marked-fragments"/> and <ptr
           target="#marked-anchors"/>;</item>
-      <item><ptr target="#records"/>, <ptr target="#relations"/> and <ptr target="#dates"/>;</item>
-      <item><ptr target="#exports"/>.</item>
+      <item><ptr target="#records"/>, <ptr target="#relations"/>, <ptr target="#dates"/> and <ptr
+          target="#editions-and-literature"/>;</item>
+      <item><ptr target="#exports"/>, with the template <code>export.xml</code>.</item>
     </list>
   </div>
 </div>

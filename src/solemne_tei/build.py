@@ -1,14 +1,15 @@
 # SPDX-License-Identifier: MIT
 """Generate the schema from the ODD.
 
-Fetches TEI P5's `p5subset.xml`, TEI's schema for ODD files, TEI's stylesheets, the Bodleian's consolidated msDesc ODD
-with its licence, and SchXslt2 at pinned versions, checked by SHA-256, into the cache. First it expands our ODD,
-`guide/solemne.odd` with its parts in `guide/chapters/` included by XInclude, and checks the expanded ODD against TEI's
-schema for ODD files, its RelaxNG and the Schematron rules embedded in it, as Oxygen does; it stops if the ODD isn't
-valid, naming each error's part and line. Then, with SaxonC-HE: compiles our ODD with TEI's `odd2odd`, writes the
-RelaxNG with `odd2relax`, extracts the Schematron with `extract-isosch`, and compiles it to XSLT with SchXslt2. It keeps
-the expanded and the compiled ODD, and writes the closed lists as `closed-lists.json`. Each generated file names the ODD
-it came from by its version and the expanded ODD's SHA-256, and carries the notices of the material it contains.
+Fetches TEI P5's `p5subset.xml`, TEI's schema for ODD files, TEI's stylesheets, the Bodleian's published RelaxNG for
+manuscript descriptions with its licence, and SchXslt2 at pinned versions, checked by SHA-256, into the cache. First it
+expands our ODD, `guide/solemne.odd` with its parts in `guide/chapters/` included by XInclude, and checks the expanded
+ODD against TEI's schema for ODD files, its RelaxNG and the Schematron rules embedded in it, as Oxygen does; it stops if
+the ODD isn't valid, naming each error's part and line. Then, with SaxonC-HE: compiles our ODD with TEI's `odd2odd`,
+writes the RelaxNG with `odd2relax`, extracts the Schematron with `extract-isosch`, and compiles it to XSLT with
+SchXslt2. It keeps the expanded and the compiled ODD, and writes the closed lists as `closed-lists.json`. Each generated
+file names the ODD it came from by its version and the expanded ODD's SHA-256, and carries the notices of the material
+it contains.
 
 The build runs in a clone of the repository: it reads `guide/` and writes into the package's `schema/`.
 """
@@ -119,6 +120,15 @@ MSDESC_LICENCE = Source(
     "BSD 2-Clause",
 )
 SOURCES = (P5SUBSET, TEI_ODDS, STYLESHEETS, MSDESC, MSDESC_LICENCE, SCHXSLT)
+# The guide's typeface, for the PDF and the HTML only: the schema's build doesn't fetch it. Its checksum is the one
+# GitHub gives for the release's asset.
+JUNICODE = Source(
+    "Junicode_2.226.zip",
+    "2.226",
+    "https://github.com/psb1558/Junicode-font/releases/download/v2.226/Junicode_2.226.zip",
+    "dae8ebc04a8592445c1878db8451838dd2f49d7c9912b3d4f3cab84c1516c5fe",
+    "SIL Open Font License 1.1",
+)
 
 
 class BuildError(RuntimeError):
@@ -228,6 +238,16 @@ class Saxon:
         if result is None:
             raise BuildError(f"{stylesheet.name} on {source.name} gave no output")
         return str(result)
+
+    def write(self, stylesheet: Path, source: Path, out: Path, **params: str) -> None:
+        """Run a stylesheet that writes files: its main result to `out`, and the documents it writes besides, by
+        relative addresses, next to it."""
+        executable = self.xslt.compile_stylesheet(stylesheet_file=str(stylesheet))
+        executable.set_save_xsl_message(True, None)
+        executable.set_base_output_uri(out.as_uri())
+        for name, value in params.items():
+            executable.set_parameter(name, self.processor.make_string_value(value))
+        executable.transform_to_file(source_file=str(source), output_file=str(out))
 
 
 def embedded_schematron(rng: Path) -> bytes:

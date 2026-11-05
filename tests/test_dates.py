@@ -101,12 +101,13 @@ def test_no_bound_comes_after_its_pair(validator: Validator, tmp_path: Path, att
 
 
 def test_a_calendar_must_be_declared(validator: Validator, tmp_path: Path) -> None:
+    # An era the examples' host doesn't declare by itself, as it does the Gregorian and Julian calendars.
     declared = (
-        '<calendarDesc><calendar xml:id="julian"><p>The Julian calendar.</p></calendar></calendarDesc>'
-        '<p><date when="0813-06-13" calendar="#julian">V Idus Iunias</date></p>'
+        '<calendarDesc><calendar xml:id="spanish-era"><p>The Spanish era.</p></calendar></calendarDesc>'
+        '<p><date when="0549-12-06" calendar="#spanish-era">ERA DLXXXVII</date></p>'
     )
     assert "calendar-declared" not in schematron_rules(validator, tmp_path, declared)
-    undeclared = '<p><date when="0813-06-13" calendar="#julian">V Idus Iunias</date></p>'
+    undeclared = '<p><date when="0549-12-06" calendar="#spanish-era">ERA DLXXXVII</date></p>'
     assert "calendar-declared" in schematron_rules(validator, tmp_path, undeclared)
 
 

@@ -3,6 +3,68 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
+## 0.4.0 (2026-11-05)
+
+The guide finished and published: Parts IX and X, on editions and on exports, with the export template; appendices C
+to F; the guide as HTML pages and as a PDF; the release workflow, which publishes the schema and the guide on GitHub
+Pages. 1.0.0 follows once the project's corrected files pass.
+
+### What changes for existing files
+
+Files that passed 0.3.0 may now fail where a publication's volume or pages are in a unit outside the five, or a
+code joins its date by a dot. On the project's 411 coded files, as received, this version reports 125,768 problems,
+against 0.3.0's 125,685: the 83 more are the units of `biblScope` and `citedRange` in 61 files, all RelaxNG errors
+until the corrections rewrite them. The dotted codes of four penitentials (`P.THB.0700` and three others) fail once
+the corrections move them to the formal title's code, unless the hyphen goes in with them.
+
+- **A date in a code is joined by a hyphen:** `code-format` refuses a date joined by a dot, as the coding rules have
+  it (`P.THB.0700` is `P.THB-0700`). A part of a code after a second dot is a source part, beginning with a letter
+  (`.ms-`, `.ed-`).
+- **Publications:** the units of `biblScope` and `citedRange` are a closed list, `volume`, `part`, `issue`, `page` and
+  `column` (`scope-unit`, `cited-range-unit`), so that each is a field of biblatex: a `tome`, `vol`, `band`,
+  `fascicle` or `heft` now fails the RelaxNG. A title in a `biblStruct` has the level of its part, `a` in `analytic`,
+  `m` or `j` in `monogr`, `s` in `series` (`title-level`, an error). A `biblStruct`'s `@type` is biblatex's entry
+  type, a warning outside biblatex's types (`entry-type`); `@subtype` goes.
+- **Stand-off annotations:** a target is an id in the file, a range, a span by `string-range()` or a permalink
+  (`annotation-target`), and the body is one `note`, holding the layer's element alone or typed by a note's layer
+  (`annotation-body`); both errors. `annotation/@motivation` goes: the body says the layer.
+- **Exports' elements:** a `linkGrp` is typed `reuse` or not at all (`link-group-type`), and a hit of text reuse
+  has two targets (`reuse-link`); a `change` is typed `release` or not at all (`change-type`), and a release has
+  `@n` and `@when` (`release-named`).
+
+### The guide
+
+- **Part IX, editions and literature:** a publication's parts and their titles' levels, the MGH case and texts
+  with editors of their own, the two kinds of pages, the units, biblatex's entry types and the table of its
+  fields, publications as records, and reconstructions.
+- **Part X, exports:** the nodes' ids, permalinks and the records listed; the citation structure; annotations in the
+  standOff, each with its layer's element; text reuse; releases and change sets; the vocabularies' terms with their
+  permalinks; both checks. The template `export.xml` is a short export of the Council of Soissons of 744.
+- **Appendices C to F:** C, the code tables and the vocabularies' seeds, each seed with where it comes from and its
+  Oxford term; D, older encodings and what they became; E, the import formats' tables, the Bodleian's moved there
+  from Part VIII; F, the changes, from this changelog. C and F are generated, as A and B are, into the HTML; the
+  examples' sources follow them.
+- **The guide's title:** "The SOLEMNE Encoding Guidelines", on a title page with its
+  authors, version, date and licences, in the HTML and the PDF.
+- **The HTML, a page per part:** `solemne-tei docs --html` writes a folder of pages, the title page and contents in
+  `index.html`, a page for the front matter, each part and each appendix, and one per specification of TEI's
+  reference, so that no page is large. The parts are numbered I to X; no page shows the build's date. The guide's
+  stylesheets are in `guide/style/`, and the text is set in Junicode, served with the pages.
+- **The PDF:** `solemne-tei docs --pdf` makes the guide TEI Lite, then LaTeX, by TEI's stylesheets, and sets it with
+  LuaLaTeX in Junicode, into `build/pdf/solemne-guide.pdf`. It leaves out TEI's reference for each element, which the
+  HTML holds. Junicode is fetched once at a pinned release, checked by its SHA-256.
+
+### The package
+
+- **The validator no longer hangs** on a file whose publication fails beside its `imprint`, such as a volume in an
+  older unit: libxml2 never finishes compiling `imprint`'s pattern on its own, so the narrowing of a RelaxNG error to
+  its element doesn't try it, and a failure inside an `imprint` is reported at its parent.
+- **The release workflow:** on a tag `vX.Y.Z`, it rebuilds the schema from an empty cache and checks it against the
+  committed files, runs the tests, makes the HTML and the PDF, and publishes: a GitHub release with the schema's
+  files, the HTML and the PDF, its notes this changelog's section; the pages, `schema/X.Y.Z/`, `guide/X.Y.Z/` and
+  `latest/`, keeping every earlier version, earlier releases' schemas included; from 1.0.0 on, the package on PyPI.
+  On a pull request, or started by hand, it builds the same and publishes nothing.
+
 ## 0.3.0 (2026-11-05)
 
 The guide for records, relations, dates and manuscripts: Parts V to VIII, with the schema's own manuscript

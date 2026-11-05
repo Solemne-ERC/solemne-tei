@@ -76,14 +76,17 @@ DESCRIPTION = f"""<msDesc xmlns="{TEI}">
 DESCRIPTION_PATH = "teiHeader/fileDesc/sourceDesc/msDesc"
 UNIT = f"{DESCRIPTION_PATH}/msPart"
 
-# The declarations a fragment's dates point to without declaring them: EDTF, by `@datingMethod="#edtf"`, and the
-# Gregorian calendar of modern statements, by `@calendar="#gregorian"`.
+# The declarations a fragment's dates point to without declaring them: EDTF, by `@datingMethod="#edtf"`, the
+# Gregorian calendar of modern statements, by `@calendar="#gregorian"`, and the Julian of the sources' days.
 CALENDARS = {
     "edtf": f"""<calendar xmlns="{TEI}" xml:id="edtf" target="https://www.loc.gov/standards/datetime/">
   <p>The Extended Date/Time Format (EDTF), ISO 8601-2.</p>
 </calendar>""",
     "gregorian": f"""<calendar xmlns="{TEI}" xml:id="gregorian">
   <p>The Gregorian calendar, in the Christian era.</p>
+</calendar>""",
+    "julian": f"""<calendar xmlns="{TEI}" xml:id="julian">
+  <p>The Julian calendar, in the Christian era.</p>
 </calendar>""",
 }
 
@@ -151,6 +154,7 @@ PARENT = {
     "event": "standOff/listEvent",
     "relation": "standOff/listRelation",
     "annotation": "standOff/listAnnotation",
+    "linkGrp": "standOff",
     "div": "text/body",
     "head": "text/body",
     "p": "text/body",

@@ -23,6 +23,10 @@ from solemne_tei.schema_files import RELAXNG, SCHEMA_DIR, SCHEMATRON_XSLT
 
 SVRL = "http://purl.oclc.org/dsdl/svrl"
 RNG = "http://relaxng.org/ns/structure/1.0"
+# Elements whose pattern libxml2 never finishes compiling as a grammar's start: TEI's `imprint`, a repetition of a
+# choice of elements, in this schema and in the Bodleian's alike. The narrowing doesn't check them on their own, so a
+# failure inside one is reported at its parent, with libxml2's message. A test compiles every other element's.
+NOT_ALONE = frozenset({"imprint"})
 STEP = re.compile(r"/(?:Q\{([^}]*)\})?([^/\[{]+)(?:\[(\d+)\])?")
 PATTERN = re.compile(r"^schematron-constraint-(.+?)(?:-\d+)?$")
 # The pattern ids of TEI's older stylesheets, which made the Bodleian's published schema: the schema, the element, the
@@ -141,7 +145,7 @@ class Validator:
     def _schema_for(self, el: Any) -> Any:
         """The RelaxNG whose start is this element's pattern, or None when the grammar has none."""
         local = etree.QName(el).localname
-        if local not in self._defines:
+        if local not in self._defines or local in NOT_ALONE:
             return None
         if local not in self._alone:
             grammar = copy.deepcopy(self._grammar.getroot())

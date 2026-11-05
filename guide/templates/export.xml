@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.4.0/solemne.rng" type="application/xml"
+  schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.4.0/solemne.sch" type="application/xml"
+  schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- An export: the Council of Soissons of 744, as the application writes it, from the project's file C.SOI-0744, which
+  transcribes Werminghoff's edition. It holds what an export adds to an imported file: the nodes' ids, permalinks,
+  the levels' identifiers, the citation structure, an annotation in the standOff, relations, a hit of text reuse, a
+  release and a change set, the vocabulary's terms it uses, and the records it points to. The application's domain
+  isn't fixed yet: the permalinks use example.org, and the records' numbers, the release and the hit are made up.
+  The text is the preface's beginning and the first two chapters; what is left out is marked by gaps. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="formal">
+          <idno>C.SOI-0744</idno>
+          <idno type="category">C</idno>
+          <idno type="type">edition</idno>
+          <idno type="work">https://example.org/id/work/C.SOI-0744</idno>
+          <idno type="version">https://example.org/id/version/C.SOI-0744</idno>
+          <idno type="witness">https://example.org/id/witness/C.SOI-0744</idno>
+          <idno type="transcription">https://example.org/id/transcription/C.SOI-0744</idno>
+        </title>
+        <title type="alias">Council of Soissons, 744</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts</publisher>
+        <address>
+          <orgName type="institution">Radboud University</orgName>
+          <street>Houtlaan 4</street>
+          <settlement>Nijmegen</settlement>
+          <postCode>6525 XZ</postCode>
+          <country>Netherlands</country>
+        </address>
+        <availability>
+          <licence target="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</licence>
+        </availability>
+        <date when="2027-06-30">30 June 2027</date>
+      </publicationStmt>
+      <sourceDesc>
+        <biblStruct type="incollection">
+          <analytic>
+            <title level="a">Concilium Suessionense. 744. Mart. 2.</title>
+          </analytic>
+          <monogr>
+            <editor>
+              <persName>
+                <forename>Albert</forename>
+                <surname>Werminghoff</surname>
+              </persName>
+            </editor>
+            <title level="m" type="main">Concilia aevi Karolini</title>
+            <title level="m" type="sub">Pars I</title>
+            <imprint>
+              <publisher>impensis Bibliopolii Hahniani</publisher>
+              <pubPlace>Hannover</pubPlace>
+              <pubPlace>Leipzig</pubPlace>
+              <date>1906</date>
+            </imprint>
+            <biblScope unit="part">1</biblScope>
+            <biblScope unit="page">33-36</biblScope>
+          </monogr>
+          <series>
+            <title level="s">Monumenta Germaniae Historica</title>
+            <title level="s">Concilia</title>
+            <biblScope unit="volume">2.1</biblScope>
+          </series>
+        </biblStruct>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <editorialDecl>
+        <correction status="high">
+          <p>Checked against the edition.</p>
+        </correction>
+      </editorialDecl>
+      <refsDecl>
+        <citeStructure unit="preface" match="/TEI/text/body/div[@type = 'preface']"
+          use="concat('pr', count(preceding-sibling::div[@type = 'preface']) + 1)"/>
+        <citeStructure unit="chapter" match="/TEI/text/body/div[@type = 'chapter']" use="@n"/>
+      </refsDecl>
+      <classDecl>
+        <taxonomy xml:id="relation-types">
+          <category xml:id="isTextOf" sameAs="https://example.org/id/term/isTextOf">
+            <catDesc xml:lang="en">is a text of</catDesc>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <calendarDesc>
+        <calendar xml:id="julian">
+          <p>The Julian calendar, in the Christian era: the days the council's text gives.</p>
+        </calendar>
+      </calendarDesc>
+    </profileDesc>
+    <revisionDesc>
+      <change type="release" n="2027.1" when="2027-06-30">The project's first release: the council checked against
+        its edition, its persons, places and events identified.</change>
+      <change when="2027-05-02" who="https://example.org/id/person/PERS.12" target="#C.SOI-0744_2.p1">A reading
+        corrected against the edition.</change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div type="preface" xml:id="C.SOI-0744_pr1">
+        <p xml:id="C.SOI-0744_pr1.p1"><pb n="33"/>In Dei nomine trinitatis. Anno septingentesimo quadragesimo quarto
+          ab incarnatione Christi sub die VI. Nonas Martii et luna XIIII. in anno secundo <persName
+            ref="https://example.org/id/person/PERS.31">Childerici regis Francorum</persName> ego <persName
+            ref="https://example.org/id/person/PERS.32">Pippinus, dux et princeps Francorum</persName>. <gap
+            reason="sampling"/> conloqui apud <placeName ref="https://example.org/id/place/PLACE.7">Suessionis
+            civitas</placeName> synodum vel concilio facere decrevimus; quod ita in Dei nomine et fecimus.</p>
+      </div>
+      <div type="chapter" n="1" xml:id="C.SOI-0744_1">
+        <head type="number" xml:id="C.SOI-0744_1.h1"><pb n="34"/>(I).</head>
+        <p xml:id="C.SOI-0744_1.p1">In primitus constituimus fide catholica, quam constituerunt CCCXVIII episcopi in
+          <eventName ref="https://example.org/id/event/EVENT.1">Niceno concilio</eventName>, ut denuntiaretur per
+          universa regione nostra, et iudicias canonicas aliorum sanctorum, que constituerunt in synodis suis, quomodo
+          lex Dei et ecclaesiastica regula recuperetur, que in diebus priorum principum dissipata corruit.</p>
+      </div>
+      <div type="chapter" n="2" xml:id="C.SOI-0744_2">
+        <head type="number" xml:id="C.SOI-0744_2.h1">(II).</head>
+        <p xml:id="C.SOI-0744_2.p1">Propterea nos una cum consensu episcoporum sive sacerdotum seu servorum Dei et
+          optimatum meorum consilio decrevimus, ut annis singulis synodo renovare debeamus, <gap reason="sampling"/>
+          sicut invenimus in <persName ref="https://example.org/id/person/PERS.33">Adlaberto</persName> heresim, <gap
+            reason="sampling"/></p>
+      </div>
+    </body>
+  </text>
+  <standOff>
+    <listAnnotation>
+      <!-- The council's date, from its year to the king's, crosses Childeric's name, so it stands here. -->
+      <annotation xml:id="annotation-date" target="#string-range(C.SOI-0744_pr1.p1,26,137)">
+        <respStmt>
+          <resp>dated</resp>
+          <persName ref="https://example.org/id/person/PERS.12">An editor</persName>
+        </respStmt>
+        <licence target="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</licence>
+        <note><date when="0744-03-06" calendar="#julian">Anno septingentesimo quadragesimo quarto ab incarnatione
+            Christi sub die VI. Nonas Martii et luna XIIII. in anno secundo Childerici regis</date></note>
+      </annotation>
+    </listAnnotation>
+    <listRelation>
+      <relation name="isTextOf" ref="https://example.org/id/term/isTextOf" type="observation"
+        active="#C.SOI-0744_1" passive="https://example.org/id/canon/C.SOI-0744_1"
+        resp="https://example.org/id/person/PERS.12"/>
+      <relation name="isTextOf" ref="https://example.org/id/term/isTextOf" type="observation"
+        active="#C.SOI-0744_2" passive="https://example.org/id/canon/C.SOI-0744_2"
+        resp="https://example.org/id/person/PERS.12"/>
+    </listRelation>
+    <linkGrp type="reuse" resp="https://example.org/id/run/3">
+      <link xml:id="hit-41"
+        target="#string-range(C.SOI-0744_2.p1,0,40) https://example.org/id/transcription/C.ASC-0756#string-range(C.ASC-0756_1.p1,0,40)"/>
+    </linkGrp>
+    <listPerson>
+      <person xml:id="PERS.12">
+        <persName type="main">An editor of the project</persName>
+      </person>
+      <person xml:id="PERS.31">
+        <persName type="main">Childeric III, king of the Franks</persName>
+      </person>
+      <person xml:id="PERS.32">
+        <persName type="main">Pippin III, mayor of the palace</persName>
+      </person>
+      <person xml:id="PERS.33">
+        <persName type="main">Aldebert</persName>
+      </person>
+    </listPerson>
+    <listPlace>
+      <place xml:id="PLACE.7">
+        <placeName>Soissons</placeName>
+      </place>
+    </listPlace>
+    <listEvent>
+      <event xml:id="EVENT.1" when="0325">
+        <eventName>Council of Nicaea, 325</eventName>
+      </event>
+    </listEvent>
+  </standOff>
+</TEI>

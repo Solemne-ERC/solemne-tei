@@ -1,0 +1,45 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% The guide's LaTeX preamble, after TEI's: Junicode for the text, from the folder solemne-tei docs names in
+% \SolemneFontPath; the parts numbered I to X; headings in the text's face; links in colour, not in boxes.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{solemne-guide}
+
+\setmainfont{Junicode}[
+  Path=\SolemneFontPath,
+  Extension=.otf,
+  UprightFont=*-Regular,
+  BoldFont=*-Bold,
+  ItalicFont=*-Italic,
+  BoldItalicFont=*-BoldItalic,
+  Ligatures=TeX,
+  Numbers=OldStyle]
+\setmonofont{DejaVu Sans Mono}[Scale=MatchLowercase]
+\definecolor{solemnelink}{rgb}{0.12,0.24,0.48}
+% Examples: smaller, ragged right, and a line may break after an underscore, so that long ids and pointers fit.
+\def\exampleFont{\ttfamily\small\raggedright\def\textunderscore{\char"5F\allowbreak}}
+
+% TEI's layout, which runs after this package, defines \mainmatter, the headings and the lines of the contents;
+% these follow it.
+\AtBeginDocument{%
+  \def\chaptername{Part}%
+  \g@addto@macro\mainmatter{%
+    \def\thechapter{\@Roman\c@chapter}%
+    \def\theHchapter{\Roman{chapter}}%
+    \def\thesection{\thechapter.\@arabic\c@section}%
+    \def\theHsection{\theHchapter.\arabic{section}}}%
+  \renewcommand\section{\@startsection{section}{1}{\z@}%
+    {-2.5ex \@plus -0.5ex \@minus -.2ex}{1ex \@plus .2ex}{\reset@font\Large\bfseries}}%
+  \renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+    {-2ex \@plus -0.5ex \@minus -.2ex}{0.8ex \@plus .2ex}{\reset@font\large\bfseries}}%
+  \renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+    {-1.5ex \@plus -0.35ex \@minus -.2ex}{0.5ex \@plus .2ex}{\reset@font\normalsize\bfseries\itshape}}%
+  \renewcommand*\l@chapter[2]{%
+    \addpenalty{-\@highpenalty}\vskip 0.8em \@plus\p@
+    \begingroup \parindent\z@ \rightskip\@pnumwidth \parfillskip -\@pnumwidth
+      \leavevmode\bfseries \setlength\@tempdima{2.6em}\advance\leftskip\@tempdima \hskip -\leftskip
+      #1\nobreak\hfil\nobreak\hb@xt@\@pnumwidth{\hss #2}\par\penalty\@highpenalty
+    \endgroup}%
+  \def\l@section{\@dottedtocline{1}{2.6em}{3.2em}}%
+  \setcounter{tocdepth}{1}}
+
+\endinput

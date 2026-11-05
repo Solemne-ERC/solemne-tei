@@ -1,6 +1,537 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<div xmlns="http://www.tei-c.org/ns/1.0" xml:id="editions-and-literature" n="IX">
+<div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+  xml:id="editions-and-literature" n="IX">
   <head>Editions and literature</head>
-  <p>This part's prose comes in a later version of the guide.</p>
+  <p>A publication, the edition a text was transcribed from or the literature on it, is a <gi>biblStruct</gi>: in the
+    source description of a file that transcribes an edition (<ptr target="#header-publication"/>); in the standOff's
+    <gi>listBibl</gi>, as a record that witnesses and other records point to (<ptr target="#records-witnesses"/>); in
+    a manuscript's literature (<ptr target="#manuscripts-additional"/>). The application keeps publications as
+    records modelled on biblatex, related to one another, a text in a volume and a volume in a series, and one kind
+    serves for the editions and the literature. Pages belong to the relation, not to the publication: a council's
+    canons are in Werminghoff's volume at pages 318 to 421, and the volume's record says nothing of them.</p>
+  <p>The source description's <gi>biblStruct</gi> is <hi>common</hi>, since most files transcribe an edition; its
+    entry type and a biblatex key are <hi>full</hi>.</p>
+
+  <div xml:id="editions-parts">
+    <head>A publication's parts</head>
+    <p>A <gi>biblStruct</gi> has up to three parts, each with its title, whose <att>level</att> says which part it
+      belongs to:</p>
+    <list>
+      <item><gi>analytic</gi>: a text with its own title in a larger publication, a council in a volume of councils,
+        an article in a journal; its title is level <val>a</val>, and it names its own author or editor where it has
+        one;</item>
+      <item><gi>monogr</gi>: the publication itself, a book or a volume (its title level <val>m</val>, a second title
+        typed <val>sub</val> where the title page has one) or a journal (<val>j</val>); its authors or editors; its
+        <gi>imprint</gi>, with the publisher, the place and the date; and, in <gi>biblScope</gi>, the volume, part or
+        issue, and the pages where the text of the <gi>analytic</gi> stands;</item>
+      <item><gi>series</gi>: the series the volume belongs to, its title level <val>s</val>, its editor where it has
+        one, and the volume's number in it, in <gi>biblScope</gi>.</item>
+    </list>
+    <p>The edition of the Monumenta Germaniae Historica is the case the parts are made for: a series with its editor,
+      the society that publishes it; a titled volume, edited by a scholar; and in it the texts. The Council of Aachen
+      of 816:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.AAC-0816">
+      <biblStruct>
+        <analytic>
+          <title level="a">Concilium Aquisgranense a. 816 (mensibus Augusto et Septembri)</title>
+        </analytic>
+        <monogr>
+          <editor>
+            <persName>
+              <forename>Albert</forename>
+              <surname>Werminghoff</surname>
+            </persName>
+          </editor>
+          <title level="m" type="main">Concilia aevi Karolini</title>
+          <title level="m" type="sub">Pars I</title>
+          <imprint>
+            <publisher>impensis Bibliopolii Hahniani</publisher>
+            <pubPlace>Hannover</pubPlace>
+            <pubPlace>Leipzig</pubPlace>
+            <date>1906</date>
+          </imprint>
+          <biblScope unit="part">1</biblScope>
+          <biblScope unit="page">307-464</biblScope>
+        </monogr>
+        <series>
+          <editor>
+            <orgName>Societas Aperiendis Fontibus Rerum Germanicarum Medii Aevi</orgName>
+          </editor>
+          <title level="s">Monumenta Germaniae Historica</title>
+          <title level="s">Concilia</title>
+          <biblScope unit="volume">2.1</biblScope>
+        </series>
+        <citedRange unit="page">318-421</citedRange>
+      </biblStruct>
+    </egXML>
+    <p>Where the texts of a volume have editors of their own, each <gi>analytic</gi> names its editor, and the
+      <gi>monogr</gi> the volume's. The First Council of Constantinople, edited by Adolf Martin Ritter in Giuseppe
+      Alberigo's volume of the Conciliorum Oecumenicorum Generaliumque Decreta:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.CON-0381-v5">
+      <biblStruct>
+        <analytic>
+          <editor>
+            <persName>
+              <forename>Adolf Martin</forename>
+              <surname>Ritter</surname>
+            </persName>
+          </editor>
+          <title level="a">Concilium Constantinopolitanum I - 381</title>
+        </analytic>
+        <monogr>
+          <editor>
+            <persName>
+              <forename>Giuseppe</forename>
+              <surname>Alberigo</surname>
+            </persName>
+          </editor>
+          <title level="m">The oecumenical councils: from Nicaea I to Nicaea II (325-787)</title>
+          <idno type="ISBN">978-2-503-52363-7</idno>
+          <imprint>
+            <publisher>Brepols</publisher>
+            <pubPlace>Turnhout</pubPlace>
+            <date>2006</date>
+          </imprint>
+          <biblScope unit="page">35-70</biblScope>
+        </monogr>
+        <series>
+          <title level="s">Corpus Christianorum</title>
+          <title level="s">Conciliorum Oecumenicorum Generaliumque Decreta</title>
+          <biblScope unit="volume">1</biblScope>
+        </series>
+        <citedRange unit="page">64-70</citedRange>
+      </biblStruct>
+    </egXML>
+    <p>A title of the wrong level for its part is an error, since the level says what the title is:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="title-level">
+      <biblStruct>
+        <monogr>
+          <title level="a">Concilia exempli gratia</title><!-- breaks the rule -->
+          <imprint>
+            <date>1906</date>
+          </imprint>
+        </monogr>
+      </biblStruct>
+    </egXML>
+  </div>
+
+  <div xml:id="editions-pages">
+    <head>Pages</head>
+    <p>A publication has two kinds of pages, and each has its element:</p>
+    <list>
+      <item><gi>biblScope</gi> in <gi>monogr</gi>, typed by its <att>unit</att> <val>page</val>, says where the text of
+        the <gi>analytic</gi> stands in the volume: Aachen's council at pages 307 to 464 of the MGH's volume. It's part
+        of the publication's description, and the import relates the text to the volume by it;</item>
+      <item><gi>citedRange</gi>, after the <gi>monogr</gi> and the <gi>series</gi>, says which pages the file's text
+        comes from: the canons at pages 318 to 421. They're the witness's pages, the relation's. Where the file
+        transcribes the whole text of the <gi>analytic</gi>, there's none: its pages are the witness's.</item>
+    </list>
+    <p>Either may give its range in <att>from</att> and <att>to</att> beside its words. An older edition printed in
+      columns counts columns: the letter of Pope Celestine I to the bishops of Vienne and Narbonne, in Coustant's
+      edition of the popes' letters:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-D.CEL-0428-369">
+      <biblStruct>
+        <analytic>
+          <title level="a">Epistola IV / Caelestini papae I. ad episcopos prouinciae Viennensis &amp;
+            Narbonensis</title>
+        </analytic>
+        <monogr>
+          <editor>
+            <persName>
+              <forename>Pierre</forename>
+              <surname>Coustant</surname>
+            </persName>
+          </editor>
+          <title level="m" type="main">Epistolae Romanorum pontificum, et quae ad eos scriptae sunt a S. Clemente I.
+            usque ad Innocentium III</title>
+          <title level="m" type="sub">Tom. I: ab anno Christi 67 ad annum 440</title>
+          <imprint>
+            <publisher>Ludovicus-Dionysius Delatour</publisher>
+            <publisher>Antonius-Urbanus Coustelier</publisher>
+            <pubPlace>Paris</pubPlace>
+            <date>1721</date>
+          </imprint>
+          <biblScope unit="volume">1</biblScope>
+          <biblScope unit="column" from="1065" to="1072">1065-1072</biblScope>
+        </monogr>
+      </biblStruct>
+    </egXML>
+    <p>The units are a closed list, since each is a field of biblatex: <val>volume</val>, <val>part</val>,
+      <val>issue</val>, <val>page</val> and <val>column</val>. A volume in a <gi>series</gi> is the volume's number in
+      the series, a tome or a fascicle of it too; an issue is a journal's, a <foreign xml:lang="de">Heft</foreign>.
+      Another unit fails the RelaxNG:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="scope-unit">
+      <biblStruct>
+        <monogr>
+          <title level="m">Concilia exempli gratia</title>
+          <imprint>
+            <date>1906</date>
+          </imprint>
+        </monogr>
+        <series>
+          <title level="s">Monumenta exempli gratia</title>
+          <biblScope unit="tome">2</biblScope><!-- breaks the rule -->
+        </series>
+      </biblStruct>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="cited-range-unit">
+      <biblStruct>
+        <monogr>
+          <title level="m">Concilia exempli gratia</title>
+          <imprint>
+            <date>1906</date>
+          </imprint>
+        </monogr>
+        <citedRange unit="folio">12</citedRange><!-- breaks the rule -->
+      </biblStruct>
+    </egXML>
+    <specGrp xml:id="editions-pages-specs">
+      <!-- The units of a publication's scope and of the pages cited from it: biblatex's fields. -->
+      <elementSpec ident="biblScope" module="core" mode="change" corresp="#tier-common">
+        <attList>
+          <attDef ident="unit" mode="change" corresp="#tier-common">
+            <valList type="closed" mode="replace" xml:id="scope-unit" corresp="#tier-common">
+              <valItem ident="volume">
+                <desc>a volume; in a series, the volume's number in it</desc>
+              </valItem>
+              <valItem ident="part">
+                <desc>a part of a volume</desc>
+              </valItem>
+              <valItem ident="issue">
+                <desc>an issue of a journal</desc>
+              </valItem>
+              <valItem ident="page">
+                <desc>pages</desc>
+              </valItem>
+              <valItem ident="column">
+                <desc>columns, where the publication counts them</desc>
+              </valItem>
+            </valList>
+          </attDef>
+        </attList>
+      </elementSpec>
+      <elementSpec ident="citedRange" module="core" mode="change" corresp="#tier-full">
+        <attList>
+          <attDef ident="unit" mode="change" corresp="#tier-full">
+            <valList type="closed" mode="replace" xml:id="cited-range-unit" corresp="#tier-full">
+              <valItem ident="volume">
+                <desc>a volume</desc>
+              </valItem>
+              <valItem ident="part">
+                <desc>a part of a volume</desc>
+              </valItem>
+              <valItem ident="issue">
+                <desc>an issue of a journal</desc>
+              </valItem>
+              <valItem ident="page">
+                <desc>pages</desc>
+              </valItem>
+              <valItem ident="column">
+                <desc>columns, where the publication counts them</desc>
+              </valItem>
+            </valList>
+          </attDef>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="editions-biblatex">
+    <head>Entry types and biblatex</head>
+    <p>The application's publications are biblatex's entries, and the import and the exports turn one into the other
+      by the tables below. A publication's entry type is in <att>type</att>, by biblatex's name; where it's missing,
+      the parts say which it is:</p>
+    <table xml:id="biblatex-types">
+      <head>The entry type, where <att>type</att> doesn't give it</head>
+      <row role="label">
+        <cell>The parts</cell>
+        <cell>biblatex's type</cell>
+      </row>
+      <row>
+        <cell>an <gi>analytic</gi>, in a <gi>monogr</gi> whose title is level <val>j</val></cell>
+        <cell><val>article</val></cell>
+      </row>
+      <row>
+        <cell>an <gi>analytic</gi>, in a <gi>monogr</gi> whose title is level <val>m</val></cell>
+        <cell><val>incollection</val></cell>
+      </row>
+      <row>
+        <cell>a <gi>monogr</gi> alone, with editors and no author</cell>
+        <cell><val>collection</val></cell>
+      </row>
+      <row>
+        <cell>a <gi>monogr</gi> alone, otherwise</cell>
+        <cell><val>book</val></cell>
+      </row>
+    </table>
+    <p>A thesis, a report or a page on the web looks like a book in its parts, and so says what it is by
+      <att>type</att>; an export always does, so that a publication exported and imported again keeps its type. The
+      types are biblatex's, a vocabulary whose seeds are biblatex's own types; another is reported, to be checked or
+      added. A biblatex key, where a publication has one, is an <gi>idno</gi> typed <val>biblatex</val> in the part
+      the entry describes. A made-up thesis:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listBibl>
+        <biblStruct type="thesis" xml:id="new_bibl_exemplum_thesis">
+          <monogr>
+            <author>
+              <persName>
+                <forename>Anna</forename>
+                <surname>Exempla</surname>
+              </persName>
+            </author>
+            <title level="m">Canones exempli gratia</title>
+            <idno type="biblatex">exempla2020</idno>
+            <imprint>
+              <publisher>Universitas Exemplensis</publisher>
+              <date>2020</date>
+            </imprint>
+          </monogr>
+        </biblStruct>
+      </listBibl>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="entry-type">
+      <listBibl>
+        <biblStruct type="volume" xml:id="new_bibl_exemplum_volume">
+          <monogr>
+            <title level="m">Concilia exempli gratia</title>
+            <imprint>
+              <date>1906</date>
+            </imprint>
+          </monogr>
+        </biblStruct>
+      </listBibl>
+    </egXML>
+    <p>Each element of a <gi>biblStruct</gi> is a field of the entry:</p>
+    <table xml:id="biblatex-fields">
+      <head>A publication's elements and biblatex's fields</head>
+      <row role="label">
+        <cell>The element</cell>
+        <cell>biblatex's field</cell>
+      </row>
+      <row role="label">
+        <cell cols="2">The text in the publication</cell>
+      </row>
+      <row>
+        <cell><gi>analytic</gi>/<gi>title</gi></cell>
+        <cell><code>title</code></cell>
+      </row>
+      <row>
+        <cell><gi>analytic</gi>/<gi>author</gi></cell>
+        <cell><code>author</code></cell>
+      </row>
+      <row>
+        <cell><gi>analytic</gi>/<gi>editor</gi></cell>
+        <cell><code>editora</code>, with <code>editoratype</code> <code>editor</code>: the text's own editor, beside
+          the volume's</cell>
+      </row>
+      <row role="label">
+        <cell cols="2">The publication</cell>
+      </row>
+      <row>
+        <cell><gi>monogr</gi>/<gi>title</gi>, level <val>m</val></cell>
+        <cell><code>booktitle</code> where there's an <gi>analytic</gi>, <code>title</code> otherwise; one typed
+          <val>sub</val>, <code>booksubtitle</code> or <code>subtitle</code></cell>
+      </row>
+      <row>
+        <cell><gi>monogr</gi>/<gi>title</gi>, level <val>j</val></cell>
+        <cell><code>journaltitle</code></cell>
+      </row>
+      <row>
+        <cell><gi>monogr</gi>/<gi>author</gi></cell>
+        <cell><code>bookauthor</code> where there's an <gi>analytic</gi>, <code>author</code> otherwise</cell>
+      </row>
+      <row>
+        <cell><gi>monogr</gi>/<gi>editor</gi></cell>
+        <cell><code>editor</code></cell>
+      </row>
+      <row>
+        <cell><gi>imprint</gi>/<gi>publisher</gi>, <gi>pubPlace</gi>, <gi>date</gi></cell>
+        <cell><code>publisher</code>, <code>location</code>, <code>date</code></cell>
+      </row>
+      <row>
+        <cell><gi>monogr</gi>/<gi>biblScope</gi>: <val>volume</val>, <val>part</val>, <val>issue</val></cell>
+        <cell><code>volume</code>, <code>part</code>, <code>number</code></cell>
+      </row>
+      <row>
+        <cell><gi>monogr</gi>/<gi>biblScope</gi>: <val>page</val>, <val>column</val></cell>
+        <cell><code>pages</code>; for columns, <code>pagination</code> <code>column</code></cell>
+      </row>
+      <row>
+        <cell><gi>idno</gi> typed <val>ISBN</val>, <val>url</val>, <val>biblatex</val></cell>
+        <cell><code>isbn</code>, <code>url</code>, and the entry's key</cell>
+      </row>
+      <row role="label">
+        <cell cols="2">The series</cell>
+      </row>
+      <row>
+        <cell><gi>series</gi>/<gi>title</gi></cell>
+        <cell><code>series</code></cell>
+      </row>
+      <row>
+        <cell><gi>series</gi>/<gi>biblScope</gi>, <val>volume</val></cell>
+        <cell><code>number</code></cell>
+      </row>
+      <row>
+        <cell><gi>series</gi>/<gi>editor</gi></cell>
+        <cell>none: the application keeps it in the series' record</cell>
+      </row>
+      <row role="label">
+        <cell cols="2">What isn't a field</cell>
+      </row>
+      <row>
+        <cell><gi>citedRange</gi></cell>
+        <cell>none: the pages of the relation, a witness's in the publication</cell>
+      </row>
+      <row>
+        <cell><gi>note</gi></cell>
+        <cell><code>note</code></cell>
+      </row>
+    </table>
+    <specGrp xml:id="editions-biblatex-specs">
+      <!-- A publication: its titles' levels by its parts, and its entry type from biblatex's. -->
+      <elementSpec ident="biblStruct" module="core" mode="change" corresp="#tier-common">
+        <constraintSpec ident="title-level" scheme="schematron" corresp="#tier-common">
+          <desc>A title's level says which part of a publication it belongs to: a for the analytic, m or j for the
+            monogr, s for the series.</desc>
+          <constraint>
+            <sch:rule context="tei:biblStruct/tei:*[self::tei:analytic or self::tei:monogr or self::tei:series]/tei:title">
+              <sch:let name="levels" value="if (parent::tei:analytic) then 'a' else if (parent::tei:monogr) then ('m',
+                'j') else 's'"/>
+              <sch:assert id="title-level" test="@level = $levels">A title in <sch:value-of
+                  select="local-name(..)"/> has the level <sch:value-of select="string-join($levels, ' or ')"/>, which
+                says which part of the publication it belongs to.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="entry-type" scheme="schematron" corresp="#tier-full">
+          <desc>A publication's entry type is one of biblatex's, or a new term of the vocabulary.</desc>
+          <constraint>
+            <sch:rule context="tei:biblStruct[@type]">
+              <sch:let name="terms" value="('article', 'book', 'mvbook', 'inbook', 'bookinbook', 'suppbook', 'booklet',
+                'collection', 'mvcollection', 'incollection', 'suppcollection', 'dataset', 'manual', 'misc', 'online',
+                'patent', 'periodical', 'suppperiodical', 'proceedings', 'mvproceedings', 'inproceedings', 'reference',
+                'mvreference', 'inreference', 'report', 'software', 'thesis', 'unpublished')"/>
+              <sch:assert id="entry-type" role="warning" test="@type = $terms">The entry type <sch:value-of
+                  select="@type"/> isn't one of biblatex's: check its spelling, or add it to the application's
+                vocabulary.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="type" mode="change" corresp="#tier-full">
+            <desc>the publication's entry type, by biblatex's name</desc>
+            <valList type="semi" mode="replace">
+              <valItem ident="article"><desc>an article in a journal</desc></valItem>
+              <valItem ident="book"><desc>a book by its authors</desc></valItem>
+              <valItem ident="mvbook"><desc>a book in several volumes</desc></valItem>
+              <valItem ident="inbook"><desc>a part of a book with its own title, by the book's authors</desc></valItem>
+              <valItem ident="bookinbook"><desc>a book printed within another</desc></valItem>
+              <valItem ident="suppbook"><desc>what a book adds to its text: a preface, an index</desc></valItem>
+              <valItem ident="booklet"><desc>a printed work without a publisher</desc></valItem>
+              <valItem ident="collection"><desc>a book of texts by several authors, with its editors</desc></valItem>
+              <valItem ident="mvcollection"><desc>a collection in several volumes</desc></valItem>
+              <valItem ident="incollection"><desc>a text with its own title in a collection</desc></valItem>
+              <valItem ident="suppcollection"><desc>what a collection adds to its texts</desc></valItem>
+              <valItem ident="dataset"><desc>a set of data</desc></valItem>
+              <valItem ident="manual"><desc>a manual</desc></valItem>
+              <valItem ident="misc"><desc>a publication no other type fits</desc></valItem>
+              <valItem ident="online"><desc>a resource on the web</desc></valItem>
+              <valItem ident="patent"><desc>a patent</desc></valItem>
+              <valItem ident="periodical"><desc>an issue of a journal, as a whole</desc></valItem>
+              <valItem ident="suppperiodical"><desc>what a journal's issue adds to its articles</desc></valItem>
+              <valItem ident="proceedings"><desc>the proceedings of a conference</desc></valItem>
+              <valItem ident="mvproceedings"><desc>proceedings in several volumes</desc></valItem>
+              <valItem ident="inproceedings"><desc>a paper in a conference's proceedings</desc></valItem>
+              <valItem ident="reference"><desc>a work of reference: a dictionary, an encyclopaedia</desc></valItem>
+              <valItem ident="mvreference"><desc>a work of reference in several volumes</desc></valItem>
+              <valItem ident="inreference"><desc>an entry in a work of reference</desc></valItem>
+              <valItem ident="report"><desc>a report by an institution</desc></valItem>
+              <valItem ident="software"><desc>a program</desc></valItem>
+              <valItem ident="thesis"><desc>a thesis for a degree</desc></valItem>
+              <valItem ident="unpublished"><desc>a work not published</desc></valItem>
+            </valList>
+          </attDef>
+          <attDef ident="subtype" mode="delete"/>
+        </attList>
+      </elementSpec>
+    </specGrp>
+  </div>
+
+  <div xml:id="editions-records">
+    <head>Publications as records</head>
+    <p>A publication that more than one thing refers to, the edition several witnesses are in, the catalogue a
+      manuscript's literature cites, is listed once in the standOff's <gi>listBibl</gi>, with an <att>xml:id</att>,
+      a record's or a placeholder's (<code>new_bibl_</code> and a name), and pointed to: a witness by a
+      <gi>ptr</gi> and its pages in <gi>citedRange</gi> (<ptr target="#records-witnesses"/>), a manuscript's
+      literature the same way. The import makes the application's records from a <gi>biblStruct</gi>: the volume, the
+      text in it and the series, related to one another; then the file's witness, in the publication at the pages of
+      the <gi>citedRange</gi>. An export writes each publication it points to as a <gi>biblStruct</gi> with its entry
+      type.</p>
+  </div>
+
+  <div xml:id="editions-reconstructions">
+    <head>Reconstructions</head>
+    <p>A reconstruction is a text put together from others: a collection known only from what later collections took
+      from it, or a text the project assembles from several editions. Its file's type is <val>reconstruction</val>
+      (<ptr target="#header-categories"/>), and its source description names the publication it comes from, says in a
+      <gi>note</gi> that it's a reconstruction, and lists what it was made from in a <gi>listWit</gi>: the editions,
+      for one the project put together; the manuscripts, for one a scholar made from them. The collection of
+      Benedictus Levita, which the project puts together from Pertz's edition and Schmitz's of the first
+      Additio:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.Benedictus">
+      <sourceDesc>
+        <biblStruct xml:id="pertz-1837">
+          <analytic>
+            <title level="a">Benedicti Capitularia</title>
+          </analytic>
+          <monogr>
+            <editor>
+              <persName>
+                <forename>Georg Heinrich</forename>
+                <surname>Pertz</surname>
+              </persName>
+            </editor>
+            <title level="m">Supplementa tomi I</title>
+            <imprint>
+              <publisher>Hahnsche Buchhandlung</publisher>
+              <pubPlace>Hannover</pubPlace>
+              <date>1837</date>
+            </imprint>
+            <biblScope unit="page">17-158</biblScope>
+          </monogr>
+          <series>
+            <title level="s">Monumenta Germaniae Historica</title>
+            <title level="s">Leges</title>
+            <biblScope unit="volume">2.2</biblScope>
+          </series>
+          <note>A reconstruction: the collection as the project puts it together, from Pertz's edition for the whole
+            text, and from Schmitz's for Additio 1, which Pertz's lacks.</note>
+        </biblStruct>
+        <biblStruct xml:id="schmitz-2008">
+          <monogr>
+            <editor>
+              <persName>
+                <forename>Gerhard</forename>
+                <surname>Schmitz</surname>
+              </persName>
+            </editor>
+            <title level="m">Additio 1</title>
+            <idno type="url">https://www.benedictus.mgh.de/edition/aktuell/additio1.pdf</idno>
+            <imprint>
+              <publisher>Gerhard Schmitz</publisher>
+              <date>2008</date>
+            </imprint>
+          </monogr>
+        </biblStruct>
+        <listWit>
+          <witness xml:id="wit-pertz"><bibl><ptr target="#pertz-1837"/><citedRange unit="page" from="17"
+                to="158">17–158</citedRange></bibl>: the whole text but Additio 1</witness>
+          <witness xml:id="wit-schmitz"><bibl><ptr target="#schmitz-2008"/></bibl>: Additio 1</witness>
+        </listWit>
+      </sourceDesc>
+    </egXML>
+    <p>The import makes the reconstruction a version whose witness is the publication, and joins it to the witnesses
+      it lists. The template <code>reconstruction.xml</code> holds the whole header.</p>
+  </div>
 </div>

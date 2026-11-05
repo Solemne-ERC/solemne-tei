@@ -1,146 +1,56 @@
 # SPDX-License-Identifier: MIT
-"""The guide as HTML.
+"""The guide as HTML and as a PDF.
 
-The expanded ODD gets its generated appendices in place of the placeholders (`divGen`) its back matter holds: A, the
-elements and attributes, from the compiled ODD and the specifications; B, every rule, with its check, severity, tier
-and part. Each counter-example is labelled with the rule it breaks. The ODD is then compiled by TEI's `odd2odd`, as
-the build does, and made into one page by TEI's `odd2html`, run by SaxonC-HE. The HTML is plain: TEI's own
-stylesheet. It runs in a clone of the repository, offline once the build's sources are cached.
+The expanded ODD gets its generated appendices (`solemne_tei.appendices`) and is compiled by TEI's `odd2odd`, as the
+build compiles it. Then, with SaxonC-HE and the guide's stylesheets in `guide/style/`:
+- **HTML:** TEI's `odd2html` makes a folder of pages: the title page and contents (`index.html`), a page for the
+  front matter, one per part and one per appendix, and one per specification of the reference; the guide's CSS and
+  Junicode's web fonts, with their licence, go with them;
+- **PDF:** TEI's `odd2lite` makes the guide TEI Lite, TEI's LaTeX stylesheet makes that LaTeX, and LuaLaTeX sets it in
+  Junicode, without TEI's reference for each element, which the HTML holds.
+
+Junicode is fetched at its pinned release into the build's cache. It runs in a clone of the repository, offline once
+the cache holds the build's sources and Junicode.
 """
 
 from __future__ import annotations
 
+import os
 import shutil
+import subprocess
+import zipfile
 from pathlib import Path
 
-from lxml import etree
-
-from solemne_tei.build import CACHE_DIR, ODD_PATH, REPOSITORY, Saxon, Tools, compile_odd, expand, stylesheet_params
-from solemne_tei.examples import EXAMPLES
+from solemne_tei.appendices import with_appendices
+from solemne_tei.build import (
+    CACHE_DIR,
+    JUNICODE,
+    ODD_PATH,
+    REPOSITORY,
+    BuildError,
+    Saxon,
+    Source,
+    Tools,
+    compile_odd,
+    expand,
+    fetch,
+    stylesheet_params,
+)
 from solemne_tei.logs import logger
-from solemne_tei.rules import XML_ID, attribute_tiers, element_tiers, rules
-from solemne_tei.schema_files import TEI, closed_lists_of
 
 HTML_DIR = REPOSITORY / "build" / "html"
-GUIDE_HTML = "guide.html"
+PDF_DIR = REPOSITORY / "build" / "pdf"
+STYLE_DIR = REPOSITORY / "guide" / "style"
+INDEX = "index.html"
+PDF = "solemne-guide.pdf"
+# Junicode's files the guide uses: its four styles for LuaLaTeX, its two web fonts for the HTML, and its licence.
+JUNICODE_OTF = ("Regular", "Bold", "Italic", "BoldItalic")
+JUNICODE_WOFF2 = ("JunicodeVF-Roman.woff2", "JunicodeVF-Italic.woff2")
+LUALATEX_RUNS = 4
 
 
-def _t(name: str) -> str:
-    return f"{{{TEI}}}{name}"
-
-
-def _el(name: str, text: str = "", **attributes: str) -> etree._Element:
-    el = etree.Element(_t(name), {k.replace("xml_id", XML_ID): v for k, v in attributes.items()})
-    el.text = text or None
-    return el
-
-
-def _row(*cells: etree._Element | str, **attributes: str) -> etree._Element:
-    row = _el("row", **attributes)
-    for content in cells:
-        cell = etree.SubElement(row, _t("cell"))
-        if isinstance(content, str):
-            cell.text = content
-        else:
-            cell.append(content)
-    return row
-
-
-def _generated(divgen: etree._Element, intro: str, table: etree._Element) -> etree._Element:
-    """A division in place of a placeholder: its id, its heading, a paragraph, and the table."""
-    div = _el("div", xml_id=divgen.get(XML_ID, ""))
-    for head in divgen.iterfind(_t("head")):
-        div.append(head)
-    div.append(_el("p", intro))
-    div.append(table)
-    return div
-
-
-def elements_appendix(odd: etree._Element, compiled: Path, divgen: etree._Element) -> etree._Element:
-    """Appendix A: every element the schema allows, its module and tier, and the attributes the specifications
-    define or change, each with its tier and, for a closed list, its values."""
-    tree = etree.parse(str(compiled))
-    modules = {e.get("ident"): e.get("module", "") for e in tree.find(f".//{_t('schemaSpec')}").iter(_t("elementSpec"))}
-    lists = closed_lists_of(compiled)
-    tiers = element_tiers(odd)
-    attributes: dict[str, list[str]] = {}
-    for name, (tier,) in sorted(attribute_tiers(odd).items()):
-        element, attribute = name.split("/@")
-        values = lists.get(element, {}).get(attribute)
-        attributes.setdefault(element, []).append(
-            f"@{attribute} ({tier})" + (f": {', '.join(values)}" if values else "")
-        )
-    table = _el("table", xml_id="elements-table")
-    table.append(_row("Element", "Module", "Tier", "Attributes the guide defines or changes", role="label"))
-    for element in sorted(modules, key=str.lower):
-        table.append(
-            _row(_el("gi", element), modules[element], tiers[element][0], "; ".join(attributes.get(element, [])))
-        )
-    intro = (
-        "Every element the schema allows, with the TEI module it comes from and its tier, and the attributes the "
-        "guide's specifications define or change, each with its tier and, for a closed list, its values. Generated "
-        "from the specifications."
-    )
-    return _generated(divgen, intro, table)
-
-
-def rules_appendix(odd: etree._Element, divgen: etree._Element) -> etree._Element:
-    """Appendix B: every rule, its check, severity and tier, and the part that explains it."""
-    heads = {
-        div.get(XML_ID): " ".join("".join(div.find(_t("head")).itertext()).split())
-        for div in odd.iter(_t("div"))
-        if div.get(XML_ID) and div.find(_t("head")) is not None
-    }
-    table = _el("table", xml_id="rules-table")
-    table.append(_row("Rule", "Check", "Severity", "Tier", "Part", "What it requires", role="label"))
-    for rule in rules(odd):
-        part = _el("ref", heads.get(rule.part, rule.part), target=f"#{rule.part}")
-        check = "RelaxNG" if rule.check == "relaxng" else "Schematron"
-        # TEI's HTML doesn't give a row its id: an anchor in the first cell carries it.
-        name = _el("ident", rule.id)
-        name.insert(0, _el("anchor", xml_id=f"rule-{rule.id}"))
-        name[0].tail, name.text = rule.id, None
-        table.append(_row(name, check, rule.severity, rule.tier, part, rule.description))
-    intro = (
-        "Every rule of the schema: the RelaxNG's restrictions, which the import refuses a file for breaking, and the "
-        "Schematron's rules, whose errors and warnings it reports. Each has its tier and the part that explains it, "
-        "where a counter-example shows it broken. Generated from the specifications."
-    )
-    return _generated(divgen, intro, table)
-
-
-def label_counter_examples(odd: etree._Element) -> None:
-    """Name the rule each counter-example breaks, before it, with a link to the rule in appendix B."""
-    for eg in list(odd.iter(f"{{{EXAMPLES}}}egXML")):
-        if eg.get("valid") != "false" or etree.QName(eg.getparent()).localname != "div":
-            continue
-        label = _el("p", "Breaks ")
-        label.append(_el("ref", eg.get("n", ""), target=f"#rule-{eg.get('n', '')}"))
-        label[-1].tail = ":"
-        eg.addprevious(label)
-
-
-def with_appendices(expanded: bytes, compiled: Path) -> bytes:
-    """The expanded ODD with its appendices generated and its counter-examples labelled."""
-    odd = etree.fromstring(expanded)
-    for divgen in list(odd.iter(_t("divGen"))):
-        kind = divgen.get("type")
-        if kind == "elements":
-            generated = elements_appendix(odd, compiled, divgen)
-        elif kind == "rules":
-            generated = rules_appendix(odd, divgen)
-        else:
-            continue
-        divgen.getparent().replace(divgen, generated)
-    label_counter_examples(odd)
-    return etree.tostring(odd, xml_declaration=True, encoding="UTF-8")
-
-
-def html(out: Path = HTML_DIR, cache: Path = CACHE_DIR, odd: Path = ODD_PATH) -> Path:
-    """Write the guide as one HTML page into `out`, and return its path."""
-    tools = Tools.prepare(cache)
-    saxon = Saxon()
-    work = cache / "docs"
+def compiled_guide(tools: Tools, saxon: Saxon, work: Path, odd: Path = ODD_PATH) -> Path:
+    """The ODD with its appendices generated, compiled by TEI's `odd2odd` into `work`."""
     shutil.rmtree(work, ignore_errors=True)
     work.mkdir(parents=True)
     expanded = expand(odd)
@@ -151,9 +61,100 @@ def html(out: Path = HTML_DIR, cache: Path = CACHE_DIR, odd: Path = ODD_PATH) ->
     logger.info("Generating the appendices")
     source.write_bytes(with_appendices(expanded.text, compiled))
     compile_odd(saxon, tools, source, compiled)
+    return compiled
+
+
+def guide_stylesheet(tools: Tools, name: str, work: Path) -> Path:
+    """One of the guide's stylesheets, importing TEI's from the cache: the guide's are copied into `work` together,
+    since they include each other."""
+    for source in STYLE_DIR.glob("*.xsl"):
+        text = source.read_text("utf-8").replace("TEI-STYLESHEETS", tools.stylesheets.as_uri())
+        (work / source.name).write_text(text, "utf-8")
+    return work / name
+
+
+def junicode(cache: Path = CACHE_DIR, source: Source = JUNICODE) -> Path:
+    """The folder of Junicode's files the guide uses, unpacked once from its pinned release into the cache."""
+    folder = cache / f"junicode-{source.version}"
+    if not (folder / "OFL.txt").exists():
+        archive = fetch(source, cache / "downloads")
+        tmp = folder.with_name(folder.name + ".tmp")
+        shutil.rmtree(tmp, ignore_errors=True)
+        tmp.mkdir(parents=True)
+        wanted = {f"Junicode-{style}.otf" for style in JUNICODE_OTF} | set(JUNICODE_WOFF2) | {"OFL.txt"}
+        with zipfile.ZipFile(archive) as z:
+            for member in z.namelist():
+                name = member.rsplit("/", 1)[-1]
+                if name in wanted:
+                    (tmp / name).write_bytes(z.read(member))
+        missing = wanted - {p.name for p in tmp.iterdir()}
+        if missing:
+            raise BuildError(f"{source.name} lacks {', '.join(sorted(missing))}")
+        shutil.rmtree(folder, ignore_errors=True)
+        tmp.replace(folder)
+    return folder
+
+
+def html(out: Path = HTML_DIR, cache: Path = CACHE_DIR, odd: Path = ODD_PATH) -> Path:
+    """Write the guide as HTML pages into `out`, emptied first, and return the path of its first page."""
+    tools = Tools.prepare(cache)
+    fonts = junicode(cache)
+    saxon = Saxon()
+    work = cache / "docs"
+    compiled = compiled_guide(tools, saxon, work, odd)
     logger.info("Writing the HTML")
-    page = saxon.run(tools.stylesheets / "odds" / "odd2html.xsl", compiled, **stylesheet_params(tools))
+    shutil.rmtree(out, ignore_errors=True)
+    out.mkdir(parents=True)
+    index = out / INDEX
+    params = stylesheet_params(tools) | {"outputDir": str(out)}
+    saxon.write(guide_stylesheet(tools, "html.xsl", work), compiled, index, **params)
+    shutil.copy2(STYLE_DIR / "guide.css", out / "guide.css")
+    (out / "fonts").mkdir()
+    for name in (*JUNICODE_WOFF2, "OFL.txt"):
+        shutil.copy2(fonts / name, out / "fonts" / name)
+    return index
+
+
+def lualatex() -> str:
+    """LuaLaTeX's command: on the path, or where TeX Live puts it on a Mac."""
+    found = shutil.which("lualatex") or shutil.which("lualatex", path="/Library/TeX/texbin")
+    if not found:
+        raise BuildError("LuaLaTeX isn't installed: the PDF needs TeX Live")
+    return found
+
+
+def pdf(out: Path = PDF_DIR, cache: Path = CACHE_DIR, odd: Path = ODD_PATH) -> Path:
+    """Write the guide as a PDF into `out`, and return its path."""
+    command = lualatex()
+    tools = Tools.prepare(cache)
+    fonts = junicode(cache)
+    saxon = Saxon()
+    work = cache / "docs-pdf"
+    compiled = compiled_guide(tools, saxon, work, odd)
+    logger.info("Writing the LaTeX")
+    lite = work / "guide.lite.xml"
+    params = stylesheet_params(tools)
+    lite.write_text(saxon.run(tools.stylesheets / "odds" / "odd2lite.xsl", compiled, **params), "utf-8")
+    latex = saxon.run(guide_stylesheet(tools, "latex.xsl", work), lite, **params, fontPath=str(fonts))
+    tex = work / "guide.tex"
+    tex.write_text(latex, "utf-8")
+    env = dict(os.environ, TEXINPUTS=f"{STYLE_DIR}{os.sep}{os.sep}{os.pathsep}")
+    for run in range(1, LUALATEX_RUNS + 1):
+        logger.info("Typesetting with LuaLaTeX, pass %d", run)
+        done = subprocess.run(
+            [command, "-interaction=nonstopmode", "-halt-on-error", tex.name],
+            cwd=work,
+            env=env,
+            capture_output=True,
+            text=True,
+        )
+        log = (work / "guide.log").read_text("utf-8", errors="replace")
+        if done.returncode != 0:
+            errors = [line for line in log.splitlines() if line.startswith("!")]
+            raise BuildError(f"LuaLaTeX failed on {tex}: {'; '.join(errors) or done.stdout[-500:]}")
+        if "Rerun to get" not in log and "Label(s) may have changed" not in log:
+            break
     out.mkdir(parents=True, exist_ok=True)
-    path = out / GUIDE_HTML
-    path.write_text(page, "utf-8")
+    path = out / PDF
+    shutil.copy2(work / "guide.pdf", path)
     return path

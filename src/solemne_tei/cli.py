@@ -45,12 +45,14 @@ def parser() -> argparse.ArgumentParser:
 
     d = commands.add_parser(
         "docs",
-        help="the guide as HTML, in a clone of the repository",
-        description="Write the guide as one HTML page, its appendices generated from the specifications, by TEI's "
-        "odd2html. The first run fetches the build's pinned sources; later runs are offline.",
+        help="the guide as HTML and PDF, in a clone of the repository",
+        description="Write the guide, its appendices generated, as HTML pages (TEI's odd2html) or as a PDF (TEI's "
+        "LaTeX stylesheets, typeset by LuaLaTeX in Junicode). The first run fetches the build's pinned sources and "
+        "Junicode; later runs are offline.",
     )
-    d.add_argument("--html", action="store_true", help="write the HTML (the default, and for now the only output)")
-    d.add_argument("--out", type=Path, help="where to write guide.html (default: build/html)")
+    d.add_argument("--html", action="store_true", help="write the HTML (the default when neither is asked for)")
+    d.add_argument("--pdf", action="store_true", help="write the PDF, which needs TeX Live's LuaLaTeX")
+    d.add_argument("--out", type=Path, help="where to write them (default: build/html and build/pdf)")
     d.add_argument("--cache", type=Path, help="where the fetched sources are kept (default: build/tei)")
 
     li = commands.add_parser(
@@ -100,15 +102,19 @@ def build_command(args: argparse.Namespace) -> int:
 
 def docs_command(args: argparse.Namespace) -> int:
     from solemne_tei.build import CACHE_DIR, BuildError
-    from solemne_tei.docs import HTML_DIR, html
+    from solemne_tei.docs import HTML_DIR, PDF_DIR, html, pdf
 
     logs.setup(verbose=True)
+    cache = args.cache or CACHE_DIR
+    outputs = [(html, args.out or HTML_DIR)] if args.html or not args.pdf else []
+    if args.pdf:
+        outputs.append((pdf, args.out or PDF_DIR))
     try:
-        path = html(out=args.out or HTML_DIR, cache=args.cache or CACHE_DIR)
+        for make, out in outputs:
+            print(f"wrote {make(out=out, cache=cache)}")
     except BuildError as e:
         print(f"solemne-tei docs: {e}", file=sys.stderr)
         return 1
-    print(f"wrote {path}")
     return 0
 
 

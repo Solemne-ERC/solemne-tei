@@ -471,13 +471,13 @@
                 <desc>in the text: an editor's remark</desc>
               </valItem>
               <valItem ident="links">
-                <desc>in a record: the links to the record in other catalogues</desc>
+                <desc>in a record: links to pages about it that aren't an authority's record</desc>
               </valItem>
               <valItem ident="authorities">
-                <desc>in a record: the authority files that describe it</desc>
+                <desc>in a record, in earlier files: an authority's numbers, which the import reads as its ids</desc>
               </valItem>
               <valItem ident="extra">
-                <desc>in a bibliographic record: what fits nowhere else</desc>
+                <desc>in a record: the fields its form has no element for, in a feature structure</desc>
               </valItem>
             </valList>
           </attDef>
@@ -672,7 +672,7 @@
         <p>Placuit <anchor xml:id="span-start"/>ut episcopi in ciuitatibus suis maneant<anchor xml:id="span-end"/>.</p>
         <listAnnotation>
           <annotation xml:id="annotation-1" target="#range(span-start,span-end)">
-            <note>A remark on the whole clause.</note>
+            <note type="editorial">A remark on the whole clause.</note>
           </annotation>
         </listAnnotation>
       </egXML>

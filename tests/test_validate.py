@@ -149,3 +149,48 @@ def test_the_command_line_reports_and_sets_its_exit_code(tmp_path: Path, capsys:
     out = capsys.readouterr().out
     assert f"{bad}:{HEAD_LINES + 1}: relaxng error" in out
     assert "1 files: 1 well-formed, 0 pass the RelaxNG" in out
+
+
+# libxml2 never finishes compiling some elements' patterns as a grammar's start; the narrowing skips them. These run
+# in a process of their own, with a time limit, so that a new such element fails the test rather than hanging it.
+EVERY_ELEMENT_ALONE = """
+import sys
+from lxml import etree
+from solemne_tei.validate import NOT_ALONE, Validator
+R = "{http://relaxng.org/ns/structure/1.0}"
+for fmt in (None, "bodleian"):
+    v = Validator(format=fmt)
+    for d in v._grammar.iter(R + "define"):
+        if d.find(R + "element") is not None and d.get("name") not in NOT_ALONE:
+            print(fmt, d.get("name"), flush=True)
+            v._schema_for(etree.Element("{http://www.tei-c.org/ns/1.0}" + d.get("name")))
+"""
+
+
+def test_every_element_but_the_known_ones_compiles_on_its_own() -> None:
+    import subprocess
+    import sys
+
+    try:
+        subprocess.run([sys.executable, "-c", EVERY_ELEMENT_ALONE], check=True, capture_output=True, timeout=120)
+    except subprocess.TimeoutExpired as e:
+        last = (e.stdout or b"").decode().strip().splitlines()[-1:]
+        pytest.fail(f"compiling an element's pattern on its own doesn't finish: {last}; add it to NOT_ALONE")
+
+
+def test_a_failure_beside_an_imprint_is_found_at_once(tmp_path: Path) -> None:
+    import subprocess
+    import sys
+
+    body = """<biblStruct><monogr><title level="m">Concilia</title>
+        <imprint><publisher>Hahn</publisher><date>1906</date></imprint>
+        <biblScope unit="tome">2</biblScope></monogr></biblStruct>"""
+    path = tmp_path / "unit.xml"
+    path.write_text(HEAD.replace("<p>Made up.</p>", body) + "      <p>Placuit.</p>\n" + TAIL, "utf-8")
+    done = subprocess.run(
+        [sys.executable, "-m", "solemne_tei.cli", "validate", "--jobs", "1", "--json", str(path)],
+        capture_output=True,
+        timeout=60,
+    )
+    problems = json.loads(done.stdout)[0]["problems"]
+    assert any("Invalid attribute unit for element biblScope" in p["message"] for p in problems), problems

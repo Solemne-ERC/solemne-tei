@@ -33,7 +33,8 @@ def test_every_part_is_included(odd: etree._Element) -> None:
     root = etree.parse(str(ODD_PATH)).getroot()
     hrefs = [el.get("href") for el in root.iter(f"{{{XI}}}include")]
     assert hrefs
-    assert sorted(hrefs) == sorted(f"chapters/{p.name}" for p in (GUIDE / "chapters").glob("*.xml"))
+    included = [f"{folder}/{p.name}" for folder in ("chapters", "mappings") for p in (GUIDE / folder).glob("*.xml")]
+    assert sorted(hrefs) == sorted(included)
     assert not list(odd.iter(f"{{{XI}}}*"))
     assert "xi" not in odd.nsmap
 
@@ -222,6 +223,7 @@ VOCABULARIES = {
     "script-term": ("handNote", "script"),
     "execution-term": ("handNote", "execution"),
     "decoration-term": ("decoNote", "type"),
+    "entry-type": ("biblStruct", "type"),
 }
 
 

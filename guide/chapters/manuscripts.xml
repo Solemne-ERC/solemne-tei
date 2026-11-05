@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-  xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="manuscripts" n="VIII">
+<div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="manuscripts"
+  n="VIII">
   <head>Manuscripts</head>
   <p>A manuscript is described once, in an <gi>msDesc</gi>: in the source description of a file that transcribes a
     text from it (<ptr target="#file-and-header"/>), or as a record in a <gi>listBibl</gi> (<ptr target="#records"/>).
@@ -354,7 +354,7 @@
       <att>columns</att>, <att>ruledLines</att> and <att>writtenLines</att>; then its hands, decoration and
       additions. A unit's extent may say what the whole book counts. Forms and materials come from vocabularies that
       grow: a term outside the guide's seeds is reported, to be checked or added to the application's vocabulary
-      (appendix A lists the seeds). Clm 4592's second unit:</p>
+      (<ptr target="#appendix-tables"/> lists the seeds). Clm 4592's second unit:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
       <physDesc>
         <objectDesc form="codex">
@@ -848,10 +848,9 @@
       guide's schema; before they are converted, they are checked against their own, at the commit the package
       pins:</p>
     <eg>solemne-tei validate --format bodleian description.xml</eg>
-    <p>The table says what the conversion does with each element and attribute of the Bodleian's description: keeps
-      it, moves it, makes a record or a relation of it, or drops it, and why. Of the project's coded files, 38 carry
-      a description in the Bodleian's form, written before this guide; the corrections bring them to the guide's
-      form.</p>
-    <xi:include href="../mappings/bodleian.xml"/>
+    <p>The table in <ptr target="#appendix-mappings"/> says what the conversion does with each element and attribute
+      of the Bodleian's description: keeps it, moves it, makes a record or a relation of it, or drops it, and why. Of
+      the project's coded files, 38 carry a description in the Bodleian's form, written before this guide; the
+      corrections bring them to the guide's form.</p>
   </div>
 </div>
