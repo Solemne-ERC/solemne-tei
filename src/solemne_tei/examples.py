@@ -7,10 +7,11 @@ problems, with the RelaxNG passed; a RelaxNG rule at one of the elements it rest
 
 Most examples are fragments. Each is placed in a minimal valid file by its root elements: a part of the header where
 it stands in the header, a part of a manuscript's description in a minimal description's unit, a record in the
-standOff, divisions, headings and paragraphs in the body, anything else in a paragraph. A fragment that dates by EDTF
-without declaring it gets the declaration a file needs (`calendar xml:id="edtf"`), so that each date's example shows
-only the date. An example that is a whole TEI file is checked as it is. An example saved under a file name of its
-own, for the rule on file names, says so in a comment before its root: `<!-- file name: C.NIC-0325.xml -->`."""
+standOff, divisions, headings and paragraphs in the body, anything else in a paragraph. A fragment whose dates point
+to EDTF or to the Gregorian calendar without declaring them gets the declarations a file needs (`calendar
+xml:id="edtf"`, `calendar xml:id="gregorian"`), so that each date's example shows only the date. An example that
+is a whole TEI file is checked as it is. An example saved under a file name of its own, for the rule on file names,
+says so in a comment before its root: `<!-- file name: C.NIC-0325.xml -->`."""
 
 from __future__ import annotations
 
@@ -70,10 +71,16 @@ DESCRIPTION = f"""<msDesc xmlns="{TEI}">
 DESCRIPTION_PATH = "teiHeader/fileDesc/sourceDesc/msDesc"
 UNIT = f"{DESCRIPTION_PATH}/msPart"
 
-# The declaration of EDTF, which a fragment's dates point to by `@datingMethod="#edtf"`.
-EDTF = f"""<calendar xmlns="{TEI}" xml:id="edtf" target="https://www.loc.gov/standards/datetime/">
+# The declarations a fragment's dates point to without declaring them: EDTF, by `@datingMethod="#edtf"`, and the
+# Gregorian calendar of modern statements, by `@calendar="#gregorian"`.
+CALENDARS = {
+    "edtf": f"""<calendar xmlns="{TEI}" xml:id="edtf" target="https://www.loc.gov/standards/datetime/">
   <p>The Extended Date/Time Format (EDTF), ISO 8601-2.</p>
-</calendar>"""
+</calendar>""",
+    "gregorian": f"""<calendar xmlns="{TEI}" xml:id="gregorian">
+  <p>The Gregorian calendar, in the Christian era.</p>
+</calendar>""",
+}
 
 # Where a fragment's root goes: the path of its parent in the host, made where it's missing, from the root's
 # children down. Each step names an element and the elements that come before it, so that it's made in TEI's order.
@@ -275,13 +282,14 @@ def _describe(host: etree._Element) -> None:
     source.append(etree.fromstring(DESCRIPTION))
 
 
-def _declare_edtf(host: etree._Element) -> None:
-    """Declare EDTF where the file's dates point to it and nothing declares it."""
-    pointers = {p for el in host.iter(tag=etree.Element) for p in (el.get("datingMethod") or "").split()}
-    if "#edtf" not in pointers or host.xpath("//*[@xml:id = 'edtf']"):
-        return
-    header = _child(host, "teiHeader")
-    _child(_child(header, "profileDesc"), "calendarDesc").append(etree.fromstring(EDTF))
+def _declare_calendars(host: etree._Element) -> None:
+    """Declare EDTF and the Gregorian calendar where the file's dates point to them and nothing declares them."""
+    attributes = ("datingMethod", "calendar")
+    pointers = {p for el in host.iter(tag=etree.Element) for a in attributes for p in (el.get(a) or "").split()}
+    for name, declaration in CALENDARS.items():
+        if f"#{name}" in pointers and not host.xpath(f"//*[@xml:id = '{name}']"):
+            header = _child(host, "teiHeader")
+            _child(_child(header, "profileDesc"), "calendarDesc").append(etree.fromstring(declaration))
 
 
 def placed(example: Example) -> etree._ElementTree:
@@ -292,7 +300,7 @@ def placed(example: Example) -> etree._ElementTree:
     host = etree.fromstring(HOST)
     for el in roots:
         _place(host, el)
-    _declare_edtf(host)
+    _declare_calendars(host)
     return etree.ElementTree(host)
 
 

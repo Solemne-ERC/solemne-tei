@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: MIT -->
-<!-- Generated from solemne.odd 0.2.0 (SHA-256 b07e68b6b2795d1f0de06e98171ae3f24866c2f73ebcd1a66964449e5af77b7a) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.2.0 (SHA-256 d86a9cf13c0f0d01ba282a81112237279186fdc6555a2c2adeccb66f6070aa0e) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -68,7 +68,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    <ns prefix="sch" uri="http://purl.oclc.org/dsdl/schematron"/>
    <ns prefix="sch1x" uri="http://www.ascc.net/xml/schematron"/>
    <!-- ******************************************************** -->
-   <!-- constraints in en, und, mul, zxx, of which there are 111 -->
+   <!-- constraints in en, und, mul, zxx, of which there are 112 -->
    <!-- ******************************************************** -->
    <pattern id="schematron-constraint-CMC_generatedBy_within_post-1">
       <rule context="tei:*[@generatedBy]">
@@ -431,184 +431,189 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                  test="@ident = ('scta', 'clavis', 'pseudoisidor',                   'corpuscorporum')">The prefix <value-of select="@ident"/> isn't one the application knows (scta, clavis, pseudoisidor, corpuscorporum).</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-calendar-declared-55">
+   <pattern id="schematron-constraint-date-calendar-55">
+      <rule context="tei:origDate[not(@type = 'undated')] | tei:text//tei:date">
+         <assert id="date-calendar" test="@calendar">A manuscript's date and a date in the text name the calendar of their words by @calendar: #gregorian for a modern statement ("sec. IX"), the source's own otherwise (a Julian day, an era).</assert>
+      </rule>
+   </pattern>
+   <pattern id="schematron-constraint-calendar-declared-56">
       <rule context="tei:*[@calendar or @datingMethod]">
          <assert id="calendar-declared"
                  test="every $p in tokenize(normalize-space(string-join((@calendar,                 @datingMethod), ' ')), ' ') satisfies (starts-with($p, '#') and                 //tei:calendarDesc/tei:calendar[@xml:id = substring($p, 2)])">@calendar and @datingMethod point to a calendar declared in the profile description's calendarDesc (<value-of select="string-join((@calendar, @datingMethod), ' ')"/>).</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-text-elements-56">
+   <pattern id="schematron-constraint-text-elements-57">
       <rule context="tei:body//tei:*">
          <assert id="text-elements"
                  test="local-name() = ('div', 'head', 'p', 'note', 'pb', 'lb', 'gap',                 'persName', 'placeName', 'eventName', 'bibl', 'cit', 'quote', 'ref', 'seg', 'date', 'subst', 'add',                 'del', 'unclear', 'foreign', 'choice', 'corr', 'sic', 'abbr', 'expan', 'supplied', 'rs',                 'anchor')">&lt;<name/>&gt; isn't one of the text's elements.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-unit-alone-57">
+   <pattern id="schematron-constraint-unit-alone-58">
       <rule context="tei:div[@type = 'unit']">
          <assert id="unit-alone" test="count(../tei:div) gt 1">A unit stands alone in its division: its paragraphs belong to the division itself.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-unit-holds-text-58">
+   <pattern id="schematron-constraint-unit-holds-text-59">
       <rule context="tei:div[@type = 'unit']">
          <assert id="unit-holds-text" test="not(tei:div) and not(tei:head)">A unit holds paragraphs only, without headings or divisions.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-register-item-in-register-59">
+   <pattern id="schematron-constraint-register-item-in-register-60">
       <rule context="tei:div[@type = 'registerItem']">
          <assert id="register-item-in-register"
                  test="parent::tei:div[@type = 'register']">A register item stands in a register.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-number-heading-n-60">
+   <pattern id="schematron-constraint-number-heading-n-61">
       <rule context="tei:div[tei:head[@type = 'number']]">
          <assert id="number-heading-n" test="@n">A division with a number heading (<value-of select="normalize-space(tei:head[@type = 'number'][1])"/>) has @n.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-abstractModel-structure-div-in-l-61">
+   <pattern id="schematron-constraint-abstractModel-structure-div-in-l-62">
       <rule context="tei:l//tei:div">
          <assert test="ancestor::tei:floatingText"> Abstract model violation: Metrical lines (&lt;l&gt; elements) may not contain higher-level structural elements such as &lt;div&gt;, unless &lt;div&gt; is a descendant of &lt;floatingText&gt;.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-abstractModel-structure-div-in-ab-or-p-62">
+   <pattern id="schematron-constraint-abstractModel-structure-div-in-ab-or-p-63">
       <rule context="tei:div">
          <report test="(ancestor::tei:p or ancestor::tei:ab) and not(ancestor::tei:floatingText)"> Abstract model violation: &lt;p&gt; and &lt;ab&gt; may not contain higher-level structural elements such as &lt;div&gt;, unless &lt;div&gt; is a descendant of &lt;floatingText&gt;.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-event-described-63">
+   <pattern id="schematron-constraint-event-described-64">
       <rule context="tei:event">
          <assert id="event-described" test="@ref or tei:eventName or tei:p">An event points to a record (@ref) or describes one, with eventName or p.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-event-words-64">
+   <pattern id="schematron-constraint-event-words-65">
       <rule context="tei:event/tei:desc | tei:event/tei:p">
          <assert id="event-words" test="normalize-space(.) != ''">An event's description isn't empty.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-floruit-dates-65">
+   <pattern id="schematron-constraint-floruit-dates-66">
       <rule context="tei:floruit">
          <assert id="floruit-dates"
                  test="@when or @notBefore or @notAfter or @from or @to or @period">A floruit gives its dates in its attributes.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-relation-term-66">
+   <pattern id="schematron-constraint-relation-term-67">
       <rule context="tei:relation[@name]">
          <let name="terms"
               value="('isTextOf', 'derivedFrom', 'versionOf', 'witnessOf', 'transcriptionOf',                 'in', 'isVerbatimOf', 'isVariantOf', 'isShorterVersionOf', 'translationOf', 'revisionOf',                 'abridgementOf', 'augmentationOf', 'adaptationOf', 'basedOn', 'origin', 'ownedBy', 'scribe',                 'artist', 'author', 'enactedAt', 'tookPlaceAt', 'holdsOfficeIn', 'lists', 'sameScribeAs',                 'sameHandAs')"/>
          <assert id="relation-term" role="warning" test="@name = $terms">The relation type <value-of select="@name"/> isn't among the guide's types: check its spelling, or add it to the application's vocabulary.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-person-id-67">
+   <pattern id="schematron-constraint-person-id-68">
       <rule context="tei:standOff//tei:listPerson/tei:person">
          <assert id="person-id"
                  test="matches(@xml:id, '^(PERS\.\d+|solemne_person_\d+|new_person_\S+)$')">A person in the standOff has an @xml:id: a record's (PERS. and a number, or solemne_person_ and a number), or a placeholder's (new_person_ and a name).</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-person-main-name-68">
+   <pattern id="schematron-constraint-person-main-name-69">
       <rule context="tei:standOff//tei:listPerson/tei:person">
          <assert id="person-main-name"
                  test="count(tei:persName[@type = 'main']) = 1 or                 not(starts-with(@xml:id, 'new_person_'))">A new person has one main name (persName typed main).</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-ref-or-key-or-name-69">
+   <pattern id="schematron-constraint-ref-or-key-or-name-70">
       <rule context="tei:relation">
          <assert test="@ref or @key or @name">One of the attributes @name, @ref or @key must be supplied.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-active-mutual-70">
+   <pattern id="schematron-constraint-active-mutual-71">
       <rule context="tei:relation">
          <report test="@active and @mutual">Only one of the attributes @active and @mutual may be supplied.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-active-passive-71">
+   <pattern id="schematron-constraint-active-passive-72">
       <rule context="tei:relation">
          <report test="@passive and not(@active)">the attribute @passive may be supplied only if the attribute @active is supplied.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-manuscript-unit-72">
+   <pattern id="schematron-constraint-manuscript-unit-73">
       <rule context="tei:msDesc">
          <assert id="manuscript-unit" test="tei:msPart">A manuscript's description has at least one codicological unit (msPart), with its own identifier: the unit holds the physical description, the date, the hands and the decoration.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-one_ms_singleton_max-73">
+   <pattern id="schematron-constraint-one_ms_singleton_max-74">
       <rule context="tei:msContents|tei:physDesc|tei:history|tei:additional">
          <let name="gi" value="name(.)"/>
          <report test="preceding-sibling::*[ name(.) eq $gi ]                           and                           not( following-sibling::*[ name(.) eq $gi ] )"> Only one &lt;<name/>&gt; is allowed as a child of &lt;<value-of select="name(..)"/>&gt;.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-catchword_in_msDesc-74">
+   <pattern id="schematron-constraint-catchword_in_msDesc-75">
       <rule context="tei:catchwords">
          <assert test="ancestor::tei:msDesc or ancestor::tei:egXML">The &lt;<name/>&gt; element should not be used outside of &lt;msDesc&gt;.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-dimensions-unit.check-75">
+   <pattern id="schematron-constraint-dimensions-unit.check-76">
       <rule context="//tei:dimensions">
          <assert test="@unit" role="error"> The unit of measurement must be specified in the unit attribute on the dimensions element</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-duplicateDim-76">
+   <pattern id="schematron-constraint-duplicateDim-77">
       <rule context="tei:dimensions">
          <report test="count(tei:width) gt 1"> The element &lt;<name/>&gt; may appear once only.</report>
          <report test="count(tei:height) gt 1"> The element &lt;<name/>&gt; may appear once only.</report>
          <report test="count(tei:depth) gt 1"> The element &lt;<name/>&gt; may appear once only.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-secFol_in_msDesc-77">
+   <pattern id="schematron-constraint-secFol_in_msDesc-78">
       <rule context="tei:secFol">
          <assert test="ancestor::tei:msDesc or ancestor::tei:egXML">The &lt;<name/>&gt; element should not be used outside of &lt;msDesc&gt;.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-signatures_in_msDesc-78">
+   <pattern id="schematron-constraint-signatures_in_msDesc-79">
       <rule context="tei:signatures">
          <assert test="ancestor::tei:msDesc or ancestor::tei:egXML">The &lt;<name/>&gt; element should not be used outside of &lt;msDesc&gt;.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-msId_minimal-79">
+   <pattern id="schematron-constraint-msId_minimal-80">
       <rule context="tei:msIdentifier">
          <report test="not( parent::tei:msPart )                           and                           ( child::*[1]/self::idno  or  child::*[1]/self::altIdentifier  or  normalize-space(.) eq '')">An &lt;msIdentifier&gt; must contain either a &lt;repository&gt; or &lt;location&gt;.</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-textLang.check-80">
+   <pattern id="schematron-constraint-textLang.check-81">
       <rule see="https://msdesc.github.io/consolidated-tei-schema/msdesc.html#objectdescBook"
             context="//tei:sourceDesc/tei:msDesc[not(tei:msPart)]">
          <assert test="tei:physDesc/tei:objectDesc[@form]" role="warn"> The physical form of the carrier should be recorded in the objectDesc element, with a form attribute.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-textLang.check-81">
+   <pattern id="schematron-constraint-textLang.check-82">
       <rule context="//tei:sourceDesc/tei:msDesc/tei:msPart">
          <assert test="                                         tei:physDesc/tei:objectDesc[@form]                                         or ancestor::tei:msDesc/tei:physDesc/tei:objectDesc[@form]                                         "
                  role="warn"> The physical form of the carrier should be recorded in the objectDesc element, with a form attribute, unless it has been described for the entire manuscript.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-textLang.check-82">
+   <pattern id="schematron-constraint-textLang.check-83">
       <rule see="https://msdesc.github.io/consolidated-tei-schema/msdesc.html#supportdesc"
             context="//tei:sourceDesc/tei:msDesc[not(tei:msPart)]">
          <assert test="tei:physDesc/tei:objectDesc/tei:supportDesc[@material]"
                  role="warn"> The material (parchment, paper, etc.) of a manuscript should be recorded in the supportDesc element, with a material attribute.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-textLang.check-83">
+   <pattern id="schematron-constraint-textLang.check-84">
       <rule context="//tei:sourceDesc/tei:msDesc/tei:msPart">
          <assert test="                                             tei:physDesc/tei:objectDesc/tei:supportDesc[@material]                                             or ancestor::tei:msDesc/tei:physDesc/tei:objectDesc/tei:supportDesc[@material]                                             "
                  role="warn"> The material (parchment, paper, etc.) of each part should be recorded in the supportDesc element, with a material attribute, unless it has been described for the entire manuscript.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-binding.check-84">
+   <pattern id="schematron-constraint-binding.check-85">
       <rule context="//tei:binding">
          <assert test="@when or @notBefore or @notAfter or @contemporary='true'"
                  role="warn"> The binding element should have dating attributes (when or notBefore/notAfter) or a contemporary attribute (with the value 'true').</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-facsimile.warn-85">
+   <pattern id="schematron-constraint-facsimile.warn-86">
       <rule context="//tei:surrogates/tei:bibl">
          <report test="contains(@type, 'fascimile')" role="warn"> The type attribute of "<value-of select="@type"/>" contains a typo (fascimile should be facsimile).</report>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-linkTargets3-86">
+   <pattern id="schematron-constraint-linkTargets3-87">
       <rule context="tei:link">
          <assert test="contains(normalize-space(@target),' ')">You must supply at least two values for @target on &lt;<name/>&gt;.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-seg-term-declared-87">
+   <pattern id="schematron-constraint-seg-term-declared-88">
       <rule context="tei:seg[@ana]">
          <let name="declared"
               value="/tei:TEI/tei:teiHeader//tei:classDecl//tei:category/@xml:id"/>
@@ -616,7 +621,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                  test="every $t in tokenize(normalize-space(@ana), ' ') satisfies                 (starts-with($t, '#') and substring($t, 2) = $declared)">A segment's term (<value-of select="normalize-space(@ana)"/>) points to a category of a taxonomy in the header's classDecl.</assert>
       </rule>
    </pattern>
-   <pattern id="schematron-constraint-substContents1-88">
+   <pattern id="schematron-constraint-substContents1-89">
       <rule context="tei:subst">
          <assert test="child::tei:add and (child::tei:del or child::tei:surplus)"> &lt;<name/>&gt; must have at least one child &lt;add&gt; and at least one child &lt;del&gt; or &lt;surplus&gt;.</assert>
       </rule>

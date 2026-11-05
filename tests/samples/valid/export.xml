@@ -47,6 +47,13 @@
         </citeStructure>
       </refsDecl>
     </encodingDesc>
+    <profileDesc>
+      <calendarDesc>
+        <calendar xml:id="gregorian">
+          <p>The Gregorian calendar, in the Christian era.</p>
+        </calendar>
+      </calendarDesc>
+    </profileDesc>
     <revisionDesc>
       <change when="2026-05-02" who="https://example.org/id/person/PERS.12"
         target="#P.SAM_2.p1">A reading corrected.</change>
@@ -63,7 +70,7 @@
       <div type="chapter" n="2" xml:id="P.SAM_2">
         <head type="number" xml:id="P.SAM_2.h1">II.</head>
         <p xml:id="P.SAM_2.p1">Si quis periurium fecerit in <placeName ref="#PLACE.3">ecclesia</placeName>,
-          <date when="0816">anno domini DCCCXVI</date> statutum est ut <foreign xml:lang="grc">ἀναθέμα</foreign>
+          <date when="0816" calendar="#gregorian">anno domini DCCCXVI</date> statutum est ut <foreign xml:lang="grc">ἀναθέμα</foreign>
           sit.</p>
         <p xml:id="P.SAM_2.p2"><choice><sic>paenitead</sic><corr>paeniteat</corr></choice> tres annos.</p>
       </div>

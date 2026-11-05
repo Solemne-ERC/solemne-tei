@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: MIT
-"""Dates: the bounds agree with the EDTF by years, the EDTF has its form, no bound comes after its pair, and a date's
-calendars are declared. Each case is a fragment placed in a minimal valid file, as the guide's examples are."""
+"""Dates: the bounds agree with the EDTF by years, the EDTF has its form, no bound comes after its pair, a manuscript's
+date and the text's dates name their calendar, and a date's calendars are declared. Each case is a fragment placed
+in a minimal valid file, as the guide's examples are."""
 
 from pathlib import Path
 
@@ -107,3 +108,20 @@ def test_a_calendar_must_be_declared(validator: Validator, tmp_path: Path) -> No
     assert "calendar-declared" not in schematron_rules(validator, tmp_path, declared)
     undeclared = '<p><date when="0813-06-13" calendar="#julian">V Idus Iunias</date></p>'
     assert "calendar-declared" in schematron_rules(validator, tmp_path, undeclared)
+
+
+@pytest.mark.parametrize(
+    ("xml", "named"),
+    [
+        ('<origDate notBefore="0801" notAfter="0900" calendar="#gregorian">sec. IX</origDate>', True),
+        ('<origDate notBefore="0801" notAfter="0900">sec. IX</origDate>', False),
+        ('<origDate type="undated">s. d.</origDate>', True),
+        ('<p>Data <date when="0816" calendar="#gregorian">anno DCCCXVI</date></p>', True),
+        ('<p>Data <date when="0816">anno DCCCXVI</date></p>', False),
+        ('<listBibl><bibl type="work" xml:id="new_work_x"><date when="0816">816</date></bibl></listBibl>', True),
+    ],
+)
+def test_a_manuscripts_date_and_the_texts_name_their_calendar(
+    validator: Validator, tmp_path: Path, xml: str, named: bool
+) -> None:
+    assert ("date-calendar" not in schematron_rules(validator, tmp_path, xml)) == named

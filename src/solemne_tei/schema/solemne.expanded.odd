@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.2.0 (SHA-256 b07e68b6b2795d1f0de06e98171ae3f24866c2f73ebcd1a66964449e5af77b7a) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.2.0 (SHA-256 d86a9cf13c0f0d01ba282a81112237279186fdc6555a2c2adeccb66f6070aa0e) by solemne-tei build. Edit the ODD, not this file. -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:lang="en">
   <teiHeader>
     <fileDesc>
@@ -2362,8 +2362,8 @@
   <div xml:id="marked-dates">
     <head>Dates</head>
     <p>A date in the text is marked by <gi>date</gi>, in the one form of dates that records and relations use too:
-      the wording as the text gives it, and its bounds in attributes; a day the text reckons in the Julian calendar
-      says so, and its bounds give the Gregorian day (<ptr target="#dates"/>). The coded files mark none yet; the
+      the wording as the text gives it, and its bounds in attributes. It names the calendar of its words: a day the
+      text reckons in the Julian calendar says so, and its bounds give the Gregorian day (<ptr target="#dates"/>). The coded files mark none yet; the
       example is made up: V Idus Iunias is 9 June in the Julian calendar, 13 June in the Gregorian in 813.</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <calendarDesc>
@@ -3235,17 +3235,18 @@
     <p>A century is the commonest date of a manuscript. The bounds follow the words: "sec. X" is 901 to 1000. Its
       EDTF is <code>09XX</code>, which EDTF reads as 900 to 999; the checks allow the year's difference (<ptr target="#dates-checks"/>):</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.His.ms-Vat-BAV-Pal575">
-      <origDate notBefore="0901" notAfter="1000" when-custom="09XX" datingMethod="#edtf">sec. X</origDate>
+      <origDate notBefore="0901" notAfter="1000" when-custom="09XX" datingMethod="#edtf" calendar="#gregorian">sec.
+        X</origDate>
     </egXML>
     <p>A part of a century needs no EDTF: the bounds say it, and the words keep how it was said.</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.Dach.ms-Brn-Burg-425">
-      <origDate notBefore="0867" notAfter="0900">sec. IX ultimo terzo</origDate>
+      <origDate notBefore="0867" notAfter="0900" calendar="#gregorian">sec. IX ultimo terzo</origDate>
     </egXML>
     <p>A circa date gives in its bounds how far the encoder, or the source, reads the circa; its EDTF keeps the year
       named:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.Laur.ms-Vat-BAV-Pal574">
-      <origDate notBefore="0776" notAfter="0825" when-custom="0800~" datingMethod="#edtf">sec. VIII-IX (ca.
-        800)</origDate>
+      <origDate notBefore="0776" notAfter="0825" when-custom="0800~" datingMethod="#edtf" calendar="#gregorian">sec.
+        VIII-IX (ca. 800)</origDate>
     </egXML>
     <p>An uncertain year, and the years it may be instead, is a point between bounds with its EDTF marked uncertain.
       The edition of the Council of Aschheim dates it "a. 756 vel 755-60"; as a record of the council:</p>
@@ -3294,8 +3295,8 @@
           <attDef ident="period" mode="delete"/>
         </attList>
       </classSpec>
-      <!-- A unit's date is in the one form: a calendar only where its words reckon otherwise. The Bodleian's module,
-           which the schema takes until our own description replaces it, requires one on every origDate. -->
+      <!-- A unit's date is in the one form; date-calendar, below, requires its calendar. The Bodleian's module,
+           which the schema takes until our own description replaces it, has a rule of its own for it. -->
       <elementSpec ident="origDate" module="msdescription" mode="change" corresp="#tier-full">
         <constraintSpec ident="origDate.check" scheme="schematron" mode="delete"/>
       </elementSpec>
@@ -3308,10 +3309,18 @@
       words may reckon otherwise: by the Spanish era, 38 years ahead of the Christian, by the Julian calendar's days,
       by a king's years. <att>calendar</att> names the reckoning of the words, pointing to a <gi>calendar</gi> that the
       file declares once, in the profile description's <gi>calendarDesc</gi>; the bounds give what the words come to.
-      A date without <att>calendar</att> reckons in the Christian era. Each declaration says what the calendar is,
-      and may link to a description of it in <att>target</att>. The declarations the guide uses:</p>
+      Each declaration says what the calendar is, and may link to a description of it in <att>target</att>.</p>
+    <p>A manuscript's date (<gi>origDate</gi>) and a date in the text always name the calendar of their words, as the
+      Bodleian's catalogues do for a manuscript's: <code>#gregorian</code> for a modern statement, such as a
+      catalogue's "sec. IX" or "a. 1009", and the source's own otherwise, such as <code>#julian</code> for a day it
+      gives in the Julian calendar, or an era. These are the dates whose calendar matters. A unit said undated names
+      none. The dates of publications, of records and of the header are modern years in the Christian era, and name
+      none either. The declarations the guide uses:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <calendarDesc>
+        <calendar xml:id="gregorian">
+          <p>The Gregorian calendar, in the Christian era: the calendar of modern statements of date.</p>
+        </calendar>
         <calendar xml:id="edtf" target="https://www.loc.gov/standards/datetime/">
           <p>The Extended Date/Time Format (EDTF), ISO 8601-2: the form of the dates' custom attributes.</p>
         </calendar>
@@ -3353,15 +3362,31 @@
       </calendarDesc>
       <origDate when="1009-03-29" calendar="#julian-ans">a. 1009, 23 marzo</origDate>
     </egXML>
-    <p>A calendar the file doesn't declare is an error:</p>
+    <p>A manuscript's date or a date in the text without a calendar is an error, and so is a calendar the file
+      doesn't declare:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="date-calendar">
+      <origDate notBefore="0801" notAfter="0900">sec. IX</origDate>
+    </egXML>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="calendar-declared">
       <p>Habitum <date when="0549" calendar="#spanish-era">ERA DLXXXVII</date>.</p>
     </egXML>
     <p>The ids of the declarations are the file's own; the examples above give each its own, since the guide's ids
-      are unique. A file usually needs <code>edtf</code>, and <code>julian</code> where it dates to the day.</p>
+      are unique, except <code>gregorian</code> and <code>edtf</code>, which the guide's examples take as declared.
+      A file usually needs <code>gregorian</code> and <code>edtf</code>, and <code>julian</code> where it dates to
+      the day.</p>
     <specGrp xml:id="dates-calendars-specs">
-      <!-- A date's calendars are declared. -->
+      <!-- A manuscript's date and the text's dates name their calendar; a date's calendars are declared. -->
       <elementSpec ident="calendar" module="header" mode="change" corresp="#tier-full">
+        <constraintSpec ident="date-calendar" scheme="schematron" corresp="#tier-full">
+          <desc>A manuscript's date and a date in the text name the calendar of their words.</desc>
+          <constraint>
+            <sch:rule context="tei:origDate[not(@type = 'undated')] | tei:text//tei:date">
+              <sch:assert id="date-calendar" test="@calendar">A manuscript's date and a date in the text name the
+                calendar of their words by @calendar: #gregorian for a modern statement ("sec. IX"), the source's
+                own otherwise (a Julian day, an era).</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
         <constraintSpec ident="calendar-declared" scheme="schematron" corresp="#tier-full">
           <desc>A date's calendar and dating method point to a declared calendar.</desc>
           <constraint>
@@ -3386,25 +3411,28 @@
       <item>the bounds agree with the EDTF, by years: an exact date has the bounds' years; one with unspecified
         digits may differ from them by a year at each end, as a century does; a circa or uncertain one lies within
         the bounds (a warning);</item>
+      <item>a manuscript's date and a date in the text name their calendar (an error);</item>
       <item>every <att>calendar</att> and <att>datingMethod</att> points to a declared <gi>calendar</gi> (an
         error).</item>
     </list>
     <p>Folios and pages also have <att>from</att> and <att>to</att> (<gi>locus</gi>, <gi>biblScope</gi>,
       <gi>citedRange</gi>): these rules leave them alone.</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="date-span-bounds">
-      <p>Datum <date notBefore="0755">post annum 755</date>.</p>
+      <p>Datum <date notBefore="0755" calendar="#gregorian">post annum 755</date>.</p>
     </egXML>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="date-from-to">
-      <p>Episcopus <date from="0750">ab anno 750</date>.</p>
+      <p>Episcopus <date from="0750" calendar="#gregorian">ab anno 750</date>.</p>
     </egXML>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="date-bounds-order">
-      <origDate notBefore="1000" notAfter="0901">sec. X</origDate>
+      <origDate notBefore="1000" notAfter="0901" calendar="#gregorian">sec. X</origDate>
     </egXML>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="date-edtf-form">
-      <origDate notBefore="0901" notAfter="1000" when-custom="sec. X" datingMethod="#edtf">sec. X</origDate>
+      <origDate notBefore="0901" notAfter="1000" when-custom="sec. X" datingMethod="#edtf" calendar="#gregorian">sec.
+        X</origDate>
     </egXML>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="date-edtf-bounds">
-      <origDate notBefore="0901" notAfter="1000" when-custom="08XX" datingMethod="#edtf">sec. X</origDate>
+      <origDate notBefore="0901" notAfter="1000" when-custom="08XX" datingMethod="#edtf" calendar="#gregorian">sec.
+        X</origDate>
     </egXML>
     <specGrp xml:id="dates-specs">
       <!-- A date reads one way: its bounds complete and in order, its EDTF well formed and agreeing with them. The

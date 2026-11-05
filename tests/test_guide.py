@@ -231,13 +231,14 @@ def test_a_vocabulary_s_rule_holds_the_terms_of_its_list(odd: etree._Element, ru
     assert sorted(re.findall(r"'([^']+)'", terms[0])) == sorted(listed)
 
 
-def test_a_part_of_a_description_is_placed_in_a_unit_and_edtf_is_declared() -> None:
-    tree = placed(example('<origDate when="0813" when-custom="0813~" datingMethod="#edtf">813</origDate>'))
+def test_a_part_of_a_description_is_placed_in_a_unit_and_its_calendars_are_declared() -> None:
+    xml = '<origDate when="0813" when-custom="0813~" datingMethod="#edtf" calendar="#gregorian">813</origDate>'
+    tree = placed(example(xml))
     unit = tree.find(f".//{{{TEI}}}sourceDesc/{{{TEI}}}msDesc/{{{TEI}}}msPart")
     assert unit.find(f"{{{TEI}}}history/{{{TEI}}}origin/{{{TEI}}}origDate") is not None
     assert tree.find(f".//{{{TEI}}}sourceDesc/{{{TEI}}}p") is None
     calendars = tree.findall(f".//{{{TEI}}}profileDesc/{{{TEI}}}calendarDesc/{{{TEI}}}calendar")
-    assert [c.get(XML_ID) for c in calendars] == ["edtf"]
+    assert [c.get(XML_ID) for c in calendars] == ["edtf", "gregorian"]
 
 
 def test_a_fragment_that_declares_edtf_keeps_its_own_declaration() -> None:

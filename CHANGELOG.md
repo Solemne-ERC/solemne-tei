@@ -12,9 +12,13 @@ Each release says what changed, and whether files that passed may now fail.
   (`@when-iso`, …), `@period`, `@datingPoint`, `@notBefore-custom` and `@notAfter-custom`. No file of the corpus uses
   them.
 - **Calendars declared:** `calendarDesc` and `calendar` join the schema, and every `@calendar` and `@datingMethod`
-  points to a declared calendar (`calendar-declared`, an error). `@calendar` names the reckoning of a date's words
-  only where it isn't the Christian era; the Bodleian's rule requiring it on every `origDate` is dropped. Files that
-  give `calendar="Gregorian"` without declaring it now fail: 46 dates in the corpus's 38 manuscript descriptions.
+  points to a declared calendar (`calendar-declared`, an error). Files that give `calendar="Gregorian"` without
+  declaring it now fail: 46 dates in the corpus's 38 manuscript descriptions, which become `calendar="#gregorian"`
+  with its declaration.
+- **Calendars named:** a manuscript's date (`origDate`) and a date in the text name the calendar of their words
+  (`date-calendar`, an error): `#gregorian` for a modern statement such as "sec. IX", the source's own otherwise (a
+  Julian day, an era). A unit said undated, and the dates of publications, records and the header, name none. The
+  corpus's `origDate`s all have one; no transcription marks a date yet.
 - **Dates checked:** no bound comes after its pair (`date-bounds-order`, an error; two dates in the corpus); an EDTF
   value has EDTF's form (`date-edtf-form`, an error); the bounds agree with the EDTF by years
   (`date-edtf-bounds`, a warning).

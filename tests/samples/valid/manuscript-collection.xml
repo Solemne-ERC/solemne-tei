@@ -51,7 +51,7 @@
             </physDesc>
             <history>
               <origin>
-                <origDate notBefore="0800" notAfter="0850">first half of the ninth
+                <origDate notBefore="0800" notAfter="0850" calendar="#gregorian">first half of the ninth
                   century</origDate>
                 <origPlace ref="#new_place_North">Somewhere in the north</origPlace>
               </origin>
@@ -62,6 +62,13 @@
         </msDesc>
       </sourceDesc>
     </fileDesc>
+    <profileDesc>
+      <calendarDesc>
+        <calendar xml:id="gregorian">
+          <p>The Gregorian calendar, in the Christian era.</p>
+        </calendar>
+      </calendarDesc>
+    </profileDesc>
   </teiHeader>
   <text>
     <body>
