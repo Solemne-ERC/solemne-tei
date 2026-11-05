@@ -1,0 +1,235 @@
+{
+  "SPDX-License-Identifier": "MIT",
+  "generated": "Generated from solemne.odd 0.1.0 (SHA-256 8322d245e5372a77660e2d6419468f18fb914d2fbcd692f017936bced535d80b) by solemne-tei build. Edit the ODD, not this file.",
+  "lists": {
+    "annotation": {
+      "motivation": [
+        "assessing",
+        "bookmarking",
+        "classifying",
+        "commenting",
+        "describing",
+        "editing",
+        "highlighting",
+        "identifying",
+        "linking",
+        "moderating",
+        "questioning",
+        "replying",
+        "tagging"
+      ]
+    },
+    "att.declarable": {
+      "default": [
+        "false",
+        "true"
+      ]
+    },
+    "att.divLike": {
+      "org": [
+        "composite",
+        "parallel",
+        "uniform"
+      ],
+      "sample": [
+        "complete",
+        "final",
+        "initial",
+        "medial",
+        "unknown"
+      ]
+    },
+    "att.fragmentable": {
+      "part": [
+        "F",
+        "I",
+        "M",
+        "N",
+        "Y"
+      ]
+    },
+    "att.global": {
+      "xml:space": [
+        "default",
+        "preserve"
+      ]
+    },
+    "att.personal": {
+      "full": [
+        "abb",
+        "init",
+        "yes"
+      ]
+    },
+    "att.pointing": {
+      "evaluate": [
+        "all",
+        "none",
+        "one"
+      ]
+    },
+    "availability": {
+      "status": [
+        "free",
+        "restricted",
+        "unknown"
+      ]
+    },
+    "correction": {
+      "method": [
+        "markup",
+        "silent"
+      ],
+      "status": [
+        "high",
+        "low",
+        "medium",
+        "unknown"
+      ]
+    },
+    "div": {
+      "type": [
+        "capitulum",
+        "causa",
+        "chapter",
+        "closer",
+        "dictum",
+        "distinctio",
+        "part",
+        "preface",
+        "quaestio",
+        "register",
+        "registerItem",
+        "section",
+        "subscriptions",
+        "unit"
+      ]
+    },
+    "gap": {
+      "reason": [
+        "damage",
+        "deleted",
+        "editorial",
+        "illegible",
+        "lacuna",
+        "reproduction",
+        "sampling"
+      ],
+      "unit": [
+        "chars",
+        "leaves",
+        "lines",
+        "words"
+      ]
+    },
+    "head": {
+      "type": [
+        "inscription",
+        "number",
+        "rubric"
+      ]
+    },
+    "idno": {
+      "type": [
+        "ISBN",
+        "SCN",
+        "biblatex",
+        "biblissima",
+        "bodleian",
+        "category",
+        "clavis",
+        "crArk",
+        "geonames",
+        "gnd",
+        "hmml",
+        "ieArk",
+        "manusOnline",
+        "mirabile",
+        "pleiades",
+        "schoenberg",
+        "shelfmark",
+        "tgn",
+        "transcription",
+        "type",
+        "url",
+        "version",
+        "viaf",
+        "wikidata",
+        "witness",
+        "work"
+      ]
+    },
+    "layout": {
+      "topLine": [
+        "above",
+        "below",
+        "mixed"
+      ]
+    },
+    "normalization": {
+      "method": [
+        "markup",
+        "silent"
+      ]
+    },
+    "note": {
+      "type": [
+        "authorities",
+        "editorial",
+        "extra",
+        "links",
+        "parallel",
+        "source"
+      ]
+    },
+    "punctuation": {
+      "marks": [
+        "all",
+        "none",
+        "some"
+      ],
+      "placement": [
+        "external",
+        "internal"
+      ]
+    },
+    "quotation": {
+      "marks": [
+        "all",
+        "none",
+        "some"
+      ]
+    },
+    "ref": {
+      "type": [
+        "from_paratext"
+      ]
+    },
+    "relation": {
+      "type": [
+        "judgement",
+        "observation"
+      ]
+    },
+    "seg": {
+      "type": [
+        "corr",
+        "formula"
+      ]
+    },
+    "segmentation": {
+      "type": [
+        "inferred-units"
+      ]
+    },
+    "title": {
+      "level": [
+        "a",
+        "j",
+        "m",
+        "s",
+        "u"
+      ]
+    }
+  }
+}

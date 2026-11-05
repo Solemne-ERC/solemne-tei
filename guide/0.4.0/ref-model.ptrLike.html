@@ -1,0 +1,70 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta charset="UTF-8"/><!--THIS FILE IS GENERATED FROM AN XML MASTER. DO NOT EDIT (7)--><title>TEI class model.ptrLike </title><meta name="author" content="Gleb Schmidt, Friederike Voit and Sven Meeder"/><meta name="generator" content="Text Encoding Initiative Consortium XSLT stylesheets"/><meta name="DC.Title" content="TEI class model.ptrLike"/><meta name="DC.Type" content="Text"/><meta name="DC.Format" content="text/html"/><link href="guide.css" rel="stylesheet" type="text/css"/><script type="text/javascript"><!--
+var displayXML=0;
+states=new Array()
+states[0]="element-a"
+states[1]="element-b"
+states[2]="element-c"
+states[3]="element-d"
+states[4]="element-e"
+states[5]="element-f"
+states[6]="element-g"
+states[7]="element-h"
+states[8]="element-i"
+states[9]="element-j"
+states[10]="element-k"
+states[11]="element-l"
+states[12]="element-m"
+states[13]="element-n"
+states[14]="element-o"
+states[15]="element-p"
+states[16]="element-q"
+states[17]="element-r"
+states[18]="element-s"
+states[19]="element-t"
+states[20]="element-u"
+states[21]="element-v"
+states[22]="element-w"
+states[23]="element-x"
+states[24]="element-y"
+states[25]="element-z"
+
+function startUp() {
+
+}
+
+function hideallExcept(elm) {
+for (var i = 0; i < states.length; i++) {
+ var layer;
+ if (layer = document.getElementById(states[i]) ) {
+  if (states[i] != elm) {
+    layer.style.display = "none";
+  }
+  else {
+   layer.style.display = "block";
+      }
+  }
+ }
+ var mod;
+ if ( mod = document.getElementById('byMod') ) {
+     mod.style.display = "none";
+ }
+}
+
+function showall() {
+ for (var i = 0; i < states.length; i++) {
+   var layer;
+   if (layer = document.getElementById(states[i]) ) {
+      layer.style.display = "block";
+      }
+  }
+}
+
+function showByMod() {
+  hideallExcept('');
+  var mod;
+  if (mod = document.getElementById('byMod') ) {
+     mod.style.display = "block";
+     }
+}
+
+        --></script></head><body id="TOP"><p class="guide-title"><a href="index.html">The SOLEMNE Encoding Guidelines</a>, <a href="specification.html">the specification</a></p><div class="main-content"><div><h3 class="oddSpec" id="model.ptrLike">model.ptrLike</h3><table class="wovenodd"><tr><td colspan="2" class="wovenodd-col2"><span class="label">model.ptrLike</span> groups elements used for purposes of location and reference. [3.7. Simple Links and Cross-References]</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Module</span></td><td class="wovenodd-col2">tei — The specification</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Used by</span></td><td class="wovenodd-col2"><div class="parent"><a class="link_odd_elementSpec" title="(analytic level) contains bibliographic elements describing an item (e.g. an article or poem) published within a monograph or journal and not as an independent publication." href="ref-analytic.html">analytic</a> <a class="link_odd_elementSpec" title="(bibliographic citation) contains a loosely-structured bibliographic citation of which the sub-components may or may not be explicitly tagged." href="ref-bibl.html">bibl</a> <a class="link_odd_elementSpec" title="(structured bibliographic citation) contains a structured bibliographic citation, in which only bibliographic sub-elements appear and in a specified order." href="ref-biblStruct.html">biblStruct</a> <a class="link_odd_elementSpec" title="(cited quotation) contains a quotation from some other document, together with a bibliographic reference to its source. In a dictionary it may contain an example text with at least one occurrence of the word form, used in the sense being described, or a translation of the headword, or an example." href="ref-cit.html">cit</a> <a class="link_odd_elementSpec" title="(event) contains data relating to anything of significance that happens in time." href="ref-event.html">event</a> <a class="link_odd_classSpec" title="groups phrase-level elements excluding those elements primarily intended for transcription of existing sources." href="ref-model.limitedPhrase.html">model.limitedPhrase</a> <a class="link_odd_classSpec" title="groups elements which can occur at the level of individual words or phrases." href="ref-model.phrase.html">model.phrase</a> <a class="link_odd_classSpec" title="groups the agency-specific child elements of the &lt;publicationStmt&gt; element of the TEI header." href="ref-model.publicationStmtPart.detail.html">model.publicationStmtPart.detail</a> <a class="link_odd_elementSpec" title="(monographic level) contains bibliographic elements describing an item (e.g. a book or journal) published as an independent item (i.e. as a separate physical object)." href="ref-monogr.html">monogr</a> <a class="link_odd_elementSpec" title="(organization) provides information about an identifiable organization such as a business, a tribe, or any other grouping of people." href="ref-org.html">org</a> <a class="link_odd_elementSpec" title="(person) provides information about an identifiable individual, for example a participant in a language interaction, or a person referred to in a historical source." href="ref-person.html">person</a> <a class="link_odd_elementSpec" title="(place) contains data about a geographic location." href="ref-place.html">place</a> <a class="link_odd_elementSpec" title="(series information) contains information about the series in which a book or other bibliographic item has appeared." href="ref-series.html">series</a></div></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Members</span></td><td class="wovenodd-col2"><span class="showmembers1"><a class="link_odd_elementSpec" title="(pointer) defines a pointer to another location." href="ref-ptr.html">ptr</a> <a class="link_odd_elementSpec" title="(reference) defines a reference to another location, possibly modified by additional text or comment." href="ref-ref.html">ref</a></span></td></tr></table></div></div><footer class="guide-footer"><p><a href="index.html">The SOLEMNE Encoding Guidelines</a>, Version 0.4.0. Under the Creative Commons Attribution 4.0 licence.</p></footer></body></html>

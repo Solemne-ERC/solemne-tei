@@ -1,0 +1,260 @@
+{
+  "SPDX-License-Identifier": "MIT",
+  "generated": "Generated from solemne.odd 0.3.0 (SHA-256 5f71084cdc798a55284df459235a3a68e2c5d39caf554efca9c74a43d8859d90) by solemne-tei build. Edit the ODD, not this file.",
+  "lists": {
+    "altIdentifier": {
+      "type": [
+        "code",
+        "former",
+        "siglum"
+      ]
+    },
+    "annotation": {
+      "motivation": [
+        "assessing",
+        "bookmarking",
+        "classifying",
+        "commenting",
+        "describing",
+        "editing",
+        "highlighting",
+        "identifying",
+        "linking",
+        "moderating",
+        "questioning",
+        "replying",
+        "tagging"
+      ]
+    },
+    "att.declarable": {
+      "default": [
+        "false",
+        "true"
+      ]
+    },
+    "att.divLike": {
+      "org": [
+        "composite",
+        "parallel",
+        "uniform"
+      ],
+      "sample": [
+        "complete",
+        "final",
+        "initial",
+        "medial",
+        "unknown"
+      ]
+    },
+    "att.fragmentable": {
+      "part": [
+        "F",
+        "I",
+        "M",
+        "N",
+        "Y"
+      ]
+    },
+    "att.global": {
+      "xml:space": [
+        "default",
+        "preserve"
+      ]
+    },
+    "att.personal": {
+      "full": [
+        "abb",
+        "init",
+        "yes"
+      ]
+    },
+    "att.pointing": {
+      "evaluate": [
+        "all",
+        "none",
+        "one"
+      ]
+    },
+    "availability": {
+      "status": [
+        "free",
+        "restricted",
+        "unknown"
+      ]
+    },
+    "binding": {
+      "contemporary": [
+        "false",
+        "true",
+        "unknown"
+      ]
+    },
+    "correction": {
+      "method": [
+        "markup",
+        "silent"
+      ],
+      "status": [
+        "high",
+        "low",
+        "medium",
+        "unknown"
+      ]
+    },
+    "div": {
+      "type": [
+        "capitulum",
+        "causa",
+        "chapter",
+        "closer",
+        "dictum",
+        "distinctio",
+        "part",
+        "preface",
+        "quaestio",
+        "register",
+        "registerItem",
+        "section",
+        "subscriptions",
+        "unit"
+      ]
+    },
+    "gap": {
+      "reason": [
+        "damage",
+        "deleted",
+        "editorial",
+        "illegible",
+        "lacuna",
+        "reproduction",
+        "sampling"
+      ],
+      "unit": [
+        "chars",
+        "leaves",
+        "lines",
+        "words"
+      ]
+    },
+    "head": {
+      "type": [
+        "inscription",
+        "number",
+        "rubric"
+      ]
+    },
+    "idno": {
+      "type": [
+        "ISBN",
+        "SCN",
+        "biblatex",
+        "biblissima",
+        "bodleian",
+        "category",
+        "clavis",
+        "crArk",
+        "geonames",
+        "gnd",
+        "hmml",
+        "ieArk",
+        "manusOnline",
+        "mirabile",
+        "pleiades",
+        "schoenberg",
+        "shelfmark",
+        "tgn",
+        "transcription",
+        "type",
+        "url",
+        "version",
+        "viaf",
+        "wikidata",
+        "witness",
+        "work"
+      ]
+    },
+    "normalization": {
+      "method": [
+        "markup",
+        "silent"
+      ]
+    },
+    "note": {
+      "type": [
+        "authorities",
+        "editorial",
+        "extra",
+        "links",
+        "parallel",
+        "source"
+      ]
+    },
+    "origDate": {
+      "type": [
+        "undated"
+      ]
+    },
+    "ptr": {
+      "type": [
+        "canonical",
+        "stand-in",
+        "via"
+      ]
+    },
+    "punctuation": {
+      "marks": [
+        "all",
+        "none",
+        "some"
+      ],
+      "placement": [
+        "external",
+        "internal"
+      ]
+    },
+    "quotation": {
+      "marks": [
+        "all",
+        "none",
+        "some"
+      ]
+    },
+    "ref": {
+      "type": [
+        "from_paratext",
+        "iiif"
+      ]
+    },
+    "relation": {
+      "cert": [
+        "high",
+        "low",
+        "medium"
+      ],
+      "type": [
+        "judgement",
+        "observation"
+      ]
+    },
+    "seg": {
+      "type": [
+        "corr",
+        "formula"
+      ]
+    },
+    "segmentation": {
+      "type": [
+        "inferred-units"
+      ]
+    },
+    "title": {
+      "level": [
+        "a",
+        "j",
+        "m",
+        "s",
+        "u"
+      ]
+    }
+  }
+}
