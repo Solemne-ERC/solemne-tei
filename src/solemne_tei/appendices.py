@@ -33,9 +33,12 @@ VOCABULARIES = (
     ("Execution", "handNote", "execution"),
     ("Decoration", "decoNote", "type"),
     ("Relation types", "relation", "name"),
+    ("Entry types", "biblStruct", "type"),
 )
 # The relation types taken from SAWS, the others being the model's.
 SAWS_TYPES = ("isVerbatimOf", "isVariantOf", "isShorterVersionOf")
+# Where the seeds of the vocabularies that aren't the Bodleian's and the old guide's come from.
+ORIGINS = {"biblStruct": "biblatex"}
 TESTAMENTS = {"ot": "Old Testament", "nt": "New Testament", "ap": "deuterocanonical"}
 
 
@@ -190,9 +193,13 @@ def tables_appendix(odd: etree._Element, compiled: Path, divgen: etree._Element)
     book_rows = (_row(_el("code", b.code), b.name, TESTAMENTS[b.testament]) for b in bible_books())
     vocabularies = []
     for title, element, attribute in VOCABULARIES:
-        if element == "relation":
+        if element == "relation" or element in ORIGINS:
             rows = (
-                _row(_el("val", term), what, "SAWS" if term in SAWS_TYPES else "the model")
+                _row(
+                    _el("val", term),
+                    what,
+                    ORIGINS.get(element) or ("SAWS" if term in SAWS_TYPES else "the model"),
+                )
                 for term, what in seeds(compiled, element, attribute)
             )
             vocabularies.append(_table(f"{title}: {element}/@{attribute}", ("Term", "What it is", "From"), rows))
@@ -227,7 +234,8 @@ def tables_appendix(odd: etree._Element, compiled: Path, divgen: etree._Element)
             "tables-vocabularies",
             "The vocabularies' seeds",
             "The vocabularies that grow, each with the terms it starts with: the union of the Bodleian's lists and "
-            "the old Solemne guide's, and, for relation types, the model's and SAWS's. A term outside the seeds is "
+            "the old Solemne guide's; for relation types, the model's and SAWS's; for entry types, biblatex's. A term "
+            "outside the seeds is "
             "reported, not refused. The application's database holds each vocabulary, and the seeds are refreshed "
             "from its export at each release; their equivalents in Mirabile, Ligatus and the Getty AAT come with it. "
             "Oxford gives the Bodleian's term where the seed is one of them.",

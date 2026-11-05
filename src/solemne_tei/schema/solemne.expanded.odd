@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.3.0 (SHA-256 a3583e05f4923170d632ad019e0abbc998cfbb3a4616fc87a0cba0d80e74024a) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.3.0 (SHA-256 14e4fd014c9b05531e4111d834af8174f1d158f905b949a0b62a79c967e61d01) by solemne-tei build. Edit the ODD, not this file. -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:lang="en">
   <teiHeader>
     <fileDesc>
@@ -5510,6 +5510,12 @@
               <val>souce</val>)</cell>
             <cell>the closed lists' values: a misspelt type fails the RelaxNG</cell>
             <cell><ptr target="#text-divisions"/></cell>
+          </row>
+          <row>
+            <cell><att>unit</att> of <gi>biblScope</gi> and <gi>citedRange</gi>: <val>tome</val>, <val>vol</val>,
+              <val>tomus</val>, <val>band</val>, <val>fascicle</val>, <val>fascicule</val>, <val>heft</val></cell>
+            <cell><val>volume</val>, <val>part</val> or <val>issue</val>, by what the edition counts</cell>
+            <cell><ptr target="#editions-pages"/></cell>
           </row>
           <row>
             <cell><gi>gap</gi> with <att>reason</att> <val>missing</val></cell>

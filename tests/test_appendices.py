@@ -37,6 +37,8 @@ OLDER_FORMS = (
     "inscriptio",
     "chpater",
     "missing",
+    "tome",
+    "heft",
     "corresp",
     "CNIC.325.2",
     "CanApost_N",

@@ -223,6 +223,7 @@ VOCABULARIES = {
     "script-term": ("handNote", "script"),
     "execution-term": ("handNote", "execution"),
     "decoration-term": ("decoNote", "type"),
+    "entry-type": ("biblStruct", "type"),
 }
 
 
