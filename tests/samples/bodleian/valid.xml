@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: MIT -->
+<!-- A made-up description in the Bodleian's form, which its own schema passes. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="manuscript_1">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>MS. Example 1</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>A made-up catalogue</publisher>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc xml:id="manuscript_1-msDesc" xml:lang="en">
+          <msIdentifier>
+            <country>United Kingdom</country>
+            <settlement>Oxford</settlement>
+            <institution>University of Oxford</institution>
+            <repository>Bodleian Library</repository>
+            <idno type="shelfmark">MS. Example 1</idno>
+          </msIdentifier>
+          <msContents>
+            <textLang mainLang="la">Latin</textLang>
+            <msItem xml:id="manuscript_1-item1">
+              <locus from="1r" to="10v">fols. 1r–10v</locus>
+              <title>Collectio exempli</title>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc form="codex">
+              <supportDesc material="perg">
+                <support>Parchment.</support>
+                <extent>10 leaves</extent>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+          <history>
+            <origin>
+              <origDate calendar="#Gregorian" notBefore="0801" notAfter="0900">9th century</origDate>
+            </origin>
+          </history>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <p/>
+    </body>
+  </text>
+</TEI>

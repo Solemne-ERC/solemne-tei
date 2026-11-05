@@ -33,6 +33,11 @@ Folders are searched for `*.xml`. Each problem is printed with its file, line, c
 results as JSON; `--jobs N` sets the number of workers (all cores by default; the results don't depend on it);
 `--strict` makes Schematron errors fail too. The exit code is 1 when a file isn't well formed or fails the RelaxNG.
 
+`--format bodleian` checks files in an import format against that format's own schema instead: manuscript
+descriptions in the form of the Bodleian Libraries' catalogues, which the project converts into its own. The
+package holds the Bodleian's schema at a pinned commit: its RelaxNG as the Bodleian publishes it, and its Schematron
+compiled to XSLT.
+
 From Python:
 
 ```python
@@ -41,6 +46,7 @@ from solemne_tei import SCHEMA_VERSION, Validator, closed_lists, validate
 results = validate(["one_file.xml"], jobs=4)  # a Result per file, with its Problems
 validator = Validator()  # compiled once, to check files one by one
 result = validator.check("one_file.xml")
+bodleian = validate(["description.xml"], format="bodleian")  # against an import format's own schema
 lists = closed_lists()  # {"div": {"type": ["capitulum", ...]}, ...}
 ```
 
@@ -93,11 +99,13 @@ SHA-256:
 | TEI P5, `p5subset.xml` | 4.12.0 | <https://www.tei-c.org/Vault/P5/4.12.0/xml/tei/odd/p5subset.xml> |
 | TEI P5's schema for ODD files, `tei_odds.rng` | 4.12.0 | <https://www.tei-c.org/Vault/P5/4.12.0/xml/tei/custom/schema/relaxng/tei_odds.rng> |
 | TEI's stylesheets | 7.61.0 | <https://github.com/TEIC/Stylesheets/releases/tag/v7.61.0> |
-| The Bodleian's consolidated TEI schema, `msdesc.odd` | commit `7e8b89c` | <https://github.com/msDesc/consolidated-tei-schema> |
+| The Bodleian's consolidated TEI schema, `msdesc.rng`, and its licence | commit `7e8b89c` | <https://github.com/msDesc/consolidated-tei-schema> |
 | SchXslt2 | 1.11.3 | <https://codeberg.org/SchXslt/schxslt2> |
 
 The build runs with SaxonC-HE: TEI's `odd2odd` compiles the ODD; `odd2relax` writes the RelaxNG; `extract-isosch` extracts the Schematron;
-SchXslt2 compiles it to XSLT. The development install pins SaxonC-HE's version, since the compiled Schematron
+SchXslt2 compiles it to XSLT. It also compiles the Schematron embedded in the Bodleian's RelaxNG, once into the
+cache, and writes the import format's two files into `src/solemne_tei/formats/bodleian/`, with the Bodleian's notice.
+The development install pins SaxonC-HE's version, since the compiled Schematron
 differs between versions; the package itself works with a range of them.
 
 A new rule goes into the part of the guide that explains it, in that part's `specGrp`: a Schematron assertion with
@@ -126,6 +134,7 @@ The code and the schema are under the MIT licence ([LICENSE](LICENSE)); the guid
 - **SchXslt2**, by David Maus, under the MIT licence: its code is in the compiled Schematron,
   `solemne-schematron.xsl`, which carries its copyright line and licence.
 - **The Bodleian Libraries' consolidated TEI schema**, by James Cummings and the Bodleian Libraries, University of
-  Oxford, under the BSD 2-Clause licence: the schema's manuscript description is modelled on it.
+  Oxford, under the BSD 2-Clause licence: the schema's manuscript description is modelled on it, and the import
+  format's files in `src/solemne_tei/formats/bodleian/` are its schema, which carry its copyright line and licence.
 - **TEI's stylesheets**, by the TEI Consortium, distributed under CC BY-SA 3.0 and the BSD 2-Clause licence: they
   generate the schema. They're fetched by the build, not distributed with this package.

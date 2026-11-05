@@ -28,9 +28,10 @@ solemne-tei = "solemne_tei.cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["solemne_tei*"]
+exclude = ["*.__pycache__"]
 
 [tool.setuptools.package-data]
-solemne_tei = ["schema/*", "tables/*"]
+solemne_tei = ["schema/*", "tables/*", "formats/*/*.rng", "formats/*/*.xsl"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

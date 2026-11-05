@@ -62,8 +62,13 @@ Each release says what changed, and whether files that passed may now fail.
 
 ### The package
 
-- The build no longer compiles the Bodleian's ODD for the schema, and the generated files no longer carry its notice:
-  they hold none of its material.
+- **Import formats:** `solemne-tei validate --format bodleian`, and `validate(paths, format="bodleian")` and
+  `Validator(format="bodleian")` from Python, check manuscript descriptions in the Bodleian's form against the
+  Bodleian's own schema, which the project converts into its own. The package holds that schema at a pinned commit
+  (`7e8b89c`): its RelaxNG as the Bodleian publishes it, and its Schematron compiled to XSLT, with its notice. Its
+  rules are named as the Bodleian names them (`origDate.check`). `FORMATS` lists the formats.
+- The build no longer compiles the Bodleian's ODD for the schema, and the schema's generated files no longer carry
+  its notice: they hold none of its material. It fetches the Bodleian's RelaxNG in place of its ODD.
 
 ### The guide
 

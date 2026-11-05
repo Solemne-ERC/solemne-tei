@@ -29,6 +29,7 @@ from pathlib import Path
 
 from lxml import etree
 
+from solemne_tei.formats import BODLEIAN, FORMATS_DIR
 from solemne_tei.logs import logger
 from solemne_tei.schema_files import (
     CLOSED_LISTS,
@@ -55,6 +56,9 @@ CACHE_DIR = REPOSITORY / "build" / "tei"
 
 SPDX = "<!-- SPDX-License-Identifier: MIT -->"
 SPDX_GUIDE = "<!-- SPDX-License-Identifier: CC-BY-4.0 -->"
+# An import format's schema is its source's material, compiled; its Schematron's XSLT holds SchXslt2's code too.
+SPDX_BODLEIAN = "<!-- SPDX-License-Identifier: BSD-2-Clause -->"
+SPDX_BODLEIAN_XSLT = "<!-- SPDX-License-Identifier: BSD-2-Clause AND MIT -->"
 SCH = "http://purl.oclc.org/dsdl/schematron"
 XML_BASE = "{http://www.w3.org/XML/1998/namespace}base"
 
@@ -92,11 +96,12 @@ STYLESHEETS = Source(
     "1a6cd1043af5adb3c5a8c1b2ec0b6abb7d0f241cd8725e233d691b3ca2f312bf",
     "TEI Stylesheets: BSD 2-Clause, or CC BY-SA 3.0",
 )
+# The Bodleian's schema as it publishes it, the RelaxNG with its Schematron embedded: the import format's.
 MSDESC = Source(
-    "msdesc.odd",
+    "msdesc.rng",
     "7e8b89c",
-    "https://raw.githubusercontent.com/msDesc/consolidated-tei-schema/7e8b89c17e8dfff086dd2ef6e2322f580baf7a64/msdesc.odd",
-    "93e87cfd1d9a3f4dc8376bb0c25cab22671053edffca9002f54e9c3298b1e9c9",
+    "https://raw.githubusercontent.com/msDesc/consolidated-tei-schema/7e8b89c17e8dfff086dd2ef6e2322f580baf7a64/msdesc.rng",
+    "440af5ddd845fa35f6a73b74900227bddaa647fd0a54e7b068694ce061a098a7",
     "BSD 2-Clause",
 )
 SCHXSLT = Source(
@@ -352,6 +357,24 @@ def credits_notice(tools: Tools) -> str:
     )
 
 
+def bodleian_notice(tools: Tools) -> str:
+    """The Bodleian's copyright line and licence, for the top of the files compiled from its schema."""
+    return comment(
+        "This schema is compiled from the Bodleian Libraries' consolidated TEI schema for manuscript descriptions"
+        f" (https://github.com/msDesc/consolidated-tei-schema, commit {MSDESC.version}), under its licence:\n\n"
+        f"{tools.msdesc_licence}"
+    )
+
+
+def format_stamp(source: Source) -> str:
+    """What each file of an import format's schema says about where it came from."""
+    return (
+        f"<!-- Generated from {source.name} at commit {source.version} (SHA-256 {source.sha256}) by solemne-tei"
+        " build: the schema of an import format, which files in that format are checked against. Don't edit this"
+        " file. -->"
+    )
+
+
 def schxslt_notice(tools: Tools) -> str:
     """SchXslt2's copyright line and permission notice, for the top of the compiled Schematron."""
     return comment(
@@ -360,12 +383,17 @@ def schxslt_notice(tools: Tools) -> str:
     )
 
 
-def stamped(text: str, version: str, odd_sha256: str, notice: str = "", spdx: str = SPDX) -> str:
-    """The generated text with the SPDX line, the stamp and a notice after its XML declaration."""
-    head, sep, rest = text.partition("?>") if text.startswith("<?xml") else ("", "", text)
-    lines = [f"{head}{sep}".strip(), spdx, stamp(version, odd_sha256), notice, rest.lstrip()]
+def headed(text: str, *head: str) -> str:
+    """The generated text with lines of its own (an SPDX line, a stamp, notices) after its XML declaration."""
+    declaration, sep, rest = text.partition("?>") if text.startswith("<?xml") else ("", "", text)
+    lines = [f"{declaration}{sep}".strip(), *head, rest.lstrip()]
     text = "\n".join(line for line in lines if line)
     return text if text.endswith("\n") else text + "\n"
+
+
+def stamped(text: str, version: str, odd_sha256: str, notice: str = "", spdx: str = SPDX) -> str:
+    """The generated text with the SPDX line, the stamp and a notice after its XML declaration."""
+    return headed(text, spdx, stamp(version, odd_sha256), notice)
 
 
 def _without_paths(text: str, work: Path, p5subset: Path) -> str:
@@ -399,8 +427,58 @@ def compile_odd(saxon: Saxon, tools: Tools, source: Path, compiled: Path) -> Non
     compiled.write_text(saxon.run(odd2odd, source, **stylesheet_params(tools)), "utf-8")
 
 
-def build(odd: Path = ODD_PATH, out: Path = SCHEMA_DIR, cache: Path = CACHE_DIR) -> list[Path]:
-    """Generate the schema's files from the ODD into `out`; returns those it wrote, which are those that changed."""
+def compile_bodleian(tools: Tools, cache: Path) -> dict[str, str]:
+    """The Bodleian's schema: its RelaxNG as it publishes it, and the Schematron embedded in it compiled to XSLT, once
+    into the cache, by a Saxon of its own. lxml reads the Bodleian's own RelaxNG at once, but stalls on the one TEI's
+    current stylesheets make from its ODD."""
+    names = (BODLEIAN.relaxng.name, BODLEIAN.schematron_xslt.name)
+    folder = cache / "formats" / f"{BODLEIAN.name}-{MSDESC.version}-schxslt-{SCHXSLT.version}"
+    if not (folder / names[1]).exists():
+        logger.info("Compiling the Schematron of the Bodleian's schema, the import format's")
+        work = folder.with_name(folder.name + ".tmp")
+        shutil.rmtree(work, ignore_errors=True)
+        work.mkdir(parents=True)
+        schematron = work / "msdesc.sch"
+        schematron.write_bytes(embedded_schematron(tools.msdesc))
+        (work / names[1]).write_text(
+            _without_paths(Saxon().run(tools.transpiler, schematron), work, tools.p5subset), "utf-8"
+        )
+        shutil.rmtree(folder, ignore_errors=True)
+        work.replace(folder)
+    return {names[0]: tools.msdesc.read_text("utf-8"), names[1]: (folder / names[1]).read_text("utf-8")}
+
+
+def build_formats(tools: Tools, cache: Path, out: Path) -> list[Path]:
+    """The import formats' schemas, stamped with their sources and carrying their notices, into `out`; returns the
+    files written, which are those that changed."""
+    texts = compile_bodleian(tools, cache)
+    notices = bodleian_notice(tools), credits_notice(tools)
+    files = {
+        BODLEIAN.relaxng.name: headed(texts[BODLEIAN.relaxng.name], SPDX_BODLEIAN, format_stamp(MSDESC), *notices),
+        BODLEIAN.schematron_xslt.name: headed(
+            texts[BODLEIAN.schematron_xslt.name],
+            SPDX_BODLEIAN_XSLT,
+            format_stamp(MSDESC),
+            *notices,
+            schxslt_notice(tools),
+        ),
+    }
+    folder = out / BODLEIAN.name
+    folder.mkdir(parents=True, exist_ok=True)
+    written = []
+    for name, text in files.items():
+        path = folder / name
+        if not path.exists() or path.read_text("utf-8") != text:
+            path.write_text(text, "utf-8")
+            written.append(path)
+    return written
+
+
+def build(
+    odd: Path = ODD_PATH, out: Path = SCHEMA_DIR, cache: Path = CACHE_DIR, formats_out: Path = FORMATS_DIR
+) -> list[Path]:
+    """Generate the schema's files from the ODD into `out`, and the import formats' schemas into `formats_out`;
+    returns the files it wrote, which are those that changed."""
     if not odd.exists():
         raise BuildError(f"no ODD at {odd}: the build runs in a clone of the repository")
     tools = Tools.prepare(cache)
@@ -452,4 +530,4 @@ def build(odd: Path = ODD_PATH, out: Path = SCHEMA_DIR, cache: Path = CACHE_DIR)
         if not path.exists() or path.read_text("utf-8") != text:
             path.write_text(text, "utf-8")
             written.append(path)
-    return written
+    return written + build_formats(tools, cache, formats_out)

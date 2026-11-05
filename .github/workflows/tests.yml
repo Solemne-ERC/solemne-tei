@@ -25,10 +25,10 @@ jobs:
         run: |
           ruff check
           ruff format --check
-      - name: The schema rebuilt from an empty cache equals the committed one
+      - name: The schema and the import formats' rebuilt from an empty cache equal the committed ones
         run: |
           solemne-tei build
-          git diff --exit-code -- src/solemne_tei/schema
+          git diff --exit-code -- src/solemne_tei/schema src/solemne_tei/formats
       - name: Tests, the guide's HTML among them, from the build's cache
         run: pytest
       - name: The wheel, installed, validates outside the repository
