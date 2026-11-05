@@ -234,7 +234,16 @@
         </bibl>
       </listBibl>
     </egXML>
-    <p>A pointer of another type is an error:</p>
+    <p>A work names at most one canonical version and one stand-in, and a pointer of another type is an error:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="version-choices">
+      <listBibl>
+        <bibl type="work" xml:id="new_work_exemplum_bis">
+          <title>Exemplum</title>
+          <ptr type="canonical" target="#new_version_exemplum_latin"/>
+          <ptr type="canonical" target="#new_version_exemplum_greek"/><!-- breaks the rule -->
+        </bibl>
+      </listBibl>
+    </egXML>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="pointer-type">
       <listBibl>
         <bibl type="work" xml:id="new_work_exemplum">
@@ -249,6 +258,16 @@
       <!-- A work's choices of versions: its canonical version and the version that stands in for it; and, in a
            relation, what a text came through. -->
       <elementSpec ident="ptr" module="core" mode="change" corresp="#tier-full">
+        <constraintSpec ident="version-choices" scheme="schematron" corresp="#tier-full">
+          <desc>A work names at most one canonical version and one stand-in.</desc>
+          <constraint>
+            <sch:rule context="tei:bibl[tei:ptr[@type = ('canonical', 'stand-in')]]">
+              <sch:assert id="version-choices" test="count(tei:ptr[@type = 'canonical']) le 1 and count(tei:ptr[@type
+                = 'stand-in']) le 1">A work names at most one canonical version (ptr type="canonical") and one
+                version that stands in for it (ptr type="stand-in").</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
         <attList>
           <attDef ident="type" mode="change" corresp="#tier-full">
             <valList type="closed" mode="replace" xml:id="pointer-type" corresp="#tier-full">
@@ -344,9 +363,73 @@
         <idno type="mirabile">19360</idno>
       </person>
     </egXML>
-    <p>The project's earlier files give these links as a note typed <val>links</val> holding a list of links, or
-      typed <val>authorities</val>; the import reads an authority's link as its id. Such a note holds only its list,
-      and each link its target and words:</p>
+    <p>An authority may number each kind of record on its own. Mirabile does: 20174 is a work in its index of titles,
+      and another record in its index of authors. The kind of record says which index its number is from, and the
+      import makes the link from it, the index's address followed by a name and the number, as the corpus's links
+      have them; an export writes the number:</p>
+    <table xml:id="mirabile-indices">
+      <head>Mirabile's indices, by the kind of record</head>
+      <row role="label">
+        <cell>Record</cell>
+        <cell>Index</cell>
+        <cell>Link</cell>
+      </row>
+      <row>
+        <cell>a person</cell>
+        <cell>authors</cell>
+        <cell><code>https://www.mirabileweb.it/author/-author/19840</code></cell>
+      </row>
+      <row>
+        <cell>a work or a version</cell>
+        <cell>titles</cell>
+        <cell><code>https://www.mirabileweb.it/title/-/20174</code></cell>
+      </row>
+      <row>
+        <cell>a manuscript</cell>
+        <cell>manuscripts</cell>
+        <cell><code>https://www.mirabileweb.it/manuscript/-manuscript/220110</code></cell>
+      </row>
+    </table>
+    <p>Mirabile's other indices, such as its institutions', join the table as the application reads them. Bernardus
+      of Pavia and his Summa decretalium, each with the number of its own index:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+      <person xml:id="new_person_bernardus_papiensis">
+        <persName type="main">Bernardus Papiensis praepositus</persName>
+        <idno type="mirabile">19840</idno>
+      </person>
+      <listBibl>
+        <bibl type="work" xml:id="new_work_summa_decretalium">
+          <title>Summa decretalium</title>
+          <author ref="#new_person_bernardus_papiensis">Bernardus Papiensis</author>
+          <idno type="mirabile">20174</idno>
+        </bibl>
+      </listBibl>
+    </egXML>
+    <p>Links to pages that aren't an authority's record, a library's page on a person or a scholar's on a work, go
+      in a note typed <val>links</val>, holding a list of links, each with its target and words:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <person xml:id="new_person_exemplus_linked">
+        <persName type="main">Exemplus</persName>
+        <note type="links">
+          <list type="links">
+            <item><ref target="https://example.org/exemplus">A page on Exemplus</ref></item>
+          </list>
+        </note>
+      </person>
+    </egXML>
+    <p>An authority's record linked there is reported, since its id goes in an <gi>idno</gi>; the import reads it as
+      the id, as it reads the earlier files' notes typed <val>authorities</val>, which hold an authority's numbers. A
+      note of links holds only its list, and each link its target and words:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="link-authority">
+      <person xml:id="new_person_Sextus">
+        <persName type="main">Sextus</persName>
+        <note type="links">
+          <list type="links">
+            <item><ref target="https://www.mirabileweb.it/author/-author/19840">Mirabile</ref></item><!-- breaks the rule -->
+          </list>
+        </note>
+      </person>
+    </egXML>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="links-list">
       <person xml:id="new_person_Tertius">
         <persName type="main">Tertius</persName>
@@ -366,7 +449,8 @@
       </person>
     </egXML>
     <specGrp xml:id="records-external-ids-specs">
-      <!-- The links of the earlier files: a note of links holds a list, each link a target and words. -->
+      <!-- A note of links holds a list, each link a target and words; an authority's record is an idno, not a
+           link. -->
       <elementSpec ident="list" module="core" mode="change" corresp="#tier-full">
         <constraintSpec ident="links-list" scheme="schematron" corresp="#tier-full">
           <desc>A note of links holds a list of links.</desc>
@@ -383,6 +467,18 @@
             <sch:rule context="tei:standOff//tei:list[@type = 'links']/tei:item">
               <sch:assert id="link-target" test="tei:ref[@target][normalize-space(.) != '']">A link has a @target and
                 words.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="link-authority" scheme="schematron" corresp="#tier-full">
+          <desc>An authority's record is an id, not a link.</desc>
+          <constraint>
+            <sch:rule context="tei:note[@type = 'links']//tei:ref[@target]">
+              <!-- The records of the authorities in idno/@type's list, by their addresses. -->
+              <sch:let name="authorities" value="'(mirabileweb\.it/(author|title|manuscript)/|wikidata\.org/(wiki|entity)/Q|viaf\.org/viaf/|d-nb\.info/gnd/|geonames\.org/[0-9]|vocab\.getty\.edu/(page/)?tgn/|pleiades\.stoa\.org/places/|sdbm\.library\.upenn\.edu/|manus\.iccu\.sbn\.it/|medieval\.bodleian\.ox\.ac\.uk/catalog/)'"/>
+              <sch:assert id="link-authority" role="warning" test="not(matches(@target, $authorities))">An
+                authority's record is an id: an idno typed by the authority, not a link in a note of links
+                (<sch:value-of select="@target"/>).</sch:assert>
             </sch:rule>
           </constraint>
         </constraintSpec>

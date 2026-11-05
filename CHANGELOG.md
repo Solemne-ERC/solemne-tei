@@ -26,13 +26,19 @@ Each release says what changed, and whether files that passed may now fail.
   `@name` outside the guide's types is a warning (`relation-term`). No file of the corpus has relations.
 - **Pointers typed:** `ptr/@type` is `canonical` or `stand-in` (a work's choices of versions) or `via` (what a text
   came through, in a relation), closed (`pointer-type`). No file of the corpus types a `ptr`.
+- **A work's choices of versions:** a work names at most one canonical version and one version that stands in for
+  it (`version-choices`, an error).
+- **Ids, not links, for an authority's records:** a link into an authority's records (Mirabile's authors, titles and
+  manuscripts, VIAF, GND, Wikidata, GeoNames, …) in a note of links is a warning (`link-authority`): its id goes in
+  an `idno` typed by the authority. Notes of links keep the links to other pages. The corpus's 294 Mirabile links
+  in notes of links are reported.
 - **Extra fields:** `fs` and `f` join the schema, for a record's fields that no element holds.
 
 ### The guide
 
 - Part V, records: placeholders, ids and permalinks; persons, places, institutions, events, works and versions,
-  witnesses, work groups, rare kinds and their extra fields; ids elsewhere; sources. A work names its canonical
-  version, and the version that stands in for it.
+  witnesses, work groups, rare kinds and their extra fields; ids elsewhere, with Mirabile's indices by the kind of
+  record; sources. A work names its canonical version, and the version that stands in for it.
 - Part VI, relations: their form, the types to start with and their reverses, the levels' relations.
 - Part VII, dates: the one form, with the corpus's own wordings; calendars and eras, with the Julian day converted to
   the Gregorian in the bounds; what the checks require.
