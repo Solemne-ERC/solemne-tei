@@ -48,9 +48,13 @@
   <xsl:template match="tei:titlePage">
     <xsl:text>&#10;\begin{titlepage}\centering&#10;\vspace*{0.18\textheight}&#10;{\fontsize{28pt}{34pt}\selectfont </xsl:text>
     <xsl:apply-templates select="tei:docTitle/tei:titlePart[1]/node()"/>
-    <xsl:text>\par}&#10;\vspace{1.2em}&#10;{\LARGE\itshape </xsl:text>
-    <xsl:apply-templates select="tei:docTitle/tei:titlePart[2]/node()"/>
-    <xsl:text>\par}&#10;\vspace{4em}&#10;{\Large </xsl:text>
+    <xsl:text>\par}&#10;</xsl:text>
+    <xsl:if test="tei:docTitle/tei:titlePart[2]">
+      <xsl:text>\vspace{1.2em}&#10;{\LARGE\itshape </xsl:text>
+      <xsl:apply-templates select="tei:docTitle/tei:titlePart[2]/node()"/>
+      <xsl:text>\par}&#10;</xsl:text>
+    </xsl:if>
+    <xsl:text>\vspace{4em}&#10;{\Large </xsl:text>
     <xsl:for-each select="tei:docAuthor">
       <xsl:apply-templates/>
       <xsl:if test="following-sibling::tei:docAuthor">

@@ -33,7 +33,7 @@ REDIRECT = """<!DOCTYPE html>
 <meta charset="utf-8">
 <meta http-equiv="refresh" content="0; url=guide/latest/">
 <link rel="canonical" href="guide/latest/">
-<title>Encoding Early Medieval Canon Law: The SOLEMNE Guidelines for TEI</title>
+<title>The SOLEMNE Encoding Guidelines</title>
 </head>
 <body><p><a href="guide/latest/">The guide</a>; its schemas are in <a href="schema/">schema/</a>.</p></body>
 </html>

@@ -34,7 +34,7 @@ Each release says what changed, and whether files that passed may now fail.
   Oxford term; D, older encodings and what they became; E, the import formats' tables, the Bodleian's moved there
   from Part VIII; F, the changes, from this changelog. C and F are generated, as A and B are, into the HTML; the
   examples' sources follow them.
-- **The guide's title:** "Encoding Early Medieval Canon Law: The SOLEMNE Guidelines for TEI", on a title page with its
+- **The guide's title:** "The SOLEMNE Encoding Guidelines", on a title page with its
   authors, version, date and licences, in the HTML and the PDF.
 - **The HTML, a page per part:** `solemne-tei docs --html` writes a folder of pages, the title page and contents in
   `index.html`, a page for the front matter, each part and each appendix, and one per specification of TEI's

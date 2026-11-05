@@ -5,7 +5,7 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>Encoding Early Medieval Canon Law: The SOLEMNE Guidelines for TEI</title>
+        <title>The SOLEMNE Encoding Guidelines</title>
         <author>Gleb Schmidt</author>
         <author>Friederike Voit</author>
         <author>Sven Meeder</author>
@@ -60,8 +60,7 @@
            the date of its section in the changelog. -->
       <titlePage>
         <docTitle>
-          <titlePart type="main">Encoding Early Medieval Canon Law</titlePart>
-          <titlePart type="sub">The SOLEMNE Guidelines for TEI</titlePart>
+          <titlePart type="main">The SOLEMNE Encoding Guidelines</titlePart>
         </docTitle>
         <docAuthor>Gleb Schmidt</docAuthor>
         <docAuthor>Friederike Voit</docAuthor>

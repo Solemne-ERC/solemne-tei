@@ -80,7 +80,7 @@ def test_no_page_holds_the_builds_fixed_date(site: Path) -> None:
 def test_the_title_page_gives_the_title_authors_version_and_licence(site: Path) -> None:
     index = (site / "index.html").read_text("utf-8")
     title = " ".join(html.fromstring(index).find_class("titlePage")[0].text_content().split())
-    for words in ("Encoding Early Medieval Canon Law", "Gleb Schmidt", "Friederike Voit", "Sven Meeder"):
+    for words in ("The SOLEMNE Encoding Guidelines", "Gleb Schmidt", "Friederike Voit", "Sven Meeder"):
         assert words in title
     assert f"Version {odd_version(ODD_PATH)}" in title
     assert "Creative Commons Attribution 4.0" in title
