@@ -46,6 +46,9 @@ Each release says what changed, and whether files that passed may now fail.
 
 ### The package
 
+- **The validator no longer hangs** on a file whose publication fails beside its `imprint`, such as a volume in an
+  older unit: libxml2 never finishes compiling `imprint`'s pattern on its own, so the narrowing of a RelaxNG error to
+  its element doesn't try it, and a failure inside an `imprint` is reported at its parent.
 - **The release workflow:** on a tag `vX.Y.Z`, it rebuilds the schema from an empty cache and checks it against the
   committed files, runs the tests, makes the HTML and the PDF, and publishes: a GitHub release with the schema's
   files, the HTML and the PDF, its notes this changelog's section; the pages, `schema/X.Y.Z/`, `guide/X.Y.Z/` and
