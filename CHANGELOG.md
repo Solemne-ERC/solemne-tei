@@ -78,6 +78,11 @@ Each release says what changed, and whether files that passed may now fail.
 - Part VI, relations: their form, the types to start with and their reverses, the levels' relations.
 - Part VII, dates: the one form, with the corpus's own wordings; calendars and eras, with the Julian day converted to
   the Gregorian in the bounds; what the checks require.
+- Part VIII, manuscripts: the description and the manuscript's identifier; units; contents, items inside items and
+  an item's transcription; the physical description; hands, decoration, the binding; history; images, literature
+  and sources; the Bodleian's descriptions as an import format, with the table of what the conversion does with each
+  of their elements and attributes, in `guide/mappings/`. It is modelled on the Bodleian Libraries' guidelines for
+  manuscript description, credited once in the front matter, and quotes them where their words fit.
 - A template for a reconstruction, `reconstruction.xml`: the collection of Benedictus Levita, with the two editions
   it was put together from as its witnesses.
 

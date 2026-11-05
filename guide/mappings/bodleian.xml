@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<table xmlns="http://www.tei-c.org/ns/1.0" xml:id="bodleian-mapping">
+  <head>From the Bodleian's description to ours: what the conversion does with each element and attribute</head>
+  <row role="label">
+    <cell>The Bodleian's</cell>
+    <cell>Ours</cell>
+    <cell>The conversion</cell>
+  </row>
+  <row role="label">
+    <cell cols="3">The description and the manuscript's identifier</cell>
+  </row>
+  <row>
+    <cell><gi>msDesc</gi></cell>
+    <cell>the same, with one unit at least</cell>
+    <cell>Keeps it. Its <att>xml:id</att> goes: the import gives the manuscript's record its own id.</cell>
+  </row>
+  <row>
+    <cell><gi>msDesc</gi>/<att>xml:lang</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps it: the language of the description's prose.</cell>
+  </row>
+  <row>
+    <cell><gi>msIdentifier</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>country</gi>, <gi>region</gi>, <gi>settlement</gi></cell>
+    <cell>the same, each with <att>ref</att> to the place's record</cell>
+    <cell>Keeps them; <att>key</att> (<val>place_1000070</val>) becomes <att>ref</att> to a placeholder of the place's record, which the import makes.</cell>
+  </row>
+  <row>
+    <cell><gi>region</gi>/<att>type</att></cell>
+    <cell>TEI's</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>institution</gi>, <gi>repository</gi></cell>
+    <cell>the same, with <att>ref</att> to the institution's record</cell>
+    <cell>Keeps them, and makes the library's record.</cell>
+  </row>
+  <row>
+    <cell><gi>collection</gi></cell>
+    <cell>the same: the fonds, with <att>ref</att></cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>idno</gi> typed <val>shelfmark</val></cell>
+    <cell>the same</cell>
+    <cell>Keeps it, as it's written.</cell>
+  </row>
+  <row>
+    <cell><gi>idno</gi> typed by an authority (<val>ieArk</val>, <val>crArk</val>)</cell>
+    <cell>the same, in <gi>msIdentifier</gi></cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>altIdentifier</gi></cell>
+    <cell>typed <val>former</val>, <val>siglum</val> or <val>code</val></cell>
+    <cell>Keeps a former shelfmark. The Summary Catalogue's number, typed <val>internal</val>, becomes an <gi>idno</gi> typed <val>SCN</val> in <gi>msIdentifier</gi>. A full shelfmark is dropped: the identifier's parts say it.</cell>
+  </row>
+  <row>
+    <cell><gi>altIdentifier</gi>/<att>type</att></cell>
+    <cell><val>former</val>, <val>siglum</val>, <val>code</val></cell>
+    <cell>Keeps <val>former</val>; the others as the row above says.</cell>
+  </row>
+  <row>
+    <cell><gi>msName</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it: the manuscript's names.</cell>
+  </row>
+  <row role="label">
+    <cell cols="3">Units</cell>
+  </row>
+  <row>
+    <cell><gi>msPart</gi></cell>
+    <cell>the same; one at least, none inside another</cell>
+    <cell>Keeps it. A description without units gets one, holding the manuscript's contents, physical description and history; a unit inside a unit becomes a unit of the manuscript.</cell>
+  </row>
+  <row>
+    <cell><gi>msPart</gi>/<att>n</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>msPart</gi>/<gi>msIdentifier</gi></cell>
+    <cell>the unit's own identifier, an <gi>idno</gi></cell>
+    <cell>Keeps it; an <gi>altIdentifier</gi> holding the full shelfmark and the unit's leaves becomes an <gi>idno</gi> with the unit's letter or leaves.</cell>
+  </row>
+  <row role="label">
+    <cell cols="3">Contents</cell>
+  </row>
+  <row>
+    <cell><gi>msContents</gi></cell>
+    <cell>the same, on a unit</cell>
+    <cell>Keeps it; on the manuscript, it moves into the unit.</cell>
+  </row>
+  <row>
+    <cell><gi>summary</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>textLang</gi></cell>
+    <cell>TEI's</cell>
+    <cell>Keeps it, with its languages.</cell>
+  </row>
+  <row>
+    <cell><gi>msItem</gi></cell>
+    <cell>the same; items inside items</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>msItem</gi>/<att>n</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>msItem</gi>/<att>class</att></cell>
+    <cell>left out</cell>
+    <cell>Drops it: an item's category is its work's.</cell>
+  </row>
+  <row>
+    <cell><gi>locus</gi>, <gi>locusGrp</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps them; <gi>hi</gi> inside a <gi>locus</gi> keeps only its words.</cell>
+  </row>
+  <row>
+    <cell><gi>author</gi></cell>
+    <cell>the same, with <att>ref</att> to the person's record</cell>
+    <cell>Keeps it; <att>key</att> (<val>person_…</val>) becomes <att>ref</att> to a placeholder, and the import makes the person's record.</cell>
+  </row>
+  <row>
+    <cell><gi>title</gi></cell>
+    <cell>the same, with <att>ref</att> to the work's record</cell>
+    <cell>Keeps it; <att>key</att> (<val>work_…</val>) becomes <att>ref</att>, and the import makes the work's record. <att>level</att> stays on a title in a bibliography.</cell>
+  </row>
+  <row>
+    <cell><gi>rubric</gi>, <gi>incipit</gi>, <gi>explicit</gi>, <gi>finalRubric</gi>, <gi>colophon</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps them, with their words; an empty one is dropped.</cell>
+  </row>
+  <row>
+    <cell><gi>filiation</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops it: a copy's place among the others is a relation between the texts.</cell>
+  </row>
+  <row>
+    <cell><gi>note</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it; its type, where it has one of the list's.</cell>
+  </row>
+  <row>
+    <cell><gi>bibl</gi> in an item</cell>
+    <cell>the literature's forms</cell>
+    <cell>Keeps it, in the forms of editions and literature.</cell>
+  </row>
+  <row>
+    <cell><gi>msItemStruct</gi></cell>
+    <cell>left out</cell>
+    <cell>Becomes an <gi>msItem</gi>.</cell>
+  </row>
+  <row>
+    <cell><gi>msFrag</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops it: a fragment kept elsewhere has a description of its own.</cell>
+  </row>
+  <row role="label">
+    <cell cols="3">The physical description</cell>
+  </row>
+  <row>
+    <cell><gi>physDesc</gi></cell>
+    <cell>the same, on a unit; on the manuscript, the binding alone</cell>
+    <cell>Keeps it on a unit. On the manuscript, the binding stays and the rest moves into the units that lack it.</cell>
+  </row>
+  <row>
+    <cell><gi>p</gi> in <gi>physDesc</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>objectDesc</gi>/<att>form</att></cell>
+    <cell>the same, from the vocabulary of forms</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>supportDesc</gi>/<att>material</att></cell>
+    <cell>the same, from the vocabulary of materials</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>support</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>extent</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it, its words and dimensions.</cell>
+  </row>
+  <row>
+    <cell><gi>num</gi></cell>
+    <cell>left out in a description</cell>
+    <cell>Drops the tag, keeps its words: the leaves are written as words.</cell>
+  </row>
+  <row>
+    <cell><gi>dimensions</gi></cell>
+    <cell>the same, its unit required</cell>
+    <cell>Keeps it, with its type and unit.</cell>
+  </row>
+  <row>
+    <cell><gi>dimensions</gi>/<att>type</att>, <att>unit</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>height</gi>, <gi>width</gi>, <gi>depth</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps them; an empty one is dropped.</cell>
+  </row>
+  <row>
+    <cell><gi>dim</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops the tag, keeps its words in the extent's prose.</cell>
+  </row>
+  <row>
+    <cell><gi>foliation</gi></cell>
+    <cell>TEI's</cell>
+    <cell>Keeps it; its date goes into its prose.</cell>
+  </row>
+  <row>
+    <cell><gi>collation</gi></cell>
+    <cell>TEI's</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>collation</gi>/<att>mainStructures</att></cell>
+    <cell>left out</cell>
+    <cell>Drops it, into the collation's prose.</cell>
+  </row>
+  <row>
+    <cell><gi>catchwords</gi>, <gi>signatures</gi>, <gi>secFol</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops the tags, keeps their words in the collation's prose.</cell>
+  </row>
+  <row>
+    <cell><gi>condition</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>layoutDesc</gi>, <gi>layout</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>layout</gi>/<att>columns</att>, <att>ruledLines</att>, <att>writtenLines</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps them; a count of zero is dropped.</cell>
+  </row>
+  <row>
+    <cell><gi>layout</gi>/<att>topLine</att>, <att>rulingMedium</att></cell>
+    <cell>left out</cell>
+    <cell>Drops them, into the layout's prose.</cell>
+  </row>
+  <row>
+    <cell><gi>handDesc</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>handDesc</gi>/<att>hands</att></cell>
+    <cell>left out</cell>
+    <cell>Drops it: the hands are counted from their notes.</cell>
+  </row>
+  <row>
+    <cell><gi>handNote</gi></cell>
+    <cell>the same, with an id</cell>
+    <cell>Keeps it, with its <att>script</att>, <att>execution</att> and <att>scope</att>.</cell>
+  </row>
+  <row>
+    <cell><gi>handNote</gi>/<att>scribe</att>, <att>scribeRef</att></cell>
+    <cell>left out</cell>
+    <cell>Makes the relation <val>scribe</val> to the person's record, named in the hand's prose.</cell>
+  </row>
+  <row>
+    <cell><gi>handNote</gi>/<att>scriptRef</att>, <att>medium</att></cell>
+    <cell>left out</cell>
+    <cell>Drops them, into the hand's prose.</cell>
+  </row>
+  <row>
+    <cell><gi>scriptDesc</gi>, <gi>scriptNote</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops the tags, keeps their words in the hands' prose.</cell>
+  </row>
+  <row>
+    <cell><gi>typeDesc</gi>, <gi>typeNote</gi>, <gi>musicNotation</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops the tags, keeps their words in the unit's prose.</cell>
+  </row>
+  <row>
+    <cell><gi>decoDesc</gi>, <gi>decoNote</gi></cell>
+    <cell>the same, its type from the vocabulary of decoration</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>additions</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>bindingDesc</gi>, <gi>binding</gi></cell>
+    <cell>the same, on the manuscript</cell>
+    <cell>Keeps them on the manuscript, with <att>contemporary</att> and the binding's dates; a unit's earlier binding becomes a note on the unit.</cell>
+  </row>
+  <row>
+    <cell><gi>binding</gi>/<att>notBefore</att>, <att>notAfter</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>sealDesc</gi>, <gi>seal</gi>, <gi>accMat</gi>, <gi>watermark</gi>, <gi>heraldry</gi>, <gi>stamp</gi>, <gi>material</gi>, <gi>objectType</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops the tags, keeps their words in the prose of the part they stand in.</cell>
+  </row>
+  <row role="label">
+    <cell cols="3">History</cell>
+  </row>
+  <row>
+    <cell><gi>history</gi></cell>
+    <cell>the same, on a unit; on the manuscript for the whole book</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>origin</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it, and makes the relation <val>origin</val>.</cell>
+  </row>
+  <row>
+    <cell><gi>origDate</gi></cell>
+    <cell>the one form of date</cell>
+    <cell>Keeps it, its words and bounds.</cell>
+  </row>
+  <row>
+    <cell><gi>origDate</gi>/<att>calendar</att></cell>
+    <cell>the same, pointing to a declared calendar</cell>
+    <cell>Becomes <val>#gregorian</val> for the Bodleian's <val>#Gregorian</val>, declared in the file, and <val>#julian</val> for its <val>#Julian</val>.</cell>
+  </row>
+  <row>
+    <cell><gi>origDate</gi>/<att>notBefore</att>, <att>notAfter</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>origPlace</gi></cell>
+    <cell>the same, with <att>ref</att> to the place's record</cell>
+    <cell>Keeps it; <att>key</att> becomes <att>ref</att>.</cell>
+  </row>
+  <row>
+    <cell><gi>provenance</gi>, <gi>acquisition</gi></cell>
+    <cell>the same, the owner named inside</cell>
+    <cell>Keeps them, with their dates, and makes the relation <val>ownedBy</val> to the owner's record.</cell>
+  </row>
+  <row>
+    <cell><gi>provenance</gi>/<att>corresp</att>, <att>key</att></cell>
+    <cell>left out</cell>
+    <cell>Becomes <att>ref</att> on the owner's name inside.</cell>
+  </row>
+  <row>
+    <cell><gi>provenance</gi>/<att>notBefore</att>, <att>notAfter</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>custodialHist</gi>, <gi>custEvent</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops the tags, keeps their words in the condition's or the binding's prose.</cell>
+  </row>
+  <row role="label">
+    <cell cols="3">Additional</cell>
+  </row>
+  <row>
+    <cell><gi>additional</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>adminInfo</gi>, <gi>recordHist</gi></cell>
+    <cell>the same, the record's history alone</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>source</gi></cell>
+    <cell>the same, holding the description's source</cell>
+    <cell>Becomes a <gi>bibl</gi> typed <val>source</val>: the Bodleian's catalogue, the description's id and link there, the date retrieved, and its licence.</cell>
+  </row>
+  <row>
+    <cell><gi>bibl</gi>/<att>type</att>, <att>facs</att></cell>
+    <cell>the source's form</cell>
+    <cell>The catalogue's pages become the source's pages.</cell>
+  </row>
+  <row>
+    <cell><gi>availability</gi> in <gi>adminInfo</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops it: the licence goes with the source.</cell>
+  </row>
+  <row>
+    <cell><gi>surrogates</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it; a IIIF manifest becomes a <gi>ref</gi> typed <val>iiif</val>.</cell>
+  </row>
+  <row>
+    <cell><gi>listBibl</gi></cell>
+    <cell>the literature's forms</cell>
+    <cell>Keeps it, in the forms of editions and literature.</cell>
+  </row>
+  <row>
+    <cell><gi>biblScope</gi>, <gi>pubPlace</gi>, <gi>date</gi> in a bibliography</cell>
+    <cell>the literature's forms</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>biblScope</gi>/<att>unit</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row role="label">
+    <cell cols="3">Inside the prose</cell>
+  </row>
+  <row>
+    <cell><gi>persName</gi>, <gi>placeName</gi>, <gi>orgName</gi></cell>
+    <cell>the same, with <att>ref</att></cell>
+    <cell>Keeps them; <att>key</att> becomes <att>ref</att>, and the import makes the records.</cell>
+  </row>
+  <row>
+    <cell><gi>title</gi>/<att>key</att>, <gi>author</gi>/<att>key</att>, <gi>country</gi>/<att>key</att>, <gi>origPlace</gi>/<att>key</att></cell>
+    <cell><att>ref</att></cell>
+    <cell>Becomes <att>ref</att> to a placeholder of the record.</cell>
+  </row>
+  <row>
+    <cell><gi>title</gi>/<att>level</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>hi</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>date</gi> in the prose</cell>
+    <cell>the one form of date</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>foreign</gi>, <gi>ref</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>am</gi>, <gi>ex</gi>, <gi>supplied</gi>, <gi>damage</gi>, <gi>fw</gi>, <gi>figure</gi>, <gi>formula</gi>, <gi>lg</gi>, <gi>l</gi>, <gi>measure</gi>, <gi>quote</gi>, <gi>seg</gi></cell>
+    <cell>left out in a description</cell>
+    <cell>Drops the tags, keeps their words: quoting the manuscript is what transcriptions do.</cell>
+  </row>
+  <row>
+    <cell><gi>idno</gi>/<att>type</att>, <gi>note</gi>/<att>type</att></cell>
+    <cell>the closed lists</cell>
+    <cell>Keeps a type of the lists; another becomes the nearest, or is said in the prose.</cell>
+  </row>
+  <row>
+    <cell><att>xml:id</att></cell>
+    <cell>the encoder's</cell>
+    <cell>Keeps it, for pointers within the file.</cell>
+  </row>
+</table>

@@ -80,3 +80,134 @@ def test_the_formats_files_name_their_source_and_carry_its_licence(path: Path) -
 
 def test_import_format_finds_the_bodleians() -> None:
     assert import_format("bodleian") is BODLEIAN
+
+
+# Every element and attribute the project's 38 descriptions in the Bodleian's form use, counted once from its coded
+# files: the mapping table has a row for each.
+DESCRIPTIONS_USE = (
+    "additional",
+    "additions",
+    "adminInfo",
+    "altIdentifier",
+    "author",
+    "bibl",
+    "biblScope",
+    "binding",
+    "bindingDesc",
+    "collation",
+    "colophon",
+    "condition",
+    "country",
+    "date",
+    "decoDesc",
+    "decoNote",
+    "dimensions",
+    "explicit",
+    "extent",
+    "filiation",
+    "finalRubric",
+    "foliation",
+    "height",
+    "history",
+    "idno",
+    "incipit",
+    "institution",
+    "layout",
+    "layoutDesc",
+    "listBibl",
+    "locus",
+    "msContents",
+    "msDesc",
+    "msIdentifier",
+    "msItem",
+    "msName",
+    "msPart",
+    "note",
+    "num",
+    "objectDesc",
+    "orgName",
+    "origDate",
+    "origPlace",
+    "origin",
+    "p",
+    "physDesc",
+    "placeName",
+    "provenance",
+    "pubPlace",
+    "recordHist",
+    "region",
+    "repository",
+    "rubric",
+    "settlement",
+    "source",
+    "summary",
+    "support",
+    "supportDesc",
+    "title",
+    "width",
+)
+DESCRIPTIONS_USE_ATTRIBUTES = (
+    "altIdentifier/@type",
+    "author/@key",
+    "bibl/@facs",
+    "bibl/@type",
+    "biblScope/@unit",
+    "binding/@notAfter",
+    "binding/@notBefore",
+    "country/@key",
+    "dimensions/@type",
+    "dimensions/@unit",
+    "idno/@type",
+    "layout/@columns",
+    "layout/@writtenLines",
+    "msDesc/@xml:lang",
+    "msItem/@class",
+    "msItem/@n",
+    "msPart/@n",
+    "note/@type",
+    "objectDesc/@form",
+    "origDate/@calendar",
+    "origDate/@notAfter",
+    "origDate/@notBefore",
+    "origPlace/@key",
+    "provenance/@corresp",
+    "provenance/@notAfter",
+    "provenance/@notBefore",
+    "region/@type",
+    "supportDesc/@material",
+    "title/@key",
+    "title/@level",
+)
+MAPPING = Path(__file__).parents[1] / "guide" / "mappings" / "bodleian.xml"
+
+
+def mapped() -> tuple[set[str], set[str]]:
+    """The elements and the attributes (`msItem/@class`, or `*/@xml:id` for any element's) the mapping table's rows
+    name in their first cell."""
+    from lxml import etree
+
+    tei = "{http://www.tei-c.org/ns/1.0}"
+    elements: set[str] = set()
+    attributes: set[str] = set()
+    for row in etree.parse(str(MAPPING)).iter(f"{tei}row"):
+        if row.get("role") == "label":
+            continue
+        first = row.find(f"{tei}cell")
+        gis = {gi.text for gi in first.iter(f"{tei}gi")}
+        elements |= gis
+        for att in first.iter(f"{tei}att"):
+            attributes |= {f"{gi}/@{att.text}" for gi in gis} or {f"*/@{att.text}"}
+    return elements, attributes
+
+
+def test_the_mapping_table_has_a_row_for_every_element_the_descriptions_use() -> None:
+    elements, _ = mapped()
+    assert [e for e in DESCRIPTIONS_USE if e not in elements] == []
+
+
+def test_the_mapping_table_has_a_row_for_every_attribute_the_descriptions_use() -> None:
+    _, attributes = mapped()
+    missing = [
+        a for a in DESCRIPTIONS_USE_ATTRIBUTES if a not in attributes and f"*/@{a.split('/@')[1]}" not in attributes
+    ]
+    assert missing == []

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.2.0 (SHA-256 75a18c3e279ea719a2323eefc5c09d40ec06e9dd63fa7b68027e01ab6c9b52a9) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.2.0 (SHA-256 aab8785d703326fbb4d7c6c352508f168bc747e6b24e3321462b5265fa3cf4d7) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -97,8 +97,14 @@ the use of this software, even if advised of the possibility of such damage.
     as they can reasonably go, check it, and hand it to the import; and anyone can read what an export holds. SOLEMNE,
     The Social Life of Early Medieval Normative Texts, is a project funded by the European Research Council (grant
     101087979) at Radboud University.</p>
-  <p>This version covers the files of texts: Parts I to IV. Records, relations, dates, manuscripts, editions and
-    exports, Parts V to X, hold their rules and their counter-examples; their prose comes in later versions.</p>
+  <p>This version covers texts, records, relations, dates and manuscripts: Parts I to VIII. Editions and exports,
+    Parts IX and X, hold their rules and their counter-examples; their prose comes in a later version.</p>
+  <p>Part VIII's description of manuscripts is modelled on the Bodleian Libraries' <title>TEI P5 Customization and
+      Encoding Guidelines for Manuscript Description</title> (Bodleian Library, Oxford, version 1.0, 2020; the
+    guidelines for medieval manuscripts by James Freeman and Matthew Holford;
+    <ref target="https://github.com/msDesc/consolidated-tei-schema">github.com/msDesc/consolidated-tei-schema</ref>),
+    under the Creative Commons Attribution 4.0 licence. Where this guide quotes them word for word, the quotation is
+    introduced as "Oxford encoding guide:".</p>
 
   <div xml:id="intro-checks">
     <head>Must and should, and the checks</head>
@@ -172,7 +178,8 @@ the use of this software, even if advised of the possibility of such damage.
       <item><hi>One form in and out.</hi> What an export writes, an import reads: an exported file imports again
         without loss. For each form, the guide says what the import makes of it and what an export writes.</item>
       <item><hi>TEI as it is.</hi> The guide restricts TEI and documents it, and adds to it only where TEI has no way
-        to say something, saying so: so far, a type on <gi>segmentation</gi>.</item>
+        to say something, saying so: so far, a type on <gi>segmentation</gi>, and a hand's execution on
+        <gi>handNote</gi>.</item>
       <item><hi>Closed where the model is fixed, seeded where it grows.</hi> The types the application's code relies
         on are closed lists, which the RelaxNG checks; the vocabularies that grow in the application start from the
         guide's seeds.</item>
@@ -2531,11 +2538,102 @@ the use of this software, even if advised of the possibility of such damage.
 </div>
       <div xml:id="manuscripts" n="VIII">
   <head>Manuscripts</head>
-  <p>This part's prose comes in a later version of the guide.</p>
+  <p>A manuscript is described once, in an <gi>msDesc</gi>: in the source description of a file that transcribes a
+    text from it (<ptr target="#file-and-header"/>), or as a record in a <gi>listBibl</gi> (<ptr target="#records"/>).
+    The description is TEI's own, restricted to what the application holds of a manuscript: the manuscript, its
+    codicological units, each unit's contents and physical description, its hands and decoration, the binding, and
+    the history of each. It is modelled on the Bodleian Libraries' guidelines for their catalogues, whose
+    descriptions the project converts into its own (<ptr target="#manuscripts-bodleian"/>).</p>
+  <p>The import makes the manuscript's record, its units, and an item for each text, joined to the work's record; it
+    makes the relations a description states: where a unit was made, who owned the manuscript, which scribe a hand
+    was. An export writes the same form. Everything in a description is <hi>full</hi>.</p>
 
   <div xml:id="manuscripts-description">
     <head>The description and the manuscript's identifier</head>
-    <p>Counter-examples of this section's rules: each breaks the rule its <att>n</att> names.</p>
+    <p>A description holds the manuscript's identifier; its binding, in a physical description of its own; the
+      history of the whole book, where its units were joined and who has owned it since; what is additional, its
+      images, literature and sources; and its units, one at least, each with its contents, physical description and
+      history. The Collectio 400 capitulorum's manuscript, Munich, Clm 4592, in short: the binding and the
+      additional are left out, and of its three units, the one that holds the collection:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+      <msDesc>
+        <msIdentifier>
+          <settlement ref="#new_place_muenchen">München</settlement>
+          <repository ref="#new_org_bsb">Bayerische Staatsbibliothek</repository>
+          <idno type="shelfmark">Clm 4592</idno>
+        </msIdentifier>
+        <history>
+          <provenance><orgName ref="#new_org_benediktbeuern">SS. Benedikt und Jakob</orgName>,
+            Benediktbeuern</provenance>
+        </history>
+        <msPart n="33">
+          <msIdentifier>
+            <idno>3, ff. 120–207</idno>
+          </msIdentifier>
+          <msContents>
+            <msItem n="1" corresp="COLL.400.ms-Mun-BSB-4592">
+              <locus from="158r" to="207v">ff. 158r–207v</locus>
+              <title ref="#new_work_collectio_cd">Collectio CD capitulorum</title>
+            </msItem>
+          </msContents>
+          <physDesc>
+            <objectDesc form="codex">
+              <supportDesc material="perg">
+                <support>membr.</support>
+                <extent>ff. 120–207, of ff. II, 207, II' in all <dimensions type="leaf" unit="mm">
+                    <height>240</height>
+                    <width>160</width>
+                  </dimensions></extent>
+              </supportDesc>
+            </objectDesc>
+          </physDesc>
+          <history>
+            <origin>
+              <origPlace ref="#new_place_salzburg">Salzburg</origPlace>
+              <origDate notBefore="0826" notAfter="0850" calendar="#gregorian">sec. IX secondo quarto</origDate>
+            </origin>
+          </history>
+        </msPart>
+      </msDesc>
+    </egXML>
+    <p>The file gives the physical description of the whole book too, and repeats it in each unit; the leaves are
+      wrapped in <gi>num</gi>, the places and the library have no records, and the items point to the works by
+      <att>key</att>. Here, as everywhere in this part, the example is revised to the guide's forms.</p>
+    <p>The identifier names the manuscript's country, region and town, and its library, each pointing to its record
+      by <att>ref</att>; the library's fonds, where it has one, in <gi>collection</gi>, the shelfmark still written
+      whole in <gi>idno</gi> typed <val>shelfmark</val>; the manuscript's ids in other catalogues, each an
+      <gi>idno</gi> typed by the authority (<ptr target="#records-external-ids"/>); its other identifiers, each an
+      <gi>altIdentifier</gi> typed <val>former</val> (a former shelfmark), <val>siglum</val> (an editor's siglum) or
+      <val>code</val> (the short code that files of the manuscript carry, <code>Mun-BSB-4592</code>); and its
+      conventional names, in <gi>msName</gi>, one per language. A made-up manuscript:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <msIdentifier>
+        <country ref="#new_place_exemplia">Exemplia</country>
+        <region ref="#new_place_exemplia_borealis">Exemplia borealis</region>
+        <settlement ref="#new_place_exemplum">Exemplum</settlement>
+        <repository ref="#new_org_bibliotheca_exemplensis">Bibliotheca Exemplensis</repository>
+        <collection ref="#new_org_codices_canonici">Codices canonici</collection>
+        <idno type="shelfmark">Can. 12</idno>
+        <idno type="mirabile">123456</idno>
+        <altIdentifier type="former">
+          <idno>Theol. 7</idno>
+        </altIdentifier>
+        <altIdentifier type="siglum">
+          <idno>E</idno>
+        </altIdentifier>
+        <msName xml:lang="la">Codex Exemplensis</msName>
+      </msIdentifier>
+    </egXML>
+    <p>A description holds only the elements this part names, each in its place: the contents and the physical
+      description on a unit; on the manuscript, a physical description of the binding alone; no unit inside a unit;
+      in <gi>adminInfo</gi>, the record's history alone; terms in a binding. Its prose, beside every value, holds a
+      small set, so that what it mentions stays readable: <gi>locus</gi>; <gi>persName</gi>, <gi>placeName</gi> and
+      <gi>orgName</gi> with <att>ref</att>; <gi>title</gi> with <att>ref</att>; <gi>date</gi>; <gi>foreign</gi>;
+      <gi>hi</gi>, for italics and the like; and <gi>ref</gi>. A bibliography inside it keeps the forms of Part IX.
+      Not the diplomatic set of the Bodleian's catalogues (<gi>am</gi>, <gi>ex</gi>, <gi>supplied</gi>,
+      <gi>damage</gi>, <gi>fw</gi>, <gi>figure</gi>, <gi>formula</gi>, verse): quoting the manuscript is what
+      transcriptions do. A count of leaves is words, without <gi>num</gi>. Each of these is an error; a description
+      without a unit is one too:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="manuscript-unit">
       <msDesc>
         <msIdentifier>
@@ -2574,6 +2672,19 @@ the use of this software, even if advised of the possibility of such damage.
 
   <div xml:id="manuscripts-units">
     <head>Units</head>
+    <p>A unit (<gi>msPart</gi>) is a codicological unit: leaves made together, which the manuscript may have joined to
+      others. Every description has one at least: a manuscript made in one go has one. A unit's identifier is an
+      <gi>idno</gi> without a type, with its number or letter and its leaves (<code>3, ff. 120–207</code>);
+      <att>n</att> gives its order. A unit holds its own contents, physical description and history; the manuscript
+      holds only what belongs to the whole book: its binding, its history since its units were joined, and what is
+      additional. A unit isn't divided into units: a unit made of smaller ones that were once a book of their own is
+      described by its parts, each a unit of the manuscript, with that history in each.</p>
+    <p>Every unit is dated, in its origin's <gi>origDate</gi> (<ptr target="#manuscripts-history"/>), or said undated,
+      by an <gi>origDate</gi> typed <val>undated</val>, holding the source's words if it has any, and no bounds. The
+      import refuses neither, but reports a unit that says nothing:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <origDate type="undated">s. d.</origDate>
+    </egXML>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="unit-dated">
       <msPart>
         <msIdentifier>
@@ -2587,6 +2698,33 @@ the use of this software, even if advised of the possibility of such damage.
 
   <div xml:id="manuscripts-contents">
     <head>Contents</head>
+    <p>A unit's contents (<gi>msContents</gi>) are its items, each a text in it (<gi>msItem</gi>): its folios, by
+      <gi>locus</gi> with <att>from</att> and <att>to</att>, or <gi>locusGrp</gi> for leaves apart; its
+      <gi>author</gi> and its <gi>title</gi>, each pointing to its record by <att>ref</att>, the title to the work;
+      the manuscript's own words, <gi>rubric</gi>, <gi>incipit</gi>, <gi>explicit</gi>, <gi>finalRubric</gi> and
+      <gi>colophon</gi>; its languages, <gi>textLang</gi>; and notes. An item's parts are items inside it: a
+      collection's register and prefaces, a text copied within another. Contents not listed one by one are said in
+      <gi>summary</gi>. An item that a file transcribes names its transcription by <att>corresp</att>: the file's
+      code, as source notes name documents (<ptr target="#marked-pointers"/>), or, in exports, the transcription's
+      permalink; each file's description can point to every transcription of the manuscript. An item's category is
+      its work's, not the item's. In Clm 4592, the Constitutum Silvestri is excerpted inside the collection:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+      <msContents>
+        <msItem n="1" corresp="COLL.400.ms-Mun-BSB-4592">
+          <locus from="158r" to="207v">ff. 158r–207v</locus>
+          <title ref="#new_work_collectio_cd">Collectio CD capitulorum</title>
+          <textLang mainLang="la">Latin</textLang>
+          <msItem n="2">
+            <locus from="194r" to="195r">ff. 194r–195r</locus>
+            <author ref="#new_person_symmachus_pseudo">Symmachus papa pseudo</author>
+            <title ref="#new_work_constitutum_silvestri">Constitutum Silvestri</title>
+            <note>Excerpts, <foreign xml:lang="la">in collectionem CD capitulorum</foreign>.</note>
+          </msItem>
+        </msItem>
+      </msContents>
+    </egXML>
+    <p>The file lists the excerpts as two more items of the unit, one with the author and one without, with escaped
+      italics in their notes. An item without its folios is reported, since sources often give none:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="item-locus">
       <msContents>
         <msItem n="1">
@@ -2600,6 +2738,34 @@ the use of this software, even if advised of the possibility of such damage.
 
   <div xml:id="manuscripts-physical">
     <head>The physical description</head>
+    <p>A unit's physical description (<gi>physDesc</gi>) may begin with paragraphs, then holds its parts, each in
+      prose with its values in attributes: the object (<gi>objectDesc</gi>), its form in <att>form</att>
+      (<val>codex</val>, <val>roll</val>, …); its support (<gi>supportDesc</gi>), the material in
+      <att>material</att> (<val>perg</val>, <val>chart</val>, …), described in <gi>support</gi>, with the
+      <gi>extent</gi> in words and the leaves' <gi>dimensions</gi>, their unit always given, <gi>foliation</gi>,
+      <gi>collation</gi> and <gi>condition</gi>; its layout (<gi>layoutDesc</gi>), each <gi>layout</gi> with its
+      <att>columns</att>, <att>ruledLines</att> and <att>writtenLines</att>; then its hands, decoration and
+      additions. A unit's extent may say what the whole book counts. Forms and materials come from vocabularies that
+      grow: a term outside the guide's seeds is reported, to be checked or added to the application's vocabulary
+      (appendix A lists the seeds). Clm 4592's second unit:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+      <physDesc>
+        <objectDesc form="codex">
+          <supportDesc material="perg">
+            <support>membr.</support>
+            <extent>ff. 76–117 (78–119) <dimensions type="leaf" unit="mm">
+                <height>240</height>
+                <width>160</width>
+              </dimensions></extent>
+          </supportDesc>
+          <layoutDesc>
+            <layout columns="2">2 colonne</layout>
+          </layoutDesc>
+        </objectDesc>
+      </physDesc>
+    </egXML>
+    <p>The file gives the material only in words; the vocabulary's <val>perg</val> says it for the application.
+      Dimensions without their unit are an error, and a form or a material outside the seeds is reported:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="dimensions-unit">
       <supportDesc material="perg">
         <support>Parchment.</support>
@@ -2629,6 +2795,29 @@ the use of this software, even if advised of the possibility of such damage.
 
   <div xml:id="manuscripts-hands">
     <head>Hands</head>
+    <p>A unit's hands are its <gi>handDesc</gi>'s <gi>handNote</gi>s, one per hand, each with an <att>xml:id</att>,
+      its script and its execution from vocabularies (<att>script</att>, <att>execution</att>, which TEI lacks and
+      the guide adds, as the Bodleian's guidelines do), its share of the unit (<att>scope</att>: <val>sole</val>,
+      <val>major</val> or <val>minor</val>), its folios, and prose. The hands are counted from their notes. A scribe
+      is named in the prose by <gi>persName</gi> with <att>ref</att>, and the hand is the scribe's by a relation
+      (<ptr target="#relations"/>), which can carry its certainty and evidence. A change in the text, an
+      <gi>add</gi>, a <gi>del</gi> or a <gi>subst</gi>, points to the hand that made it by <att>hand</att>
+      (<ptr target="#transcription-changes"/>); a hand pointed to in the file is described there. A made-up unit with two
+      hands, a correction by the second, and the main hand's scribe:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <handDesc>
+        <handNote xml:id="hand-A" script="minusculeCaroline" execution="libraria" scope="major">
+          <locus from="1r" to="40v">ff. 1r–40v</locus>: the main hand, perhaps <persName ref="#new_person_exemplus_scriba">Exemplus</persName>, whose name stands at the foot of f. 40v.</handNote>
+        <handNote xml:id="hand-B" script="minusculeCaroline" scope="minor">Corrections between the lines, in a
+          browner ink.</handNote>
+      </handDesc>
+      <p>Si quis <add hand="#hand-B">episcopus</add> migrauerit, deponatur.</p>
+      <listRelation>
+        <relation name="scribe" type="judgement" cert="medium" active="#hand-A" passive="#new_person_exemplus_scriba"/>
+      </listRelation>
+    </egXML>
+    <p>A hand pointed to that the file doesn't describe is an error, and a script or an execution outside the seeds
+      is reported:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="hand-declared">
       <p>Si quis <add hand="#hand-B">episcopus</add><!-- breaks the rule --> deponatur.</p>
     </egXML>
@@ -2653,6 +2842,17 @@ the use of this software, even if advised of the possibility of such damage.
 
   <div xml:id="manuscripts-decoration">
     <head>Decoration</head>
+    <p>A unit's decoration is its <gi>decoDesc</gi>'s <gi>decoNote</gi>s, each of a kind, in <att>type</att> from the
+      vocabulary of decoration (<val>colInit</val> for coloured initials, <val>rubrication</val>,
+      <val>miniature</val>, …), with its folios and prose. A made-up unit:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <decoDesc>
+        <decoNote type="colInit"><locus from="1r" to="40v">ff. 1r–40v</locus>: red and green initials at the
+          chapters.</decoNote>
+        <decoNote type="rubrication">Rubrics in red.</decoNote>
+      </decoDesc>
+    </egXML>
+    <p>A kind outside the seeds is reported:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="decoration-term">
       <decoDesc>
         <decoNote type="initials"><!-- breaks the rule -->
@@ -2666,6 +2866,30 @@ the use of this software, even if advised of the possibility of such damage.
 
   <div xml:id="manuscripts-binding">
     <head>The binding</head>
+    <p>The binding is the manuscript's, in its own physical description, which holds nothing else: a
+      <gi>bindingDesc</gi> with a <gi>binding</gi>, described in paragraphs. Oxford encoding guide: "The standard
+      dating attributes should be used on the binding element if information about the date of the binding is
+      available." Its bounds go on <gi>binding</gi>, in the one form of dates (<ptr target="#dates"/>), and where
+      they aren't known, <att>contemporary</att> says whether it is the manuscript's first binding: <val>true</val>,
+      <val>false</val>, or <val>unknown</val> where nothing is known. The binding's materials and techniques are
+      <gi>term</gi>s in its prose, each pointing by <att>ref</att> to its concept in Ligatus's Language of Bindings;
+      its dimensions, with <gi>depth</gi> beside height and width, stand in its prose too. An earlier binding of one
+      unit, before it was joined to the others, is said in a paragraph of the unit's physical description. A made-up
+      binding:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <bindingDesc>
+        <binding notBefore="1450" notAfter="1500" contemporary="false">
+          <p><term ref="http://w3id.org/lob/concept/1238">Calfskin</term> over wooden boards, blind-tooled; two clasps,
+            lost. <dimensions type="binding" unit="mm">
+              <height>250</height>
+              <width>175</width>
+              <depth>60</depth>
+            </dimensions></p>
+        </binding>
+      </bindingDesc>
+    </egXML>
+    <p>A binding neither dated nor said contemporary is an error, and so is a value of <att>contemporary</att> outside
+      the three:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="binding-dated">
       <binding><!-- breaks the rule -->
         <p>Calf over boards.</p>
@@ -2682,12 +2906,554 @@ the use of this software, even if advised of the possibility of such damage.
 
   <div xml:id="manuscripts-history">
     <head>History</head>
+    <p>A unit's history (<gi>history</gi>) is its origin and its owners; the manuscript's, the owners of the whole book
+      since its units were joined, and where it was assembled. The origin (<gi>origin</gi>) holds the unit's date,
+      <gi>origDate</gi>, in the one form of dates, its calendar named (<ptr target="#dates"/>), and its place,
+      <gi>origPlace</gi>, pointing to the place's record by <att>ref</att>; the import makes the relation
+      <val>origin</val> from them. Each owner is a <gi>provenance</gi>, or an <gi>acquisition</gi> for the library
+      that holds the manuscript now, with its dates and the owner named inside by <gi>persName</gi>,
+      <gi>orgName</gi> or <gi>placeName</gi> with <att>ref</att>, since TEI gives neither a pointer of its own; the
+      import makes the relation <val>ownedBy</val>. Oxford encoding guide: "where possible each provenance event
+      should occur in its own provenance element, which should have relevant dating attributes (when, notBefore,
+      etc.)." Clm 4592's third unit was made at Salzburg in the second quarter of the ninth century:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
+      <origin>
+        <origPlace ref="#new_place_salzburg">Salzburg</origPlace>
+        <origDate notBefore="0826" notAfter="0850" calendar="#gregorian">sec. IX secondo quarto</origDate>
+      </origin>
+    </egXML>
+    <p>A made-up owner, with the years of its ownership:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <provenance notBefore="1460" notAfter="1520">Owned by <orgName ref="#new_org_ecclesia_exemplensis">the cathedral
+          of Exemplum</orgName>, whose ex libris stands on f. 1r.</provenance>
+    </egXML>
+    <p>An <gi>origDate</gi> has no type but <val>undated</val> (<ptr target="#manuscripts-units"/>):</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="orig-date-type">
       <origDate type="circa" notBefore="0776" notAfter="0825" calendar="#gregorian">ca. 800</origDate><!-- breaks the rule -->
     </egXML>
     <table rend="specGrpSummary"><row><cell>
                 Element <gi>origDate</gi></cell><cell>change</cell></row><row><cell>
                 Element <gi>origPlace</gi></cell><cell>change</cell></row></table>
+  </div>
+
+  <div xml:id="manuscripts-additional">
+    <head>Images, literature, sources</head>
+    <p>What a description adds about the manuscript goes in the manuscript's <gi>additional</gi>: the description's
+      own sources, in <gi>adminInfo</gi>'s <gi>recordHist</gi>, each a <gi>bibl</gi> typed <val>source</val> in
+      <gi>source</gi>, as every record names its own (<ptr target="#records-sources"/>); the manuscript's images, in
+      <gi>surrogates</gi>, each IIIF manifest a <gi>ref</gi> typed <val>iiif</val>, its address in <att>target</att>
+      and its provider in its words, which the application shows the pages from (a page break's canvas is the page
+      break's, <ptr target="#transcription-page-breaks"/>); and the literature on it, in <gi>listBibl</gi>, in the
+      forms of Part IX. A made-up manuscript's:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <additional>
+        <adminInfo>
+          <recordHist>
+            <source>
+              <bibl type="source">
+                <title>Mirabile</title>
+                <idno type="mirabile">123456</idno>
+                <date type="retrieved" when="2026-11-04">4 November 2026</date>
+              </bibl>
+            </source>
+          </recordHist>
+        </adminInfo>
+        <surrogates>
+          <ref type="iiif" target="https://example.org/iiif/can-12/manifest.json">Bibliotheca Exemplensis</ref>
+        </surrogates>
+        <listBibl>
+          <bibl><ptr target="#new_bibl_catalogue_exemplensis"/><citedRange unit="page" from="12" to="13">12–13</citedRange></bibl>
+        </listBibl>
+      </additional>
+    </egXML>
+  </div>
+
+  <div xml:id="manuscripts-bodleian">
+    <head>The Bodleian's descriptions</head>
+    <p>The Bodleian Libraries' catalogues, and others written in their form, describe manuscripts in TEI with a schema
+      of their own, which this part's description is modelled on. Their descriptions are an import format: the
+      application converts them into the project's form, as a tool of this package will. They needn't pass this
+      guide's schema; before they are converted, they are checked against their own, at the commit the package
+      pins:</p>
+    <eg>solemne-tei validate --format bodleian description.xml</eg>
+    <p>The table says what the conversion does with each element and attribute of the Bodleian's description: keeps
+      it, moves it, makes a record or a relation of it, or drops it, and why. Of the project's coded files, 38 carry
+      a description in the Bodleian's form, written before this guide; the corrections bring them to the guide's
+      form.</p>
+    <table xml:id="bodleian-mapping">
+  <head>From the Bodleian's description to ours: what the conversion does with each element and attribute</head>
+  <row role="label">
+    <cell>The Bodleian's</cell>
+    <cell>Ours</cell>
+    <cell>The conversion</cell>
+  </row>
+  <row role="label">
+    <cell cols="3">The description and the manuscript's identifier</cell>
+  </row>
+  <row>
+    <cell><gi>msDesc</gi></cell>
+    <cell>the same, with one unit at least</cell>
+    <cell>Keeps it. Its <att>xml:id</att> goes: the import gives the manuscript's record its own id.</cell>
+  </row>
+  <row>
+    <cell><gi>msDesc</gi>/<att>xml:lang</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps it: the language of the description's prose.</cell>
+  </row>
+  <row>
+    <cell><gi>msIdentifier</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>country</gi>, <gi>region</gi>, <gi>settlement</gi></cell>
+    <cell>the same, each with <att>ref</att> to the place's record</cell>
+    <cell>Keeps them; <att>key</att> (<val>place_1000070</val>) becomes <att>ref</att> to a placeholder of the place's record, which the import makes.</cell>
+  </row>
+  <row>
+    <cell><gi>region</gi>/<att>type</att></cell>
+    <cell>TEI's</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>institution</gi>, <gi>repository</gi></cell>
+    <cell>the same, with <att>ref</att> to the institution's record</cell>
+    <cell>Keeps them, and makes the library's record.</cell>
+  </row>
+  <row>
+    <cell><gi>collection</gi></cell>
+    <cell>the same: the fonds, with <att>ref</att></cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>idno</gi> typed <val>shelfmark</val></cell>
+    <cell>the same</cell>
+    <cell>Keeps it, as it's written.</cell>
+  </row>
+  <row>
+    <cell><gi>idno</gi> typed by an authority (<val>ieArk</val>, <val>crArk</val>)</cell>
+    <cell>the same, in <gi>msIdentifier</gi></cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>altIdentifier</gi></cell>
+    <cell>typed <val>former</val>, <val>siglum</val> or <val>code</val></cell>
+    <cell>Keeps a former shelfmark. The Summary Catalogue's number, typed <val>internal</val>, becomes an <gi>idno</gi> typed <val>SCN</val> in <gi>msIdentifier</gi>. A full shelfmark is dropped: the identifier's parts say it.</cell>
+  </row>
+  <row>
+    <cell><gi>altIdentifier</gi>/<att>type</att></cell>
+    <cell><val>former</val>, <val>siglum</val>, <val>code</val></cell>
+    <cell>Keeps <val>former</val>; the others as the row above says.</cell>
+  </row>
+  <row>
+    <cell><gi>msName</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it: the manuscript's names.</cell>
+  </row>
+  <row role="label">
+    <cell cols="3">Units</cell>
+  </row>
+  <row>
+    <cell><gi>msPart</gi></cell>
+    <cell>the same; one at least, none inside another</cell>
+    <cell>Keeps it. A description without units gets one, holding the manuscript's contents, physical description and history; a unit inside a unit becomes a unit of the manuscript.</cell>
+  </row>
+  <row>
+    <cell><gi>msPart</gi>/<att>n</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>msPart</gi>/<gi>msIdentifier</gi></cell>
+    <cell>the unit's own identifier, an <gi>idno</gi></cell>
+    <cell>Keeps it; an <gi>altIdentifier</gi> holding the full shelfmark and the unit's leaves becomes an <gi>idno</gi> with the unit's letter or leaves.</cell>
+  </row>
+  <row role="label">
+    <cell cols="3">Contents</cell>
+  </row>
+  <row>
+    <cell><gi>msContents</gi></cell>
+    <cell>the same, on a unit</cell>
+    <cell>Keeps it; on the manuscript, it moves into the unit.</cell>
+  </row>
+  <row>
+    <cell><gi>summary</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>textLang</gi></cell>
+    <cell>TEI's</cell>
+    <cell>Keeps it, with its languages.</cell>
+  </row>
+  <row>
+    <cell><gi>msItem</gi></cell>
+    <cell>the same; items inside items</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>msItem</gi>/<att>n</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>msItem</gi>/<att>class</att></cell>
+    <cell>left out</cell>
+    <cell>Drops it: an item's category is its work's.</cell>
+  </row>
+  <row>
+    <cell><gi>locus</gi>, <gi>locusGrp</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps them; <gi>hi</gi> inside a <gi>locus</gi> keeps only its words.</cell>
+  </row>
+  <row>
+    <cell><gi>author</gi></cell>
+    <cell>the same, with <att>ref</att> to the person's record</cell>
+    <cell>Keeps it; <att>key</att> (<val>person_…</val>) becomes <att>ref</att> to a placeholder, and the import makes the person's record.</cell>
+  </row>
+  <row>
+    <cell><gi>title</gi></cell>
+    <cell>the same, with <att>ref</att> to the work's record</cell>
+    <cell>Keeps it; <att>key</att> (<val>work_…</val>) becomes <att>ref</att>, and the import makes the work's record. <att>level</att> stays on a title in a bibliography.</cell>
+  </row>
+  <row>
+    <cell><gi>rubric</gi>, <gi>incipit</gi>, <gi>explicit</gi>, <gi>finalRubric</gi>, <gi>colophon</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps them, with their words; an empty one is dropped.</cell>
+  </row>
+  <row>
+    <cell><gi>filiation</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops it: a copy's place among the others is a relation between the texts.</cell>
+  </row>
+  <row>
+    <cell><gi>note</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it; its type, where it has one of the list's.</cell>
+  </row>
+  <row>
+    <cell><gi>bibl</gi> in an item</cell>
+    <cell>the literature's forms</cell>
+    <cell>Keeps it, in the forms of editions and literature.</cell>
+  </row>
+  <row>
+    <cell><gi>msItemStruct</gi></cell>
+    <cell>left out</cell>
+    <cell>Becomes an <gi>msItem</gi>.</cell>
+  </row>
+  <row>
+    <cell><gi>msFrag</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops it: a fragment kept elsewhere has a description of its own.</cell>
+  </row>
+  <row role="label">
+    <cell cols="3">The physical description</cell>
+  </row>
+  <row>
+    <cell><gi>physDesc</gi></cell>
+    <cell>the same, on a unit; on the manuscript, the binding alone</cell>
+    <cell>Keeps it on a unit. On the manuscript, the binding stays and the rest moves into the units that lack it.</cell>
+  </row>
+  <row>
+    <cell><gi>p</gi> in <gi>physDesc</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>objectDesc</gi>/<att>form</att></cell>
+    <cell>the same, from the vocabulary of forms</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>supportDesc</gi>/<att>material</att></cell>
+    <cell>the same, from the vocabulary of materials</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>support</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>extent</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it, its words and dimensions.</cell>
+  </row>
+  <row>
+    <cell><gi>num</gi></cell>
+    <cell>left out in a description</cell>
+    <cell>Drops the tag, keeps its words: the leaves are written as words.</cell>
+  </row>
+  <row>
+    <cell><gi>dimensions</gi></cell>
+    <cell>the same, its unit required</cell>
+    <cell>Keeps it, with its type and unit.</cell>
+  </row>
+  <row>
+    <cell><gi>dimensions</gi>/<att>type</att>, <att>unit</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>height</gi>, <gi>width</gi>, <gi>depth</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps them; an empty one is dropped.</cell>
+  </row>
+  <row>
+    <cell><gi>dim</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops the tag, keeps its words in the extent's prose.</cell>
+  </row>
+  <row>
+    <cell><gi>foliation</gi></cell>
+    <cell>TEI's</cell>
+    <cell>Keeps it; its date goes into its prose.</cell>
+  </row>
+  <row>
+    <cell><gi>collation</gi></cell>
+    <cell>TEI's</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>collation</gi>/<att>mainStructures</att></cell>
+    <cell>left out</cell>
+    <cell>Drops it, into the collation's prose.</cell>
+  </row>
+  <row>
+    <cell><gi>catchwords</gi>, <gi>signatures</gi>, <gi>secFol</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops the tags, keeps their words in the collation's prose.</cell>
+  </row>
+  <row>
+    <cell><gi>condition</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>layoutDesc</gi>, <gi>layout</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>layout</gi>/<att>columns</att>, <att>ruledLines</att>, <att>writtenLines</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps them; a count of zero is dropped.</cell>
+  </row>
+  <row>
+    <cell><gi>layout</gi>/<att>topLine</att>, <att>rulingMedium</att></cell>
+    <cell>left out</cell>
+    <cell>Drops them, into the layout's prose.</cell>
+  </row>
+  <row>
+    <cell><gi>handDesc</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>handDesc</gi>/<att>hands</att></cell>
+    <cell>left out</cell>
+    <cell>Drops it: the hands are counted from their notes.</cell>
+  </row>
+  <row>
+    <cell><gi>handNote</gi></cell>
+    <cell>the same, with an id</cell>
+    <cell>Keeps it, with its <att>script</att>, <att>execution</att> and <att>scope</att>.</cell>
+  </row>
+  <row>
+    <cell><gi>handNote</gi>/<att>scribe</att>, <att>scribeRef</att></cell>
+    <cell>left out</cell>
+    <cell>Makes the relation <val>scribe</val> to the person's record, named in the hand's prose.</cell>
+  </row>
+  <row>
+    <cell><gi>handNote</gi>/<att>scriptRef</att>, <att>medium</att></cell>
+    <cell>left out</cell>
+    <cell>Drops them, into the hand's prose.</cell>
+  </row>
+  <row>
+    <cell><gi>scriptDesc</gi>, <gi>scriptNote</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops the tags, keeps their words in the hands' prose.</cell>
+  </row>
+  <row>
+    <cell><gi>typeDesc</gi>, <gi>typeNote</gi>, <gi>musicNotation</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops the tags, keeps their words in the unit's prose.</cell>
+  </row>
+  <row>
+    <cell><gi>decoDesc</gi>, <gi>decoNote</gi></cell>
+    <cell>the same, its type from the vocabulary of decoration</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>additions</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>bindingDesc</gi>, <gi>binding</gi></cell>
+    <cell>the same, on the manuscript</cell>
+    <cell>Keeps them on the manuscript, with <att>contemporary</att> and the binding's dates; a unit's earlier binding becomes a note on the unit.</cell>
+  </row>
+  <row>
+    <cell><gi>binding</gi>/<att>notBefore</att>, <att>notAfter</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>sealDesc</gi>, <gi>seal</gi>, <gi>accMat</gi>, <gi>watermark</gi>, <gi>heraldry</gi>, <gi>stamp</gi>, <gi>material</gi>, <gi>objectType</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops the tags, keeps their words in the prose of the part they stand in.</cell>
+  </row>
+  <row role="label">
+    <cell cols="3">History</cell>
+  </row>
+  <row>
+    <cell><gi>history</gi></cell>
+    <cell>the same, on a unit; on the manuscript for the whole book</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>origin</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it, and makes the relation <val>origin</val>.</cell>
+  </row>
+  <row>
+    <cell><gi>origDate</gi></cell>
+    <cell>the one form of date</cell>
+    <cell>Keeps it, its words and bounds.</cell>
+  </row>
+  <row>
+    <cell><gi>origDate</gi>/<att>calendar</att></cell>
+    <cell>the same, pointing to a declared calendar</cell>
+    <cell>Becomes <val>#gregorian</val> for the Bodleian's <val>#Gregorian</val>, declared in the file, and <val>#julian</val> for its <val>#Julian</val>.</cell>
+  </row>
+  <row>
+    <cell><gi>origDate</gi>/<att>notBefore</att>, <att>notAfter</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>origPlace</gi></cell>
+    <cell>the same, with <att>ref</att> to the place's record</cell>
+    <cell>Keeps it; <att>key</att> becomes <att>ref</att>.</cell>
+  </row>
+  <row>
+    <cell><gi>provenance</gi>, <gi>acquisition</gi></cell>
+    <cell>the same, the owner named inside</cell>
+    <cell>Keeps them, with their dates, and makes the relation <val>ownedBy</val> to the owner's record.</cell>
+  </row>
+  <row>
+    <cell><gi>provenance</gi>/<att>corresp</att>, <att>key</att></cell>
+    <cell>left out</cell>
+    <cell>Becomes <att>ref</att> on the owner's name inside.</cell>
+  </row>
+  <row>
+    <cell><gi>provenance</gi>/<att>notBefore</att>, <att>notAfter</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>custodialHist</gi>, <gi>custEvent</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops the tags, keeps their words in the condition's or the binding's prose.</cell>
+  </row>
+  <row role="label">
+    <cell cols="3">Additional</cell>
+  </row>
+  <row>
+    <cell><gi>additional</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>adminInfo</gi>, <gi>recordHist</gi></cell>
+    <cell>the same, the record's history alone</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>source</gi></cell>
+    <cell>the same, holding the description's source</cell>
+    <cell>Becomes a <gi>bibl</gi> typed <val>source</val>: the Bodleian's catalogue, the description's id and link there, the date retrieved, and its licence.</cell>
+  </row>
+  <row>
+    <cell><gi>bibl</gi>/<att>type</att>, <att>facs</att></cell>
+    <cell>the source's form</cell>
+    <cell>The catalogue's pages become the source's pages.</cell>
+  </row>
+  <row>
+    <cell><gi>availability</gi> in <gi>adminInfo</gi></cell>
+    <cell>left out</cell>
+    <cell>Drops it: the licence goes with the source.</cell>
+  </row>
+  <row>
+    <cell><gi>surrogates</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it; a IIIF manifest becomes a <gi>ref</gi> typed <val>iiif</val>.</cell>
+  </row>
+  <row>
+    <cell><gi>listBibl</gi></cell>
+    <cell>the literature's forms</cell>
+    <cell>Keeps it, in the forms of editions and literature.</cell>
+  </row>
+  <row>
+    <cell><gi>biblScope</gi>, <gi>pubPlace</gi>, <gi>date</gi> in a bibliography</cell>
+    <cell>the literature's forms</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>biblScope</gi>/<att>unit</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row role="label">
+    <cell cols="3">Inside the prose</cell>
+  </row>
+  <row>
+    <cell><gi>persName</gi>, <gi>placeName</gi>, <gi>orgName</gi></cell>
+    <cell>the same, with <att>ref</att></cell>
+    <cell>Keeps them; <att>key</att> becomes <att>ref</att>, and the import makes the records.</cell>
+  </row>
+  <row>
+    <cell><gi>title</gi>/<att>key</att>, <gi>author</gi>/<att>key</att>, <gi>country</gi>/<att>key</att>, <gi>origPlace</gi>/<att>key</att></cell>
+    <cell><att>ref</att></cell>
+    <cell>Becomes <att>ref</att> to a placeholder of the record.</cell>
+  </row>
+  <row>
+    <cell><gi>title</gi>/<att>level</att></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>hi</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>date</gi> in the prose</cell>
+    <cell>the one form of date</cell>
+    <cell>Keeps it.</cell>
+  </row>
+  <row>
+    <cell><gi>foreign</gi>, <gi>ref</gi></cell>
+    <cell>the same</cell>
+    <cell>Keeps them.</cell>
+  </row>
+  <row>
+    <cell><gi>am</gi>, <gi>ex</gi>, <gi>supplied</gi>, <gi>damage</gi>, <gi>fw</gi>, <gi>figure</gi>, <gi>formula</gi>, <gi>lg</gi>, <gi>l</gi>, <gi>measure</gi>, <gi>quote</gi>, <gi>seg</gi></cell>
+    <cell>left out in a description</cell>
+    <cell>Drops the tags, keeps their words: quoting the manuscript is what transcriptions do.</cell>
+  </row>
+  <row>
+    <cell><gi>idno</gi>/<att>type</att>, <gi>note</gi>/<att>type</att></cell>
+    <cell>the closed lists</cell>
+    <cell>Keeps a type of the lists; another becomes the nearest, or is said in the prose.</cell>
+  </row>
+  <row>
+    <cell><att>xml:id</att></cell>
+    <cell>the encoder's</cell>
+    <cell>Keeps it, for pointers within the file.</cell>
+  </row>
+</table>
   </div>
 </div>
       <div xml:id="editions-and-literature" n="IX">

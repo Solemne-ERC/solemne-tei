@@ -10,8 +10,14 @@
     as they can reasonably go, check it, and hand it to the import; and anyone can read what an export holds. SOLEMNE,
     The Social Life of Early Medieval Normative Texts, is a project funded by the European Research Council (grant
     101087979) at Radboud University.</p>
-  <p>This version covers the files of texts: Parts I to IV. Records, relations, dates, manuscripts, editions and
-    exports, Parts V to X, hold their rules and their counter-examples; their prose comes in later versions.</p>
+  <p>This version covers texts, records, relations, dates and manuscripts: Parts I to VIII. Editions and exports,
+    Parts IX and X, hold their rules and their counter-examples; their prose comes in a later version.</p>
+  <p>Part VIII's description of manuscripts is modelled on the Bodleian Libraries' <title>TEI P5 Customization and
+      Encoding Guidelines for Manuscript Description</title> (Bodleian Library, Oxford, version 1.0, 2020; the
+    guidelines for medieval manuscripts by James Freeman and Matthew Holford;
+    <ref target="https://github.com/msDesc/consolidated-tei-schema">github.com/msDesc/consolidated-tei-schema</ref>),
+    under the Creative Commons Attribution 4.0 licence. Where this guide quotes them word for word, the quotation is
+    introduced as "Oxford encoding guide:".</p>
 
   <div xml:id="intro-checks">
     <head>Must and should, and the checks</head>
@@ -85,7 +91,8 @@
       <item><hi>One form in and out.</hi> What an export writes, an import reads: an exported file imports again
         without loss. For each form, the guide says what the import makes of it and what an export writes.</item>
       <item><hi>TEI as it is.</hi> The guide restricts TEI and documents it, and adds to it only where TEI has no way
-        to say something, saying so: so far, a type on <gi>segmentation</gi>.</item>
+        to say something, saying so: so far, a type on <gi>segmentation</gi>, and a hand's execution on
+        <gi>handNote</gi>.</item>
       <item><hi>Closed where the model is fixed, seeded where it grows.</hi> The types the application's code relies
         on are closed lists, which the RelaxNG checks; the vocabularies that grow in the application start from the
         guide's seeds.</item>

@@ -136,5 +136,8 @@ The code and the schema are under the MIT licence ([LICENSE](LICENSE)); the guid
 - **The Bodleian Libraries' consolidated TEI schema**, by James Cummings and the Bodleian Libraries, University of
   Oxford, under the BSD 2-Clause licence: the schema's manuscript description is modelled on it, and the import
   format's files in `src/solemne_tei/formats/bodleian/` are its schema, which carry its copyright line and licence.
+- **The Bodleian Libraries' TEI P5 Customization and Encoding Guidelines for Manuscript Description**, by James
+  Freeman and Matthew Holford, Bodleian Library, Oxford, under CC BY 4.0: the guide's part on manuscripts is modelled
+  on them, and quotes them where their words fit, each quotation introduced as "Oxford encoding guide:".
 - **TEI's stylesheets**, by the TEI Consortium, distributed under CC BY-SA 3.0 and the BSD 2-Clause licence: they
   generate the schema. They're fetched by the build, not distributed with this package.
