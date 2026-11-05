@@ -17,6 +17,15 @@ Each release says what changed, and whether files that passed may now fail.
   Oxford term; D, older encodings and what they became; E, the import formats' tables, the Bodleian's moved there
   from Part VIII; F, the changes, from this changelog. C and F are generated, as A and B are, into the HTML; the
   examples' sources follow them.
+- **The guide's title:** "Encoding Early Medieval Canon Law: The SOLEMNE Guidelines for TEI", on a title page with its
+  authors, version, date and licences, in the HTML and the PDF.
+- **The HTML, a page per part:** `solemne-tei docs --html` writes a folder of pages, the title page and contents in
+  `index.html`, a page for the front matter, each part and each appendix, and one per specification of TEI's
+  reference, so that no page is large. The parts are numbered I to X; no page shows the build's date. The guide's
+  stylesheets are in `guide/style/`, and the text is set in Junicode, served with the pages.
+- **The PDF:** `solemne-tei docs --pdf` makes the guide TEI Lite, then LaTeX, by TEI's stylesheets, and sets it with
+  LuaLaTeX in Junicode, into `build/pdf/solemne-guide.pdf`. It leaves out TEI's reference for each element, which the
+  HTML holds. Junicode is fetched once at a pinned release, checked by its SHA-256.
 
 ## 0.3.0 (2026-11-05)
 

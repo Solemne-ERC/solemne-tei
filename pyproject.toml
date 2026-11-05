@@ -35,6 +35,7 @@ solemne_tei = ["schema/*", "tables/*", "formats/*/*.rng", "formats/*/*.xsl"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = ["slow: builds the guide's PDF with LuaLaTeX, in about half a minute"]
 
 [tool.ruff]
 line-length = 120

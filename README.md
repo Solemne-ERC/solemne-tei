@@ -65,15 +65,20 @@ gives the same as data.
 The guide is the ODD itself: `guide/solemne.odd` holds the header, the front matter and the parts by XInclude, from
 `guide/chapters/`, and the specification. Each part explains its forms with examples from the project's corpus, and
 holds the specifications of the rules it explains, with a counter-example of each. `guide/templates/` holds whole
-files to start from. To read it:
+files to start from. To read it, as HTML pages or as a PDF:
 
 ```
 solemne-tei docs --html
+solemne-tei docs --pdf
 ```
 
-It writes `build/html/guide.html`, one page made by TEI's `odd2html`, with appendix A (the elements and attributes)
-and appendix B (every rule, with its check, severity and tier) generated from the specifications. The HTML is plain;
-it isn't committed. In a clone, the command runs offline once `solemne-tei build` has cached the sources.
+The HTML goes into `build/html/`: `index.html` holds the title page and the contents, and each part, appendix and
+specification has a page of its own, made by TEI's `odd2html` with the guide's stylesheets in `guide/style/`. The PDF,
+`build/pdf/solemne-guide.pdf`, is made by TEI's LaTeX stylesheets and set by LuaLaTeX, which TeX Live provides; it
+leaves out TEI's reference for each element, which the HTML has. Both are set in Junicode. The appendices that can be
+generated are: A, the elements and attributes; B, every rule with its check, severity and tier; C, the code tables
+and the vocabularies' seeds; F, the changes, from the changelog. Neither the HTML nor the PDF is committed. In a
+clone, the command runs offline once the sources and Junicode are cached.
 
 ## Regenerating the schema
 
@@ -101,6 +106,7 @@ SHA-256:
 | TEI's stylesheets | 7.61.0 | <https://github.com/TEIC/Stylesheets/releases/tag/v7.61.0> |
 | The Bodleian's consolidated TEI schema, `msdesc.rng`, and its licence | commit `7e8b89c` | <https://github.com/msDesc/consolidated-tei-schema> |
 | SchXslt2 | 1.11.3 | <https://codeberg.org/SchXslt/schxslt2> |
+| Junicode, for the guide's HTML and PDF only | 2.226 | <https://github.com/psb1558/Junicode-font/releases/tag/v2.226> |
 
 The build runs with SaxonC-HE: TEI's `odd2odd` compiles the ODD; `odd2relax` writes the RelaxNG; `extract-isosch` extracts the Schematron;
 SchXslt2 compiles it to XSLT. It also compiles the Schematron embedded in the Bodleian's RelaxNG, once into the
@@ -141,3 +147,5 @@ The code and the schema are under the MIT licence ([LICENSE](LICENSE)); the guid
   on them, and quotes them where their words fit, each quotation introduced as "Oxford encoding guide:".
 - **TEI's stylesheets**, by the TEI Consortium, distributed under CC BY-SA 3.0 and the BSD 2-Clause licence: they
   generate the schema. They're fetched by the build, not distributed with this package.
+- **Junicode**, by Peter S. Baker, under the SIL Open Font License 1.1: the guide's HTML and PDF are set in it. It's
+  fetched by `solemne-tei docs`, not distributed with this package; the HTML serves its web fonts with the licence.

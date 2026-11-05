@@ -5,7 +5,7 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>The Solemne TEI schema</title>
+        <title>Encoding Early Medieval Canon Law: The SOLEMNE Guidelines for TEI</title>
         <author>Gleb Schmidt</author>
         <author>Friederike Voit</author>
         <author>Sven Meeder</author>
@@ -56,6 +56,22 @@
   </teiHeader>
   <text>
     <front>
+      <!-- The title page of the HTML and the PDF. Its version and date are the release's: the edition's above, and
+           the date of its section in the changelog. -->
+      <titlePage>
+        <docTitle>
+          <titlePart type="main">Encoding Early Medieval Canon Law</titlePart>
+          <titlePart type="sub">The SOLEMNE Guidelines for TEI</titlePart>
+        </docTitle>
+        <docAuthor>Gleb Schmidt</docAuthor>
+        <docAuthor>Friederike Voit</docAuthor>
+        <docAuthor>Sven Meeder</docAuthor>
+        <docEdition>Version 0.3.0</docEdition>
+        <docDate when="2026-11-05">5 November 2026</docDate>
+        <docImprint>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University, Nijmegen; funded by
+          the European Research Council, grant 101087979. The guide is under the Creative Commons Attribution 4.0
+          licence; the schema made from it, under the MIT licence.</docImprint>
+      </titlePage>
       <xi:include href="chapters/introduction.xml"/>
     </front>
     <body>

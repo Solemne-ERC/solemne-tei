@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.3.0 (SHA-256 b8a756dd52281896fd7b0867949e12079f35162ac67992dc6914761d9cfe5856) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.3.0 (SHA-256 676b102164988738035d14362a66d8dbf9ca1f557f86294307514a6520065ca7) by solemne-tei build. Edit the ODD, not this file. -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:lang="en">
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>The Solemne TEI schema</title>
+        <title>Encoding Early Medieval Canon Law: The SOLEMNE Guidelines for TEI</title>
         <author>Gleb Schmidt</author>
         <author>Friederike Voit</author>
         <author>Sven Meeder</author>
@@ -56,6 +56,22 @@
   </teiHeader>
   <text>
     <front>
+      <!-- The title page of the HTML and the PDF. Its version and date are the release's: the edition's above, and
+           the date of its section in the changelog. -->
+      <titlePage>
+        <docTitle>
+          <titlePart type="main">Encoding Early Medieval Canon Law</titlePart>
+          <titlePart type="sub">The SOLEMNE Guidelines for TEI</titlePart>
+        </docTitle>
+        <docAuthor>Gleb Schmidt</docAuthor>
+        <docAuthor>Friederike Voit</docAuthor>
+        <docAuthor>Sven Meeder</docAuthor>
+        <docEdition>Version 0.3.0</docEdition>
+        <docDate when="2026-11-05">5 November 2026</docDate>
+        <docImprint>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University, Nijmegen; funded by
+          the European Research Council, grant 101087979. The guide is under the Creative Commons Attribution 4.0
+          licence; the schema made from it, under the MIT licence.</docImprint>
+      </titlePage>
       <div xmlns="http://www.tei-c.org/ns/1.0" xml:id="introduction">
   <head>About this guide</head>
   <p>This is SOLEMNE's encoding guide: how to encode the texts of early medieval canon law in TEI, so that the
