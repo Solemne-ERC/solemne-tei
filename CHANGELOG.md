@@ -16,9 +16,9 @@ against 0.2.0's 125,126; the differences, by rule, are below.
 
 - **Manuscript descriptions, our own:** the schema takes TEI P5's manuscript description module, restricted to the
   guide's profile, in place of the Bodleian Libraries' consolidated schema. Descriptions that passed may now fail:
-  - 21 of the module's elements are left out, each said another way: `accMat`, `catchwords`, `custEvent`,
-    `custodialHist`, `dim`, `filiation`, `heraldry`, `material`, `msFrag`, `msItemStruct`, `musicNotation`,
-    `objectType`, `scriptDesc`, `scriptNote`, `seal`, `sealDesc`, `secFol`, `signatures`, `stamp`, `typeDesc`,
+  - 21 of the module's elements, and the header's `scriptNote`, are left out, each said another way: `accMat`,
+    `catchwords`, `custEvent`, `custodialHist`, `dim`, `filiation`, `heraldry`, `material`, `msFrag`, `msItemStruct`,
+    `musicNotation`, `objectType`, `scriptDesc`, `seal`, `sealDesc`, `secFol`, `signatures`, `stamp`, `typeDesc`,
     `typeNote`, `watermark`; so are `msItem/@class`, `handDesc/@hands`, `handNote`'s `@scribe`, `@scribeRef`,
     `@scriptRef` and `@medium`, and the Bodleian's additions (`collation/@mainStructures`, `layout/@topLine`,
     `layout/@rulingMedium`);
