@@ -27,6 +27,14 @@ Each release says what changed, and whether files that passed may now fail.
   LuaLaTeX in Junicode, into `build/pdf/solemne-guide.pdf`. It leaves out TEI's reference for each element, which the
   HTML holds. Junicode is fetched once at a pinned release, checked by its SHA-256.
 
+### The package
+
+- **The release workflow:** on a tag `vX.Y.Z`, it rebuilds the schema from an empty cache and checks it against the
+  committed files, runs the tests, makes the HTML and the PDF, and publishes: a GitHub release with the schema's
+  files, the HTML and the PDF, its notes this changelog's section; the pages, `schema/X.Y.Z/`, `guide/X.Y.Z/` and
+  `latest/`, keeping every earlier version, earlier releases' schemas included; from 1.0.0 on, the package on PyPI.
+  On a pull request, or started by hand, it builds the same and publishes nothing.
+
 ## 0.3.0 (2026-11-05)
 
 The guide for records, relations, dates and manuscripts: Parts V to VIII, with the schema's own manuscript

@@ -127,6 +127,22 @@ fails on its rule; and every rule has one.
 .venv/bin/pytest
 ```
 
+The PDF's test is marked `slow`, and skipped without LuaLaTeX; `pytest -m "not slow"` leaves it out.
+
+## Releases
+
+A release is a tag `vX.Y.Z` on `main`, whose version the ODD, `pyproject.toml` and the package give, and whose section
+the changelog holds. The release workflow (`.github/workflows/release.yml`) then rebuilds the schema from an empty
+cache and checks it against the committed files, runs the tests, makes the guide's HTML and PDF, and publishes:
+
+- a GitHub release, with the schema's files, the HTML as a zip and the PDF, and the changelog's section as its notes;
+- the pages, from the `gh-pages` branch: `schema/X.Y.Z/` and `guide/X.Y.Z/`, with `schema/latest/` and
+  `guide/latest/` for the highest version, keeping every earlier one;
+- from 1.0.0 on, the package on PyPI, by trusted publishing.
+
+On a pull request, or started by hand, the workflow builds the same files and keeps them as the run's artifacts,
+publishing nothing.
+
 ## Licence
 
 The code and the schema are under the MIT licence ([LICENSE](LICENSE)); the guidelines in `guide/` are under CC BY 4.0
