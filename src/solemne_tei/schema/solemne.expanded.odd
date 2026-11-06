@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.4.0 (SHA-256 070b099bca0318cee47f04bf44bec98e2fac8ecf64b39055d887f38a04064bd3) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.4.0 (SHA-256 a47a46cd35918668cb4d52c020893691fad6a3baacf098051a2df6a028d32847) by solemne-tei build. Edit the ODD, not this file. -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:lang="en">
   <teiHeader>
     <fileDesc>
@@ -2399,11 +2399,12 @@
         </constraintSpec>
         <constraintSpec ident="source-note-codes" scheme="schematron" corresp="#tier-full">
           <desc>A source or reception note's codes are in source, not in its words. A word starting C. or D. is taken
-            for a code only in a code's form, a letter after the dot and then a hyphen and a digit (C.NIC-0325), so
-            that Gratian's D.5 or C.16 isn't.</desc>
+            for a code only in a code's form, older ones included: a letter after the dot, then a hyphen, an
+            underscore or a dot, and a digit (C.NIC-0325, C.MEA_0845), so that Gratian's D.5, C.16 or D.LXXVI
+            isn't.</desc>
           <constraint>
             <sch:rule context="tei:note[@type = ('source', 'reception')]">
-              <sch:report id="source-note-codes" role="warning" test="some $w in tokenize(normalize-space(.),                 '[\s;,]+') satisfies matches($w,                 '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*-[0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
+              <sch:report id="source-note-codes" role="warning" test="some $w in tokenize(normalize-space(.),                 '[\s;,]+') satisfies matches($w,                 '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*[\-_.][0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
                 <sch:value-of select="@type"/> note's words hold a code (<sch:value-of select="normalize-space(.)"/>):
                 it belongs in @source.</sch:report>
             </sch:rule>

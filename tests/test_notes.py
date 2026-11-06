@@ -54,8 +54,11 @@ def test_a_reception_note_passes_inline_and_stand_off(validator: Validator, tmp_
 
 @pytest.mark.parametrize("form", [inline, stand_off])
 @pytest.mark.parametrize("note_type", ["source", "reception"])
-def test_a_code_in_a_note_s_words_is_reported(validator: Validator, tmp_path: Path, form: Form, note_type: str) -> None:
-    found = problems(validator, tmp_path, form(note_type, "Burchard I, 135; C.NIC-0325_15."))
+@pytest.mark.parametrize("code", ["C.NIC-0325_15", "D.LEO-0447-414_11", "C.MEA_0845", "C.NIC.325_17", "MAT_18_19"])
+def test_a_code_in_a_note_s_words_is_reported(
+    validator: Validator, tmp_path: Path, form: Form, note_type: str, code: str
+) -> None:
+    found = problems(validator, tmp_path, form(note_type, f"{code}; Burchard I, 135."))
     assert [(p.rule, p.severity) for p in found] == [("source-note-codes", "warning")]
 
 

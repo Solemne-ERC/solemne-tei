@@ -488,13 +488,14 @@
         </constraintSpec>
         <constraintSpec ident="source-note-codes" scheme="schematron" corresp="#tier-full">
           <desc>A source or reception note's codes are in source, not in its words. A word starting C. or D. is taken
-            for a code only in a code's form, a letter after the dot and then a hyphen and a digit (C.NIC-0325), so
-            that Gratian's D.5 or C.16 isn't.</desc>
+            for a code only in a code's form, older ones included: a letter after the dot, then a hyphen, an
+            underscore or a dot, and a digit (C.NIC-0325, C.MEA_0845), so that Gratian's D.5, C.16 or D.LXXVI
+            isn't.</desc>
           <constraint>
             <sch:rule context="tei:note[@type = ('source', 'reception')]">
               <sch:report id="source-note-codes" role="warning" test="some $w in tokenize(normalize-space(.),
                 '[\s;,]+') satisfies matches($w,
-                '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*-[0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
+                '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*[\-_.][0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
                 <sch:value-of select="@type"/> note's words hold a code (<sch:value-of select="normalize-space(.)"/>):
                 it belongs in @source.</sch:report>
             </sch:rule>
