@@ -3,6 +3,41 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
+## 0.5.0 (2026-11-06)
+
+A note type for an edition's later collections, the later texts that took a passage over: `reception`.
+
+### What changes for existing files
+
+Nothing that passed 0.4.0 fails: the new type widens a closed list. The warning for codes left in a note's words
+(`source-note-codes`) now checks reception notes and notes in the standOff too, reports older codes it missed
+(`C.NIC_0325_11`, an underscore for the hyphen), and no longer takes Gratian's abbreviations (`D.5`, `C.16`) for
+codes. On the project's 411 coded files, as received, this version reports 125,777 problems, against 0.4.0's 125,768:
+the 9 more are such older codes in source notes' words, all warnings. On the files as corrected, the count is the
+same as 0.4.0's.
+
+### The schema
+
+- **Reception notes:** a note typed `reception` gives the later texts that took the passage over, as an edition's
+  tier of later collections lists them ("Burchard I, 135; Ivo, Decr. V, 234"): the editor's words, and the later
+  texts' codes in `@source`. It stands inline, or in a stand-off annotation over its span, as source notes and
+  parallels do: `text-note-type` and `annotation-body` take it. For this type, `@source` names the later texts, not
+  the passage's sources.
+- **Codes in a note's words:** `source-note-codes` checks source and reception notes, inline and in the standOff. A
+  word starting `C.` or `D.` counts as a code when a letter follows the dot, then a hyphen, an underscore or a dot,
+  and a digit.
+
+### The guide
+
+- **Part IV, notes:** reception notes, and how to tell them from parallels, by the edition's form and not the dates;
+  an example from the Collectio Dionysio-Hadriana of 1525, whose margins give Gratian's chapters, and a stand-off one.
+  The pointers' forms name a reception note's `@source`.
+- **Parts I, VI and X, appendix D:** the reception note among the layers; how the import reads its codes, still to be
+  settled with the application; the layer in stand-off bodies; older notes typed `corresp` that become reception
+  notes.
+- **Part VIII:** the project converts the Bodleian's descriptions with a converter outside this package; the guide
+  said a tool of this package would.
+
 ## 0.4.0 (2026-11-05)
 
 The guide finished and published: Parts IX and X, on editions and on exports, with the export template; appendices C
