@@ -245,8 +245,8 @@
 
   <div xml:id="marked-pointers">
     <head>Sources and the pointers' forms</head>
-    <p>A quotation's <att>source</att>, and a source note's, hold one pointer or more, separated by spaces, each in
-      one of these forms:</p>
+    <p>A quotation's <att>source</att>, and a source or reception note's, hold one pointer or more, separated by
+      spaces, each in one of these forms:</p>
     <list>
       <item>a document's code (<ptr target="#codes-and-ids"/>), alone (<code>C.NIC-0325</code>) or with a citation
         after an underscore, the canon or chapter of that document (<code>C.NIC-0325_3</code>,
@@ -379,12 +379,15 @@
   </div>
 
   <div xml:id="marked-notes">
-    <head>Notes: sources, parallels, editorial remarks</head>
+    <head>Notes: sources, parallels, reception, editorial remarks</head>
     <p>A note in the text has a type, its layer:</p>
     <list>
       <item><val>source</val>: where a passage comes from, as an edition says it: its words, and the codes of its
         sources in <att>source</att>;</item>
       <item><val>parallel</val>: a parallel elsewhere, an edition's "Cf." note;</item>
+      <item><val>reception</val>: the later texts that took the passage over, as an edition's tier of later
+        collections gives them ("Burchard I, 135; Ivo, Decr. V, 234"): the reverse of a source, the codes of the
+        later texts in <att>source</att>;</item>
       <item><val>editorial</val>: a remark of the editor of the file, about the text or the transcription.</item>
     </list>
     <p>A note stands where its source puts it: at a point of a paragraph, or between paragraphs and divisions,
@@ -425,6 +428,43 @@
       and an editorial note keep their words, and an editorial note its author. An error of the source marked by
       <gi>sic</gi>, or an addition by <gi>supplied</gi>, is an editorial note too (<ptr
         target="#transcription-unclear"/>).</p>
+    <p>A reception note gives the later texts that took a passage over, as an edition lists them, often in a tier of
+      its own under the sources: the collections that copied a canon, each by its book and chapter. Its words are the
+      editor's; the codes of the later texts the corpus holds go in <att>source</att>, in the pointers' forms (<ptr
+        target="#marked-pointers"/>). For this type, <att>source</att> names the later texts, not the passage's
+      sources: the note's type says which way its codes point, where TEI reads <att>source</att> as the source of
+      what the element holds. The codes of later texts the corpus doesn't hold yet are added when it does, and the
+      words stay.</p>
+    <p>Whether a note is a reception note or a parallel follows the edition's form, not the dates: where the edition
+      gives the later texts that took the passage, in a tier or a margin of their own, the note is a reception note;
+      a "Cf." stays a parallel, whatever its date, as the note on the Council of Mainz of 847 above. The encoder
+      records the edition's claim. One who has checked a later text and states that it took the passage over writes
+      a relation of their own (<ptr target="#relations"/>).</p>
+    <p>The Collectio Dionysio-Hadriana, in the edition of 1525, gives in its margins the chapters of Gratian's
+      Decretum that took each canon over. The seventh of the Apostles' canons is Gratian's D. 88 c. 3:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.DioHad">
+      <div type="chapter" n="7">
+        <head type="number">Cap. VII.</head>
+        <head type="rubric">Ut sacerdotes, et ministri altaris saecularibus curis abstineant.</head>
+        <p>VII Episcopus , aut presbyter, aut diaconus nequaquam saeculares curas adsumat, sin aliter
+          deiiciatur.<note type="reception" source="COLL.Grat.ed-SCTA_1.88.3">Gratian, Dist. 88. c. Episcopus aut
+            sacerdos.</note></p>
+      </div>
+    </egXML>
+    <p>A passage that runs over several paragraphs, or whose ends other entries share, is marked by two anchors, and
+      its reception note stands in the standOff (<ptr target="#marked-anchors"/>). A made-up example, whose later
+      texts the corpus holds in part:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <p><anchor xml:id="taken-over-start"/>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      <p>Si quis autem migrauerit, deponatur.<anchor xml:id="taken-over-end"/></p>
+      <listAnnotation>
+        <annotation xml:id="later-collections" target="#range(taken-over-start,taken-over-end)">
+          <note type="reception" source="COLL.Burch.ed-PL140_1.135">Burchard I, 135; Ivo, Decr. V, 234.</note>
+        </annotation>
+      </listAnnotation>
+    </egXML>
+    <p>The import keeps a reception note's words and codes as it keeps a source note's, and reads its codes the other
+      way (<ptr target="#relations-levels"/>).</p>
     <specGrp xml:id="marked-notes-specs">
       <!-- Notes: in the text, typed by their layer. -->
       <elementSpec ident="note" module="core" mode="change" corresp="#tier-full">
@@ -432,8 +472,8 @@
           <desc>In the text, a note's type is its layer.</desc>
           <constraint>
             <sch:rule context="tei:body//tei:note">
-              <sch:assert id="text-note-type" test="@type = ('source', 'parallel', 'editorial')">A note in the text
-                is typed source, parallel or editorial.</sch:assert>
+              <sch:assert id="text-note-type" test="@type = ('source', 'parallel', 'reception', 'editorial')">A note
+                in the text is typed source, parallel, reception or editorial.</sch:assert>
             </sch:rule>
           </constraint>
         </constraintSpec>
@@ -447,14 +487,17 @@
           </constraint>
         </constraintSpec>
         <constraintSpec ident="source-note-codes" scheme="schematron" corresp="#tier-full">
-          <desc>A source note's codes are in source, not in its words.</desc>
+          <desc>A source or reception note's codes are in source, not in its words. A word starting C. or D. is taken
+            for a code only in a code's form, older ones included: a letter after the dot, then a hyphen, an
+            underscore or a dot, and a digit (C.NIC-0325, C.MEA_0845), so that Gratian's D.5, C.16 or D.LXXVI
+            isn't.</desc>
           <constraint>
-            <sch:rule context="tei:body//tei:note[@type = 'source']">
+            <sch:rule context="tei:note[@type = ('source', 'reception')]">
               <sch:report id="source-note-codes" role="warning" test="some $w in tokenize(normalize-space(.),
                 '[\s;,]+') satisfies matches($w,
-                '^(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
-                source note's words hold a code (<sch:value-of select="normalize-space(.)"/>): it belongs in
-                @source.</sch:report>
+                '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*[\-_.][0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
+                <sch:value-of select="@type"/> note's words hold a code (<sch:value-of select="normalize-space(.)"/>):
+                it belongs in @source.</sch:report>
             </sch:rule>
           </constraint>
         </constraintSpec>
@@ -466,6 +509,10 @@
               </valItem>
               <valItem ident="parallel">
                 <desc>in the text: a parallel elsewhere ("Cf. concil. Mogunt. 847 c. 3")</desc>
+              </valItem>
+              <valItem ident="reception">
+                <desc>in the text: the later texts that took the passage over, an edition's later collections; their
+                  codes in source</desc>
               </valItem>
               <valItem ident="editorial">
                 <desc>in the text: an editor's remark</desc>
@@ -482,7 +529,8 @@
             </valList>
           </attDef>
           <attDef ident="source" mode="change" corresp="#tier-full">
-            <desc>the sources the note points to: see the pointers' forms</desc>
+            <desc>the texts the note names, in the pointers' forms: a source note's sources, a parallel's texts, a
+              reception note's later texts</desc>
             <datatype minOccurs="1" maxOccurs="unbounded">
               <dataRef key="solemne.pointer"/>
             </datatype>

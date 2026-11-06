@@ -11,7 +11,7 @@
         <author>Sven Meeder</author>
       </titleStmt>
       <editionStmt>
-        <edition n="0.4.0">Version 0.4.0</edition>
+        <edition n="0.5.0">Version 0.5.0</edition>
       </editionStmt>
       <publicationStmt>
         <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University</publisher>
@@ -65,8 +65,8 @@
         <docAuthor>Gleb Schmidt</docAuthor>
         <docAuthor>Friederike Voit</docAuthor>
         <docAuthor>Sven Meeder</docAuthor>
-        <docEdition>Version 0.4.0</docEdition>
-        <docDate when="2026-11-05">5 November 2026</docDate>
+        <docEdition>Version 0.5.0</docEdition>
+        <docDate when="2026-11-06">6 November 2026</docDate>
         <docImprint>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University, Nijmegen; funded by
           the European Research Council, grant 101087979. The guide is under the Creative Commons Attribution 4.0
           licence; the schema made from it, under the MIT licence.</docImprint>
@@ -354,7 +354,8 @@
           <row>
             <cell><gi>note</gi> typed <val>corresp</val>; untyped notes; the old guide's <val>filiation</val>,
               <val>physDesc</val>, <val>warning</val>, <val>comment</val>, <val>memo</val> and <val>desc</val></cell>
-            <cell><val>parallel</val>; <val>editorial</val> or <val>source</val>, by what the note does</cell>
+            <cell><val>parallel</val>, or <val>reception</val> where the edition gives the later texts that took the
+              passage over; <val>editorial</val> or <val>source</val>, by what the note does</cell>
             <cell><ptr target="#marked-notes"/></cell>
           </row>
           <row>
@@ -482,6 +483,9 @@
           <bibl xml:id="source-COLL.Dach"><idno>COLL.Dach</idno>: <title>Collectio Dacheriana</title>, ed.
             <editor>Luc d'Achery</editor>, <title>Spicilegium</title>, vol. 11 (Paris, <date>1723</date>),
             pp. 1–200.</bibl>
+          <bibl xml:id="source-COLL.DioHad"><idno>COLL.DioHad</idno>: <title>Collectio Dionysio-Hadriana</title>, ed.
+            <editor>Johannes Wendelstinus Cochlaeus</editor>, <title>Canones apostolorum. Veterum conciliorum
+              constitutiones. Decreta pontificum antiquiora</title> (Mainz, <date>1525</date>).</bibl>
           <bibl xml:id="source-COLL.Ans.ms-Par-BnF-15392"><idno>COLL.Ans.ms-Par-BnF-15392</idno>: <title>Collectio
               Anselmo dedicata</title> in Paris, Bibliothèque nationale de France, lat. 15392: the file's description
             of the manuscript.</bibl>

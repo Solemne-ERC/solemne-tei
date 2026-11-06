@@ -147,8 +147,9 @@
         <cell>the inscription; the reference</cell>
       </row>
       <row>
-        <cell>source note, parallel, editorial note</cell>
-        <cell><gi>note</gi> typed <val>source</val>, <val>parallel</val>, <val>editorial</val>; <gi>sic</gi></cell>
+        <cell>source note, parallel, reception note, editorial note</cell>
+        <cell><gi>note</gi> typed <val>source</val>, <val>parallel</val>, <val>reception</val>, <val>editorial</val>;
+          <gi>sic</gi></cell>
         <cell>a point, or the node</cell>
       </row>
       <row>

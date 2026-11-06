@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: MIT -->
-<!-- Generated from solemne.odd 0.4.0 (SHA-256 03c9285a07054faa9edb465848cf90d64e5afc5cf52c770e7ca17151381ff9df) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.5.0 (SHA-256 d17b7185c0f688111c38a8fb3a3fb9d8d402c2831b0950e3494041b0f9200388) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -33,7 +33,7 @@ the use of this software, even if advised of the possibility of such damage.
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 1970-01-01. 5 November 2026. 
+Schema generated from ODD source 1970-01-01. 6 November 2026. 
 TEI Edition: P5 Version 4.12.0. Last updated on 28th July 2026, revision 113e933e2 
 TEI Edition Location: https://www.tei-c.org/Vault/P5/4.12.0/ 
   
@@ -4708,8 +4708,9 @@ Suggested values include: 1] gloss (gloss); 2] index (index); 3] instructions (i
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:body//tei:note">
-               <sch:assert id="text-note-type" test="@type = ('source', 'parallel', 'editorial')">A note in the text
-                is typed source, parallel or editorial.</sch:assert>
+               <sch:assert id="text-note-type"
+                           test="@type = ('source', 'parallel', 'reception', 'editorial')">A note
+                in the text is typed source, parallel, reception or editorial.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
@@ -4727,12 +4728,12 @@ Suggested values include: 1] gloss (gloss); 2] index (index); 3] instructions (i
                   id="solemne-note-source-note-codes-constraint-rule-33">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      context="tei:body//tei:note[@type = 'source']">
+                      context="tei:note[@type = ('source', 'reception')]">
                <sch:report id="source-note-codes"
                            role="warning"
-                           test="some $w in tokenize(normalize-space(.),                 '[\s;,]+') satisfies matches($w,                 '^(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
-                source note's words hold a code (<sch:value-of select="normalize-space(.)"/>): it belongs in
-                @source.</sch:report>
+                           test="some $w in tokenize(normalize-space(.),                 '[\s;,]+') satisfies matches($w,                 '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*[\-_.][0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
+                <sch:value-of select="@type"/> note's words hold a code (<sch:value-of select="normalize-space(.)"/>):
+                it belongs in @source.</sch:report>
             </sch:rule>
          </pattern>
          <ref name="att.global.attribute.xmlid"/>
@@ -4762,7 +4763,7 @@ Suggested values include: 1] gloss (gloss); 2] index (index); 3] instructions (i
          <ref name="att.written.attributes"/>
          <optional>
             <attribute name="source">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">the sources the note points to: see the pointers' forms</a:documentation>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">the texts the note names, in the pointers' forms: a source note's sources, a parallel's texts, a reception note's later texts</a:documentation>
                <list>
                   <oneOrMore>
                      <data type="token">
@@ -4795,6 +4796,8 @@ Suggested values include: 1] gloss (gloss); 2] index (index); 3] instructions (i
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">in the text: the source a passage comes from, its codes in source</a:documentation>
                   <value>parallel</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">in the text: a parallel elsewhere ("Cf. concil. Mogunt. 847 c. 3")</a:documentation>
+                  <value>reception</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">in the text: the later texts that took the passage over, an edition's later collections; their codes in source</a:documentation>
                   <value>editorial</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">in the text: an editor's remark</a:documentation>
                   <value>links</value>
@@ -9991,8 +9994,8 @@ Suggested values include: 1] border; 2] diagram; 3] illustration; 4] initial; 5]
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:annotation">
                <sch:assert id="annotation-body"
-                           test="count(tei:note) = 1 and not(tei:ptr or tei:ref) and                 (tei:note/@type = ('source', 'parallel', 'editorial') or (count(tei:note/*) = 1 and                 not(tei:note/text()[normalize-space()])))">An annotation's body is one note, which holds the element of
-                its layer alone, or is typed by a note's layer (source, parallel, editorial).</sch:assert>
+                           test="count(tei:note) = 1 and not(tei:ptr or tei:ref) and                 (tei:note/@type = ('source', 'parallel', 'reception', 'editorial') or (count(tei:note/*) = 1 and                 not(tei:note/text()[normalize-space()])))">An annotation's body is one note, which holds the element of
+                its layer alone, or is typed by a note's layer (source, parallel, reception, editorial).</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attribute.n"/>
