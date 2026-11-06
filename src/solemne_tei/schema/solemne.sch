@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: MIT -->
-<!-- Generated from solemne.odd 0.4.0 (SHA-256 03c9285a07054faa9edb465848cf90d64e5afc5cf52c770e7ca17151381ff9df) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.4.0 (SHA-256 933428b5c71d5f61306ed88aefb87b1e9340b1c807712f3a010e128d99a63ee3) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -256,7 +256,8 @@ the use of this software, even if advised of the possibility of such damage.
    </pattern>
    <pattern id="schematron-constraint-text-note-type-30">
       <rule context="tei:body//tei:note">
-         <assert id="text-note-type" test="@type = ('source', 'parallel', 'editorial')">A note in the text is typed source, parallel or editorial.</assert>
+         <assert id="text-note-type"
+                 test="@type = ('source', 'parallel', 'reception', 'editorial')">A note in the text is typed source, parallel, reception or editorial.</assert>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-note-has-content-31">
@@ -265,10 +266,10 @@ the use of this software, even if advised of the possibility of such damage.
       </rule>
    </pattern>
    <pattern id="schematron-constraint-source-note-codes-32">
-      <rule context="tei:body//tei:note[@type = 'source']">
+      <rule context="tei:note[@type = ('source', 'reception')]">
          <report id="source-note-codes"
                  role="warning"
-                 test="some $w in tokenize(normalize-space(.),                 '[\s;,]+') satisfies matches($w,                 '^(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A source note's words hold a code (<value-of select="normalize-space(.)"/>): it belongs in @source.</report>
+                 test="some $w in tokenize(normalize-space(.),                 '[\s;,]+') satisfies matches($w,                 '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*-[0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A <value-of select="@type"/> note's words hold a code (<value-of select="normalize-space(.)"/>): it belongs in @source.</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-title-level-33">
@@ -671,7 +672,7 @@ the use of this software, even if advised of the possibility of such damage.
    <pattern id="schematron-constraint-annotation-body-97">
       <rule context="tei:annotation">
          <assert id="annotation-body"
-                 test="count(tei:note) = 1 and not(tei:ptr or tei:ref) and                 (tei:note/@type = ('source', 'parallel', 'editorial') or (count(tei:note/*) = 1 and                 not(tei:note/text()[normalize-space()])))">An annotation's body is one note, which holds the element of its layer alone, or is typed by a note's layer (source, parallel, editorial).</assert>
+                 test="count(tei:note) = 1 and not(tei:ptr or tei:ref) and                 (tei:note/@type = ('source', 'parallel', 'reception', 'editorial') or (count(tei:note/*) = 1 and                 not(tei:note/text()[normalize-space()])))">An annotation's body is one note, which holds the element of its layer alone, or is typed by a note's layer (source, parallel, reception, editorial).</assert>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-substContents1-98">

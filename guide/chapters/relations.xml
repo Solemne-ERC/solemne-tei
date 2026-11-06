@@ -237,5 +237,9 @@
     <p><val>isTextOf</val> joins a node of a witness to its version's canon: it is how a witness's own structure is
       mapped to the canons (<ptr target="#levels"/>). The import makes it as an observation from each source note
       that names a canon; an encoder writes it where no note does.</p>
+    <p>A reception note's codes read the other way: each names a later text that took the passage over (<ptr
+        target="#marked-notes"/>). The import keeps the note's words and codes; the relation it makes of each code,
+      from the later text to the passage, and where that relation ends when the passage runs over several nodes, are
+      still to be settled with the application.</p>
   </div>
 </div>

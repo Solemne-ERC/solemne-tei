@@ -69,8 +69,8 @@
       <item><hi>its author</hi>, in a <gi>respStmt</gi> naming them by permalink, and its licence, in a
         <gi>licence</gi>;</item>
       <item><hi>its body</hi>: a <gi>note</gi> holding the element of its layer, with the attributes it has inline and
-        the span's words, which the import checks the target against; for a note's layers, a source note, a parallel
-        or an editorial remark, the <gi>note</gi> itself, typed by its layer. One form for each layer, inline or not,
+        the span's words, which the import checks the target against; for a note's layers, a source note, a
+        parallel, a reception note or an editorial remark, the <gi>note</gi> itself, typed by its layer. One form for each layer, inline or not,
         so that the import reads both alike. TEI's <att>motivation</att> isn't used: the body says the layer.</item>
     </list>
     <p>The council's date, from its year to the king's, crosses the name of Childeric, which runs on past it, so it
@@ -136,9 +136,9 @@
           <constraint>
             <sch:rule context="tei:annotation">
               <sch:assert id="annotation-body" test="count(tei:note) = 1 and not(tei:ptr or tei:ref) and
-                (tei:note/@type = ('source', 'parallel', 'editorial') or (count(tei:note/*) = 1 and
+                (tei:note/@type = ('source', 'parallel', 'reception', 'editorial') or (count(tei:note/*) = 1 and
                 not(tei:note/text()[normalize-space()])))">An annotation's body is one note, which holds the element of
-                its layer alone, or is typed by a note's layer (source, parallel, editorial).</sch:assert>
+                its layer alone, or is typed by a note's layer (source, parallel, reception, editorial).</sch:assert>
             </sch:rule>
           </constraint>
         </constraintSpec>
