@@ -1,0 +1,70 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta charset="UTF-8"/><!--THIS FILE IS GENERATED FROM AN XML MASTER. DO NOT EDIT (7)--><title>TEI class att.divLike </title><meta name="author" content="Gleb Schmidt, Friederike Voit and Sven Meeder"/><meta name="generator" content="Text Encoding Initiative Consortium XSLT stylesheets"/><meta name="DC.Title" content="TEI class att.divLike"/><meta name="DC.Type" content="Text"/><meta name="DC.Format" content="text/html"/><link href="guide.css" rel="stylesheet" type="text/css"/><script type="text/javascript"><!--
+var displayXML=0;
+states=new Array()
+states[0]="element-a"
+states[1]="element-b"
+states[2]="element-c"
+states[3]="element-d"
+states[4]="element-e"
+states[5]="element-f"
+states[6]="element-g"
+states[7]="element-h"
+states[8]="element-i"
+states[9]="element-j"
+states[10]="element-k"
+states[11]="element-l"
+states[12]="element-m"
+states[13]="element-n"
+states[14]="element-o"
+states[15]="element-p"
+states[16]="element-q"
+states[17]="element-r"
+states[18]="element-s"
+states[19]="element-t"
+states[20]="element-u"
+states[21]="element-v"
+states[22]="element-w"
+states[23]="element-x"
+states[24]="element-y"
+states[25]="element-z"
+
+function startUp() {
+
+}
+
+function hideallExcept(elm) {
+for (var i = 0; i < states.length; i++) {
+ var layer;
+ if (layer = document.getElementById(states[i]) ) {
+  if (states[i] != elm) {
+    layer.style.display = "none";
+  }
+  else {
+   layer.style.display = "block";
+      }
+  }
+ }
+ var mod;
+ if ( mod = document.getElementById('byMod') ) {
+     mod.style.display = "none";
+ }
+}
+
+function showall() {
+ for (var i = 0; i < states.length; i++) {
+   var layer;
+   if (layer = document.getElementById(states[i]) ) {
+      layer.style.display = "block";
+      }
+  }
+}
+
+function showByMod() {
+  hideallExcept('');
+  var mod;
+  if (mod = document.getElementById('byMod') ) {
+     mod.style.display = "block";
+     }
+}
+
+        --></script></head><body id="TOP"><p class="guide-title"><a href="index.html">The SOLEMNE Encoding Guidelines</a>, <a href="specification.html">the specification</a></p><div class="main-content"><div><h3 class="oddSpec" id="att.divLike">att.divLike</h3><table class="wovenodd"><tr><td colspan="2" class="wovenodd-col2"><span class="label">att.divLike</span> provides attributes common to all elements which behave in the same way as divisions. [4. Default Text Structure]</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Module</span></td><td class="wovenodd-col2">tei — The specification</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Members</span></td><td class="wovenodd-col2"><span class="showmembers1"><a class="link_odd_elementSpec" title="(text division) contains a subdivision of the front, body, or back of a text." href="ref-div.html">div</a></span></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Attributes</span></td><td class="wovenodd-col2"><ul class="attList"><?DEBUG calling showAttClasses 06 ?><li class="classSpecItem"><a class="link_odd" title="provides attributes for representing fragmentation of a structural element, typically as a consequence of some overlapping hierarchy." href="ref-att.fragmentable.html">att.fragmentable</a><ul class="classSpecAttDefs"><li><span class="attribute">@part</span></li></ul></li></ul><table class="attList"><tr><td class="odd_label">org</td><td class="odd_value">(organization) specifies how the content of the division is organized.<table class="attDef"><tr><td class="odd_label"><span class="label" xml:lang="en">Status</span> </td><td class="odd_value"><span xml:lang="en">Optional</span></td></tr><tr><td class="odd_label"><span xml:lang="en" class="label">Datatype</span> </td><td class="odd_value"><a class="link_element" href="ref-teidata.enumerated.html">teidata.enumerated</a></td></tr><tr><td class="odd_label"><span class="label" xml:lang="en">Legal values are:</span></td><td class="odd_value"><dl class="valList"><dt class="odd_label">composite</dt><dd class="odd_value">no claim is made about the sequence in which the immediate contents of this division are to be processed, or their inter-relationships.</dd><dt class="odd_label">parallel</dt><dd class="odd_value">the contents of this element are intended to represent simultaneous or side-by-side delivery.</dd><dt class="odd_label">uniform</dt><dd class="odd_value">the immediate contents of this element are regarded as forming a logical unit, to be processed in sequence.<span class="defaultVal" xml:lang="en"> [Default] </span></dd></dl></td></tr></table></td></tr><tr><td class="odd_label">sample</td><td class="odd_value">indicates whether this division is a sample of the original source and if so, from which part.<table class="attDef"><tr><td class="odd_label"><span class="label" xml:lang="en">Status</span> </td><td class="odd_value"><span xml:lang="en">Optional</span></td></tr><tr><td class="odd_label"><span xml:lang="en" class="label">Datatype</span> </td><td class="odd_value"><a class="link_element" href="ref-teidata.enumerated.html">teidata.enumerated</a></td></tr><tr><td class="odd_label"><span class="label" xml:lang="en">Legal values are:</span></td><td class="odd_value"><dl class="valList"><dt class="odd_label">initial</dt><dd class="odd_value">division lacks material present at end in source.</dd><dt class="odd_label">medial</dt><dd class="odd_value">division lacks material at start and end.</dd><dt class="odd_label">final</dt><dd class="odd_value">division lacks material at start.</dd><dt class="odd_label">unknown</dt><dd class="odd_value">position of sampled material within original unknown.</dd><dt class="odd_label">complete</dt><dd class="odd_value">division is not a sample.<span class="defaultVal" xml:lang="en"> [Default] </span></dd></dl></td></tr></table></td></tr></table></td></tr></table></div></div><footer class="guide-footer"><p><a href="index.html">The SOLEMNE Encoding Guidelines</a>, Version 0.5.0. Under the Creative Commons Attribution 4.0 licence.</p></footer></body></html>

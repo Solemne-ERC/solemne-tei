@@ -1,0 +1,83 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta charset="UTF-8"/><!--THIS FILE IS GENERATED FROM AN XML MASTER. DO NOT EDIT (7)--><title>TEI data teidata.enumerated </title><meta name="author" content="Gleb Schmidt, Friederike Voit and Sven Meeder"/><meta name="generator" content="Text Encoding Initiative Consortium XSLT stylesheets"/><meta name="DC.Title" content="TEI data teidata.enumerated"/><meta name="DC.Type" content="Text"/><meta name="DC.Format" content="text/html"/><link href="guide.css" rel="stylesheet" type="text/css"/><script type="text/javascript"><!--
+var displayXML=0;
+states=new Array()
+states[0]="element-a"
+states[1]="element-b"
+states[2]="element-c"
+states[3]="element-d"
+states[4]="element-e"
+states[5]="element-f"
+states[6]="element-g"
+states[7]="element-h"
+states[8]="element-i"
+states[9]="element-j"
+states[10]="element-k"
+states[11]="element-l"
+states[12]="element-m"
+states[13]="element-n"
+states[14]="element-o"
+states[15]="element-p"
+states[16]="element-q"
+states[17]="element-r"
+states[18]="element-s"
+states[19]="element-t"
+states[20]="element-u"
+states[21]="element-v"
+states[22]="element-w"
+states[23]="element-x"
+states[24]="element-y"
+states[25]="element-z"
+
+function startUp() {
+
+}
+
+function hideallExcept(elm) {
+for (var i = 0; i < states.length; i++) {
+ var layer;
+ if (layer = document.getElementById(states[i]) ) {
+  if (states[i] != elm) {
+    layer.style.display = "none";
+  }
+  else {
+   layer.style.display = "block";
+      }
+  }
+ }
+ var mod;
+ if ( mod = document.getElementById('byMod') ) {
+     mod.style.display = "none";
+ }
+}
+
+function showall() {
+ for (var i = 0; i < states.length; i++) {
+   var layer;
+   if (layer = document.getElementById(states[i]) ) {
+      layer.style.display = "block";
+      }
+  }
+}
+
+function showByMod() {
+  hideallExcept('');
+  var mod;
+  if (mod = document.getElementById('byMod') ) {
+     mod.style.display = "block";
+     }
+}
+
+        --></script></head><body id="TOP"><p class="guide-title"><a href="index.html">The SOLEMNE Encoding Guidelines</a>, <a href="specification.html">the specification</a></p><div class="main-content"><div><h3 class="oddSpec" id="teidata.enumerated">teidata.enumerated</h3><table class="wovenodd"><tr><td colspan="2"><span class="label">teidata.enumerated</span> defines the range of attribute values expressed as a single XML name taken from a list of documented possibilities.</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Module</span></td><td class="wovenodd-col2">tei — The specification</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Used by</span></td><td class="wovenodd-col2"><div class="parent"><a class="link_odd_dataSpec" title="" href="ref-teidata.gender.html">teidata.gender</a> <a class="link_odd_dataSpec" title="" href="ref-teidata.sex.html">teidata.sex</a><span xml:lang="en">Element: </span><ul><li><a class="link_odd_elementSpec" title="(abbreviation) contains an abbreviation of any sort." href="ref-abbr.html">abbr</a>/@type</li><li><a class="link_odd_elementSpec" title="(address) contains a postal address, for example of a publisher, an organization, or an individual." href="ref-address.html">address</a>/@type</li><li><a class="link_odd_elementSpec" title="(address) contains a postal address, for example of a publisher, an organization, or an individual." href="ref-address.html">address</a>/@role</li><li><a class="link_odd_elementSpec" title="(affiliation) contains an informal description of a person's present or past affiliation with some organization, for example an employer or sponsor." href="ref-affiliation.html">affiliation</a>/@type</li><li><a class="link_odd_elementSpec" title="(alternative identifier) contains an alternative or former structured identifier used for a manuscript or other object, such as a former catalogue number." href="ref-altIdentifier.html">altIdentifier</a>/@type</li><li><a class="link_odd_elementSpec" title="(availability) supplies information about the availability of a text, for example any restrictions on its use or distribution, its copyright status, any licence applying to it, etc." href="ref-availability.html">availability</a>/@status</li><li><a class="link_odd_elementSpec" title="(scope of bibliographic reference) defines the scope of a bibliographic reference, for example as a list of page numbers, or a named subdivision of a larger work." href="ref-biblScope.html">biblScope</a>/@unit</li><li><a class="link_odd_elementSpec" title="(structured bibliographic citation) contains a structured bibliographic citation, in which only bibliographic sub-elements appear and in a specified order." href="ref-biblStruct.html">biblStruct</a>/@type</li><li><a class="link_odd_elementSpec" title="(birth) contains information about a person's birth, such as its date and place." href="ref-birth.html">birth</a>/@type</li><li><a class="link_odd_elementSpec" title="(change) documents a change or set of changes made during the production of a source document, or during the revision of an electronic file." href="ref-change.html">change</a>/@type</li><li><a class="link_odd_elementSpec" title="(citation structure) declares a structure and method for citing the current document." href="ref-citeStructure.html">citeStructure</a>/@unit</li><li><a class="link_odd_elementSpec" title="(cited range) defines the range of cited content, often represented by pages or other units." href="ref-citedRange.html">citedRange</a>/@unit</li><li><a class="link_odd_elementSpec" title="(correction principles) states how and under what circumstances corrections have been made in the text." href="ref-correction.html">correction</a>/@status</li><li><a class="link_odd_elementSpec" title="(correction principles) states how and under what circumstances corrections have been made in the text." href="ref-correction.html">correction</a>/@method</li><li><a class="link_odd_elementSpec" title="(death) contains information about a person's death, such as its date and place." href="ref-death.html">death</a>/@type</li><li><a class="link_odd_elementSpec" title="(note on decoration) contains a note describing either a decorative component of a manuscript or other object, or a fairly homogenous class of such components." href="ref-decoNote.html">decoNote</a>/@type</li><li><a class="link_odd_elementSpec" title="(description) contains a short description of the purpose, function, or use of its parent element, or when the parent is a documentation element, describes or defines the object being documented." href="ref-desc.html">desc</a>/@type</li><li><a class="link_odd_elementSpec" title="(dimensions) contains a dimensional specification." href="ref-dimensions.html">dimensions</a>/@type</li><li><a class="link_odd_elementSpec" title="(text division) contains a subdivision of the front, body, or back of a text." href="ref-div.html">div</a>/@type</li><li><a class="link_odd_elementSpec" title="(feature structure) represents a feature structure, that is, a collection of feature-value pairs organized as a structural unit." href="ref-fs.html">fs</a>/@type</li><li><a class="link_odd_elementSpec" title="(gap) indicates a point where material has been omitted in a transcription, whether for editorial reasons described in the TEI header, as part of sampling practice, or because the material is illegible, invisible, or inaudible." href="ref-gap.html">gap</a>/@unit</li><li><a class="link_odd_elementSpec" title="(gap) indicates a point where material has been omitted in a transcription, whether for editorial reasons described in the TEI header, as part of sampling practice, or because the material is illegible, invisible, or inaudible." href="ref-gap.html">gap</a>/@reason</li><li><a class="link_odd_elementSpec" title="(gap) indicates a point where material has been omitted in a transcription, whether for editorial reasons described in the TEI header, as part of sampling practice, or because the material is illegible, invisible, or inaudible." href="ref-gap.html">gap</a>/@agent</li><li><a class="link_odd_elementSpec" title="(note on hand) describes a particular style or hand distinguished within a manuscript." href="ref-handNote.html">handNote</a>/@execution</li><li><a class="link_odd_elementSpec" title="(heading) contains any type of heading, for example the title of a section, or the heading of a list, glossary, manuscript description, etc." href="ref-head.html">head</a>/@type</li><li><a class="link_odd_elementSpec" title="(identifier) supplies any form of identifier used to identify some object, such as a bibliographic item, a person, a title, an organization, etc. in a standardized way." href="ref-idno.html">idno</a>/@type</li><li><a class="link_odd_elementSpec" title="(link group) defines a collection of associations or hypertextual links." href="ref-linkGrp.html">linkGrp</a>/@type</li><li><a class="link_odd_elementSpec" title="(list) contains any sequence of items organized as a list." href="ref-list.html">list</a>/@type</li><li><a class="link_odd_elementSpec" title="(measure) contains a word or phrase referring to some quantity of an object or commodity, usually comprising a number, a unit, and a commodity name." href="ref-measure.html">measure</a>/@type</li><li><a class="link_odd_elementSpec" title="(normalization) indicates the extent of normalization or regularization of the original source carried out in converting it to electronic form." href="ref-normalization.html">normalization</a>/@method</li><li><a class="link_odd_elementSpec" title="(note) contains a note or annotation." href="ref-note.html">note</a>/@type</li><li><a class="link_odd_elementSpec" title="(number) contains a number, written in any form." href="ref-num.html">num</a>/@type</li><li><a class="link_odd_elementSpec" title="(object description) contains a description of the physical components making up the object which is being described." href="ref-objectDesc.html">objectDesc</a>/@form</li><li><a class="link_odd_elementSpec" title="(occupation) contains an informal description of a person's trade, profession or occupation." href="ref-occupation.html">occupation</a>/@type</li><li><a class="link_odd_elementSpec" title="(organization) provides information about an identifiable organization such as a business, a tribe, or any other grouping of people." href="ref-org.html">org</a>/@role</li><li><a class="link_odd_elementSpec" title="(origin date) contains any form of date, used to identify the date of origin for a manuscript, manuscript part, or other object." href="ref-origDate.html">origDate</a>/@type</li><li><a class="link_odd_elementSpec" title="(person) provides information about an identifiable individual, for example a participant in a language interaction, or a person referred to in a historical source." href="ref-person.html">person</a>/@role</li><li><a class="link_odd_elementSpec" title="(person) provides information about an identifiable individual, for example a participant in a language interaction, or a person referred to in a historical source." href="ref-person.html">person</a>/@age</li><li><a class="link_odd_elementSpec" title="(pointer) defines a pointer to another location." href="ref-ptr.html">ptr</a>/@type</li><li><a class="link_odd_elementSpec" title="specifies editorial practice adopted with respect to punctuation marks in the original." href="ref-punctuation.html">punctuation</a>/@marks</li><li><a class="link_odd_elementSpec" title="specifies editorial practice adopted with respect to punctuation marks in the original." href="ref-punctuation.html">punctuation</a>/@placement</li><li><a class="link_odd_elementSpec" title="(quoted) contains material which is distinguished from the surrounding text using quotation marks or a similar method, for any one of a variety of reasons including, but not limited to: direct speech or thought, technical terms or jargon, authorial distance, quotations from elsewhere, and passages that are mentioned but not used." href="ref-q.html">q</a>/@type</li><li><a class="link_odd_elementSpec" title="(quotation) specifies editorial practice adopted with respect to quotation marks in the original." href="ref-quotation.html">quotation</a>/@marks</li><li><a class="link_odd_elementSpec" title="(reference) defines a reference to another location, possibly modified by additional text or comment." href="ref-ref.html">ref</a>/@type</li><li><a class="link_odd_elementSpec" title="(relationship) describes any kind of relationship or linkage amongst a specified group of places, events, persons, objects or other items." href="ref-relation.html">relation</a>/@type</li><li><a class="link_odd_elementSpec" title="(relationship) describes any kind of relationship or linkage amongst a specified group of places, events, persons, objects or other items." href="ref-relation.html">relation</a>/@name</li><li><a class="link_odd_elementSpec" title="(arbitrary segment) represents any segmentation of text below the ‘chunk’ level." href="ref-seg.html">seg</a>/@type</li><li><a class="link_odd_elementSpec" title="(segmentation) describes the principles according to which the text has been segmented, for example into sentences, tone-units, graphemic strata, etc." href="ref-segmentation.html">segmentation</a>/@type</li><li><a class="link_odd_elementSpec" title="(supplied) signifies text supplied by the transcriber or editor for any reason; for example because the original cannot be read due to physical damage, or because of an obvious omission by the author or scribe." href="ref-supplied.html">supplied</a>/@reason</li><li><a class="link_odd_elementSpec" title="(support description) groups elements describing the physical support for the written part of a manuscript or other object." href="ref-supportDesc.html">supportDesc</a>/@material</li><li><a class="link_odd_elementSpec" title="(title) contains a title for any kind of work." href="ref-title.html">title</a>/@type</li><li><a class="link_odd_elementSpec" title="(title) contains a title for any kind of work." href="ref-title.html">title</a>/@level</li><li><a class="link_odd_elementSpec" title="(unclear) contains a word, phrase, or passage which cannot be transcribed with certainty because it is illegible or inaudible in the source." href="ref-unclear.html">unclear</a>/@reason</li><li><a class="link_odd_elementSpec" title="(unclear) contains a word, phrase, or passage which cannot be transcribed with certainty because it is illegible or inaudible in the source." href="ref-unclear.html">unclear</a>/@agent</li></ul></div></td></tr>
+  
+  
+  
+  
+  
+  
+  
+  <tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Content model</span></td><td class="wovenodd-col2"><pre class="eg"><span class="element">&lt;content&gt;</span><br/> <span class="element">&lt;dataRef <span class="attribute">key</span>="<a class="link_odd" href="ref-teidata.word.html">teidata.word</a>"/&gt;</span><br/><span class="element">&lt;/content&gt;</span></pre></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Declaration</span></td><td class="wovenodd-col2"><pre class="eg">
+teidata.enumerated = <a class="link_odd" title="" href="ref-teidata.word.html">teidata.word</a></pre></td></tr>
+  <tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Note</span></td><td class="wovenodd-col2"><!-- --><p>Attributes using this datatype must contain a single ‘word’ which contains only letters, digits, punctuation characters, or symbols: thus it cannot include whitespace.</p><p>Typically, the list of documented possibilities will be provided (or exemplified) by a value list in the associated attribute specification, expressed with a <span class="gi">&lt;valList&gt;</span> element.</p></td></tr>
+  
+  
+</table></div></div><footer class="guide-footer"><p><a href="index.html">The SOLEMNE Encoding Guidelines</a>, Version 0.5.0. Under the Creative Commons Attribution 4.0 licence.</p></footer></body></html>
