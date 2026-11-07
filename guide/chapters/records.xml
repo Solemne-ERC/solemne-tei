@@ -520,5 +520,7 @@
         </bibl>
       </place>
     </egXML>
+    <p>A text taken from another project names its source in the same form, in its header (<ptr
+        target="#header-publication"/>).</p>
   </div>
 </div>

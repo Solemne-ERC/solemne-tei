@@ -189,7 +189,9 @@
     <p>A record describes a person, a place, an institution, an event, a manuscript or a publication. A file points
       to records from its names (<ptr target="#marked-names"/>), and may list them in its standOff (<ptr
         target="#records"/>). A placeholder becomes a provisional record at import. Every record, text and annotation
-      names its source: where it comes from, its id there, a link, the date it was retrieved, and its licence.</p>
+      names its source: where it comes from, its id there, a link, the date it was retrieved, and its licence. A
+      record names its own in itself (<ptr target="#records-sources"/>), a text in its header (<ptr
+        target="#header-publication"/>).</p>
     <p>A relation is a typed statement from one thing to another, records, nodes or relations, with a type and its
       reverse, a date, a certainty (certain, probable, possible), a role and a place where its type needs them, its
       evidence, and its author. An <term>observation</term> is what a witness shows: that a chapter's inscription

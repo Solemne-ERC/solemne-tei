@@ -99,7 +99,7 @@
           <row corresp="#tier-required">
             <cell>required</cell>
             <cell>
-              <gi>fileDesc</gi> <gi>publicationStmt</gi> <gi>sourceDesc</gi> <gi>TEI</gi> <gi>text</gi>
+              <gi>fileDesc</gi> <gi>publicationStmt</gi> <gi>TEI</gi> <gi>text</gi>
             </cell>
           </row>
           <row corresp="#tier-common">
@@ -183,6 +183,7 @@
           <!-- Each part's specifications, in the parts' order. -->
           <specGrpRef target="#header-title-specs"/>
           <specGrpRef target="#header-pointers-specs"/>
+          <specGrpRef target="#header-publication-specs"/>
           <specGrpRef target="#header-encoding-specs"/>
           <specGrpRef target="#header-external-ids-specs"/>
           <specGrpRef target="#text-divisions-specs"/>
@@ -476,6 +477,9 @@
           <bibl xml:id="source-COLL.400.ms-Mun-BSB-4592"><idno>COLL.400.ms-Mun-BSB-4592</idno>: <title>Collectio 400
               capitulorum</title>, transcribed by the project from Munich, Bayerische Staatsbibliothek, Clm
             4592.</bibl>
+          <bibl xml:id="source-COLL.AbboCan.ed-PL139"><idno>COLL.AbboCan.ed-PL139</idno>: <title>Abbo of Fleury,
+              Canones</title>, ed. <editor>Jacques-Paul Migne</editor>, Patrologia Latina, vol. 139 (Paris,
+            <date>1853</date>), cols. 473A–508A, in Corpus Corporum's text.</bibl>
           <bibl xml:id="source-COLL.Benedictus"><idno>COLL.Benedictus</idno>: <title>Collection of Benedictus
               Levita</title>, put together by the project from the edition of <editor>Georg Heinrich Pertz</editor>,
             MGH Leges 2.2 (Hannover, <date>1837</date>), pp. 17–158, and <editor>Gerhard Schmitz</editor>'s of Additio
