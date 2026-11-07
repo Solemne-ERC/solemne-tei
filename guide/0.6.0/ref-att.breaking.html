@@ -1,0 +1,71 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta charset="UTF-8"/><!--THIS FILE IS GENERATED FROM AN XML MASTER. DO NOT EDIT (7)--><title>TEI class att.breaking </title><meta name="author" content="Gleb Schmidt, Friederike Voit and Sven Meeder"/><meta name="generator" content="Text Encoding Initiative Consortium XSLT stylesheets"/><meta name="DC.Title" content="TEI class att.breaking"/><meta name="DC.Type" content="Text"/><meta name="DC.Format" content="text/html"/><link href="guide.css" rel="stylesheet" type="text/css"/><script type="text/javascript"><!--
+var displayXML=0;
+states=new Array()
+states[0]="element-a"
+states[1]="element-b"
+states[2]="element-c"
+states[3]="element-d"
+states[4]="element-e"
+states[5]="element-f"
+states[6]="element-g"
+states[7]="element-h"
+states[8]="element-i"
+states[9]="element-j"
+states[10]="element-k"
+states[11]="element-l"
+states[12]="element-m"
+states[13]="element-n"
+states[14]="element-o"
+states[15]="element-p"
+states[16]="element-q"
+states[17]="element-r"
+states[18]="element-s"
+states[19]="element-t"
+states[20]="element-u"
+states[21]="element-v"
+states[22]="element-w"
+states[23]="element-x"
+states[24]="element-y"
+states[25]="element-z"
+
+function startUp() {
+
+}
+
+function hideallExcept(elm) {
+for (var i = 0; i < states.length; i++) {
+ var layer;
+ if (layer = document.getElementById(states[i]) ) {
+  if (states[i] != elm) {
+    layer.style.display = "none";
+  }
+  else {
+   layer.style.display = "block";
+      }
+  }
+ }
+ var mod;
+ if ( mod = document.getElementById('byMod') ) {
+     mod.style.display = "none";
+ }
+}
+
+function showall() {
+ for (var i = 0; i < states.length; i++) {
+   var layer;
+   if (layer = document.getElementById(states[i]) ) {
+      layer.style.display = "block";
+      }
+  }
+}
+
+function showByMod() {
+  hideallExcept('');
+  var mod;
+  if (mod = document.getElementById('byMod') ) {
+     mod.style.display = "block";
+     }
+}
+
+        --></script></head><body id="TOP"><p class="guide-title"><a href="index.html">The SOLEMNE Encoding Guidelines</a>, <a href="specification.html">the specification</a></p><div class="main-content"><div><h3 class="oddSpec" id="att.breaking">att.breaking</h3><table class="wovenodd"><tr><td colspan="2" class="wovenodd-col2"><span class="label">att.breaking</span> provides attributes to indicate whether or not the element concerned is considered to mark the end of an orthographic token in the same way as whitespace. [3.11.3. Milestone
+Elements]</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Module</span></td><td class="wovenodd-col2">tei — The specification</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Members</span></td><td class="wovenodd-col2"><span class="showmembers1"><a class="link_odd_elementSpec" title="(line beginning) marks the beginning of a topographic line in some edition or version of a text." href="ref-lb.html">lb</a> <a class="link_odd_elementSpec" title="(page beginning) marks the beginning of a new page in a paginated document." href="ref-pb.html">pb</a></span></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Attributes</span></td><td class="wovenodd-col2"><table class="attList"><tr><td class="odd_label">break</td><td class="odd_value">indicates whether or not the element bearing this attribute should be considered to mark the end of an orthographic token in the same way as whitespace.<table class="attDef"><tr><td class="odd_label"><span class="label" xml:lang="en">Status</span> </td><td class="odd_value"><span xml:lang="en">Recommended</span></td></tr><tr><td class="odd_label"><span xml:lang="en" class="label">Datatype</span> </td><td class="odd_value"><a class="link_element" href="ref-teidata.enumerated.html">teidata.enumerated</a></td></tr><tr><td class="odd_label"><span class="label" xml:lang="en">Sample values include</span></td><td class="odd_value"><dl class="valList"><dt class="odd_label">yes</dt><dd class="odd_value">the element bearing this attribute is considered to mark the end of any adjacent orthographic token irrespective of the presence of any adjacent whitespace</dd><dt class="odd_label">no</dt><dd class="odd_value">the element bearing this attribute is considered not to mark the end of any adjacent orthographic token irrespective of the presence of any adjacent whitespace</dd><dt class="odd_label">maybe</dt><dd class="odd_value">the encoding does not take any position on this issue.</dd></dl></td></tr><tr><td colspan="2"><p>In the following lines from the <q class="titlea">Dream of the Rood</q>, the words <span class="mentioned">lāðost</span> and <span class="mentioned">reord-berendum</span> each start on one line and continue onto the next.</p><div id="class-attr-breaking-egXML-il" class="pre egXML_valid"><span class="element">&lt;ab&gt;</span> ...eƿesa tome iu icƿæs ȝeƿorden ƿita heardoſt .<br/> leodum la<span class="element">&lt;lb <span class="attribute">break</span>="<span class="attributevalue">no</span>"/&gt;</span> ðost ærþan ichim lifes<br/> ƿeȝ rihtne ȝerymde reord be<span class="element">&lt;lb <span class="attribute">break</span>="<span class="attributevalue">no</span>"/&gt;</span><br/> rendum hƿæt me þaȝeƿeorðode ƿuldres ealdor ofer...<br/><span class="element">&lt;/ab&gt;</span></div></td></tr></table></td></tr></table></td></tr></table></div></div><footer class="guide-footer"><p><a href="index.html">The SOLEMNE Encoding Guidelines</a>, Version 0.6.0. Under the Creative Commons Attribution 4.0 licence.</p></footer></body></html>

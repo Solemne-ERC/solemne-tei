@@ -1,0 +1,79 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta charset="UTF-8"/><!--THIS FILE IS GENERATED FROM AN XML MASTER. DO NOT EDIT (7)--><title>TEI macro macro.specialPara ('special' paragraph content) </title><meta name="author" content="Gleb Schmidt, Friederike Voit and Sven Meeder"/><meta name="generator" content="Text Encoding Initiative Consortium XSLT stylesheets"/><meta name="DC.Title" content="TEI macro macro.specialPara ('special' paragraph content)"/><meta name="DC.Type" content="Text"/><meta name="DC.Format" content="text/html"/><link href="guide.css" rel="stylesheet" type="text/css"/><script type="text/javascript"><!--
+var displayXML=0;
+states=new Array()
+states[0]="element-a"
+states[1]="element-b"
+states[2]="element-c"
+states[3]="element-d"
+states[4]="element-e"
+states[5]="element-f"
+states[6]="element-g"
+states[7]="element-h"
+states[8]="element-i"
+states[9]="element-j"
+states[10]="element-k"
+states[11]="element-l"
+states[12]="element-m"
+states[13]="element-n"
+states[14]="element-o"
+states[15]="element-p"
+states[16]="element-q"
+states[17]="element-r"
+states[18]="element-s"
+states[19]="element-t"
+states[20]="element-u"
+states[21]="element-v"
+states[22]="element-w"
+states[23]="element-x"
+states[24]="element-y"
+states[25]="element-z"
+
+function startUp() {
+
+}
+
+function hideallExcept(elm) {
+for (var i = 0; i < states.length; i++) {
+ var layer;
+ if (layer = document.getElementById(states[i]) ) {
+  if (states[i] != elm) {
+    layer.style.display = "none";
+  }
+  else {
+   layer.style.display = "block";
+      }
+  }
+ }
+ var mod;
+ if ( mod = document.getElementById('byMod') ) {
+     mod.style.display = "none";
+ }
+}
+
+function showall() {
+ for (var i = 0; i < states.length; i++) {
+   var layer;
+   if (layer = document.getElementById(states[i]) ) {
+      layer.style.display = "block";
+      }
+  }
+}
+
+function showByMod() {
+  hideallExcept('');
+  var mod;
+  if (mod = document.getElementById('byMod') ) {
+     mod.style.display = "block";
+     }
+}
+
+        --></script></head><body id="TOP"><p class="guide-title"><a href="index.html">The SOLEMNE Encoding Guidelines</a>, <a href="specification.html">the specification</a></p><div class="main-content"><div><h3 class="oddSpec" id="macro.specialPara">macro.specialPara</h3><table class="wovenodd"><tr><td colspan="2"><span class="label">macro.specialPara</span> ('special' paragraph content) defines the content model of elements such as notes or list items, which either contain a series of component-level elements or else have the same structure as a paragraph, containing a series of phrase-level and inter-level elements. [1.3. The TEI Class System]</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Module</span></td><td class="wovenodd-col2">tei — The specification</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Used by</span></td><td class="wovenodd-col2"><div class="parent"><a class="link_odd_elementSpec" title="(acquisition) contains any descriptive or other information concerning the process by which a manuscript or manuscript part or other object entered the holding institution." href="ref-acquisition.html">acquisition</a> <a class="link_odd_elementSpec" title="(additions) contains a description of any significant additions found within a manuscript or other object, such as marginalia or other annotations." href="ref-additions.html">additions</a> <a class="link_odd_elementSpec" title="(change) documents a change or set of changes made during the production of a source document, or during the revision of an electronic file." href="ref-change.html">change</a> <a class="link_odd_elementSpec" title="(collation) contains a description of how the leaves, bifolia, or similar objects are physically arranged." href="ref-collation.html">collation</a> <a class="link_odd_elementSpec" title="(condition) contains a description of the physical condition of the manuscript or object." href="ref-condition.html">condition</a> <a class="link_odd_elementSpec" title="(note on decoration) contains a note describing either a decorative component of a manuscript or other object, or a fairly homogenous class of such components." href="ref-decoNote.html">decoNote</a> <a class="link_odd_elementSpec" title="(foliation) describes the numbering system or systems used to count the leaves or pages in a codex or similar object." href="ref-foliation.html">foliation</a> <a class="link_odd_elementSpec" title="(note on hand) describes a particular style or hand distinguished within a manuscript." href="ref-handNote.html">handNote</a> <a class="link_odd_elementSpec" title="(item) contains one component of a list." href="ref-item.html">item</a> <a class="link_odd_elementSpec" title="(layout) describes how text is laid out on the page or surface of the object, including information about any ruling, pricking, or other evidence of page-preparation techniques." href="ref-layout.html">layout</a> <a class="link_odd_elementSpec" title="contains information about a licence or other legal agreement applicable to the text." href="ref-licence.html">licence</a> <a class="link_odd_elementSpec" title="(note) contains a note or annotation." href="ref-note.html">note</a> <a class="link_odd_elementSpec" title="(occupation) contains an informal description of a person's trade, profession or occupation." href="ref-occupation.html">occupation</a> <a class="link_odd_elementSpec" title="(origin) contains any descriptive or other information concerning the origin of a manuscript, manuscript part, or other object." href="ref-origin.html">origin</a> <a class="link_odd_elementSpec" title="(provenance) contains any descriptive or other information concerning a single identifiable episode during the history of a manuscript, manuscript part, or other object after its creation but before its acquisition." href="ref-provenance.html">provenance</a> <a class="link_odd_elementSpec" title="(quoted) contains material which is distinguished from the surrounding text using quotation marks or a similar method, for any one of a variety of reasons including, but not limited to: direct speech or thought, technical terms or jargon, authorial distance, quotations from elsewhere, and passages that are mentioned but not used." href="ref-q.html">q</a> <a class="link_odd_elementSpec" title="(quotation) contains a phrase or passage attributed by the narrator or author to some agency external to the text." href="ref-quote.html">quote</a> <a class="link_odd_elementSpec" title="(source) describes the original source for the information contained with a manuscript or object description." href="ref-source.html">source</a> <a class="link_odd_elementSpec" title="contains an overview of the available information concerning some aspect of an item or object (for example, its intellectual content, history, layout, typography etc.) as a complement or alternative to the more detailed information carried by more specific elements." href="ref-summary.html">summary</a> <a class="link_odd_elementSpec" title="(support) contains a description of the materials etc. which make up the physical support for the written part of a manuscript or other object." href="ref-support.html">support</a> <a class="link_odd_elementSpec" title="(surrogates) contains information about any representations of the manuscript or other object being described which may exist in the holding institution or elsewhere." href="ref-surrogates.html">surrogates</a> <a class="link_odd_elementSpec" title="(text language) describes the languages and writing systems identified within the bibliographic work being described, rather than its description." href="ref-textLang.html">textLang</a></div></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Content model</span></td><td class="wovenodd-col2"><pre class="eg"><span class="element">&lt;content&gt;</span><br/> <span class="element">&lt;alternate <span class="attribute">minOccurs</span>="<span class="attributevalue">0</span>"<br/>  <span class="attribute">maxOccurs</span>="<span class="attributevalue">unbounded</span>"&gt;</span><br/>  <span class="element">&lt;textNode/&gt;</span><br/>  <span class="element">&lt;classRef <span class="attribute">key</span>="<a class="link_odd" href="ref-model.gLike.html">model.gLike</a>"/&gt;</span><br/>  <span class="element">&lt;classRef <span class="attribute">key</span>="<a class="link_odd" href="ref-model.phrase.html">model.phrase</a>"/&gt;</span><br/>  <span class="element">&lt;classRef <span class="attribute">key</span>="<a class="link_odd" href="ref-model.inter.html">model.inter</a>"/&gt;</span><br/>  <span class="element">&lt;classRef <span class="attribute">key</span>="<a class="link_odd" href="ref-model.divPart.html">model.divPart</a>"/&gt;</span><br/>  <span class="element">&lt;classRef <span class="attribute">key</span>="<a class="link_odd" href="ref-model.global.html">model.global</a>"/&gt;</span><br/> <span class="element">&lt;/alternate&gt;</span><br/><span class="element">&lt;/content&gt;</span></pre></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Declaration</span></td><td class="wovenodd-col2"><pre class="eg">
+macro.specialPara =
+   (
+      text
+    | <a class="link_odd" title="groups elements used to represent individual non-Unicode characters or glyphs." href="ref-model.gLike.html">model.gLike</a>
+    | <a class="link_odd" title="groups elements which can occur at the level of individual words or phrases." href="ref-model.phrase.html">model.phrase</a>
+    | <a class="link_odd" title="groups elements which can appear either within or between paragraph-like elements." href="ref-model.inter.html">model.inter</a>
+    | <a class="link_odd" title="groups paragraph-level elements appearing directly within divisions." href="ref-model.divPart.html">model.divPart</a>
+    | <a class="link_odd" title="groups elements which may appear at any point within a TEI text." href="ref-model.global.html">model.global</a>
+   )*</pre></td></tr></table></div></div><footer class="guide-footer"><p><a href="index.html">The SOLEMNE Encoding Guidelines</a>, Version 0.6.0. Under the Creative Commons Attribution 4.0 licence.</p></footer></body></html>
