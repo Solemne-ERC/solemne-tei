@@ -3,6 +3,34 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
+## 0.6.0 (2026-11-07)
+
+A text taken from another project names that project as its source, in its header.
+
+### What changes for existing files
+
+The project's files that passed 0.5.0 still pass: on the 411 coded files, as received and as corrected, the counts
+are 0.5.0's, rule by rule. Two new Schematron errors could fail another file: two sources in one `sourceDesc`
+(`text-source-one`), or a source without its name (`source-named`). A source with a link and no date retrieved is
+reported (`source-retrieved`, a warning).
+
+### The schema
+
+- **A text's source:** a `bibl` typed `source` in `sourceDesc`, after the edition's or the manuscript's
+  description, in the form a record's source has: the source's name in `title`, a link to the text there in `ref`,
+  the date it was taken in a `date` typed `retrieved`, the licence and the source's version where known, and a
+  credit in the source's own words in a `note`. At most one per file (`text-source-one`); every source, a record's
+  too, has its name (`source-named`); one with a link gives the date it was taken (`source-retrieved`).
+
+### The guide
+
+- **Part II, publication and source:** a text's source, with Abbo of Fleury's Canones (Patrologia Latina 139) as
+  Corpus Corporum gives them; a text edited on a website names the site both as its edition and as its source; what
+  the import reads, still to be settled with the application. Parts I and V point to it.
+- **Part II, other projects' ids:** how Corpus Corporum numbers a paragraph: in its own text, not the file's, which
+  may split its headings or number its divisions otherwise; a division inside another joined by a dot; page breaks
+  not counted. An example from Isaac of Langres's Canones (Patrologia Latina 124).
+
 ## 0.5.0 (2026-11-06)
 
 A note type for an edition's later collections, the later texts that took a passage over: `reception`.

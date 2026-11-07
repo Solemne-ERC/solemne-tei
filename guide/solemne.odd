@@ -11,7 +11,7 @@
         <author>Sven Meeder</author>
       </titleStmt>
       <editionStmt>
-        <edition n="0.5.0">Version 0.5.0</edition>
+        <edition n="0.6.0">Version 0.6.0</edition>
       </editionStmt>
       <publicationStmt>
         <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University</publisher>
@@ -65,8 +65,8 @@
         <docAuthor>Gleb Schmidt</docAuthor>
         <docAuthor>Friederike Voit</docAuthor>
         <docAuthor>Sven Meeder</docAuthor>
-        <docEdition>Version 0.5.0</docEdition>
-        <docDate when="2026-11-06">6 November 2026</docDate>
+        <docEdition>Version 0.6.0</docEdition>
+        <docDate when="2026-11-07">7 November 2026</docDate>
         <docImprint>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University, Nijmegen; funded by
           the European Research Council, grant 101087979. The guide is under the Creative Commons Attribution 4.0
           licence; the schema made from it, under the MIT licence.</docImprint>
@@ -99,7 +99,7 @@
           <row corresp="#tier-required">
             <cell>required</cell>
             <cell>
-              <gi>fileDesc</gi> <gi>publicationStmt</gi> <gi>sourceDesc</gi> <gi>TEI</gi> <gi>text</gi>
+              <gi>fileDesc</gi> <gi>publicationStmt</gi> <gi>TEI</gi> <gi>text</gi>
             </cell>
           </row>
           <row corresp="#tier-common">
@@ -183,6 +183,7 @@
           <!-- Each part's specifications, in the parts' order. -->
           <specGrpRef target="#header-title-specs"/>
           <specGrpRef target="#header-pointers-specs"/>
+          <specGrpRef target="#header-publication-specs"/>
           <specGrpRef target="#header-encoding-specs"/>
           <specGrpRef target="#header-external-ids-specs"/>
           <specGrpRef target="#text-divisions-specs"/>
@@ -476,6 +477,9 @@
           <bibl xml:id="source-COLL.400.ms-Mun-BSB-4592"><idno>COLL.400.ms-Mun-BSB-4592</idno>: <title>Collectio 400
               capitulorum</title>, transcribed by the project from Munich, Bayerische Staatsbibliothek, Clm
             4592.</bibl>
+          <bibl xml:id="source-COLL.AbboCan.ed-PL139"><idno>COLL.AbboCan.ed-PL139</idno>: <title>Abbo of Fleury,
+              Canones</title>, ed. <editor>Jacques-Paul Migne</editor>, Patrologia Latina, vol. 139 (Paris,
+            <date>1853</date>), cols. 473A–508A, in Corpus Corporum's text.</bibl>
           <bibl xml:id="source-COLL.Benedictus"><idno>COLL.Benedictus</idno>: <title>Collection of Benedictus
               Levita</title>, put together by the project from the edition of <editor>Georg Heinrich Pertz</editor>,
             MGH Leges 2.2 (Hannover, <date>1837</date>), pp. 17–158, and <editor>Gerhard Schmitz</editor>'s of Additio
@@ -486,6 +490,9 @@
           <bibl xml:id="source-COLL.DioHad"><idno>COLL.DioHad</idno>: <title>Collectio Dionysio-Hadriana</title>, ed.
             <editor>Johannes Wendelstinus Cochlaeus</editor>, <title>Canones apostolorum. Veterum conciliorum
               constitutiones. Decreta pontificum antiquiora</title> (Mainz, <date>1525</date>).</bibl>
+          <bibl xml:id="source-COLL.IsaacCan.ed-PL124"><idno>COLL.IsaacCan.ed-PL124</idno>: <title>Isaac of Langres,
+              Canones</title>, ed. <editor>Jacques-Paul Migne</editor>, Patrologia Latina, vol. 124 (Paris,
+            <date>1852</date>), cols. 1075C–1110C, in Corpus Corporum's text.</bibl>
           <bibl xml:id="source-COLL.Ans.ms-Par-BnF-15392"><idno>COLL.Ans.ms-Par-BnF-15392</idno>: <title>Collectio
               Anselmo dedicata</title> in Paris, Bibliothèque nationale de France, lat. 15392: the file's description
             of the manuscript.</bibl>

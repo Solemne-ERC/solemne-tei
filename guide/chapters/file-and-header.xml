@@ -638,6 +638,130 @@
         </bibl>
       </sourceDesc>
     </egXML>
+    <p>A file taken from another project's names that project as its source, in a <gi>bibl</gi> typed
+      <val>source</val> after the witness's description, which stays whole: the description says what the text is,
+      the source where and when this file took it, in the form a record's source has (<ptr
+        target="#records-sources"/>). Its name, in <gi>title</gi>, is required; then a link to the text there
+      (<gi>ref</gi>), the date it was taken (<gi>date</gi> typed <val>retrieved</val>, its day in <att>when</att>),
+      the licence it was taken under, where the source states one (<gi>licence</gi>, in <gi>availability</gi>), the
+      source's version or release, where it has one (<gi>edition</gi>), and a credit the source gives, in its own
+      words, in a <gi>note</gi>. The text's id there is on the text, in <att>sameAs</att> (<ptr
+        target="#header-external-ids"/>). A file has one source at most, and one made from an edition or a
+      manuscript by the project's encoders names none. All of it is <hi>full</hi>. Abbo of Fleury's Canones, Migne's
+      text taken from Corpus Corporum:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.AbboCan.ed-PL139">
+      <sourceDesc>
+        <biblStruct>
+          <analytic>
+            <author>Abbo Floriacensis; Robertus Francorum</author>
+            <title level="a">Canones</title>
+          </analytic>
+          <monogr>
+            <editor>
+              <persName>
+                <forename>Jacques-Paul</forename>
+                <surname>Migne</surname>
+              </persName>
+            </editor>
+            <title level="m">Patrologiae cursus completus. Series latina</title>
+            <imprint>
+              <publisher>J.-P. Migne</publisher>
+              <pubPlace>Paris</pubPlace>
+              <date>1853</date>
+            </imprint>
+            <biblScope unit="volume">139</biblScope>
+            <biblScope unit="column" from="473A" to="508A">473A–508A</biblScope>
+          </monogr>
+        </biblStruct>
+        <bibl type="source">
+          <title>Corpus Corporum</title>
+          <ref target="https://mlat.uzh.ch/browser/cps_2.AbFlHuF.Canone5">mlat.uzh.ch</ref>
+          <date type="retrieved" when="2026-11-06">6 November 2026</date>
+          <note>this file was encoded in TEI xml for the University of Zurich's Corpus Corporum project
+            (www.mlat.uzh.ch) by Ph. Roelli in 2019</note>
+        </bibl>
+      </sourceDesc>
+    </egXML>
+    <p>A text edited on a website, which is both its edition and its source, is named in both, for two things: the
+      <gi>biblStruct</gi> describes the edition, with the site's address in an <gi>idno</gi> typed <val>url</val>;
+      the source says when this file took it.</p>
+    <p>The import keeps the source as the text's provenance: the source's name, the link, the date retrieved, the
+      licence and the version, and the text's place there, from the link or from <att>sameAs</att>; the credit stays
+      with the source. A file without a source is given one at import, with the set it comes in. This reading is
+      for the application to confirm.</p>
+    <p>A file has one source, every source has a name, and a source with a link gives the date it was taken, since
+      the link may lead to a text that has changed since:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="text-source-one">
+      <sourceDesc>
+        <bibl>
+          <title>Canones exempli gratia</title>
+        </bibl>
+        <bibl type="source">
+          <title>Exemplum</title>
+          <date type="retrieved" when="2026-11-06">6 November 2026</date>
+        </bibl>
+        <bibl type="source"><!-- breaks the rule: a second source -->
+          <title>Alterum exemplum</title>
+          <date type="retrieved" when="2026-11-07">7 November 2026</date>
+        </bibl>
+      </sourceDesc>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-named">
+      <sourceDesc>
+        <bibl>
+          <title>Canones exempli gratia</title>
+        </bibl>
+        <bibl type="source"><!-- breaks the rule: no name -->
+          <ref target="https://example.org/canones">example.org</ref>
+          <date type="retrieved" when="2026-11-06">6 November 2026</date>
+        </bibl>
+      </sourceDesc>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="source-retrieved">
+      <sourceDesc>
+        <bibl>
+          <title>Canones exempli gratia</title>
+        </bibl>
+        <bibl type="source">
+          <title>Exemplum</title>
+          <ref target="https://example.org/canones">example.org</ref><!-- breaks the rule: no date retrieved -->
+        </bibl>
+      </sourceDesc>
+    </egXML>
+    <specGrp xml:id="header-publication-specs">
+      <!-- A text's source: one at most, in the sourceDesc beside the witness's description. Every source, a
+           record's too, has its name; one with a link gives the date it was taken. -->
+      <elementSpec ident="sourceDesc" module="header" mode="change" corresp="#tier-required">
+        <constraintSpec ident="text-source-one" scheme="schematron" corresp="#tier-full">
+          <desc>A text has one source at most.</desc>
+          <constraint>
+            <sch:rule context="tei:sourceDesc">
+              <sch:assert id="text-source-one" test="count(tei:bibl[@type = 'source']) le 1">A text has one source
+                at most: this sourceDesc holds <sch:value-of select="count(tei:bibl[@type = 'source'])"/> bibl typed
+                source.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="source-named" scheme="schematron" corresp="#tier-full">
+          <desc>A source has its name.</desc>
+          <constraint>
+            <sch:rule context="tei:bibl[@type = 'source']">
+              <sch:assert id="source-named" test="tei:title[normalize-space()]">A source (bibl typed source) has its
+                name in a title.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="source-retrieved" scheme="schematron" corresp="#tier-full">
+          <desc>A source with a link gives the date it was taken.</desc>
+          <constraint>
+            <sch:rule context="tei:bibl[@type = 'source'][tei:ref[@target]]">
+              <sch:assert id="source-retrieved" role="warning" test="tei:date[@type = 'retrieved'][@when]">A source
+                with a link gives the date it was taken: a date typed retrieved, with @when.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+      </elementSpec>
+    </specGrp>
   </div>
 
   <div xml:id="header-encoding">
@@ -817,6 +941,34 @@
           <prefixDef ident="corpuscorporum" matchPattern="(.+)" replacementPattern="https://mlat.uzh.ch/browser/$1"/>
         </listPrefixDef>
         <p sameAs="corpuscorporum:cps_2.AbsLun.Testam17:3;16">…</p>
+      </egXML>
+      <p>The positions are Corpus Corporum's, counted in its text as its site shows it, not in the file, whose
+        divisions and headings may differ. A division is numbered by its position among its sibling divisions, one
+        inside another adding its own after a dot (<code>2.1</code>); a paragraph by its position among its
+        division's children, the heading counted, a page break not. In Isaac of Langres's Canones, PL 124, Corpus
+        Corporum counts the preface as the first division, so that the first section is its second, and gives the
+        section's first chapter one heading where the file has three: the chapter's paragraph is
+        <code>2.1;2</code>.</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.IsaacCan.ed-PL124">
+        <listPrefixDef>
+          <prefixDef ident="corpuscorporum" matchPattern="(.+)" replacementPattern="https://mlat.uzh.ch/browser/$1"/>
+        </listPrefixDef>
+        <div type="preface">
+          <head type="rubric">ISAACI PRAEFATIO.</head>
+          <pb n="1075C"/>
+          <p sameAs="corpuscorporum:cps_2.IsaLin.Canone3:1;2">Cum opportunitas ecclesiastica exegerit …</p>
+        </div>
+        <div type="section" n="1">
+          <head type="number">TITULUS PRIMUS.</head>
+          <head type="rubric">DE POENITENTIBUS.</head>
+          <div type="chapter" n="1">
+            <head type="number">CAP. I.</head>
+            <head type="rubric">De poenitentibus non cogendis vinum bibere.</head>
+            <head type="inscription">Ex libro V Capitularis, cap. 54.</head>
+            <p sameAs="corpuscorporum:cps_2.IsaLin.Canone3:2.1;2"><pb n="1077C"/>Ut nullus presbyter, aut laicus
+              …</p>
+          </div>
+        </div>
       </egXML>
       <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="same-as-prefix-declared">
         <div type="chapter" n="1" sameAs="clavis:IS01.01">
