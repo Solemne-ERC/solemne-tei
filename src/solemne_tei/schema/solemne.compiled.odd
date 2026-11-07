@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.5.0 (SHA-256 0461143382e3f39e41e11f4e91a87954333e7b1b4f2b356e8960baae6ecd73d1) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.5.0 (SHA-256 312694cf36c2da2e2c5de0fb69899017fa1abbaf3ac0d621483a22cb8a16388c) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -995,6 +995,34 @@ the use of this software, even if advised of the possibility of such damage.
           <prefixDef ident="corpuscorporum" matchPattern="(.+)" replacementPattern="https://mlat.uzh.ch/browser/$1"/>
         </listPrefixDef>
         <p sameAs="corpuscorporum:cps_2.AbsLun.Testam17:3;16">…</p>
+      </egXML>
+      <p>The positions are Corpus Corporum's, counted in its text as its site shows it, not in the file, whose
+        divisions and headings may differ. A division is numbered by its position among its sibling divisions, one
+        inside another adding its own after a dot (<code>2.1</code>); a paragraph by its position among its
+        division's children, the heading counted, a page break not. In Isaac of Langres's Canones, PL 124, Corpus
+        Corporum counts the preface as the first division, so that the first section is its second, and gives the
+        section's first chapter one heading where the file has three: the chapter's paragraph is
+        <code>2.1;2</code>.</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.IsaacCan.ed-PL124">
+        <listPrefixDef>
+          <prefixDef ident="corpuscorporum" matchPattern="(.+)" replacementPattern="https://mlat.uzh.ch/browser/$1"/>
+        </listPrefixDef>
+        <div type="preface">
+          <head type="rubric">ISAACI PRAEFATIO.</head>
+          <pb n="1075C"/>
+          <p sameAs="corpuscorporum:cps_2.IsaLin.Canone3:1;2">Cum opportunitas ecclesiastica exegerit …</p>
+        </div>
+        <div type="section" n="1">
+          <head type="number">TITULUS PRIMUS.</head>
+          <head type="rubric">DE POENITENTIBUS.</head>
+          <div type="chapter" n="1">
+            <head type="number">CAP. I.</head>
+            <head type="rubric">De poenitentibus non cogendis vinum bibere.</head>
+            <head type="inscription">Ex libro V Capitularis, cap. 54.</head>
+            <p sameAs="corpuscorporum:cps_2.IsaLin.Canone3:2.1;2"><pb n="1077C"/>Ut nullus presbyter, aut laicus
+              …</p>
+          </div>
+        </div>
       </egXML>
       <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="same-as-prefix-declared">
         <div type="chapter" n="1" sameAs="clavis:IS01.01">
@@ -31271,6 +31299,9 @@ Feature Value</ref>
           <bibl xml:id="source-COLL.DioHad"><idno>COLL.DioHad</idno>: <title>Collectio Dionysio-Hadriana</title>, ed.
             <editor>Johannes Wendelstinus Cochlaeus</editor>, <title>Canones apostolorum. Veterum conciliorum
               constitutiones. Decreta pontificum antiquiora</title> (Mainz, <date>1525</date>).</bibl>
+          <bibl xml:id="source-COLL.IsaacCan.ed-PL124"><idno>COLL.IsaacCan.ed-PL124</idno>: <title>Isaac of Langres,
+              Canones</title>, ed. <editor>Jacques-Paul Migne</editor>, Patrologia Latina, vol. 124 (Paris,
+            <date>1852</date>), cols. 1075C–1110C, in Corpus Corporum's text.</bibl>
           <bibl xml:id="source-COLL.Ans.ms-Par-BnF-15392"><idno>COLL.Ans.ms-Par-BnF-15392</idno>: <title>Collectio
               Anselmo dedicata</title> in Paris, Bibliothèque nationale de France, lat. 15392: the file's description
             of the manuscript.</bibl>

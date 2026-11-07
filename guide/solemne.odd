@@ -490,6 +490,9 @@
           <bibl xml:id="source-COLL.DioHad"><idno>COLL.DioHad</idno>: <title>Collectio Dionysio-Hadriana</title>, ed.
             <editor>Johannes Wendelstinus Cochlaeus</editor>, <title>Canones apostolorum. Veterum conciliorum
               constitutiones. Decreta pontificum antiquiora</title> (Mainz, <date>1525</date>).</bibl>
+          <bibl xml:id="source-COLL.IsaacCan.ed-PL124"><idno>COLL.IsaacCan.ed-PL124</idno>: <title>Isaac of Langres,
+              Canones</title>, ed. <editor>Jacques-Paul Migne</editor>, Patrologia Latina, vol. 124 (Paris,
+            <date>1852</date>), cols. 1075C–1110C, in Corpus Corporum's text.</bibl>
           <bibl xml:id="source-COLL.Ans.ms-Par-BnF-15392"><idno>COLL.Ans.ms-Par-BnF-15392</idno>: <title>Collectio
               Anselmo dedicata</title> in Paris, Bibliothèque nationale de France, lat. 15392: the file's description
             of the manuscript.</bibl>

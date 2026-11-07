@@ -27,6 +27,9 @@ reported (`source-retrieved`, a warning).
 - **Part II, publication and source:** a text's source, with Abbo of Fleury's Canones (Patrologia Latina 139) as
   Corpus Corporum gives them; a text edited on a website names the site both as its edition and as its source; what
   the import reads, still to be settled with the application. Parts I and V point to it.
+- **Part II, other projects' ids:** how Corpus Corporum numbers a paragraph: in its own text, not the file's, which
+  may split its headings or number its divisions otherwise; a division inside another joined by a dot; page breaks
+  not counted. An example from Isaac of Langres's Canones (Patrologia Latina 124).
 
 ## 0.5.0 (2026-11-06)
 

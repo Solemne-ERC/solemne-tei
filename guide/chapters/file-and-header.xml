@@ -942,6 +942,34 @@
         </listPrefixDef>
         <p sameAs="corpuscorporum:cps_2.AbsLun.Testam17:3;16">…</p>
       </egXML>
+      <p>The positions are Corpus Corporum's, counted in its text as its site shows it, not in the file, whose
+        divisions and headings may differ. A division is numbered by its position among its sibling divisions, one
+        inside another adding its own after a dot (<code>2.1</code>); a paragraph by its position among its
+        division's children, the heading counted, a page break not. In Isaac of Langres's Canones, PL 124, Corpus
+        Corporum counts the preface as the first division, so that the first section is its second, and gives the
+        section's first chapter one heading where the file has three: the chapter's paragraph is
+        <code>2.1;2</code>.</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.IsaacCan.ed-PL124">
+        <listPrefixDef>
+          <prefixDef ident="corpuscorporum" matchPattern="(.+)" replacementPattern="https://mlat.uzh.ch/browser/$1"/>
+        </listPrefixDef>
+        <div type="preface">
+          <head type="rubric">ISAACI PRAEFATIO.</head>
+          <pb n="1075C"/>
+          <p sameAs="corpuscorporum:cps_2.IsaLin.Canone3:1;2">Cum opportunitas ecclesiastica exegerit …</p>
+        </div>
+        <div type="section" n="1">
+          <head type="number">TITULUS PRIMUS.</head>
+          <head type="rubric">DE POENITENTIBUS.</head>
+          <div type="chapter" n="1">
+            <head type="number">CAP. I.</head>
+            <head type="rubric">De poenitentibus non cogendis vinum bibere.</head>
+            <head type="inscription">Ex libro V Capitularis, cap. 54.</head>
+            <p sameAs="corpuscorporum:cps_2.IsaLin.Canone3:2.1;2"><pb n="1077C"/>Ut nullus presbyter, aut laicus
+              …</p>
+          </div>
+        </div>
+      </egXML>
       <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="same-as-prefix-declared">
         <div type="chapter" n="1" sameAs="clavis:IS01.01">
           <head type="number">I.</head>
