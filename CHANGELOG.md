@@ -3,7 +3,7 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
-## Unreleased
+## 0.6.0 (2026-11-07)
 
 A text taken from another project names that project as its source, in its header.
 
