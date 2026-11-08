@@ -3,15 +3,30 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
-## Unreleased
+## 0.8.0 (2026-11-08)
 
-- **Roman law's codes:** the coding rules say how a code of Roman law is made, the abbreviation its editions cite it
-  by and the year of its promulgation (`LR.CTh-0438`, `LR.CJ-0534`), and how a law is cited, by book, title and law
-  (`LR.CTh-0438_16.2.47`).
-- **A law's principium:** a preface, cited `pr1`, whose id line ("CTh.16.2.47pr.") is its number heading. A number
-  heading no longer asks for `@n` on a preface, a closer, subscriptions or a register, which are cited by their prefix
-  and position (`number-heading-n`). Part III shows a law of the Codex Theodosianus with its principium, and a law
-  with the Breviary's interpretatio, which is a unit.
+The first code of Roman law: how its code is made, and a law's principium with its id line.
+
+### What changes for existing files
+
+Nothing that passed 0.7.0 fails: one rule asks less. A preface, a closer, subscriptions or a register with a number
+heading and no `@n` now passes `number-heading-n`. On the project's files, the coded corpus as received and as
+corrected, the counts are 0.7.0's, rule by rule.
+
+### The schema
+
+- **`number-heading-n`** asks for `@n` only on the divisions cited by their number: a preface, a closer,
+  subscriptions and a register, cited by their prefix and position, keep a number heading without it, such as a
+  law's principium with its id line ("CTh.16.2.47pr.").
+
+### The guide
+
+- **Part II, the coding rules:** a code of Roman law is the abbreviation its editions cite it by and the year of its
+  promulgation (`LR.CTh-0438`, `LR.CJ-0534`); a law is cited by book, title and law (`LR.CTh-0438_16.2.47`). The
+  capitularies' and charters' title parts still come with their first files.
+- **Part III:** a law's principium is its preface, cited `pr1`, its id line its number heading; the Breviary's
+  interpretatio is a unit after its law's text. Two examples from the Codex Theodosianus, in The Latin Library's
+  text.
 
 ## 0.7.0 (2026-11-08)
 
