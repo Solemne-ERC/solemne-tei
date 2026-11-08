@@ -3,6 +3,31 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
+## 0.7.0 (2026-11-08)
+
+A pointer may name a file of any category: Roman law, capitularies and charters too.
+
+### What changes for existing files
+
+Nothing that passed 0.6.0 fails: the pattern only widens. On the project's files, the coded corpus as received and as
+corrected, the counts are 0.6.0's, rule by rule. A note whose words hold a code with one of the new prefixes is now
+reported (`source-note-codes`, a warning); no file of the project has one.
+
+### The schema
+
+- **Pointers to every category:** a source pointer takes the prefixes `LR`, `CPT` and `CHA` beside the others, so
+  that a quotation or a note may point to a Roman law text, a capitulary or a charter (`LR.CTh-0438_16.2.47`), as
+  the category list already allowed their files' codes. The warning on codes left in a note's words takes them too.
+  `W`, which no category makes, stays as before.
+- **`code_prefix()`** in `solemne_tei.codes`: the prefix a category's code takes, which the tests hold the patterns
+  to.
+
+### The guide
+
+- **Part IV, sources and the pointers' forms:** a code of any category may be pointed to, its prefix as the coding
+  rules make it; a file of unknown category is reached under one of the categories' prefixes. An example, made up,
+  of a note pointing to a law of the Codex Theodosianus.
+
 ## 0.6.0 (2026-11-07)
 
 A text taken from another project names that project as its source, in its header.

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: MIT -->
-<!-- Generated from solemne.odd 0.6.0 (SHA-256 b6d9db38cca0735e5e1630ac54dc4d85c03ab5ee0c1fc59e2816b329045b1c0b) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.7.0 (SHA-256 a0b8a44c7a77f25a919c9a657da0c11c01d315f9e19f76e81fabd63e3d5a22c8) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -269,7 +269,7 @@ the use of this software, even if advised of the possibility of such damage.
       <rule context="tei:note[@type = ('source', 'reception')]">
          <report id="source-note-codes"
                  role="warning"
-                 test="some $w in tokenize(normalize-space(.),                 '[\s;,]+') satisfies matches($w,                 '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*[\-_.][0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A <value-of select="@type"/> note's words hold a code (<value-of select="normalize-space(.)"/>): it belongs in @source.</report>
+                 test="some $w in tokenize(normalize-space(.),                 '[\s;,]+') satisfies matches($w,                 '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*[\-_.][0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|LR|CPT|CHA|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A <value-of select="@type"/> note's words hold a code (<value-of select="normalize-space(.)"/>): it belongs in @source.</report>
       </rule>
    </pattern>
    <pattern id="schematron-constraint-title-level-33">

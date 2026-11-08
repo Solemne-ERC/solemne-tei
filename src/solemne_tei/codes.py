@@ -10,6 +10,12 @@ from importlib import resources
 CATEGORIES = ("SYSCOLL", "CHRCOLL", "C", "D", "P", "H", "EX", "EP", "LR", "CPT", "CHA", "UNK")
 
 
+def code_prefix(category: str) -> str:
+    """The prefix a code of this category begins with: COLL for both kinds of collection, the category itself for the
+    others. A code of category UNK may take any prefix."""
+    return "COLL" if category in ("SYSCOLL", "CHRCOLL") else category
+
+
 @dataclass(frozen=True)
 class Book:
     """A book of the Bible: its code in source pointers (`MAT_18_19`), its Vulgate name, and its testament (`ot`,
