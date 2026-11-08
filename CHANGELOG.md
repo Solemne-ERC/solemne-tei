@@ -3,17 +3,29 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
-## Unreleased
+## 0.8.1 (2026-11-08)
+
+The RelaxNG readable in a browser, and the build's downloads tried again.
+
+### What changes for existing files
+
+Nothing: the grammar and the Schematron rules are 0.8.0's, so every file passes or fails as it did. Only the
+RelaxNG's documentation changes, and it keeps its words. The guide is 0.8.0's but for its version.
+
+### The schema
+
+- **The RelaxNG readable in a browser:** opened from the pages, `solemne.rng` showed as running text with its tags
+  hidden. TEI's stylesheets write XHTML's `code` and `a` into the attributes' documentation, and a browser shows a
+  file holding XHTML as a web page. The build now writes them as plain text (`@unit` for `<code>@unit</code>`), so
+  a browser shows the XML. Editors that format the documentation in their tooltips lose the monospace and four
+  links. The schemas of earlier versions on the pages stay as they were published.
+
+### The package
 
 - **Downloads tried again:** the build fetches TEI's sources, the Bodleian's schema, SchXslt and the guide's font
   once and keeps them; a download that times out, loses its connection or meets a server's error is now tried up to
   four times, 10, 20 and 40 seconds apart, since GitHub's release downloads fail now and then. A missing file (404)
-  isn't tried again. Nothing changes in the schema or the guide.
-- **The RelaxNG readable in a browser:** opened from the pages, `solemne.rng` showed as running text with its tags
-  hidden. TEI's stylesheets write XHTML's `code` and `a` into the attributes' documentation, and a browser shows a
-  file holding XHTML as a web page. The build now writes them as plain text (`@unit` for `<code>@unit</code>`), so
-  a browser shows the XML. The documentation keeps its words and the grammar is the same: nothing changes for
-  existing files.
+  isn't tried again.
 
 ## 0.8.0 (2026-11-08)
 

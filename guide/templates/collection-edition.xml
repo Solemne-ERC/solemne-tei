@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.8.0/solemne.rng" type="application/xml"
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.8.1/solemne.rng" type="application/xml"
   schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.8.0/solemne.sch" type="application/xml"
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.8.1/solemne.sch" type="application/xml"
   schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <!-- A collection from an edition: the Collectio Dacheriana, from the project's file COLL.Dach, the beginning of the
   register of its first book and of the book itself; what is left out is marked by gaps. -->
