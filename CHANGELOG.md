@@ -9,6 +9,11 @@ Each release says what changed, and whether files that passed may now fail.
   once and keeps them; a download that times out, loses its connection or meets a server's error is now tried up to
   four times, 10, 20 and 40 seconds apart, since GitHub's release downloads fail now and then. A missing file (404)
   isn't tried again. Nothing changes in the schema or the guide.
+- **The RelaxNG readable in a browser:** opened from the pages, `solemne.rng` showed as running text with its tags
+  hidden. TEI's stylesheets write XHTML's `code` and `a` into the attributes' documentation, and a browser shows a
+  file holding XHTML as a web page. The build now writes them as plain text (`@unit` for `<code>@unit</code>`), so
+  a browser shows the XML. The documentation keeps its words and the grammar is the same: nothing changes for
+  existing files.
 
 ## 0.8.0 (2026-11-08)
 

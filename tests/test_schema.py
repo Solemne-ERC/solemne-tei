@@ -16,12 +16,14 @@ from lxml import etree
 import solemne_tei
 from solemne_tei.build import (
     ODD_PATH,
+    XHTML,
     BuildError,
     Source,
     check_odd,
     embedded_schematron,
     expand,
     fetch,
+    plain_documentation,
     stamped,
 )
 from solemne_tei.codes import CATEGORIES, code_prefix
@@ -29,6 +31,7 @@ from solemne_tei.schema_files import (
     COMPILED_ODD,
     GENERATED,
     ODD,
+    RELAXNG,
     SCHEMA_DIR,
     closed_lists,
     closed_lists_of,
@@ -87,6 +90,39 @@ def test_the_closed_lists_are_those_of_the_compiled_odd() -> None:
     assert lists == closed_lists_of(SCHEMA_DIR / COMPILED_ODD)
     assert lists["div"]["type"] == sorted(lists["div"]["type"])
     assert {"section", "chapter", "unit"} <= set(lists["div"]["type"])
+
+
+def test_the_relaxng_holds_no_xhtml() -> None:
+    """A browser shows an XML file holding XHTML as an unstyled web page, its tags hidden."""
+    assert XHTML not in (SCHEMA_DIR / RELAXNG).read_text("utf-8")
+
+
+DOCUMENTATION = 'xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"'
+
+
+def test_plain_documentation_keeps_the_words_and_the_rest_of_the_text() -> None:
+    text = "\n".join(
+        [
+            '<?xml version="1.0" encoding="UTF-8"?>',
+            '<grammar xmlns="http://relaxng.org/ns/structure/1.0"',
+            '         ns="http://www.tei-c.org/ns/1.0">',
+            f'  <a:documentation {DOCUMENTATION}>the <code xmlns="{XHTML}"',
+            '      xmlns:rng="http://relaxng.org/ns/structure/1.0">@unit</code> attribute, by'
+            f' <a xmlns="{XHTML}" href="https://example.org/">BCP 47</a>.</a:documentation>',
+            "  <start><empty/></start>",
+            "</grammar>",
+        ]
+    )
+    plain = plain_documentation(text).splitlines()
+    original = text.splitlines()
+    assert plain[3] == f"  <a:documentation {DOCUMENTATION}>the @unit attribute, by BCP 47.</a:documentation>"
+    assert plain[:3] + plain[4:] == original[:3] + original[5:]
+
+
+def test_plain_documentation_stops_on_xhtml_that_isn_t_only_text() -> None:
+    text = f'<a:documentation {DOCUMENTATION}><code xmlns="{XHTML}"><b>x</b></code></a:documentation>'
+    with pytest.raises(BuildError, match="isn't only text"):
+        plain_documentation(text)
 
 
 def test_stamp_follows_the_xml_declaration(tmp_path: Path) -> None:

@@ -6,10 +6,10 @@ manuscript descriptions with its licence, and SchXslt2 at pinned versions, check
 expands our ODD, `guide/solemne.odd` with its parts in `guide/chapters/` included by XInclude, and checks the expanded
 ODD against TEI's schema for ODD files, its RelaxNG and the Schematron rules embedded in it, as Oxygen does; it stops if
 the ODD isn't valid, naming each error's part and line. Then, with SaxonC-HE: compiles our ODD with TEI's `odd2odd`,
-writes the RelaxNG with `odd2relax`, extracts the Schematron with `extract-isosch`, and compiles it to XSLT with
-SchXslt2. It keeps the expanded and the compiled ODD, and writes the closed lists as `closed-lists.json`. Each generated
-file names the ODD it came from by its version and the expanded ODD's SHA-256, and carries the notices of the material
-it contains.
+writes the RelaxNG with `odd2relax`, its documentation in plain text, extracts the Schematron with `extract-isosch`,
+and compiles it to XSLT with SchXslt2. It keeps the expanded and the compiled ODD, and writes the closed lists as
+`closed-lists.json`. Each generated file names the ODD it came from by its version and the expanded ODD's SHA-256, and
+carries the notices of the material it contains.
 
 The build runs in a clone of the repository: it reads `guide/` and writes into the package's `schema/`.
 """
@@ -21,6 +21,7 @@ import dataclasses
 import hashlib
 import http.client
 import json
+import re
 import shutil
 import tempfile
 import textwrap
@@ -65,6 +66,9 @@ SPDX_BODLEIAN = "<!-- SPDX-License-Identifier: BSD-2-Clause -->"
 SPDX_BODLEIAN_XSLT = "<!-- SPDX-License-Identifier: BSD-2-Clause AND MIT -->"
 SCH = "http://purl.oclc.org/dsdl/schematron"
 XML_BASE = "{http://www.w3.org/XML/1998/namespace}base"
+XHTML = "http://www.w3.org/1999/xhtml"
+# An XHTML element holding only text, as TEI's `odd2relax` writes `code` and `a` into the documentation.
+XHTML_TEXT_ELEMENT = re.compile(rf'<(\w+) xmlns="{re.escape(XHTML)}"[^>]*>([^<]*)</\1>')
 
 
 @dataclass(frozen=True)
@@ -463,6 +467,16 @@ def _without_paths(text: str, work: Path, p5subset: Path) -> str:
     return text
 
 
+def plain_documentation(text: str) -> str:
+    """The RelaxNG with each XHTML element of its documentation (`code`, `a`) replaced by its text. A browser shows an
+    XML file holding XHTML as an unstyled web page, its tags hidden; without XHTML it shows the XML. The rest of the
+    text stays as it is. Stops the build if XHTML that isn't only text is left."""
+    text = XHTML_TEXT_ELEMENT.sub(r"\2", text)
+    if XHTML in text:
+        raise BuildError(f"the RelaxNG's documentation holds XHTML that isn't only text, in the namespace {XHTML}")
+    return text
+
+
 def closed_lists_json(compiled_odd: Path, version: str, odd_sha256: str) -> str:
     """`closed-lists.json`: the compiled ODD's closed lists, with the licence and the stamp as keys of their own."""
     payload = {
@@ -557,7 +571,7 @@ def build(
     compile_odd(saxon, tools, work / ODD, compiled)
 
     logger.info("Writing the RelaxNG, the Schematron and its XSLT, and the closed lists")
-    outputs = {RELAXNG: saxon.run(odds / "odd2relax.xsl", compiled, **common)}
+    outputs = {RELAXNG: plain_documentation(saxon.run(odds / "odd2relax.xsl", compiled, **common))}
     outputs[SCHEMATRON] = saxon.run(odds / "extract-isosch.xsl", compiled, **common)
     (work / SCHEMATRON).write_text(outputs[SCHEMATRON], "utf-8")
     outputs[SCHEMATRON_XSLT] = saxon.run(tools.transpiler, work / SCHEMATRON)

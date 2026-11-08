@@ -92,8 +92,9 @@ It first expands the ODD, its parts included, and checks it against TEI's schema
 Schematron rules embedded in it, as Oxygen does; it stops with the problems listed, each at its part's file and line,
 if the ODD isn't valid. Then it writes the RelaxNG (`solemne.rng`), the Schematron (`solemne.sch`), the Schematron
 compiled to XSLT (`solemne-schematron.xsl`), the expanded ODD (`solemne.expanded.odd`), the compiled ODD
-(`solemne.compiled.odd`) and its closed lists (`closed-lists.json`) into `src/solemne_tei/schema/`. Each names the
-version and the SHA-256 of the expanded ODD it came from; a test fails when the ODD or a part has changed since. The version is the ODD's `editionStmt/edition/@n`, kept equal to the package's. Running the build
+(`solemne.compiled.odd`) and its closed lists (`closed-lists.json`) into `src/solemne_tei/schema/`. The RelaxNG's
+documentation is plain text, without the XHTML TEI's stylesheets put in it, so that a browser shows the file as XML
+rather than as a web page. Each file names the version and the SHA-256 of the expanded ODD it came from; a test fails when the ODD or a part has changed since. The version is the ODD's `editionStmt/edition/@n`, kept equal to the package's. Running the build
 again on the same ODD writes nothing, and says so.
 
 The first run fetches what the build needs into `build/tei/` (ignored by git), at pinned versions checked by their
