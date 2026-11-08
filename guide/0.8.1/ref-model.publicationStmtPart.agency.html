@@ -1,0 +1,70 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta charset="UTF-8"/><!--THIS FILE IS GENERATED FROM AN XML MASTER. DO NOT EDIT (7)--><title>TEI class model.publicationStmtPart.agency </title><meta name="author" content="Gleb Schmidt, Friederike Voit and Sven Meeder"/><meta name="generator" content="Text Encoding Initiative Consortium XSLT stylesheets"/><meta name="DC.Title" content="TEI class model.publicationStmtPart.agency"/><meta name="DC.Type" content="Text"/><meta name="DC.Format" content="text/html"/><link href="guide.css" rel="stylesheet" type="text/css"/><script type="text/javascript"><!--
+var displayXML=0;
+states=new Array()
+states[0]="element-a"
+states[1]="element-b"
+states[2]="element-c"
+states[3]="element-d"
+states[4]="element-e"
+states[5]="element-f"
+states[6]="element-g"
+states[7]="element-h"
+states[8]="element-i"
+states[9]="element-j"
+states[10]="element-k"
+states[11]="element-l"
+states[12]="element-m"
+states[13]="element-n"
+states[14]="element-o"
+states[15]="element-p"
+states[16]="element-q"
+states[17]="element-r"
+states[18]="element-s"
+states[19]="element-t"
+states[20]="element-u"
+states[21]="element-v"
+states[22]="element-w"
+states[23]="element-x"
+states[24]="element-y"
+states[25]="element-z"
+
+function startUp() {
+
+}
+
+function hideallExcept(elm) {
+for (var i = 0; i < states.length; i++) {
+ var layer;
+ if (layer = document.getElementById(states[i]) ) {
+  if (states[i] != elm) {
+    layer.style.display = "none";
+  }
+  else {
+   layer.style.display = "block";
+      }
+  }
+ }
+ var mod;
+ if ( mod = document.getElementById('byMod') ) {
+     mod.style.display = "none";
+ }
+}
+
+function showall() {
+ for (var i = 0; i < states.length; i++) {
+   var layer;
+   if (layer = document.getElementById(states[i]) ) {
+      layer.style.display = "block";
+      }
+  }
+}
+
+function showByMod() {
+  hideallExcept('');
+  var mod;
+  if (mod = document.getElementById('byMod') ) {
+     mod.style.display = "block";
+     }
+}
+
+        --></script></head><body id="TOP"><p class="guide-title"><a href="index.html">The SOLEMNE Encoding Guidelines</a>, <a href="specification.html">the specification</a></p><div class="main-content"><div><h3 class="oddSpec" id="model.publicationStmtPart.agency">model.publicationStmtPart.agency</h3><table class="wovenodd"><tr><td colspan="2" class="wovenodd-col2"><span class="label">model.publicationStmtPart.agency</span> groups the child elements of a <a class="gi" title="(publication statement) groups information concerning the publication or distribution of an electronic or other text." href="ref-publicationStmt.html">publicationStmt</a> element of the TEI header that indicate an authorising agent. [2.2.4. Publication, Distribution, Licensing, etc.]</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Module</span></td><td class="wovenodd-col2">tei — The specification</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Used by</span></td><td class="wovenodd-col2"><div class="parent"><a class="link_odd_elementSpec" title="(publication statement) groups information concerning the publication or distribution of an electronic or other text." href="ref-publicationStmt.html">publicationStmt</a></div></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Members</span></td><td class="wovenodd-col2"><span class="showmembers1"><a class="link_odd_elementSpec" title="(release authority) supplies the name of a person or other agency responsible for making a work available, other than a publisher or distributor." href="ref-authority.html">authority</a> <a class="link_odd_elementSpec" title="(distributor) supplies the name of a person or other agency responsible for the distribution of a text." href="ref-distributor.html">distributor</a> <a class="link_odd_elementSpec" title="(publisher) provides the name of the organization responsible for the publication or distribution of a bibliographic item." href="ref-publisher.html">publisher</a></span></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Note</span></td><td class="wovenodd-col2"><!-- --><p>The ‘agency’ child elements, while not required, are required if one of the ‘detail’ child elements is to be used. It is not valid to have a ‘detail’ child element without a preceding ‘agency’ child element.</p><p>See also <a class="link_odd" title="groups the agency-specific child elements of the &lt;publicationStmt&gt; element of the TEI header." href="ref-model.publicationStmtPart.detail.html">model.publicationStmtPart.detail</a>.</p></td></tr></table></div></div><footer class="guide-footer"><p><a href="index.html">The SOLEMNE Encoding Guidelines</a>, Version 0.8.1. Under the Creative Commons Attribution 4.0 licence.</p></footer></body></html>

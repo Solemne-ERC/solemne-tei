@@ -1,0 +1,70 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta charset="UTF-8"/><!--THIS FILE IS GENERATED FROM AN XML MASTER. DO NOT EDIT (7)--><title>TEI class att.segLike </title><meta name="author" content="Gleb Schmidt, Friederike Voit and Sven Meeder"/><meta name="generator" content="Text Encoding Initiative Consortium XSLT stylesheets"/><meta name="DC.Title" content="TEI class att.segLike"/><meta name="DC.Type" content="Text"/><meta name="DC.Format" content="text/html"/><link href="guide.css" rel="stylesheet" type="text/css"/><script type="text/javascript"><!--
+var displayXML=0;
+states=new Array()
+states[0]="element-a"
+states[1]="element-b"
+states[2]="element-c"
+states[3]="element-d"
+states[4]="element-e"
+states[5]="element-f"
+states[6]="element-g"
+states[7]="element-h"
+states[8]="element-i"
+states[9]="element-j"
+states[10]="element-k"
+states[11]="element-l"
+states[12]="element-m"
+states[13]="element-n"
+states[14]="element-o"
+states[15]="element-p"
+states[16]="element-q"
+states[17]="element-r"
+states[18]="element-s"
+states[19]="element-t"
+states[20]="element-u"
+states[21]="element-v"
+states[22]="element-w"
+states[23]="element-x"
+states[24]="element-y"
+states[25]="element-z"
+
+function startUp() {
+
+}
+
+function hideallExcept(elm) {
+for (var i = 0; i < states.length; i++) {
+ var layer;
+ if (layer = document.getElementById(states[i]) ) {
+  if (states[i] != elm) {
+    layer.style.display = "none";
+  }
+  else {
+   layer.style.display = "block";
+      }
+  }
+ }
+ var mod;
+ if ( mod = document.getElementById('byMod') ) {
+     mod.style.display = "none";
+ }
+}
+
+function showall() {
+ for (var i = 0; i < states.length; i++) {
+   var layer;
+   if (layer = document.getElementById(states[i]) ) {
+      layer.style.display = "block";
+      }
+  }
+}
+
+function showByMod() {
+  hideallExcept('');
+  var mod;
+  if (mod = document.getElementById('byMod') ) {
+     mod.style.display = "block";
+     }
+}
+
+        --></script></head><body id="TOP"><p class="guide-title"><a href="index.html">The SOLEMNE Encoding Guidelines</a>, <a href="specification.html">the specification</a></p><div class="main-content"><div><h3 class="oddSpec" id="att.segLike">att.segLike</h3><table class="wovenodd"><tr><td colspan="2" class="wovenodd-col2"><span class="label">att.segLike</span> provides attributes for elements used for arbitrary segmentation. [17.3. Blocks, Segments, and Anchors 18.1. Linguistic Segment Categories]</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Module</span></td><td class="wovenodd-col2">tei — The specification</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Members</span></td><td class="wovenodd-col2"><span class="showmembers1"><a class="link_odd_elementSpec" title="(arbitrary segment) represents any segmentation of text below the ‘chunk’ level." href="ref-seg.html">seg</a></span></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Attributes</span></td><td class="wovenodd-col2"><ul class="attList"><?DEBUG calling showAttClasses 06 ?><li class="classSpecItem"><a class="link_odd" title="provides attributes that are used to align XML elements or attributes with the appropriate Data Categories (DCs) defined by an external taxonomy, in this way establishing the identity of information containers and values, and providing means of interpreting them." href="ref-att.datcat.html">att.datcat</a><ul class="classSpecAttDefs"><li><span class="attribute">@datcat</span></li><li><span class="attribute">@valueDatcat</span></li><li><span class="attribute">@targetDatcat</span></li></ul></li><li class="classSpecItem"><a class="link_odd" title="provides attributes for representing fragmentation of a structural element, typically as a consequence of some overlapping hierarchy." href="ref-att.fragmentable.html">att.fragmentable</a><ul class="classSpecAttDefs"><li><span class="attribute">@part</span></li></ul></li></ul><table class="attList"><tr><td class="odd_label">function</td><td class="odd_value">(function) characterizes the function of the segment.<table class="attDef"><tr><td class="odd_label"><span class="label" xml:lang="en">Status</span> </td><td class="odd_value"><span xml:lang="en">Optional</span></td></tr><tr><td class="odd_label"><span xml:lang="en" class="label">Datatype</span> </td><td class="odd_value"><a class="link_element" href="ref-teidata.enumerated.html">teidata.enumerated</a></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Note</span></td><td class="wovenodd-col2"><!-- --><p>Attribute values will often vary depending on the type of element to which they are attached. For example, a <span class="gi">&lt;cl&gt;</span>, may take values such as coordinate, subject, adverbial etc. For a <span class="gi">&lt;phr&gt;</span>, such values as subject, predicate etc. may be more appropriate. Such constraints will typically be implemented by a project-defined customization.</p></td></tr></table></td></tr></table></td></tr></table></div></div><footer class="guide-footer"><p><a href="index.html">The SOLEMNE Encoding Guidelines</a>, Version 0.8.1. Under the Creative Commons Attribution 4.0 licence.</p></footer></body></html>
