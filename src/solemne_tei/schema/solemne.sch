@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: MIT -->
-<!-- Generated from solemne.odd 0.7.0 (SHA-256 a0b8a44c7a77f25a919c9a657da0c11c01d315f9e19f76e81fabd63e3d5a22c8) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.7.0 (SHA-256 27c19e7edf51f5964946ea1f760a3c19d3b6f9455118be5f77206d9a209279f0) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -510,7 +510,7 @@ the use of this software, even if advised of the possibility of such damage.
       </rule>
    </pattern>
    <pattern id="schematron-constraint-number-heading-n-72">
-      <rule context="tei:div[tei:head[@type = 'number']]">
+      <rule context="tei:div[tei:head[@type = 'number']][not(@type = ('preface', 'closer', 'subscriptions',               'register'))]">
          <assert id="number-heading-n" test="@n">A division with a number heading (<value-of select="normalize-space(tei:head[@type = 'number'][1])"/>) has @n.</assert>
       </rule>
    </pattern>

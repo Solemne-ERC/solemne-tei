@@ -3,6 +3,16 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
+## Unreleased
+
+- **Roman law's codes:** the coding rules say how a code of Roman law is made, the abbreviation its editions cite it
+  by and the year of its promulgation (`LR.CTh-0438`, `LR.CJ-0534`), and how a law is cited, by book, title and law
+  (`LR.CTh-0438_16.2.47`).
+- **A law's principium:** a preface, cited `pr1`, whose id line ("CTh.16.2.47pr.") is its number heading. A number
+  heading no longer asks for `@n` on a preface, a closer, subscriptions or a register, which are cited by their prefix
+  and position (`number-heading-n`). Part III shows a law of the Codex Theodosianus with its principium, and a law
+  with the Breviary's interpretatio, which is a unit.
+
 ## 0.7.0 (2026-11-08)
 
 A pointer may name a file of any category: Roman law, capitularies and charters too.

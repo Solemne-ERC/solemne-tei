@@ -154,10 +154,14 @@
             <item>the title: for a council, three capitals for its place (<code>C.MAI</code> for Mainz); for a
               decretal, three for its pope (<code>D.LEO</code>), with <code>Ps</code> before a forged decretal's
               pope (<code>D.PsCAL</code>); for a collection or a penitential, its name or an abbreviation of it
-              (<code>COLL.Dach</code>, <code>COLL.400</code>, <code>P.HAL</code>); <code>UNK</code> where the title
+              (<code>COLL.Dach</code>, <code>COLL.400</code>, <code>P.HAL</code>); for a code of Roman law, the
+              abbreviation its editions cite it by (<code>LR.CTh</code> for the Codex Theodosianus, <code>LR.CJ</code>
+              for Justinian's Codex, <code>LR.Inst</code>, <code>LR.Dig</code>); <code>UNK</code> where the title
               isn't known;</item>
-            <item>the date, where wanted: four digits, the year (<code>C.MAI-0813</code>); the latest possible year,
-              where the date is a range; <code>9999</code> where the date isn't known (<code>EP.LupEuf-9999</code>);</item>
+            <item>the date, where wanted: four digits, the year (<code>C.MAI-0813</code>), and for a code of Roman law
+              the year of its promulgation (<code>LR.CTh-0438</code>, <code>LR.CJ-0534</code>); the latest possible
+              year, where the date is a range; <code>9999</code> where the date isn't known
+              (<code>EP.LupEuf-9999</code>);</item>
             <item>a further identifier, where needed: a decretal's number in Jaffé's register, in Kaltenbrunner's
               numbering (<code>D.LEO-0447-414</code>); a version, <code>-v</code> and a name
               (<code>C.NIC-0325-vDIO1</code>, Nicaea in the first Dionysiana; <code>D.LEO-0446-410-v1</code>).</item>
@@ -173,9 +177,10 @@
         <att>xml:id</att>: ASCII letters and digits joined by dots and hyphens, without spaces, accents or
         parentheses, so a former shelfmark has no place in it. An underscore stands only in a pointer, before a
         citation (<ptr target="#marked-pointers"/>).</p>
-      <p>No file of the corpus has the categories <code>LR</code>, <code>CPT</code> or <code>CHA</code> yet. Their
-        codes follow the general rule, with their own prefixes; how their title parts are made, the guide will say
-        with the first files.</p>
+      <p>A law of a Roman code is cited by its book, title and law, as the editions cite it: "CTh 16.2.47" is
+        <code>LR.CTh-0438_16.2.47</code>, its divisions numbered so (<ptr target="#text-prefaces-and-closers"/>). No
+        file of the corpus has the categories <code>CPT</code> or <code>CHA</code> yet. Their codes follow the general
+        rule, with their own prefixes; how their title parts are made, the guide will say with the first files.</p>
       <p>The Schematron checks the form: the prefix and its dot; the title part, whose subparts, the date among them,
         are joined by hyphens; and any source part after a dot, which begins with a letter. A code with an
         underscore fails, and so does a date joined by a dot (<code>P.SAM.0700</code> for
