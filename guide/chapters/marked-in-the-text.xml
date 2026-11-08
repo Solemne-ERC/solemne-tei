@@ -248,8 +248,8 @@
     <p>A quotation's <att>source</att>, and a source or reception note's, hold one pointer or more, separated by
       spaces, each in one of these forms:</p>
     <list>
-      <item>a document's code (<ptr target="#codes-and-ids"/>), alone (<code>C.NIC-0325</code>) or with a citation
-        after an underscore, the canon or chapter of that document (<code>C.NIC-0325_3</code>,
+      <item>a document's code (<ptr target="#codes-and-ids"/>), of any category, alone (<code>C.NIC-0325</code>) or
+        with a citation after an underscore, the canon or chapter of that document (<code>C.NIC-0325_3</code>,
         <code>D.LEO-0447-414_11</code>, <code>COLL.Dach.ms-Brn-Burg-425_2.49</code>); an underscore stands only
         there;</item>
       <item>a Bible reference: a book's code, the chapter, and the verse, each range with a hyphen
@@ -264,6 +264,16 @@
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.Dach">
       <p>… uenia peccatorum fideliter præsumatur ab illo, qui <quote source="cf_EZE_18_23">non uult mortem peccatoris,
           sed ut conuertatur</quote> a perditione poenitendo, et saluatus miseratione Domini uiuat. …</p>
+    </egXML>
+    <p>A code's prefix is its category's, as the coding rules make it (<ptr target="#header-codes"/>):
+      <code>COLL</code> for both kinds of collection, the category itself for the others, <code>LR</code>,
+      <code>CPT</code> and <code>CHA</code> among them. A file of unknown category, whose code may take any prefix,
+      is reached by a pointer only under one of these. The pattern also takes <code>W</code>, which no category makes:
+      it is kept, and no file uses it yet. A text that takes over a law of the Codex Theodosianus points to it by the
+      law and its paragraph; the example is made up:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <p>Clericos etiam … episcopali audientiae reservamus.<note type="source" source="LR.CTh-0438_16.2.47.1">Cod.
+          Theod. 16, 2, 47, 1</note></p>
     </egXML>
     <p>The 73 books of the Bible have one code each. Their names are the Nova Vulgata's: the older Vulgate's I to IV
       Regum are <code>1SA</code>, <code>2SA</code>, <code>1KI</code> and <code>2KI</code>. <code>solemne-tei
@@ -368,11 +378,12 @@
       <dataSpec ident="solemne.pointer" mode="add" xml:id="source-pointer-form" corresp="#tier-full">
         <desc>A pointer to a source: a document's code, alone or with a citation after an underscore (C.NIC-0325_3); a
           Bible reference by book, chapter and verse (MAT_18_19, PHP_3_17-20); a Gryson siglum and the place cited
-          (IS_ety_1.2.3); each may start with cf_ for a loose reference; or an SCTA resource. A code holds letters,
-          digits, dots and hyphens; an underscore only separates a code from its citation.</desc>
+          (IS_ety_1.2.3); each may start with cf_ for a loose reference; or an SCTA resource. A code's prefix is a
+          category's (COLL for both kinds of collection), or W; it holds letters, digits, dots and hyphens; an
+          underscore only separates a code from its citation.</desc>
         <content>
           <dataRef name="token"
-            restriction="(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?|(GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV)_[0-9]+(-[0-9]+)?(_[0-9]+(-[0-9]+)?)?|[A-Z][A-Za-z]*(-[A-Z][A-Za-z]*)*_[A-Za-z][A-Za-z0-9]*(\.[A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?)|https?://scta\.info/resource/\S+"/>
+            restriction="(cf_)?((C|D|COLL|P|EP|H|EX|LR|CPT|CHA|W)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?|(GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV)_[0-9]+(-[0-9]+)?(_[0-9]+(-[0-9]+)?)?|[A-Z][A-Za-z]*(-[A-Z][A-Za-z]*)*_[A-Za-z][A-Za-z0-9]*(\.[A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?)|https?://scta\.info/resource/\S+"/>
         </content>
       </dataSpec>
     </specGrp>
@@ -495,7 +506,7 @@
             <sch:rule context="tei:note[@type = ('source', 'reception')]">
               <sch:report id="source-note-codes" role="warning" test="some $w in tokenize(normalize-space(.),
                 '[\s;,]+') satisfies matches($w,
-                '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*[\-_.][0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
+                '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*[\-_.][0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|LR|CPT|CHA|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
                 <sch:value-of select="@type"/> note's words hold a code (<sch:value-of select="normalize-space(.)"/>):
                 it belongs in @source.</sch:report>
             </sch:rule>

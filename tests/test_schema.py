@@ -22,6 +22,7 @@ from solemne_tei.build import (
     fetch,
     stamped,
 )
+from solemne_tei.codes import CATEGORIES, code_prefix
 from solemne_tei.schema_files import (
     COMPILED_ODD,
     GENERATED,
@@ -174,9 +175,17 @@ def test_a_code_of_an_unknown_category_takes_any_prefix(validator: Validator, tm
     assert "code-category" not in schematron_rules(validator, with_code(tmp_path, "C.Exemplum-0800", "UNK"))
 
 
+@pytest.mark.parametrize("category", [category for category in CATEGORIES if category != "UNK"])
+def test_the_schema_s_prefix_for_a_category_is_the_package_s(
+    validator: Validator, tmp_path: Path, category: str
+) -> None:
+    code = with_code(tmp_path, f"{code_prefix(category)}.Exemplum-0800", category)
+    assert "code-category" not in schematron_rules(validator, code)
+
+
 @pytest.mark.parametrize("category", ["C", "LR", "CPT", "CHA", "SYSCOLL"])
 def test_a_file_named_by_a_code_is_named_by_its_own(validator: Validator, tmp_path: Path, category: str) -> None:
-    prefix = "COLL" if category == "SYSCOLL" else category
+    prefix = code_prefix(category)
     code = f"{prefix}.Exemplum-0800"
     right = with_code(tmp_path, code, category, f"{code}.xml")
     assert "code-matches-file-name" not in schematron_rules(validator, right)

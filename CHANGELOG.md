@@ -3,6 +3,13 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
+## Unreleased
+
+- **Pointers to every category:** a source pointer takes the prefixes `LR`, `CPT` and `CHA` beside the others, so
+  that a quotation or a note may point to a Roman law text, a capitulary or a charter (`LR.CTh-0438_16.2.47`), as
+  the category list already allowed their files' codes. The warning on codes left in a note's words takes them too.
+  Part IV says which prefixes a pointer takes, with an example.
+
 ## 0.6.0 (2026-11-07)
 
 A text taken from another project names that project as its source, in its header.
