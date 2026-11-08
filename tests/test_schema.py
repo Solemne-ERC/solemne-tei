@@ -4,8 +4,10 @@ checked against their pins, and the build stops on an ODD that isn't valid. The 
 of every rule among them, are checked in test_guide."""
 
 import hashlib
+import io
 import re
 import tomllib
+import urllib.error
 from pathlib import Path
 
 import pytest
@@ -116,6 +118,61 @@ def test_fetch_refuses_a_file_whose_checksum_differs(tmp_path: Path) -> None:
     with pytest.raises(BuildError, match="SHA-256"):
         fetch(pinned(tmp_path, b"<TEI/>", "0" * 64), tmp_path / "downloads")
     assert not (tmp_path / "downloads" / "p5subset.xml").exists()
+
+
+class FlakyServer:
+    """Stands in for urlopen: fails with each of `errors` in turn, then serves `content`."""
+
+    def __init__(self, errors: list[Exception], content: bytes = b"<TEI/>") -> None:
+        self.errors, self.content, self.calls = list(errors), content, 0
+
+    def __call__(self, url: str, timeout: float) -> io.BytesIO:
+        self.calls += 1
+        if self.errors:
+            raise self.errors.pop(0)
+        return io.BytesIO(self.content)
+
+
+def http_error(code: int) -> urllib.error.HTTPError:
+    return urllib.error.HTTPError("https://example.org/tei.zip", code, "error", hdrs=None, fp=None)  # type: ignore[arg-type]
+
+
+@pytest.fixture
+def waits(monkeypatch: pytest.MonkeyPatch) -> list[float]:
+    """The pauses fetch takes, recorded instead of slept."""
+    taken: list[float] = []
+    monkeypatch.setattr("solemne_tei.build.time.sleep", taken.append)
+    return taken
+
+
+def test_fetch_tries_again_after_a_timeout_and_a_server_error(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, waits: list[float]
+) -> None:
+    server = FlakyServer([TimeoutError("The read operation timed out"), http_error(504)])
+    monkeypatch.setattr("solemne_tei.build.urllib.request.urlopen", server)
+    source = pinned(tmp_path, b"", hashlib.sha256(b"<TEI/>").hexdigest())
+    assert fetch(source, tmp_path / "downloads", wait=1).read_bytes() == b"<TEI/>"
+    assert (server.calls, waits) == (3, [1, 2])
+    assert [p.name for p in (tmp_path / "downloads").iterdir()] == ["p5subset.xml"]
+
+
+def test_fetch_gives_up_after_its_attempts(tmp_path: Path, monkeypatch: pytest.MonkeyPatch, waits: list[float]) -> None:
+    server = FlakyServer([http_error(504)] * 3)
+    monkeypatch.setattr("solemne_tei.build.urllib.request.urlopen", server)
+    with pytest.raises(BuildError, match="could not be fetched"):
+        fetch(pinned(tmp_path, b"", "0" * 64), tmp_path / "downloads", attempts=3, wait=1)
+    assert (server.calls, waits) == (3, [1, 2])
+    assert list((tmp_path / "downloads").iterdir()) == []
+
+
+def test_fetch_does_not_try_again_a_file_that_isnt_there(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, waits: list[float]
+) -> None:
+    server = FlakyServer([http_error(404)])
+    monkeypatch.setattr("solemne_tei.build.urllib.request.urlopen", server)
+    with pytest.raises(BuildError, match="404"):
+        fetch(pinned(tmp_path, b"", "0" * 64), tmp_path / "downloads")
+    assert (server.calls, waits) == (1, [])
 
 
 # The ODD check takes any validator: these tests give it the package's own schema, which needs no download.

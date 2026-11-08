@@ -3,6 +3,13 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
+## Unreleased
+
+- **Downloads tried again:** the build fetches TEI's sources, the Bodleian's schema, SchXslt and the guide's font
+  once and keeps them; a download that times out, loses its connection or meets a server's error is now tried up to
+  four times, 10, 20 and 40 seconds apart, since GitHub's release downloads fail now and then. A missing file (404)
+  isn't tried again. Nothing changes in the schema or the guide.
+
 ## 0.8.0 (2026-11-08)
 
 The first code of Roman law: how its code is made, and a law's principium with its id line.
