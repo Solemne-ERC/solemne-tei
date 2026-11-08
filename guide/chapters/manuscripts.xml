@@ -129,10 +129,14 @@
       <!-- A description has at least one unit, and holds only the profile's elements, in their places. -->
       <elementSpec ident="msDesc" module="msdescription" mode="change" corresp="#tier-full">
         <constraintSpec ident="manuscript-unit" scheme="schematron" corresp="#tier-full">
-          <desc>A manuscript's description has at least one codicological unit.</desc>
+          <desc>A manuscript's description has at least one codicological unit; a known manuscript listed in a
+            file's standOff may hold its identifier alone.</desc>
           <constraint>
             <sch:rule context="tei:msDesc">
-              <sch:assert id="manuscript-unit" test="tei:msPart">A manuscript's description has at least one
+              <sch:let name="register" value="normalize-space(/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type'][1]) = 'register'"/>
+              <sch:let name="known" value="ancestor::tei:standOff and not(starts-with(@xml:id, 'new_manuscript_')) and
+                not($register)"/>
+              <sch:assert id="manuscript-unit" test="tei:msPart or $known">A manuscript's description has at least one
                 codicological unit (msPart), with its own identifier: the unit holds the physical description, the
                 date, the hands and the decoration.</sch:assert>
             </sch:rule>

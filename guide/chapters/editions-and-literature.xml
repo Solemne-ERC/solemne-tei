@@ -462,10 +462,12 @@
     <head>Publications as records</head>
     <p>A publication that more than one thing refers to, the edition several witnesses are in, the catalogue a
       manuscript's literature cites, is listed once in the standOff's <gi>listBibl</gi>, with an <att>xml:id</att>,
-      a record's or a placeholder's (<code>new_bibl_</code> and a name), and pointed to: a witness by a
+      its known id (<code>PUBL.5</code>) or a new one (<code>new_bibl_</code> and a name), and pointed to: a witness by a
       <gi>ptr</gi> and its pages in <gi>citedRange</gi> (<ptr target="#records-witnesses"/>), a manuscript's
-      literature the same way. The import makes the application's records from a <gi>biblStruct</gi>: the volume, the
-      text in it and the series, related to one another; then the file's witness, in the publication at the pages of
+      literature the same way. An edition in the header names its volume's record by the id on its
+      <gi>monogr</gi>, or, without an <gi>analytic</gi>, on the <gi>biblStruct</gi> (<ptr target="#records-ids"/>).
+      The import makes the application's records from a <gi>biblStruct</gi>: the volume, the text in it and the
+      series, related to one another; then the file's witness, in the publication at the pages of
       the <gi>citedRange</gi>. An export writes each publication it points to as a <gi>biblStruct</gi> with its entry
       type.</p>
   </div>
@@ -481,7 +483,7 @@
       Additio:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.Benedictus">
       <sourceDesc>
-        <biblStruct xml:id="pertz-1837">
+        <biblStruct xml:id="new_bibl_pertz_1837">
           <analytic>
             <title level="a">Benedicti Capitularia</title>
           </analytic>
@@ -508,7 +510,7 @@
           <note>A reconstruction: the collection as the project puts it together, from Pertz's edition for the whole
             text, and from Schmitz's for Additio 1, which Pertz's lacks.</note>
         </biblStruct>
-        <biblStruct xml:id="schmitz-2008">
+        <biblStruct xml:id="new_bibl_schmitz_2008">
           <monogr>
             <editor>
               <persName>
@@ -525,9 +527,9 @@
           </monogr>
         </biblStruct>
         <listWit>
-          <witness xml:id="wit-pertz"><bibl><ptr target="#pertz-1837"/><citedRange unit="page" from="17"
+          <witness xml:id="wit-pertz"><bibl><ptr target="#new_bibl_pertz_1837"/><citedRange unit="page" from="17"
                 to="158">17–158</citedRange></bibl>: the whole text but Additio 1</witness>
-          <witness xml:id="wit-schmitz"><bibl><ptr target="#schmitz-2008"/></bibl>: Additio 1</witness>
+          <witness xml:id="wit-schmitz"><bibl><ptr target="#new_bibl_schmitz_2008"/></bibl>: Additio 1</witness>
         </listWit>
       </sourceDesc>
     </egXML>

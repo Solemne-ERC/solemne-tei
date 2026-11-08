@@ -31,7 +31,7 @@
         </address>
       </publicationStmt>
       <sourceDesc>
-        <biblStruct xml:id="pertz-1837">
+        <biblStruct xml:id="new_bibl_pertz_1837">
           <analytic>
             <title level="a">Benedicti Capitularia</title>
           </analytic>
@@ -59,7 +59,7 @@
           <note>A reconstruction: the collection as the project puts it together, from Pertz's edition for the whole
             text, and from Schmitz's for Additio 1, which Pertz's lacks.</note>
         </biblStruct>
-        <biblStruct xml:id="schmitz-2008">
+        <biblStruct xml:id="new_bibl_schmitz_2008">
           <monogr>
             <editor>
               <persName>
@@ -76,9 +76,9 @@
           </monogr>
         </biblStruct>
         <listWit>
-          <witness xml:id="wit-pertz"><bibl><ptr target="#pertz-1837"/><citedRange unit="page" from="17"
+          <witness xml:id="wit-pertz"><bibl><ptr target="#new_bibl_pertz_1837"/><citedRange unit="page" from="17"
                 to="158">17–158</citedRange></bibl>: the whole text but Additio 1</witness>
-          <witness xml:id="wit-schmitz"><bibl><ptr target="#schmitz-2008"/></bibl>: Additio 1</witness>
+          <witness xml:id="wit-schmitz"><bibl><ptr target="#new_bibl_schmitz_2008"/></bibl>: Additio 1</witness>
         </listWit>
       </sourceDesc>
     </fileDesc>

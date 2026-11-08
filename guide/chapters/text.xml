@@ -140,6 +140,15 @@
         <content>
           <macroRef key="solemne.structure"/>
         </content>
+        <constraintSpec ident="book-code-section" scheme="schematron" corresp="#tier-full">
+          <desc>A book's code, in @n, stands only on a section.</desc>
+          <constraint>
+            <sch:rule context="tei:div[matches(@n, '^[1-4]?[A-Z]')]">
+              <sch:assert id="book-code-section" test="@type = 'section'">A book's code (<sch:value-of select="@n"/>)
+                stands only on a section: a book of the Bible.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
         <constraintSpec ident="unit-alone" scheme="schematron" corresp="#tier-full">
           <desc>Units are written only where they stand side by side.</desc>
           <constraint>
@@ -226,9 +235,9 @@
           </attDef>
           <attDef ident="n" mode="change" corresp="#tier-common">
             <desc>the division's number, as a value: 49 for a heading XLVIIII; a letter after it for a chapter after a
-              numbered one, or for a number repeated</desc>
+              numbered one, or for a number repeated; on a book of the Bible, its code</desc>
             <datatype xml:id="division-number-not-a-value" corresp="#tier-common">
-              <dataRef name="token" restriction="[0-9]+[a-z]?"/>
+              <dataRef name="token" restriction="[0-9]+[a-z]?|GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV"/>
             </datatype>
           </attDef>
           <attDef ident="subtype" mode="delete"/>
@@ -266,6 +275,24 @@
         <head type="inscription">In Antioceno concilio de peregrinorum susceptione, t. VII.</head>
         <p>Nullus peregrinorum sine pacificis, id est commendaticiis, suscipiatur epistolis.</p>
       </div>
+    </egXML>
+    <p>A heading may head the whole text: the body holds it before the text's divisions, as a division holds its
+      headings, so that the chapters below are cited by their own numbers (<code>9</code>, not <code>1.9</code>).
+      Childebert II's decree, in Boretius's edition, opens with its title, then its preface and its chapters:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-CPT.CHB-0596">
+      <body>
+        <head type="rubric">Incipit decretio Childeberti regis.</head>
+        <div type="preface">
+          <p>Childebertus, rex Francorum, vir inluster. Cum in Dei nomine nos omnes Kalendas Martias de quascumque
+            condiciones una cum nostris optimatibus pertractavimus, ad unumquemque noticia volumus pervenire.</p>
+        </div>
+        <div type="chapter" n="1">
+          <head type="number">1.</head>
+          <p>Ita, Deo propitiante, Antonaco Kalendas Marcias anno vicesimo regni nostri convenit, ut nepotes ex filio
+            vel ex filia ad aviaticas res cum avunculos vel amitas sic venirent, tamquam si pater aut mater vivi
+            fuissent. …</p>
+        </div>
+      </body>
     </egXML>
     <p>A heading without a type, or with one not in the list, fails the RelaxNG:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="heading-type-missing">
@@ -332,7 +359,8 @@
     </egXML>
     <p>The import keeps the value as the node's number, and the citation of a chapter or a register item is made from
       it (<ptr target="#citations-and-permalinks"/>). A division without a number heading may still have
-      <att>n</att>, where the numbering of the file gives one.</p>
+      <att>n</att>, where the numbering of the file gives one. One kind of value isn't a number: a book of the Bible,
+      a section, has its book's code (<ptr target="#text-bible"/>).</p>
   </div>
 
   <div xml:id="text-units">
@@ -504,6 +532,38 @@
     </egXML>
   </div>
 
+  <div xml:id="text-bible">
+    <head>The Bible</head>
+    <p>The Bible is one file, the Vulgate (<code>BIB.Vulg</code>, of the category <val>BIB</val>), divided by book,
+      chapter and verse, so that the pointers to it (<ptr target="#marked-pointers"/>) name its nodes without a table
+      between them. A book is a section, its code in <att>n</att> (<val>MAT</val>, one of the 73 the pointers use) and
+      its name as a rubric; a chapter is a chapter, numbered; a verse is a chapter inside it, numbered, its text a
+      paragraph. So <code>MAT_18_19</code> names the verse cited <code>MAT.18.19</code>, <code>JOH_1</code> the
+      chapter <code>JOH.1</code>, and a range, <code>PHP_3_17-20</code>, its run of verses. The Psalms keep the
+      Vulgate's numbers, and a psalm's title stays in its first verse, as the Clementine text prints it. Matthew
+      18:19–20, made up from the Vulgate's words:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <div type="section" n="MAT">
+        <head type="rubric">Evangelium secundum Matthaeum</head>
+        <div type="chapter" n="18">
+          <div type="chapter" n="19">
+            <p>Iterum dico vobis, quia si duo ex vobis consenserint super terram, de omni re quamcumque petierint,
+              fiet illis a Patre meo, qui in caelis est.</p>
+          </div>
+          <div type="chapter" n="20">
+            <p>Ubi enim sunt duo vel tres congregati in nomine meo, ibi sum in medio eorum.</p>
+          </div>
+        </div>
+      </div>
+    </egXML>
+    <p>A book's code stands only on a section, and <att>n</att> takes no other name:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="book-code-section">
+      <div type="chapter" n="JOH"><!-- breaks the rule: a chapter -->
+        <p>In principio erat Verbum.</p>
+      </div>
+    </egXML>
+  </div>
+
   <div xml:id="text-between">
     <head>What stands between</head>
     <p>Page breaks, notes and gaps may stand between headings, paragraphs and divisions, where the source has them.
@@ -541,6 +601,8 @@
       <p>Layout comes second: what is written, and how the text is organised, rather than where it stands on the
         page. So the layout is encoded only in page breaks, in where a change was made (above the line, in the
         margin), and in what can't be read.</p>
+      <p>A charter's signs, which an edition gives in words, a chrismon ("C."), a monogram ("(Monogramma.)"), a seal
+        ("Cum sigillo …"), stay text where the edition puts them: they have no mark of their own.</p>
     </div>
 
     <div xml:id="transcription-page-breaks">

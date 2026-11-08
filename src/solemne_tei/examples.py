@@ -9,7 +9,9 @@ Most examples are fragments. Each is placed in a minimal valid file by its root 
 it stands in the header, a part of a manuscript's description in a minimal description's unit, a record in the
 standOff, divisions, headings and paragraphs in the body, anything else in a paragraph. A fragment whose dates point
 to EDTF or to the Gregorian calendar without declaring them gets the declarations a file needs (`calendar
-xml:id="edtf"`, `calendar xml:id="gregorian"`), so that each date's example shows only the date. An example that
+xml:id="edtf"`, `calendar xml:id="gregorian"`), so that each date's example shows only the date. A lone `category`
+stands in a taxonomy of authorities, since the guide's ids are unique and only one example may declare it whole
+(`taxonomy xml:id="authorities"`). An example that
 is a whole TEI file is checked as it is. An example saved under a file name of its own, for the rule on file names,
 says so in a comment before its root: `<!-- file name: C.NIC-0325.xml -->`."""
 
@@ -27,6 +29,7 @@ from solemne_tei.rules import Rule, part_of
 from solemne_tei.schema_files import TEI
 from solemne_tei.validate import Problem, Validator
 
+XML_ID = "{http://www.w3.org/XML/1998/namespace}id"
 EXAMPLES = "http://www.tei-c.org/ns/Examples"
 FILE_NAME = re.compile(r"file name:\s*(\S+\.xml)")
 DEFAULT_FILE_NAME = "example.xml"
@@ -134,6 +137,7 @@ PARENT = {
     "stdVals": "teiHeader/encodingDesc/editorialDecl",
     "prefixDef": "teiHeader/encodingDesc/listPrefixDef",
     "taxonomy": "teiHeader/encodingDesc/classDecl",
+    "category": "teiHeader/encodingDesc/classDecl/taxonomy",
     "abstract": "teiHeader/profileDesc",
     "calendarDesc": "teiHeader/profileDesc",
     "calendar": "teiHeader/profileDesc/calendarDesc",
@@ -149,12 +153,14 @@ PARENT = {
     "listAnnotation": "standOff",
     "listBibl": "standOff",
     "person": "standOff/listPerson",
+    "personGrp": "standOff/listPerson",
     "place": "standOff/listPlace",
     "org": "standOff/listOrg",
     "event": "standOff/listEvent",
     "relation": "standOff/listRelation",
     "annotation": "standOff/listAnnotation",
     "linkGrp": "standOff",
+    "body": "text",
     "div": "text/body",
     "head": "text/body",
     "p": "text/body",
@@ -298,6 +304,8 @@ def _place(host: etree._Element, el: etree._Element) -> None:
     parent = host
     for step in filter(None, path.split("/")):
         parent = _child(parent, step)
+    if local == "category" and parent.get(XML_ID) is None:
+        parent.set(XML_ID, "authorities")
     if local in REPLACES:
         old = parent.find(f"{{{TEI}}}{local}")
         if old is not None:

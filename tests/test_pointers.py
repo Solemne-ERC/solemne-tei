@@ -75,6 +75,9 @@ def test_the_note_words_warning_takes_the_categories_prefixes(odd: etree._Elemen
         "cf_LR.CTh-0438_16.2.47.1",
         "CPT.Exemplum-0802_5",
         "CHA.Exemplum-0900",
+        "CPT.CHL-0614_9",
+        "CHA.RAT-0974.ed-PL136_2",
+        "BIB.Vulg_MAT.18.19",
         "W.Exemplum_3",
     ],
 )
@@ -90,7 +93,9 @@ def test_a_prefix_no_category_makes_fails(validator: Validator, tmp_path: Path, 
     assert {p.check for p in problems(validator, tmp_path, note(pointer))} == {"relaxng"}
 
 
-@pytest.mark.parametrize("code", ["LR.CTh-0438_16.2.47", "CPT.Exemplum-0802_5", "CHA.Exemplum-0900"])
+@pytest.mark.parametrize(
+    "code", ["LR.CTh-0438_16.2.47", "CPT.Exemplum-0802_5", "CHA.Exemplum-0900", "BIB.Vulg_MAT.18.19"]
+)
 def test_a_code_of_the_new_categories_in_a_note_s_words_is_reported(
     validator: Validator, tmp_path: Path, code: str
 ) -> None:

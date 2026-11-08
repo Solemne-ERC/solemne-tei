@@ -32,7 +32,9 @@
         <list>
           <item>circa, by <code>~</code> (<code>0800~</code>), uncertain, by <code>?</code> (<code>0756?</code>), or
             both, by <code>%</code>;</item>
-          <item>a century or a decade, by unspecified digits (<code>08XX</code>, <code>081X</code>);</item>
+          <item>a century as the interval of its years (<code>0801/0900</code>), and a part of one as its own
+            (<code>0867/0900</code>);</item>
+          <item>a decade by unspecified digits (<code>081X</code>);</item>
           <item>a point among a few dates, by a set (<code>[0755,0756]</code>).</item>
         </list>
       </item>
@@ -43,14 +45,15 @@
       TEI's other forms of the same date, its ISO attributes (<att>when-iso</att>, …), a named period
       (<att>period</att>), and the custom bounds (<att>notBefore-custom</att>, <att>notAfter-custom</att>), aren't
       taken: one form.</p>
-    <p>A century is the commonest date of a manuscript. The bounds follow the words: "sec. X" is 901 to 1000. Its
-      EDTF is <code>09XX</code>, which EDTF reads as 900 to 999; the checks allow the year's difference (<ptr
-        target="#dates-checks"/>):</p>
+    <p>A century is the commonest date of a manuscript, and counts as catalogues mean it: "sec. X" is 901 to 1000,
+      in the bounds and in the EDTF, which is the interval of its years, <code>0901/1000</code>. Not
+      <code>09XX</code>, which EDTF reads as 900 to 999, a year off at each end (<ptr target="#dates-checks"/>):</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.His.ms-Vat-BAV-Pal575">
-      <origDate notBefore="0901" notAfter="1000" when-custom="09XX" datingMethod="#edtf" calendar="#gregorian">sec.
+      <origDate notBefore="0901" notAfter="1000" when-custom="0901/1000" datingMethod="#edtf" calendar="#gregorian">sec.
         X</origDate>
     </egXML>
-    <p>A part of a century needs no EDTF: the bounds say it, and the words keep how it was said.</p>
+    <p>A part of a century needs no EDTF: the bounds say it, and the words keep how it was said. Where one is given,
+      it is its interval too (<code>0867/0900</code> for the last third of the 9th century).</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.Dach.ms-Brn-Burg-425">
       <origDate notBefore="0867" notAfter="0900" calendar="#gregorian">sec. IX ultimo terzo</origDate>
     </egXML>
@@ -63,7 +66,8 @@
     <p>An uncertain year, and the years it may be instead, is a point between bounds with its EDTF marked uncertain.
       The edition of the Council of Aschheim dates it "a. 756 vel 755-60"; as a record of the council:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
-      <event xml:id="new_event_aschheim" notBefore="0755" notAfter="0760" when-custom="0756?" datingMethod="#edtf">
+      <event xml:id="new_event_aschheim" type="council" notBefore="0755" notAfter="0760" when-custom="0756?"
+        datingMethod="#edtf">
         <eventName>Concilium Ascheimense</eventName>
       </event>
     </egXML>
@@ -218,9 +222,9 @@
       <item>no bound comes after its pair: <att>notBefore</att> after <att>notAfter</att>, or <att>from</att> after
         <att>to</att> (an error);</item>
       <item>an EDTF value has EDTF's form, as this part uses it, and its <att>datingMethod</att> (an error);</item>
-      <item>the bounds agree with the EDTF, by years: an exact date has the bounds' years; one with unspecified
-        digits may differ from them by a year at each end, as a century does; a circa or uncertain one lies within
-        the bounds (a warning);</item>
+      <item>the bounds agree with the EDTF, by years: an exact date, an interval and a date with unspecified
+        digits have the bounds' years exactly, so that <code>09XX</code> goes with 900 to 999; a circa or uncertain
+        one lies within the bounds (a warning);</item>
       <item>a manuscript's date and a date in the text name their calendar (an error);</item>
       <item>every <att>calendar</att> and <att>datingMethod</att> points to a declared <gi>calendar</gi> (an
         error).</item>
@@ -243,6 +247,10 @@
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="date-edtf-bounds">
       <origDate notBefore="0901" notAfter="1000" when-custom="08XX" datingMethod="#edtf" calendar="#gregorian">sec.
         X</origDate>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="date-edtf-bounds">
+      <origDate notBefore="0901" notAfter="1000" when-custom="09XX" datingMethod="#edtf" calendar="#gregorian">sec.
+        X</origDate><!-- breaks the rule: 09XX is 900 to 999 -->
     </egXML>
     <specGrp xml:id="dates-specs">
       <!-- A date reads one way: its bounds complete and in order, its EDTF well formed and agreeing with them. The
@@ -291,12 +299,13 @@
             <sch:rule context="tei:*[@when-custom or @from-custom or @to-custom]">
               <sch:let name="day" value="'-?[0-9]{2}([0-9]{2}|[0-9]X|XX)(-([0-9]{2}|XX)(-([0-9]{2}|XX))?)?[~?%]?'"/>
               <sch:let name="item" value="concat('(', $day, ')(\.\.(', $day, '))?')"/>
-              <sch:let name="edtf" value="concat('^((', $day, ')|\[(', $item, ')(,(', $item, '))*\])$')"/>
+              <sch:let name="edtf" value="concat('^((', $day, ')|(', $day, ')/(', $day, ')|\[(', $item, ')(,(', $item,
+                '))*\])$')"/>
               <sch:assert id="date-edtf-form" test="@datingMethod = '#edtf' and (every $v in (@when-custom,
                 @from-custom, @to-custom) satisfies matches(normalize-space($v), $edtf))">An EDTF value is a date
-                (0813, 0816-08, 0813-06-13), its last digits unspecified (08XX) or itself marked circa or uncertain
-                (~, ?, %), or a set of them ([0755,0756], [0867..0900]); and the element points to EDTF by
-                @datingMethod="#edtf".</sch:assert>
+                (0813, 0816-08, 0813-06-13), its last digits unspecified (081X) or itself marked circa or uncertain
+                (~, ?, %), an interval of two of them (0801/0900), or a set of them ([0755,0756], [0867..0900]); and
+                the element points to EDTF by @datingMethod="#edtf".</sch:assert>
             </sch:rule>
           </constraint>
         </constraintSpec>
@@ -304,8 +313,8 @@
           <desc>The bounds agree with the EDTF, by years.</desc>
           <constraint>
             <sch:rule context="tei:*[@datingMethod = '#edtf'][@when-custom or @from-custom or @to-custom]">
-              <!-- The EDTF's earliest and latest years, its unspecified digits read as 0 and 9; and the bounds'
-                   years. Exact: equal; unspecified digits: a year apart at most; circa or uncertain: within. -->
+              <!-- The EDTF's earliest and latest years, its unspecified digits read as 0 and 9, an interval's from
+                   its ends; and the bounds' years. Circa or uncertain: within; otherwise equal. -->
               <sch:let name="w" value="normalize-space(@when-custom)"/>
               <sch:let name="wy" value="tokenize(replace($w, '[^0-9X]+', ' '), ' ')[string-length(.) = 4]"/>
               <sch:let name="wlo" value="min(for $y in $wy return xs:integer(translate($y, 'X', '0')))"/>
@@ -315,25 +324,24 @@
               <sch:let name="blo" value="if ($lo castable as xs:integer) then xs:integer($lo) else ()"/>
               <sch:let name="bhi" value="if ($hi castable as xs:integer) then xs:integer($hi) else ()"/>
               <sch:let name="point" value="empty($wlo) or empty($blo) or empty($bhi) or (if (matches($w, '[~?%]'))
-                then $blo le $wlo and $whi le $bhi else if (contains($w, 'X')) then abs($blo - $wlo) le 1 and
-                abs($bhi - $whi) le 1 else $blo eq $wlo and $bhi eq $whi)"/>
+                then $blo le $wlo and $whi le $bhi else $blo eq $wlo and $bhi eq $whi)"/>
               <sch:let name="f" value="normalize-space(@from-custom)"/>
               <sch:let name="flo" value="min(for $y in tokenize(replace($f, '[^0-9X]+', ' '), ' ')[string-length(.) =
                 4] return xs:integer(translate($y, 'X', '0')))"/>
               <sch:let name="fb" value="substring(@from, 1, 4)"/>
               <sch:let name="bf" value="if ($fb castable as xs:integer) then xs:integer($fb) else ()"/>
               <sch:let name="start" value="empty($flo) or empty($bf) or (if (matches($f, '[~?%]')) then $bf le $flo
-                else if (contains($f, 'X')) then abs($bf - $flo) le 1 else $bf eq $flo)"/>
+                else $bf eq $flo)"/>
               <sch:let name="t" value="normalize-space(@to-custom)"/>
               <sch:let name="thi" value="max(for $y in tokenize(replace($t, '[^0-9X]+', ' '), ' ')[string-length(.) =
                 4] return xs:integer(translate($y, 'X', '9')))"/>
               <sch:let name="tb" value="substring(@to, 1, 4)"/>
               <sch:let name="bt" value="if ($tb castable as xs:integer) then xs:integer($tb) else ()"/>
               <sch:let name="end" value="empty($thi) or empty($bt) or (if (matches($t, '[~?%]')) then $thi le $bt
-                else if (contains($t, 'X')) then abs($bt - $thi) le 1 else $bt eq $thi)"/>
+                else $bt eq $thi)"/>
               <sch:assert id="date-edtf-bounds" role="warning" test="$point and $start and $end">The bounds agree with
-                the EDTF, by years: an exact date has the bounds' years, a century or decade (08XX) differs by a year
-                at most, a circa or uncertain date lies within them.</sch:assert>
+                the EDTF, by years: an exact date, an interval (0801/0900) and a date with unspecified digits (081X)
+                have the bounds' years, a circa or uncertain date lies within them.</sch:assert>
             </sch:rule>
           </constraint>
         </constraintSpec>

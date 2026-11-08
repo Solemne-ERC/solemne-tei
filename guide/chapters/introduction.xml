@@ -71,7 +71,7 @@
   <div xml:id="intro-templates">
     <head>The templates</head>
     <p>The templates, in the guide's folder <code>templates</code>, are whole files to start from, each a short real
-      text of the corpus, and each checked with the guide's examples:</p>
+      text of the corpus but the register, and each checked with the guide's examples:</p>
     <list>
       <item><code>minimal.xml</code>: only the required tier;</item>
       <item><code>rich.xml</code>: every common form for a text, and some of the full ones;</item>
@@ -83,7 +83,9 @@
         description;</item>
       <item><code>reconstruction.xml</code>: a reconstruction, with the witnesses it was made from;</item>
       <item><code>export.xml</code>: an export, as the application writes it, with what it adds to an imported
-        file.</item>
+        file;</item>
+      <item><code>register.xml</code>: a register of persons, made up, the form of the records the application's
+        database is seeded with.</item>
     </list>
   </div>
 
@@ -96,8 +98,8 @@
       <item><hi>One form in and out.</hi> What an export writes, an import reads: an exported file imports again
         without loss. For each form, the guide says what the import makes of it and what an export writes.</item>
       <item><hi>TEI as it is.</hi> The guide restricts TEI and documents it, and adds to it only where TEI has no way
-        to say something, saying so: so far, a type on <gi>segmentation</gi>, and a hand's execution on
-        <gi>handNote</gi>.</item>
+        to say something, saying so: so far, a type on <gi>segmentation</gi>, a hand's execution on
+        <gi>handNote</gi>, and a person's type on <gi>person</gi>.</item>
       <item><hi>Closed where the model is fixed, seeded where it grows.</hi> The types the application's code relies
         on are closed lists, which the RelaxNG checks; the vocabularies that grow in the application start from the
         guide's seeds.</item>

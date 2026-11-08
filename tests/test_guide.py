@@ -224,6 +224,9 @@ VOCABULARIES = {
     "execution-term": ("handNote", "execution"),
     "decoration-term": ("decoNote", "type"),
     "entry-type": ("biblStruct", "type"),
+    "authority-term": ("idno", "type"),
+    "person-term": ("person", "type"),
+    "event-term": ("event", "type"),
 }
 
 

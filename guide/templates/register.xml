@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.8.1/solemne.rng" type="application/xml"
+  schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.8.1/solemne.sch" type="application/xml"
+  schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- A register: the records of one kind, here persons, in a header and a standOff, without a text. The ids, the
+  list of bishops and the bishop are made up; God's Wikidata id is Wikidata's. The registers are the seed of the
+  application's database (Part V, "Registers"): its records point to each other by their ids, across the
+  registers, as Exemplus to his see in the register of places. -->
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="formal">
+          <idno type="type">register</idno>
+        </title>
+        <title type="alias">SOLEMNE's register of persons</title>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>SOLEMNE: 'The Social Life of Early Medieval Normative Texts'</publisher>
+        <availability>
+          <licence target="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</licence>
+        </availability>
+      </publicationStmt>
+      <sourceDesc>
+        <bibl type="source">
+          <title>Wikidata</title>
+          <ref target="https://www.wikidata.org/">wikidata.org</ref>
+          <date type="retrieved" when="2026-11-08">8 November 2026</date>
+          <availability>
+            <licence target="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</licence>
+          </availability>
+        </bibl>
+        <bibl type="source">
+          <title>Episcopi exempli gratia, a list of bishops</title>
+        </bibl>
+        <bibl type="source">
+          <title>The project's files, their placeholders</title>
+        </bibl>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <standOff>
+    <listPerson>
+      <person xml:id="PERS.1" type="divine">
+        <persName type="main">God</persName>
+        <persName type="alternative">Deus</persName>
+        <idno type="wikidata">Q190</idno>
+        <bibl type="source">
+          <title>Wikidata</title>
+          <idno type="wikidata">Q190</idno>
+          <ref target="https://www.wikidata.org/wiki/Q190">wikidata.org</ref>
+          <date type="retrieved" when="2026-11-08">8 November 2026</date>
+        </bibl>
+      </person>
+      <person xml:id="PERS.2" type="modernScholar">
+        <persName type="main">Albert Werminghoff</persName>
+      </person>
+      <person xml:id="PERS.3">
+        <persName type="main">Exemplus, bishop of Exemplum</persName>
+        <persName type="alternative">Exemplus episcopus</persName>
+        <bibl type="source">
+          <title>Episcopi exempli gratia, a list of bishops</title>
+          <note>Known only from the list, without a page.</note>
+        </bibl>
+      </person>
+      <personGrp xml:id="PERS.4">
+        <persName type="main">Novatians</persName>
+        <persName type="alternative">Novatiani</persName>
+      </personGrp>
+      <person xml:id="PERS.5">
+        <persName type="main">Novatian</persName>
+        <persName type="alternative">Novatianus</persName>
+      </person>
+      <person xml:id="PERS.6">
+        <persName type="main">Rotharius</persName>
+        <note type="unreviewed">Named once, as a priest, in one file; not matched against an authority.</note>
+      </person>
+    </listPerson>
+    <listRelation>
+      <relation name="memberOf" type="judgement" active="#PERS.5" passive="#PERS.4"/>
+      <relation name="livedIn" active="#PERS.3" passive="#PLACE.30"/>
+    </listRelation>
+  </standOff>
+</TEI>

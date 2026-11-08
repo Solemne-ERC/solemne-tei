@@ -102,7 +102,7 @@
         target="#string-range(P.SAM_1.p1,0,22) https://example.org/id/node/P.EXE_4.p1#char=10,32"/>
     </linkGrp>
     <listBibl>
-      <biblStruct xml:id="PUB.5">
+      <biblStruct xml:id="PUBL.5">
         <monogr>
           <author>
             <persName>Anna Editrix</persName>
@@ -134,7 +134,7 @@
       </event>
     </listEvent>
     <listOrg>
-      <org xml:id="ORG.1">
+      <org xml:id="INST.1">
         <orgName>The church of Samplia</orgName>
       </org>
     </listOrg>

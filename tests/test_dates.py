@@ -32,7 +32,8 @@ def edtf(attributes: str) -> str:
 
 
 AGREE = [
-    'notBefore="0801" notAfter="0900" when-custom="08XX"',
+    'notBefore="0801" notAfter="0900" when-custom="0801/0900"',
+    'notBefore="0867" notAfter="0900" when-custom="0867/0900"',
     'notBefore="0800" notAfter="0899" when-custom="08XX"',
     'notBefore="0810" notAfter="0819" when-custom="081X"',
     'notBefore="0776" notAfter="0825" when-custom="0800~"',
@@ -46,6 +47,10 @@ AGREE = [
 ]
 DISAGREE = [
     'notBefore="0901" notAfter="1000" when-custom="08XX"',
+    # A century counts 801 to 900: its digits unspecified, EDTF's 800 to 899, are a year off at each end.
+    'notBefore="0801" notAfter="0900" when-custom="08XX"',
+    'notBefore="0801" notAfter="0900" when-custom="0800/0899"',
+    'notBefore="0810" notAfter="0820" when-custom="081X"',
     'notBefore="0801" notAfter="0825" when-custom="0800~"',
     'when="0831" when-custom="0813"',
     'notBefore="0755" notAfter="0760" when-custom="[0755,0756]"',
@@ -65,14 +70,15 @@ def test_bounds_that_disagree_with_the_edtf_are_reported(validator: Validator, t
 
 
 @pytest.mark.parametrize(
-    "value", ["0813", "0816-08", "0813-06-13%", "08XX", "081X", "0800~", "0756?", "[0867..0900]", "[0755,0756]"]
+    "value",
+    ["0813", "0816-08", "0813-06-13%", "08XX", "081X", "0800~", "0756?", "0801/0900", "[0867..0900]", "[0755,0756]"],
 )
 def test_edtf_in_its_form_passes(validator: Validator, tmp_path: Path, value: str) -> None:
     rules = schematron_rules(validator, tmp_path, edtf(f'notBefore="0700" notAfter="0999" when-custom="{value}"'))
     assert "date-edtf-form" not in rules
 
 
-@pytest.mark.parametrize("value", ["sec. IX", "813", "0813/0816", "ca. 0800", "0800~~"])
+@pytest.mark.parametrize("value", ["sec. IX", "813", "0813/", "0801/0900/1000", "0813-0816", "ca. 0800", "0800~~"])
 def test_edtf_out_of_its_form_fails(validator: Validator, tmp_path: Path, value: str) -> None:
     rules = schematron_rules(validator, tmp_path, edtf(f'notBefore="0700" notAfter="0999" when-custom="{value}"'))
     assert "date-edtf-form" in rules

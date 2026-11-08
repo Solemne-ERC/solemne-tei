@@ -99,7 +99,7 @@
     <revisionDesc>
       <change type="release" n="2027.1" when="2027-06-30">The project's first release: the council checked against
         its edition, its persons, places and events identified.</change>
-      <change when="2027-05-02" who="https://example.org/id/person/PERS.12" target="#C.SOI-0744_2.p1">A reading
+      <change when="2027-05-02" who="#PERS.12" target="#C.SOI-0744_2.p1">A reading
         corrected against the edition.</change>
     </revisionDesc>
   </teiHeader>
@@ -108,15 +108,15 @@
       <div type="preface" xml:id="C.SOI-0744_pr1">
         <p xml:id="C.SOI-0744_pr1.p1"><pb n="33"/>In Dei nomine trinitatis. Anno septingentesimo quadragesimo quarto
           ab incarnatione Christi sub die VI. Nonas Martii et luna XIIII. in anno secundo <persName
-            ref="https://example.org/id/person/PERS.31">Childerici regis Francorum</persName> ego <persName
-            ref="https://example.org/id/person/PERS.32">Pippinus, dux et princeps Francorum</persName>. <gap
-            reason="sampling"/> conloqui apud <placeName ref="https://example.org/id/place/PLACE.7">Suessionis
+            ref="#PERS.31">Childerici regis Francorum</persName> ego <persName
+            ref="#PERS.32">Pippinus, dux et princeps Francorum</persName>. <gap
+            reason="sampling"/> conloqui apud <placeName ref="#PLACE.7">Suessionis
             civitas</placeName> synodum vel concilio facere decrevimus; quod ita in Dei nomine et fecimus.</p>
       </div>
       <div type="chapter" n="1" xml:id="C.SOI-0744_1">
         <head type="number" xml:id="C.SOI-0744_1.h1"><pb n="34"/>(I).</head>
         <p xml:id="C.SOI-0744_1.p1">In primitus constituimus fide catholica, quam constituerunt CCCXVIII episcopi in
-          <eventName ref="https://example.org/id/event/EVENT.1">Niceno concilio</eventName>, ut denuntiaretur per
+          <eventName ref="#EVENT.1">Niceno concilio</eventName>, ut denuntiaretur per
           universa regione nostra, et iudicias canonicas aliorum sanctorum, que constituerunt in synodis suis, quomodo
           lex Dei et ecclaesiastica regula recuperetur, que in diebus priorum principum dissipata corruit.</p>
       </div>
@@ -124,7 +124,7 @@
         <head type="number" xml:id="C.SOI-0744_2.h1">(II).</head>
         <p xml:id="C.SOI-0744_2.p1">Propterea nos una cum consensu episcoporum sive sacerdotum seu servorum Dei et
           optimatum meorum consilio decrevimus, ut annis singulis synodo renovare debeamus, <gap reason="sampling"/>
-          sicut invenimus in <persName ref="https://example.org/id/person/PERS.33">Adlaberto</persName> heresim, <gap
+          sicut invenimus in <persName ref="#PERS.33">Adlaberto</persName> heresim, <gap
             reason="sampling"/></p>
       </div>
     </body>
@@ -135,7 +135,7 @@
       <annotation xml:id="annotation-date" target="#string-range(C.SOI-0744_pr1.p1,26,137)">
         <respStmt>
           <resp>dated</resp>
-          <persName ref="https://example.org/id/person/PERS.12">An editor</persName>
+          <persName ref="#PERS.12">An editor</persName>
         </respStmt>
         <licence target="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</licence>
         <note><date when="0744-03-06" calendar="#julian">Anno septingentesimo quadragesimo quarto ab incarnatione
@@ -145,10 +145,10 @@
     <listRelation>
       <relation name="isTextOf" ref="https://example.org/id/term/isTextOf" type="observation"
         active="#C.SOI-0744_1" passive="https://example.org/id/canon/C.SOI-0744_1"
-        resp="https://example.org/id/person/PERS.12"/>
+        resp="#PERS.12"/>
       <relation name="isTextOf" ref="https://example.org/id/term/isTextOf" type="observation"
         active="#C.SOI-0744_2" passive="https://example.org/id/canon/C.SOI-0744_2"
-        resp="https://example.org/id/person/PERS.12"/>
+        resp="#PERS.12"/>
     </listRelation>
     <linkGrp type="reuse" resp="https://example.org/id/run/3">
       <link xml:id="hit-41"
@@ -157,25 +157,31 @@
     <listPerson>
       <person xml:id="PERS.12">
         <persName type="main">An editor of the project</persName>
+        <idno type="permalink">https://example.org/id/person/PERS.12</idno>
       </person>
       <person xml:id="PERS.31">
         <persName type="main">Childeric III, king of the Franks</persName>
+        <idno type="permalink">https://example.org/id/person/PERS.31</idno>
       </person>
       <person xml:id="PERS.32">
         <persName type="main">Pippin III, mayor of the palace</persName>
+        <idno type="permalink">https://example.org/id/person/PERS.32</idno>
       </person>
       <person xml:id="PERS.33">
         <persName type="main">Aldebert</persName>
+        <idno type="permalink">https://example.org/id/person/PERS.33</idno>
       </person>
     </listPerson>
     <listPlace>
       <place xml:id="PLACE.7">
         <placeName>Soissons</placeName>
+        <idno type="permalink">https://example.org/id/place/PLACE.7</idno>
       </place>
     </listPlace>
     <listEvent>
       <event xml:id="EVENT.1" when="0325">
         <eventName>Council of Nicaea, 325</eventName>
+        <idno type="permalink">https://example.org/id/event/EVENT.1</idno>
       </event>
     </listEvent>
   </standOff>
