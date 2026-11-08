@@ -19,10 +19,13 @@ from __future__ import annotations
 import copy
 import dataclasses
 import hashlib
+import http.client
 import json
 import shutil
 import tempfile
 import textwrap
+import time
+import urllib.error
 import urllib.request
 import zipfile
 from dataclasses import dataclass
@@ -135,23 +138,58 @@ class BuildError(RuntimeError):
     pass
 
 
-def fetch(source: Source, downloads: Path) -> Path:
-    """The source's file in `downloads`, fetched if it's missing, refused if its SHA-256 differs from the pin."""
+# A download is tried this many times, waiting this many seconds before the second try, twice as long before each
+# later one: GitHub's release downloads time out now and then.
+FETCH_ATTEMPTS = 4
+FETCH_WAIT = 10.0
+
+
+def retried(error: OSError | http.client.HTTPException) -> bool:
+    """Whether a failed download may succeed if tried again: a timeout, a lost connection, a server's error."""
+    if isinstance(error, urllib.error.HTTPError):
+        return error.code >= 500 or error.code == 429
+    return True
+
+
+def download(url: str, downloads: Path) -> Path:
+    """One try at `url`, into a new file in `downloads`, which is removed if the try fails."""
+    with tempfile.NamedTemporaryFile(dir=downloads, delete=False) as tmp:
+        target = Path(tmp.name)
+        try:
+            with urllib.request.urlopen(url, timeout=120) as response:
+                shutil.copyfileobj(response, tmp)
+        except BaseException:
+            tmp.close()
+            target.unlink(missing_ok=True)
+            raise
+    return target
+
+
+def fetch(source: Source, downloads: Path, attempts: int = FETCH_ATTEMPTS, wait: float = FETCH_WAIT) -> Path:
+    """The source's file in `downloads`, fetched if it's missing, refused if its SHA-256 differs from the pin.
+
+    A download that times out, loses its connection or meets a server's error is tried again, up to `attempts`
+    times, after `wait` seconds, doubled each time."""
     downloads.mkdir(parents=True, exist_ok=True)
     path = downloads / source.name
     if path.exists() and sha256(path) == source.sha256:
         return path
-    logger.info("Fetching %s %s", source.name, source.version)
-    with (
-        tempfile.NamedTemporaryFile(dir=downloads, delete=False) as tmp,
-        urllib.request.urlopen(source.url, timeout=120) as response,
-    ):
-        shutil.copyfileobj(response, tmp)
-    got = hashlib.sha256(Path(tmp.name).read_bytes()).hexdigest()
+    for attempt in range(1, attempts + 1):
+        logger.info("Fetching %s %s", source.name, source.version)
+        try:
+            fetched = download(source.url, downloads)
+            break
+        except (OSError, http.client.HTTPException) as error:
+            if attempt == attempts or not retried(error):
+                raise BuildError(f"{source.name}: {source.url} could not be fetched: {error}") from error
+            pause = wait * 2 ** (attempt - 1)
+            logger.warning("Fetching %s failed (%s); trying again in %g s", source.name, error, pause)
+            time.sleep(pause)
+    got = sha256(fetched)
     if got != source.sha256:
-        Path(tmp.name).unlink()
+        fetched.unlink()
         raise BuildError(f"{source.name}: SHA-256 {got}, expected {source.sha256}")
-    Path(tmp.name).replace(path)
+    fetched.replace(path)
     return path
 
 
