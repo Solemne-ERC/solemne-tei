@@ -168,9 +168,11 @@
           </constraint>
         </constraintSpec>
         <constraintSpec ident="number-heading-n" scheme="schematron" corresp="#tier-common">
-          <desc>A division with a number heading carries the number as a value.</desc>
+          <desc>A division cited by its number, with a number heading, carries the number as a value; a preface, a
+            closer, subscriptions and a register, cited by their prefix and position, need none.</desc>
           <constraint>
-            <sch:rule context="tei:div[tei:head[@type = 'number']]">
+            <sch:rule context="tei:div[tei:head[@type = 'number']][not(@type = ('preface', 'closer', 'subscriptions',
+              'register'))]">
               <sch:assert id="number-heading-n" test="@n">A division with a number heading
                 (<sch:value-of select="normalize-space(tei:head[@type = 'number'][1])"/>) has @n.</sch:assert>
             </sch:rule>
@@ -310,8 +312,10 @@
       needed. The number heading keeps the number as the source writes it; <att>n</att> gives what it counts, so that
       citations can use it: <val>49</val> for "XLVIIII.", <val>5</val> for "CAPUT V.". A chapter without a number
       after a numbered one takes that number and a letter (<val>11a</val> after 11); a number the source repeats
-      takes the next letter. A division with a number heading has <att>n</att> (a Schematron error otherwise), and
-      <att>n</att> holds nothing but the value (a RelaxNG error):</p>
+      takes the next letter. A division with a number heading has <att>n</att> (a Schematron error otherwise),
+      unless it's cited by its prefix and position, a preface, a closer, subscriptions or a register, whose number
+      heading keeps the source's words alone (<ptr target="#text-prefaces-and-closers"/>); and <att>n</att> holds
+      nothing but the value (a RelaxNG error):</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="number-heading-n">
       <div type="chapter">
         <head type="number">I.</head>
@@ -335,7 +339,8 @@
     <head>Units</head>
     <p>A unit (<val>unit</val>) is a subdivision without a heading of its own, written only where several stand side
       by side: a norm and the authority statements that follow it, each signatory among the subscriptions, the
-      paragraphs of a preface that are read one by one. A division whose text is one unit holds its paragraphs
+      paragraphs of a preface that are read one by one, a law and the interpretatio that follows it in the Breviary.
+      A division whose text is one unit holds its paragraphs
       itself: a unit that stands alone is an error, and so is a unit that holds headings or divisions.</p>
     <p>The preface of the Council of Mainz of 813 is three units, the greeting, the account of the council, and its
       decision:</p>
@@ -375,6 +380,21 @@
         </div>
         <div type="unit">
           <p>Et clerici.</p>
+        </div>
+      </div>
+    </egXML>
+    <p>The Codex Theodosianus, in The Latin Library's text, gives the Breviary's interpretatio after many laws: the
+      law's text and the interpretatio are two units of the law. That the second is a later commentary on the first
+      is for a relation or an annotation to say, not for the division's type:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-LR.CTh-0438">
+      <div type="chapter" n="1">
+        <head type="number">CTh.1.1.1 [=brev.1.1.1]</head>
+        <div type="unit">
+          <p>Imp. constantinus a. ad lusitanos. si qua posthac edicta sive constitutiones sine die et consule fuerint
+            deprehensa, auctoritate careant. dat. vii. kal. aug. sabariae, probiano et iuliano vv. cc. coss.</p>
+        </div>
+        <div type="unit">
+          <p>interpretatio. quaecumque leges sine die et consule fuerint prolatae, non valeant</p>
         </div>
       </div>
     </egXML>
@@ -436,6 +456,26 @@
         </div>
         <div type="unit">
           <p>Signum Ariberto.</p>
+        </div>
+      </div>
+    </egXML>
+    <p>A law of a Roman code opens with its principium, before its numbered paragraphs, which the editions cite as
+      "pr.": it is the law's preface, cited <code>pr1</code>. Its id line, where the source gives one, is its number
+      heading, without <att>n</att>: a preface, a closer, subscriptions and a register are cited by their prefix and
+      position, not by a number (<ptr target="#citations-and-permalinks"/>). A law of the Codex Theodosianus, in The
+      Latin Library's text, its principium <code>LR.CTh-0438_16.2.47.pr1</code> and its paragraph
+      <code>LR.CTh-0438_16.2.47.1</code>:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-LR.CTh-0438">
+      <div type="chapter" n="47">
+        <div type="preface">
+          <head type="number">CTh.16.2.47pr.</head>
+          <p>Idem a. et caes. basso comiti rerum privatarum. privilegia ecclesiarum omnium, quae seaculo nostro
+            tyrannus inviderat, prona devotione revocamus, … serventur.</p>
+        </div>
+        <div type="chapter" n="1">
+          <head type="number">CTh.16.2.47.1</head>
+          <p>Clericos etiam, quos indiscretim ad saeculares iudices debere deduci infaustus praesumptor edixerat,
+            episcopali audientiae reservamus. …</p>
         </div>
       </div>
     </egXML>

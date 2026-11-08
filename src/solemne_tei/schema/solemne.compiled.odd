@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.7.0 (SHA-256 a0b8a44c7a77f25a919c9a657da0c11c01d315f9e19f76e81fabd63e3d5a22c8) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.8.0 (SHA-256 393071c108ff9dcea6165b4573260890f5845b16096c6eea86d24738420ca682) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -37,7 +37,7 @@ the use of this software, even if advised of the possibility of such damage.
         <author>Sven Meeder</author>
       </titleStmt>
       <editionStmt>
-        <edition n="0.7.0">Version 0.7.0</edition>
+        <edition n="0.8.0">Version 0.8.0</edition>
       </editionStmt>
       <publicationStmt>
         <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University</publisher>
@@ -96,7 +96,7 @@ the use of this software, even if advised of the possibility of such damage.
         <docAuthor>Gleb Schmidt</docAuthor>
         <docAuthor>Friederike Voit</docAuthor>
         <docAuthor>Sven Meeder</docAuthor>
-        <docEdition>Version 0.7.0</docEdition>
+        <docEdition>Version 0.8.0</docEdition>
         <docDate when="2026-11-08">8 November 2026</docDate>
         <docImprint>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University, Nijmegen; funded by
           the European Research Council, grant 101087979. The guide is under the Creative Commons Attribution 4.0
@@ -142,9 +142,9 @@ the use of this software, even if advised of the possibility of such damage.
       the templates is checked as it is typed: the template declares the schema by two <code>xml-model</code>
       processing instructions, one for the RelaxNG, with the Schematron inside it, and one for the Schematron, for
       other tools:</p>
-    <eg>&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.7.0/solemne.rng"
+    <eg>&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.8.0/solemne.rng"
   type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?&gt;
-&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.7.0/solemne.sch"
+&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.8.0/solemne.sch"
   type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?&gt;</eg>
     <p>The schema is published at its version's address once the release is published; until then, a template is
       checked with <code>solemne-tei validate</code>.</p>
@@ -589,10 +589,14 @@ the use of this software, even if advised of the possibility of such damage.
             <item>the title: for a council, three capitals for its place (<code>C.MAI</code> for Mainz); for a
               decretal, three for its pope (<code>D.LEO</code>), with <code>Ps</code> before a forged decretal's
               pope (<code>D.PsCAL</code>); for a collection or a penitential, its name or an abbreviation of it
-              (<code>COLL.Dach</code>, <code>COLL.400</code>, <code>P.HAL</code>); <code>UNK</code> where the title
+              (<code>COLL.Dach</code>, <code>COLL.400</code>, <code>P.HAL</code>); for a code of Roman law, the
+              abbreviation its editions cite it by (<code>LR.CTh</code> for the Codex Theodosianus, <code>LR.CJ</code>
+              for Justinian's Codex, <code>LR.Inst</code>, <code>LR.Dig</code>); <code>UNK</code> where the title
               isn't known;</item>
-            <item>the date, where wanted: four digits, the year (<code>C.MAI-0813</code>); the latest possible year,
-              where the date is a range; <code>9999</code> where the date isn't known (<code>EP.LupEuf-9999</code>);</item>
+            <item>the date, where wanted: four digits, the year (<code>C.MAI-0813</code>), and for a code of Roman law
+              the year of its promulgation (<code>LR.CTh-0438</code>, <code>LR.CJ-0534</code>); the latest possible
+              year, where the date is a range; <code>9999</code> where the date isn't known
+              (<code>EP.LupEuf-9999</code>);</item>
             <item>a further identifier, where needed: a decretal's number in Jaffé's register, in Kaltenbrunner's
               numbering (<code>D.LEO-0447-414</code>); a version, <code>-v</code> and a name
               (<code>C.NIC-0325-vDIO1</code>, Nicaea in the first Dionysiana; <code>D.LEO-0446-410-v1</code>).</item>
@@ -608,9 +612,10 @@ the use of this software, even if advised of the possibility of such damage.
         <att>xml:id</att>: ASCII letters and digits joined by dots and hyphens, without spaces, accents or
         parentheses, so a former shelfmark has no place in it. An underscore stands only in a pointer, before a
         citation (<ptr target="#marked-pointers"/>).</p>
-      <p>No file of the corpus has the categories <code>LR</code>, <code>CPT</code> or <code>CHA</code> yet. Their
-        codes follow the general rule, with their own prefixes; how their title parts are made, the guide will say
-        with the first files.</p>
+      <p>A law of a Roman code is cited by its book, title and law, as the editions cite it: "CTh 16.2.47" is
+        <code>LR.CTh-0438_16.2.47</code>, its divisions numbered so (<ptr target="#text-prefaces-and-closers"/>). No
+        file of the corpus has the categories <code>CPT</code> or <code>CHA</code> yet. Their codes follow the general
+        rule, with their own prefixes; how their title parts are made, the guide will say with the first files.</p>
       <p>The Schematron checks the form: the prefix and its dot; the title part, whose subparts, the date among them,
         are joined by hyphens; and any source part after a dot, which begins with a letter. A code with an
         underscore fails, and so does a date joined by a dot (<code>P.SAM.0700</code> for
@@ -1227,8 +1232,10 @@ the use of this software, even if advised of the possibility of such damage.
       needed. The number heading keeps the number as the source writes it; <att>n</att> gives what it counts, so that
       citations can use it: <val>49</val> for "XLVIIII.", <val>5</val> for "CAPUT V.". A chapter without a number
       after a numbered one takes that number and a letter (<val>11a</val> after 11); a number the source repeats
-      takes the next letter. A division with a number heading has <att>n</att> (a Schematron error otherwise), and
-      <att>n</att> holds nothing but the value (a RelaxNG error):</p>
+      takes the next letter. A division with a number heading has <att>n</att> (a Schematron error otherwise),
+      unless it's cited by its prefix and position, a preface, a closer, subscriptions or a register, whose number
+      heading keeps the source's words alone (<ptr target="#text-prefaces-and-closers"/>); and <att>n</att> holds
+      nothing but the value (a RelaxNG error):</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="number-heading-n">
       <div type="chapter">
         <head type="number">I.</head>
@@ -1252,7 +1259,8 @@ the use of this software, even if advised of the possibility of such damage.
     <head>Units</head>
     <p>A unit (<val>unit</val>) is a subdivision without a heading of its own, written only where several stand side
       by side: a norm and the authority statements that follow it, each signatory among the subscriptions, the
-      paragraphs of a preface that are read one by one. A division whose text is one unit holds its paragraphs
+      paragraphs of a preface that are read one by one, a law and the interpretatio that follows it in the Breviary.
+      A division whose text is one unit holds its paragraphs
       itself: a unit that stands alone is an error, and so is a unit that holds headings or divisions.</p>
     <p>The preface of the Council of Mainz of 813 is three units, the greeting, the account of the council, and its
       decision:</p>
@@ -1292,6 +1300,21 @@ the use of this software, even if advised of the possibility of such damage.
         </div>
         <div type="unit">
           <p>Et clerici.</p>
+        </div>
+      </div>
+    </egXML>
+    <p>The Codex Theodosianus, in The Latin Library's text, gives the Breviary's interpretatio after many laws: the
+      law's text and the interpretatio are two units of the law. That the second is a later commentary on the first
+      is for a relation or an annotation to say, not for the division's type:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-LR.CTh-0438">
+      <div type="chapter" n="1">
+        <head type="number">CTh.1.1.1 [=brev.1.1.1]</head>
+        <div type="unit">
+          <p>Imp. constantinus a. ad lusitanos. si qua posthac edicta sive constitutiones sine die et consule fuerint
+            deprehensa, auctoritate careant. dat. vii. kal. aug. sabariae, probiano et iuliano vv. cc. coss.</p>
+        </div>
+        <div type="unit">
+          <p>interpretatio. quaecumque leges sine die et consule fuerint prolatae, non valeant</p>
         </div>
       </div>
     </egXML>
@@ -1353,6 +1376,26 @@ the use of this software, even if advised of the possibility of such damage.
         </div>
         <div type="unit">
           <p>Signum Ariberto.</p>
+        </div>
+      </div>
+    </egXML>
+    <p>A law of a Roman code opens with its principium, before its numbered paragraphs, which the editions cite as
+      "pr.": it is the law's preface, cited <code>pr1</code>. Its id line, where the source gives one, is its number
+      heading, without <att>n</att>: a preface, a closer, subscriptions and a register are cited by their prefix and
+      position, not by a number (<ptr target="#citations-and-permalinks"/>). A law of the Codex Theodosianus, in The
+      Latin Library's text, its principium <code>LR.CTh-0438_16.2.47.pr1</code> and its paragraph
+      <code>LR.CTh-0438_16.2.47.1</code>:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-LR.CTh-0438">
+      <div type="chapter" n="47">
+        <div type="preface">
+          <head type="number">CTh.16.2.47pr.</head>
+          <p>Idem a. et caes. basso comiti rerum privatarum. privilegia ecclesiarum omnium, quae seaculo nostro
+            tyrannus inviderat, prona devotione revocamus, … serventur.</p>
+        </div>
+        <div type="chapter" n="1">
+          <head type="number">CTh.16.2.47.1</head>
+          <p>Clericos etiam, quos indiscretim ad saeculares iudices debere deduci infaustus praesumptor edixerat,
+            episcopali audientiae reservamus. …</p>
         </div>
       </div>
     </egXML>
@@ -22926,9 +22969,10 @@ during the evolution of the encoded representation of that text.</p>
             </sch:rule>
           </constraint>
         </constraintSpec><constraintSpec ident="number-heading-n" scheme="schematron" corresp="#tier-common">
-          <desc>A division with a number heading carries the number as a value.</desc>
+          <desc>A division cited by its number, with a number heading, carries the number as a value; a preface, a
+            closer, subscriptions and a register, cited by their prefix and position, need none.</desc>
           <constraint>
-            <sch:rule context="tei:div[tei:head[@type = 'number']]">
+            <sch:rule context="tei:div[tei:head[@type = 'number']][not(@type = ('preface', 'closer', 'subscriptions',               'register'))]">
               <sch:assert id="number-heading-n" test="@n">A division with a number heading
                 (<sch:value-of select="normalize-space(tei:head[@type = 'number'][1])"/>) has @n.</sch:assert>
             </sch:rule>
@@ -31294,6 +31338,8 @@ Feature Value</ref>
               of Vienne and Narbonne, 428</title>, ed. <editor>Pierre Coustant</editor>, <title>Epistolae Romanorum
               pontificum</title> I (Paris, <date>1721</date>), cols. 1065–1072: the file's description of its
             edition.</bibl>
+          <bibl xml:id="source-LR.CTh-0438"><idno>LR.CTh-0438</idno>: <title>Codex Theodosianus</title>, in The
+            Latin Library's text (thelatinlibrary.com/theodosius.html), which names no edition.</bibl>
           <bibl xml:id="source-COLL.400.ms-Mun-BSB-4592"><idno>COLL.400.ms-Mun-BSB-4592</idno>: <title>Collectio 400
               capitulorum</title>, transcribed by the project from Munich, Bayerische Staatsbibliothek, Clm
             4592.</bibl>
