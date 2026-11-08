@@ -73,7 +73,9 @@ def test_the_parts_are_numbered_i_to_x(site: Path) -> None:
 
 @cached
 def test_no_page_holds_the_builds_fixed_date(site: Path) -> None:
-    assert [p.name for p in site.glob("*.html") if "1970" in p.read_text("utf-8")] == []
+    """The pages' words, not the ids the stylesheets number, which may hold any digits."""
+    pages = {p.name: html.fromstring(p.read_text("utf-8")).text_content() for p in site.glob("*.html")}
+    assert [name for name, words in pages.items() if "1970" in words] == []
 
 
 @cached
