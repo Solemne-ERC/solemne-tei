@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.6.0 (SHA-256 b6d9db38cca0735e5e1630ac54dc4d85c03ab5ee0c1fc59e2816b329045b1c0b) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.7.0 (SHA-256 a0b8a44c7a77f25a919c9a657da0c11c01d315f9e19f76e81fabd63e3d5a22c8) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -37,7 +37,7 @@ the use of this software, even if advised of the possibility of such damage.
         <author>Sven Meeder</author>
       </titleStmt>
       <editionStmt>
-        <edition n="0.6.0">Version 0.6.0</edition>
+        <edition n="0.7.0">Version 0.7.0</edition>
       </editionStmt>
       <publicationStmt>
         <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University</publisher>
@@ -96,8 +96,8 @@ the use of this software, even if advised of the possibility of such damage.
         <docAuthor>Gleb Schmidt</docAuthor>
         <docAuthor>Friederike Voit</docAuthor>
         <docAuthor>Sven Meeder</docAuthor>
-        <docEdition>Version 0.6.0</docEdition>
-        <docDate when="2026-11-07">7 November 2026</docDate>
+        <docEdition>Version 0.7.0</docEdition>
+        <docDate when="2026-11-08">8 November 2026</docDate>
         <docImprint>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University, Nijmegen; funded by
           the European Research Council, grant 101087979. The guide is under the Creative Commons Attribution 4.0
           licence; the schema made from it, under the MIT licence.</docImprint>
@@ -142,9 +142,9 @@ the use of this software, even if advised of the possibility of such damage.
       the templates is checked as it is typed: the template declares the schema by two <code>xml-model</code>
       processing instructions, one for the RelaxNG, with the Schematron inside it, and one for the Schematron, for
       other tools:</p>
-    <eg>&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.6.0/solemne.rng"
+    <eg>&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.7.0/solemne.rng"
   type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?&gt;
-&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.6.0/solemne.sch"
+&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.7.0/solemne.sch"
   type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?&gt;</eg>
     <p>The schema is published at its version's address once the release is published; until then, a template is
       checked with <code>solemne-tei validate</code>.</p>
@@ -1635,8 +1635,8 @@ the use of this software, even if advised of the possibility of such damage.
     <p>A quotation's <att>source</att>, and a source or reception note's, hold one pointer or more, separated by
       spaces, each in one of these forms:</p>
     <list>
-      <item>a document's code (<ptr target="#codes-and-ids"/>), alone (<code>C.NIC-0325</code>) or with a citation
-        after an underscore, the canon or chapter of that document (<code>C.NIC-0325_3</code>,
+      <item>a document's code (<ptr target="#codes-and-ids"/>), of any category, alone (<code>C.NIC-0325</code>) or
+        with a citation after an underscore, the canon or chapter of that document (<code>C.NIC-0325_3</code>,
         <code>D.LEO-0447-414_11</code>, <code>COLL.Dach.ms-Brn-Burg-425_2.49</code>); an underscore stands only
         there;</item>
       <item>a Bible reference: a book's code, the chapter, and the verse, each range with a hyphen
@@ -1651,6 +1651,16 @@ the use of this software, even if advised of the possibility of such damage.
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.Dach">
       <p>… uenia peccatorum fideliter præsumatur ab illo, qui <quote source="cf_EZE_18_23">non uult mortem peccatoris,
           sed ut conuertatur</quote> a perditione poenitendo, et saluatus miseratione Domini uiuat. …</p>
+    </egXML>
+    <p>A code's prefix is its category's, as the coding rules make it (<ptr target="#header-codes"/>):
+      <code>COLL</code> for both kinds of collection, the category itself for the others, <code>LR</code>,
+      <code>CPT</code> and <code>CHA</code> among them. A file of unknown category, whose code may take any prefix,
+      is reached by a pointer only under one of these. The pattern also takes <code>W</code>, which no category makes:
+      it is kept, and no file uses it yet. A text that takes over a law of the Codex Theodosianus points to it by the
+      law and its paragraph; the example is made up:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <p>Clericos etiam … episcopali audientiae reservamus.<note type="source" source="LR.CTh-0438_16.2.47.1">Cod.
+          Theod. 16, 2, 47, 1</note></p>
     </egXML>
     <p>The 73 books of the Bible have one code each. Their names are the Nova Vulgata's: the older Vulgate's I to IV
       Regum are <code>1SA</code>, <code>2SA</code>, <code>1KI</code> and <code>2KI</code>. <code>solemne-tei
@@ -15422,7 +15432,7 @@ entre les Romains.</label>
             isn't.</desc>
           <constraint>
             <sch:rule context="tei:note[@type = ('source', 'reception')]">
-              <sch:report id="source-note-codes" role="warning" test="some $w in tokenize(normalize-space(.),                 '[\s;,]+') satisfies matches($w,                 '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*[\-_.][0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
+              <sch:report id="source-note-codes" role="warning" test="some $w in tokenize(normalize-space(.),                 '[\s;,]+') satisfies matches($w,                 '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*[\-_.][0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|LR|CPT|CHA|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
                 <sch:value-of select="@type"/> note's words hold a code (<sch:value-of select="normalize-space(.)"/>):
                 it belongs in @source.</sch:report>
             </sch:rule>
@@ -30552,10 +30562,11 @@ Feature Value</ref>
       </dataSpec><dataSpec rend="add" module="derived-module-solemne" ident="solemne.pointer" mode="add" xml:id="source-pointer-form" corresp="#tier-full">
         <desc>A pointer to a source: a document's code, alone or with a citation after an underscore (C.NIC-0325_3); a
           Bible reference by book, chapter and verse (MAT_18_19, PHP_3_17-20); a Gryson siglum and the place cited
-          (IS_ety_1.2.3); each may start with cf_ for a loose reference; or an SCTA resource. A code holds letters,
-          digits, dots and hyphens; an underscore only separates a code from its citation.</desc>
+          (IS_ety_1.2.3); each may start with cf_ for a loose reference; or an SCTA resource. A code's prefix is a
+          category's (COLL for both kinds of collection), or W; it holds letters, digits, dots and hyphens; an
+          underscore only separates a code from its citation.</desc>
         <content>
-          <dataRef name="token" restriction="(cf_)?((C|D|COLL|P|EP|H|EX|W)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?|(GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV)_[0-9]+(-[0-9]+)?(_[0-9]+(-[0-9]+)?)?|[A-Z][A-Za-z]*(-[A-Z][A-Za-z]*)*_[A-Za-z][A-Za-z0-9]*(\.[A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?)|https?://scta\.info/resource/\S+"/>
+          <dataRef name="token" restriction="(cf_)?((C|D|COLL|P|EP|H|EX|LR|CPT|CHA|W)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?|(GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV)_[0-9]+(-[0-9]+)?(_[0-9]+(-[0-9]+)?)?|[A-Z][A-Za-z]*(-[A-Z][A-Za-z]*)*_[A-Za-z][A-Za-z0-9]*(\.[A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?)|https?://scta\.info/resource/\S+"/>
         </content>
       </dataSpec><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="ST" xml:id="DSTTEI2" ident="tei" type="core"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="CMC" ident="cmc"/><moduleSpec n="CO" xml:id="DCO" ident="core"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="HD" xml:id="DHD" ident="header"/><moduleSpec n="DS" xml:id="DDS" ident="textstructure"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="ND" xml:id="DND" ident="namesdates"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="MS" xml:id="DMSD2" ident="msdescription"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="SA" xml:id="DSA" ident="linking"/><moduleSpec xmlns:xi="http://www.w3.org/2001/XInclude" n="PH" xml:id="DPH" ident="transcr"/><moduleSpec n="TC" xml:id="DTC" ident="textcrit"/><moduleSpec n="FS" xml:id="DFS" ident="iso-fs"/></schemaSpec>
       </div>
