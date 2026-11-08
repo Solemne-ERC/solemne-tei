@@ -1,0 +1,365 @@
+/* SPDX-License-Identifier: CC-BY-4.0 */
+/* The guide's HTML: plain, for long reading. The text in Junicode, served with the guide (fonts/, under the SIL Open
+   Font Licence, fonts/OFL.txt); code in the reader's monospace. */
+
+@font-face {
+  font-family: "Junicode";
+  src: url("fonts/JunicodeVF-Roman.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Junicode";
+  src: url("fonts/JunicodeVF-Italic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+:root {
+  --text: #1d1c1a;
+  --muted: #5d5a54;
+  --paper: #fdfcf9;
+  --rule: #d9d5cc;
+  --shade: #f3f1ec;
+  --link: #1f3d7a;
+  --valid: #3f6b3f;
+  --invalid: #9a3324;
+  --element: #1f3d7a;
+  --attribute: #6b3f6b;
+  --value: #3f6b3f;
+  --serif: "Junicode", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #e6e2da;
+    --muted: #a8a399;
+    --paper: #1b1a18;
+    --rule: #3b3833;
+    --shade: #26241f;
+    --link: #9db8ea;
+    --valid: #9cc79c;
+    --invalid: #e59a8a;
+    --element: #9db8ea;
+    --attribute: #d6a8d6;
+    --value: #9cc79c;
+  }
+}
+
+html {
+  background: var(--paper);
+}
+
+body {
+  margin: 0 auto;
+  max-width: 46rem;
+  padding: 2rem 1.25rem 4rem;
+  color: var(--text);
+  background: var(--paper);
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.55;
+  font-variant-numeric: oldstyle-nums;
+  hyphens: auto;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  color: var(--link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 600;
+  line-height: 1.25;
+  hyphens: manual;
+}
+
+h1.maintitle {
+  font-size: 2rem;
+  margin: 0.4rem 0 1.5rem;
+}
+
+h2 {
+  font-size: 1.45rem;
+  margin: 2.5rem 0 0.75rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+  margin: 2rem 0 0.5rem;
+}
+
+h4 {
+  font-size: 1.05rem;
+  font-style: italic;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.headingNumber {
+  color: var(--muted);
+  font-variant-numeric: lining-nums;
+  margin-right: 0.35em;
+}
+
+p {
+  margin: 0 0 0.9rem;
+}
+
+/* The guide's title above each page's heading, and the footer under it. */
+p.guide-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+p.guide-title a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+footer.guide-footer {
+  margin-top: 3rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+footer.guide-footer a {
+  color: var(--muted);
+}
+
+/* Previous, up, next. */
+nav.left {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  margin-top: 3rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.95rem;
+}
+
+nav.left span {
+  color: var(--muted);
+}
+
+/* The title page and the contents. */
+div.titlePage {
+  margin: 3rem 0 3.5rem;
+  text-align: center;
+}
+
+div.titlePage .titlePart:first-child {
+  font-size: 2.4rem;
+  line-height: 1.15;
+  font-weight: 600;
+}
+
+div.titlePage .titlePart + .titlePart {
+  font-size: 1.5rem;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+div.titlePage .docTitle {
+  margin-bottom: 2rem;
+}
+
+div.titlePage .docAuthor {
+  font-size: 1.2rem;
+}
+
+div.titlePage .docEdition {
+  margin-top: 2rem;
+}
+
+div.titlePage .docEdition, div.titlePage .docDate {
+  color: var(--muted);
+}
+
+div.titlePage .docImprint {
+  margin: 2rem auto 0;
+  max-width: 34rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+ul.toc {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul.toc ul.toc {
+  padding-left: 2.6rem;
+  font-size: 0.97rem;
+}
+
+li.toc {
+  margin: 0.2rem 0;
+}
+
+ul.toc > li.toc > a.toc_0 {
+  font-weight: 600;
+}
+
+ul.toc li.toc .headingNumber {
+  display: inline-block;
+  min-width: 2.6rem;
+  margin-right: 0;
+}
+
+ul.toc ul.toc .headingNumber {
+  min-width: 3rem;
+}
+
+/* Lists. */
+ul, ol {
+  padding-left: 1.5rem;
+}
+
+li {
+  margin: 0.25rem 0;
+}
+
+/* Code, names and values in the prose. */
+code, .gi, .att, .val, .ident, tt, pre, .pre {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  font-variant-numeric: normal;
+  hyphens: none;
+}
+
+.gi a, a .gi {
+  text-decoration: none;
+}
+
+.att {
+  font-style: italic;
+  font-family: var(--serif);
+  font-size: 1em;
+}
+
+/* Examples: shaded; a counter-example marked on its left, with the rule it breaks named before it. */
+div.pre, pre {
+  margin: 0.5rem 0 1.25rem;
+  padding: 0.75rem 1rem;
+  background: var(--shade);
+  border-left: 3px solid var(--valid);
+  border-radius: 2px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.45;
+}
+
+div.pre.egXML_invalid {
+  border-left-color: var(--invalid);
+}
+
+div.pre .element {
+  color: var(--element);
+}
+
+div.pre .attribute {
+  color: var(--attribute);
+}
+
+div.pre .attributevalue {
+  color: var(--value);
+}
+
+div.pre .comment {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Tables: the appendices, the mappings, the tiers. */
+table {
+  width: 100%;
+  margin: 0.75rem 0 1.5rem;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+caption, table .caption {
+  text-align: left;
+  font-style: italic;
+  margin-bottom: 0.4rem;
+}
+
+td, th {
+  padding: 0.3rem 0.5rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+}
+
+tr.label td, td.label, th {
+  font-weight: 600;
+  border-bottom: 2px solid var(--rule);
+}
+
+/* The reference: one page per element, class, macro and datatype. */
+h3.oddSpec {
+  font-family: var(--mono);
+  font-size: 1.4rem;
+}
+
+table.wovenodd td {
+  border-bottom: 1px solid var(--rule);
+}
+
+td.wovenodd-col1 {
+  width: 9rem;
+  color: var(--muted);
+}
+
+table.specGrpSummary {
+  width: auto;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.unusedattribute {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+@media (max-width: 40rem) {
+  body {
+    font-size: 1.05rem;
+    padding: 1.25rem 1rem 3rem;
+  }
+
+  h1.maintitle {
+    font-size: 1.6rem;
+  }
+
+  div.titlePage .titlePart:first-child {
+    font-size: 1.8rem;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+@media print {
+  body {
+    max-width: none;
+    font-size: 11pt;
+  }
+
+  nav.left, footer.guide-footer {
+    display: none;
+  }
+}
