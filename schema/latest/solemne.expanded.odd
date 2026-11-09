@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 0.8.1 (SHA-256 96ee4587a494717a7f56945a4dfa6a386667019e40bf0e5fde1e5a426a713ec1) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 1.0.0 (SHA-256 60020868bc12fc4027c7ea2a252d3d66ccafe8a7a6c0d8dc545420c1e232fd8b) by solemne-tei build. Edit the ODD, not this file. -->
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:lang="en">
   <teiHeader>
     <fileDesc>
@@ -11,7 +11,7 @@
         <author>Sven Meeder</author>
       </titleStmt>
       <editionStmt>
-        <edition n="0.8.1">Version 0.8.1</edition>
+        <edition n="1.0.0">Version 1.0.0</edition>
       </editionStmt>
       <publicationStmt>
         <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University</publisher>
@@ -65,8 +65,8 @@
         <docAuthor>Gleb Schmidt</docAuthor>
         <docAuthor>Friederike Voit</docAuthor>
         <docAuthor>Sven Meeder</docAuthor>
-        <docEdition>Version 0.8.1</docEdition>
-        <docDate when="2026-11-08">8 November 2026</docDate>
+        <docEdition>Version 1.0.0</docEdition>
+        <docDate when="2026-11-09">9 November 2026</docDate>
         <docImprint>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University, Nijmegen; funded by
           the European Research Council, grant 101087979. The guide is under the Creative Commons Attribution 4.0
           licence; the schema made from it, under the MIT licence.</docImprint>
@@ -111,9 +111,9 @@
       the templates is checked as it is typed: the template declares the schema by two <code>xml-model</code>
       processing instructions, one for the RelaxNG, with the Schematron inside it, and one for the Schematron, for
       other tools:</p>
-    <eg>&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.8.1/solemne.rng"
+    <eg>&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/1.0.0/solemne.rng"
   type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?&gt;
-&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.8.1/solemne.sch"
+&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/1.0.0/solemne.sch"
   type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?&gt;</eg>
     <p>The schema is published at its version's address once the release is published; until then, a template is
       checked with <code>solemne-tei validate</code>.</p>
@@ -142,7 +142,7 @@
   <div xml:id="intro-templates">
     <head>The templates</head>
     <p>The templates, in the guide's folder <code>templates</code>, are whole files to start from, each a short real
-      text of the corpus, and each checked with the guide's examples:</p>
+      text of the corpus but the register, and each checked with the guide's examples:</p>
     <list>
       <item><code>minimal.xml</code>: only the required tier;</item>
       <item><code>rich.xml</code>: every common form for a text, and some of the full ones;</item>
@@ -154,7 +154,9 @@
         description;</item>
       <item><code>reconstruction.xml</code>: a reconstruction, with the witnesses it was made from;</item>
       <item><code>export.xml</code>: an export, as the application writes it, with what it adds to an imported
-        file.</item>
+        file;</item>
+      <item><code>register.xml</code>: a register of persons, made up, the form of the records the application's
+        database is seeded with.</item>
     </list>
   </div>
 
@@ -167,8 +169,8 @@
       <item><hi>One form in and out.</hi> What an export writes, an import reads: an exported file imports again
         without loss. For each form, the guide says what the import makes of it and what an export writes.</item>
       <item><hi>TEI as it is.</hi> The guide restricts TEI and documents it, and adds to it only where TEI has no way
-        to say something, saying so: so far, a type on <gi>segmentation</gi>, and a hand's execution on
-        <gi>handNote</gi>.</item>
+        to say something, saying so: so far, a type on <gi>segmentation</gi>, a hand's execution on
+        <gi>handNote</gi>, and a person's type on <gi>person</gi>.</item>
       <item><hi>Closed where the model is fixed, seeded where it grows.</hi> The types the application's code relies
         on are closed lists, which the RelaxNG checks; the vocabularies that grow in the application start from the
         guide's seeds.</item>
@@ -372,6 +374,11 @@
         <cell>a point</cell>
       </row>
       <row>
+        <cell>another numbering: another edition's chapter, canon or letter</cell>
+        <cell><gi>milestone</gi></cell>
+        <cell>a point</cell>
+      </row>
+      <row>
         <cell>language</cell>
         <cell><gi>foreign</gi></cell>
         <cell>a span</cell>
@@ -391,7 +398,7 @@
   <div xml:id="records-and-relations">
     <head>Records, relations, observations and judgements</head>
     <p>A record describes a person, a place, an institution, an event, a manuscript or a publication. A file points
-      to records from its names (<ptr target="#marked-names"/>), and may list them in its standOff (<ptr target="#records"/>). A placeholder becomes a provisional record at import. Every record, text and annotation
+      to records from its names (<ptr target="#marked-names"/>), and may list them in its standOff (<ptr target="#records"/>): a known record, the application's, or a new one, which the import makes (<ptr target="#records-ids"/>). Every record, text and annotation
       names its source: where it comes from, its id there, a link, the date it was retrieved, and its licence. A
       record names its own in itself (<ptr target="#records-sources"/>), a text in its header (<ptr target="#header-publication"/>).</p>
     <p>A relation is a typed statement from one thing to another, records, nodes or relations, with a type and its
@@ -490,11 +497,14 @@
 
     <div xml:id="header-categories">
       <head>Categories and types</head>
-      <p>The category says what kind of text the document is. The application keeps the categories as a vocabulary,
-        which may grow; the schema checks them against its list, which these seed:</p>
+      <p>The category says what kind of text the document is, or, for <val>W</val>, how the work is known. The
+        categories are a closed list, released with the guide: a category the application adds comes to the guide
+        first and joins it in a release, with its prefix, since every code's and every pointer's prefix depends on
+        it.</p>
       <list xml:id="category-list">
         <item><val>SYSCOLL</val>: a collection arranged by subject;</item>
         <item><val>CHRCOLL</val>: a collection arranged chronologically;</item>
+        <item><val>FARCOLL</val>: a collection in no order, a farrago, as Clavis canonum calls it;</item>
         <item><val>C</val>: a council;</item>
         <item><val>D</val>: a decretal;</item>
         <item><val>P</val>: a penitential;</item>
@@ -504,6 +514,13 @@
         <item><val>LR</val>: Roman law, <foreign xml:lang="la">lex Romana</foreign>;</item>
         <item><val>CPT</val>: a capitulary;</item>
         <item><val>CHA</val>: a charter;</item>
+        <item><val>BIB</val>: the Bible;</item>
+        <item><val>PATR</val>: a patristic work not known by a siglum;</item>
+        <item><val>SCHOL</val>: a scholarly work worth citing into, such as Kéry's catalogue of canonical
+          collections;</item>
+        <item><val>W</val>: a work known by its siglum in Gryson's <title>Répertoire général des auteurs
+            ecclésiastiques latins</title>, whatever its kind: a Father's letter cited by its siglum is
+          <val>W</val>, not <val>EP</val>;</item>
         <item><val>UNK</val>: not known.</item>
       </list>
       <p>The type says what the file transcribes:</p>
@@ -515,7 +532,9 @@
           known from parts of other collections;</item>
         <item><val>hypothesis</val>: any text supposed rather than found, less precise than a reconstruction;</item>
         <item><val>placeholder</val>: a text whose content stands in for another's, such as a manuscript's text taken
-          for now from the edition that used it.</item>
+          for now from the edition that used it;</item>
+        <item><val>register</val>: not a document but a list of records, with no text: its formal title holds its
+          type alone, without a code or a category (<ptr target="#records-registers"/>).</item>
       </list>
       <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="category-value">
         <title type="formal">
@@ -550,9 +569,9 @@
       <p>A code has up to three parts, joined by dots:</p>
       <list>
         <item><hi>The category's prefix:</hi> the category itself (<code>C</code>, <code>D</code>, <code>P</code>,
-          <code>H</code>, <code>EX</code>, <code>EP</code>, <code>LR</code>, <code>CPT</code>, <code>CHA</code>),
-          and <code>COLL</code> for both kinds of collection. A document of an unknown category takes any
-          prefix.</item>
+          <code>H</code>, <code>EX</code>, <code>EP</code>, <code>LR</code>, <code>CPT</code>, <code>CHA</code>,
+          <code>BIB</code>, <code>PATR</code>, <code>SCHOL</code>, <code>W</code>), and <code>COLL</code> for the
+          three kinds of collection. A document of an unknown category takes any prefix.</item>
         <item><hi>The title part,</hi> its subparts joined by hyphens:
           <list>
             <item>the title: for a council, three capitals for its place (<code>C.MAI</code> for Mainz); for a
@@ -560,21 +579,29 @@
               pope (<code>D.PsCAL</code>); for a collection or a penitential, its name or an abbreviation of it
               (<code>COLL.Dach</code>, <code>COLL.400</code>, <code>P.HAL</code>); for a code of Roman law, the
               abbreviation its editions cite it by (<code>LR.CTh</code> for the Codex Theodosianus, <code>LR.CJ</code>
-              for Justinian's Codex, <code>LR.Inst</code>, <code>LR.Dig</code>); <code>UNK</code> where the title
-              isn't known;</item>
+              for Justinian's Codex, <code>LR.Inst</code>, <code>LR.Dig</code>); for a capitulary, a bishop's
+              statutes or a charter, three letters for the person who issued it (<code>CPT.CHL</code> for Chlothar
+              II, <code>CPT.GER</code> for Gerbald of Liège, <code>CHA.RAT</code> for Ratherius of Verona); for the
+              Bible, its version (<code>BIB.Vulg</code>, the Vulgate); for a work known by its Gryson siglum, the
+              siglum (<code>W.IS-ety</code>, below); <code>UNK</code> where the title isn't known;</item>
             <item>the date, where wanted: four digits, the year (<code>C.MAI-0813</code>), and for a code of Roman law
               the year of its promulgation (<code>LR.CTh-0438</code>, <code>LR.CJ-0534</code>); the latest possible
               year, where the date is a range; <code>9999</code> where the date isn't known
               (<code>EP.LupEuf-9999</code>);</item>
             <item>a further identifier, where needed: a decretal's number in Jaffé's register, in Kaltenbrunner's
-              numbering (<code>D.LEO-0447-414</code>); a version, <code>-v</code> and a name
-              (<code>C.NIC-0325-vDIO1</code>, Nicaea in the first Dionysiana; <code>D.LEO-0446-410-v1</code>).</item>
+              numbering (<code>D.LEO-0447-414</code>); a number, where one issuer and one year have several texts, in
+              the edition's order (<code>CPT.KAR-0813-1</code> to <code>-4</code>, <code>CHA.HEN-1002-1</code> to
+              <code>-12</code>); a version, <code>-v</code> and a name or the edition's letter
+              (<code>C.NIC-0325-vDIO1</code>, Nicaea in the first Dionysiana; <code>D.LEO-0446-410-v1</code>;
+              <code>CPT.HLU-0816-vA</code>, a version Mordek prints apart).</item>
           </list></item>
         <item><hi>The source part,</hi> where the code would otherwise be another document's: <code>ms-</code> and
           the manuscript's short code, for every transcription of a manuscript
           (<code>COLL.400.ms-Mun-BSB-4592</code>); <code>ed-</code> and the edition, where the corpus holds two
-          editions of one text: the volume of the Patrologia Latina (<code>COLL.Burch.ed-PL140</code>), SCTA's
-          Gratian (<code>COLL.Grat.ed-SCTA</code>).</item>
+          editions of one text: the volume of the Patrologia Latina (<code>COLL.Burch.ed-PL140</code>,
+          <code>CHA.RAT-0974.ed-PL136</code>), SCTA's Gratian (<code>COLL.Grat.ed-SCTA</code>), a series and its
+          volume (<code>C.GRM-0742.ed-MGHCapit1</code>, Karlmann's capitulary of 742 in the MGH's Capitularia beside
+          the council in its Concilia).</item>
       </list>
       <p>A manuscript's short code joins, by hyphens, its city in three letters, its library's abbreviation and its
         shelfmark: <code>Mun-BSB-4592</code> for Munich, Bayerische Staatsbibliothek, Clm 4592. A code is a valid
@@ -582,9 +609,61 @@
         parentheses, so a former shelfmark has no place in it. An underscore stands only in a pointer, before a
         citation (<ptr target="#marked-pointers"/>).</p>
       <p>A law of a Roman code is cited by its book, title and law, as the editions cite it: "CTh 16.2.47" is
-        <code>LR.CTh-0438_16.2.47</code>, its divisions numbered so (<ptr target="#text-prefaces-and-closers"/>). No
-        file of the corpus has the categories <code>CPT</code> or <code>CHA</code> yet. Their codes follow the general
-        rule, with their own prefixes; how their title parts are made, the guide will say with the first files.</p>
+        <code>LR.CTh-0438_16.2.47</code>, its divisions numbered so (<ptr target="#text-prefaces-and-closers"/>).</p>
+      <p>Each category has its own title part, and those for texts a person issues name the issuer: a decretal its
+        pope, a capitulary, a bishop's statutes and a charter the one who issued them. One name takes one set of
+        letters, whoever bears it, the year telling them apart, as <code>D.LEO</code> names every Leo: Charlemagne,
+        Charles the Bald and Charles III are all <code>KAR</code> (<code>CPT.KAR-0813-2</code>,
+        <code>CPT.KAR-0869</code>, <code>CPT.KAR-0880</code>). An issuer the edition leaves open between two, or
+        doesn't name, is <code>UNK</code>, and a statute without a name of its own has the edition's name for it in
+        its alias. A capitulary's year is the latest its edition's heading gives ("a. 805/813" is 813), a charter's
+        too. A collection of capitularies is a collection (<code>COLL.Ansegis</code>). A letter, a homiliary,
+        exegesis, a patristic work and a scholarly work take their title parts with their first files; until then,
+        the Schematron checks their codes' form and prefix.</p>
+      <p>A work known by its siglum in Gryson's <title>Répertoire</title> takes the siglum as its title part, its
+        spaces, dots and underscores made hyphens, the author's hyphen kept, and no date: <code>W.IS-ety</code> for
+        Isidore's Etymologiae, <code>W.HI-ep-52</code> for Jerome's letter 52, <code>W.AU-s-351</code> for
+        Augustine's sermon 351. A file holds one text, as the siglum's work part names it: a treatise is one file,
+        and a numbered collection of texts, such as a Father's letters or sermons, one file for each, its number in
+        the work part (<code>HI_ep.52</code>). It is cited by its divisions, as any code is: Isidore's book 15,
+        chapter 2, section 1 is <code>W.IS-ety_15.2.1</code>, and a pointer by the siglum,
+        <code>IS_ety_15.2.1</code>, names the same place (<ptr target="#marked-pointers"/>). A work that has a code
+        of its own, such as a pope's letter, keeps it, and its siglum stands on its record (<ptr target="#records-works"/>). A made-up file of the Etymologiae opens so:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples">
+        <titleStmt>
+          <title type="formal">
+            <idno>W.IS-ety</idno>
+            <idno type="category">W</idno>
+            <idno type="type">edition</idno>
+          </title>
+          <title type="alias">Isidore of Seville, Etymologiae</title>
+        </titleStmt>
+      </egXML>
+      <p>A capitulary's chapter is cited by its number, as its edition numbers it: <code>CPT.CHL-0614_9</code>.
+        Ansegis's collection, by book and chapter: <code>COLL.Ansegis_2.5</code>. A charter is cited whole, by its
+        code, or by its own numbers where it numbers its parts (<code>CHA.RAT-0974.ed-PL136_2</code>). Chlothar II's
+        edict of 614 opens so:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-CPT.CHL-0614">
+        <titleStmt>
+          <title type="formal">
+            <idno>CPT.CHL-0614</idno>
+            <idno type="category">CPT</idno>
+            <idno type="type">edition</idno>
+          </title>
+          <title type="alias">Chlotharii II. edictum, 614 (BK 9)</title>
+        </titleStmt>
+      </egXML>
+      <p>Ratherius of Verona's testament, in Migne's text:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-CHA.RAT-0974.ed-PL136">
+        <titleStmt>
+          <title type="formal">
+            <idno>CHA.RAT-0974.ed-PL136</idno>
+            <idno type="category">CHA</idno>
+            <idno type="type">edition</idno>
+          </title>
+          <title type="alias">Ratherius of Verona, Testamentum, in Migne's Patrologia Latina 136</title>
+        </titleStmt>
+      </egXML>
       <p>The Schematron checks the form: the prefix and its dot; the title part, whose subparts, the date among them,
         are joined by hyphens; and any source part after a dot, which begins with a letter. A code with an
         underscore fails, and so does a date joined by a dot (<code>P.SAM.0700</code> for
@@ -699,12 +778,14 @@
         <elementSpec ident="idno" module="header" mode="change" corresp="#tier-required">
           <constraintSpec ident="formal-title-idnos" scheme="schematron" corresp="#tier-required">
             <desc>The formal title holds the document's code (an identifier without a type), its category and its
-              type, once each; an export adds the permalinks of the levels the file belongs to.</desc>
+              type, once each; an export adds the permalinks of the levels the file belongs to. A register's holds its
+              type alone.</desc>
             <constraint>
               <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']">
-                <sch:assert id="formal-title-idnos" test="count(tei:idno[not(@type)]) = 1 and count(tei:idno[@type =                   'category']) = 1 and count(tei:idno[@type = 'type']) = 1 and (every $level in ('work', 'version',                   'witness', 'transcription') satisfies count(tei:idno[@type = $level]) le 1)">The formal title holds
-                  the document's code (an identifier without a type), its category and its type, once each, and at
-                  most one permalink for each level the file belongs to.</sch:assert>
+                <sch:let name="register" value="normalize-space(tei:idno[@type = 'type'][1]) = 'register'"/>
+                <sch:assert id="formal-title-idnos" test="count(tei:idno[@type = 'type']) = 1 and (if ($register) then                   count(tei:idno) = 1 else count(tei:idno[not(@type)]) = 1 and count(tei:idno[@type = 'category']) = 1                   and (every $level in ('work', 'version', 'witness', 'transcription') satisfies count(tei:idno[@type =                   $level]) le 1))">The formal title holds the document's code (an identifier without a type), its
+                  category and its type, once each, and at most one permalink for each level the file belongs to; a
+                  register's holds its type alone.</sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>
@@ -740,15 +821,15 @@
             </constraint>
           </constraintSpec>
           <constraintSpec ident="code-category" scheme="schematron" corresp="#tier-required">
-            <desc>The document's code begins with its category's prefix: COLL for both kinds of collection, the
-              category itself for the others; UNK's any.</desc>
+            <desc>The document's code begins with its category's prefix: COLL for the three kinds of collection,
+              the category itself for the others; UNK's any.</desc>
             <constraint>
               <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
                 <sch:let name="category" value="normalize-space(../tei:idno[@type = 'category'][1])"/>
                 <sch:let name="prefix" value="substring-before(normalize-space(.), '.')"/>
-                <sch:assert id="code-category" test="$category = ('', 'UNK') or $prefix = (if                   ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category)">The document's code
-                  (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of select="if ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category"/>, for the category
-                  <sch:value-of select="$category"/>).</sch:assert>
+                <sch:assert id="code-category" test="$category = ('', 'UNK') or $prefix = (if                   ($category = ('SYSCOLL', 'CHRCOLL', 'FARCOLL')) then 'COLL' else $category)">The document's code
+                  (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of select="if ($category = ('SYSCOLL', 'CHRCOLL', 'FARCOLL')) then 'COLL' else $category"/>, for the
+                  category <sch:value-of select="$category"/>).</sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>
@@ -774,8 +855,9 @@
             <desc>The document's category is one of the categories.</desc>
             <constraint>
               <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'category']">
-                <sch:assert id="category-value" test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'C', 'D', 'P', 'H',                   'EX', 'EP', 'LR', 'CPT', 'CHA', 'UNK')">The document's category (<sch:value-of select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, C, D, P, H, EX, EP, LR, CPT, CHA,
-                  UNK.</sch:assert>
+                <sch:assert id="category-value" test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'FARCOLL', 'C', 'D',                   'P', 'H', 'EX', 'EP', 'LR', 'CPT', 'CHA', 'BIB', 'PATR', 'SCHOL', 'W', 'UNK')">The document's category
+                  (<sch:value-of select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, FARCOLL, C, D, P, H, EX, EP,
+                  LR, CPT, CHA, BIB, PATR, SCHOL, W, UNK.</sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>
@@ -783,8 +865,18 @@
             <desc>The document's type is one of the types.</desc>
             <constraint>
               <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type']">
-                <sch:assert id="document-type-value" test="normalize-space(.) = ('edition', 'manuscript',                   'reconstruction', 'hypothesis', 'placeholder')">The document's type (<sch:value-of select="normalize-space(.)"/>) is one of edition, manuscript, reconstruction, hypothesis,
-                  placeholder.</sch:assert>
+                <sch:assert id="document-type-value" test="normalize-space(.) = ('edition', 'manuscript',                   'reconstruction', 'hypothesis', 'placeholder', 'register')">The document's type (<sch:value-of select="normalize-space(.)"/>) is one of edition, manuscript, reconstruction, hypothesis, placeholder,
+                  register.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <constraintSpec ident="register-form" scheme="schematron" corresp="#tier-full">
+            <desc>A register holds a standOff and no text; any other file holds a text.</desc>
+            <constraint>
+              <sch:rule context="tei:TEI">
+                <sch:let name="register" value="normalize-space(tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type                   = 'formal']/tei:idno[@type = 'type'][1]) = 'register'"/>
+                <sch:assert id="register-form" test="if ($register) then tei:standOff and not(tei:text) else                   tei:text">A register (a file typed register) holds a standOff and no text; any other file holds a
+                  text.</sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>
@@ -799,7 +891,7 @@
           </constraintSpec>
           <attList>
             <attDef ident="type" mode="change" corresp="#tier-required">
-              <valList type="closed" mode="replace" xml:id="idno-type-unknown" corresp="#tier-required">
+              <valList type="semi" mode="replace">
                 <valItem ident="category">
                   <desc>in the formal title: the document's category</desc>
                 </valItem>
@@ -866,6 +958,34 @@
                 <valItem ident="SCN">
                   <desc>the Bodleian's Summary Catalogue number</desc>
                 </valItem>
+                <valItem ident="isil">
+                  <desc>the International Standard Identifier for Libraries, a library's</desc>
+                </valItem>
+                <valItem ident="doi">
+                  <desc>a publication's Digital Object Identifier</desc>
+                </valItem>
+                <valItem ident="k10plus">
+                  <desc>K10plus, the union catalogue of the GBV and the SWB, a publication's record (PPN)</desc>
+                </valItem>
+                <valItem ident="dnb">
+                  <desc>the Deutsche Nationalbibliothek's catalogue, a publication's record</desc>
+                </valItem>
+                <valItem ident="openAlex">
+                  <desc>OpenAlex, a publication's or a scholar's record</desc>
+                </valItem>
+                <valItem ident="gryson">
+                  <desc>Gryson's repertory of Latin ecclesiastical writers, a work's siglum</desc>
+                </valItem>
+                <valItem ident="kery">
+                  <desc>Kéry's catalogue of canonical collections, a collection's or a manuscript's entry</desc>
+                </valItem>
+                <valItem ident="whg">
+                  <desc>the World Historical Gazetteer, a place</desc>
+                </valItem>
+                <valItem ident="jaffe">
+                  <desc>Jaffé's register of the popes' letters, the number as it's cited, its editor's letters first
+                    (JK 414)</desc>
+                </valItem>
                 <valItem ident="shelfmark">
                   <desc>a manuscript's shelfmark</desc>
                 </valItem>
@@ -877,6 +997,9 @@
                 </valItem>
                 <valItem ident="biblatex">
                   <desc>a publication's biblatex key</desc>
+                </valItem>
+                <valItem ident="permalink">
+                  <desc>in an export: a known record's permalink</desc>
                 </valItem>
               </valList>
             </attDef>
@@ -964,7 +1087,7 @@
           <desc>A record is pointed to by @ref, not by @key or @corresp.</desc>
           <constraint>
             <sch:rule context="tei:*[@key or @corresp]">
-              <sch:report id="record-pointer-in-ref" role="warning" test="some $p in                 tokenize(normalize-space(string-join((@key, @corresp), ' ')), ' ') satisfies matches($p,                 '^#?[Nn]ew_[A-Za-z]+_|^#?(PERS\.\d+|solemne_person_\d+)$|^https?://\S+/id/(person|place|institution|event|manuscript|publication)/')">&lt;<sch:name/>&gt;
+              <sch:report id="record-pointer-in-ref" role="warning" test="some $p in                 tokenize(normalize-space(string-join((@key, @corresp), ' ')), ' ') satisfies matches($p,                 '^#?[Nn]ew_[A-Za-z]+_|^#?(PERS|PLACE|INST|EVENT|PUBL|GROUP)\.\d+$|^https?://\S+/id/(person|place|institution|event|manuscript|publication)/')">&lt;<sch:name/>&gt;
                 points to a record in @key or @corresp (<sch:value-of select="normalize-space(string-join((@key,                 @corresp), ' '))"/>): a record is pointed to by @ref, on a name inside provenance, acquisition and
                 origin.</sch:report>
             </sch:rule>
@@ -1021,7 +1144,7 @@
         </biblStruct>
       </sourceDesc>
     </egXML>
-    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="idno-type-unknown">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="authority-term">
       <sourceDesc>
         <bibl>
           <title>Concilia exempli gratia</title>
@@ -1031,7 +1154,7 @@
     </egXML>
     <p>A file taken from another project's names that project as its source, in a <gi>bibl</gi> typed
       <val>source</val> after the witness's description, which stays whole: the description says what the text is,
-      the source where and when this file took it, in the form a record's source has (<ptr target="#records-sources"/>). Its name, in <gi>title</gi>, is required; then a link to the text there
+      the source where and when this file took it, in the form a record's source has (<ptr target="#records-sources"/>); a register names every list it's made from (<ptr target="#records-registers"/>). Its name, in <gi>title</gi>, is required; then a link to the text there
       (<gi>ref</gi>), the date it was taken (<gi>date</gi> typed <val>retrieved</val>, its day in <att>when</att>),
       the licence it was taken under, where the source states one (<gi>licence</gi>, in <gi>availability</gi>), the
       source's version or release, where it has one (<gi>edition</gi>), and a credit the source gives, in its own
@@ -1122,12 +1245,13 @@
            record's too, has its name; one with a link gives the date it was taken. -->
       <elementSpec ident="sourceDesc" module="header" mode="change" corresp="#tier-required">
         <constraintSpec ident="text-source-one" scheme="schematron" corresp="#tier-full">
-          <desc>A text has one source at most.</desc>
+          <desc>A text has one source at most; a register names every list it's made from.</desc>
           <constraint>
             <sch:rule context="tei:sourceDesc">
-              <sch:assert id="text-source-one" test="count(tei:bibl[@type = 'source']) le 1">A text has one source
-                at most: this sourceDesc holds <sch:value-of select="count(tei:bibl[@type = 'source'])"/> bibl typed
-                source.</sch:assert>
+              <sch:let name="register" value="normalize-space(/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type'][1]) = 'register'"/>
+              <sch:assert id="text-source-one" test="count(tei:bibl[@type = 'source']) le 1 or $register">A text has
+                one source at most: this sourceDesc holds <sch:value-of select="count(tei:bibl[@type = 'source'])"/>
+                bibl typed source.</sch:assert>
             </sch:rule>
           </constraint>
         </constraintSpec>
@@ -1369,7 +1493,39 @@
         </listPrefixDef>
       </egXML>
       <p>A record's or a manuscript's ids in other catalogues aren't pointers but identifiers: <gi>idno</gi>s typed
-        by their authority (<ptr target="#records"/>).</p>
+        by their authority, its key in lower camel case (<ptr target="#records-external-ids"/>). The guide lists the
+        authorities the application knows, and the list grows: a key it doesn't list is reported, not refused, unless
+        the file declares it. A file declares an authority in the encoding description's <gi>classDecl</gi>, as an
+        export declares a vocabulary's terms (<ptr target="#exports-vocabularies"/>): a <gi>taxonomy</gi> with the id
+        <code>authorities</code>, and in it a <gi>category</gi> for each authority, its <att>xml:id</att> the key, its
+        name in <gi>catDesc</gi> and, after the name, its links, each a <gi>ptr</gi> whose target holds
+        <code>$1</code> where the id goes. Where the link depends on the kind of record, as Mirabile's does, each link
+        is typed by the kind's word, the one a new record's id has (<val>person</val>, <val>place</val>,
+        <val>org</val>, <val>event</val>, <val>bibl</val>, <val>work</val>, <val>version</val>, <val>group</val>,
+        <val>manuscript</val>). An authority may have no link. The import makes a declared authority it doesn't hold;
+        one it holds under another key is the application's to map. The authorities the guide lists need no
+        declaration. Mirabile's indices, and a catalogue made up for the example:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples">
+        <classDecl>
+          <taxonomy xml:id="authorities">
+            <category xml:id="mirabile">
+              <catDesc>Mirabile <ptr type="person" target="https://www.mirabileweb.it/author/-author/$1"/>
+                <ptr type="work" target="https://www.mirabileweb.it/title/-/$1"/>
+                <ptr type="version" target="https://www.mirabileweb.it/title/-/$1"/>
+                <ptr type="manuscript" target="https://www.mirabileweb.it/manuscript/-manuscript/$1"/></catDesc>
+            </category>
+            <category xml:id="catalogusExempli">
+              <catDesc>Catalogus exempli gratia <ptr target="https://example.org/catalogus/$1"/></catDesc>
+            </category>
+          </taxonomy>
+        </classDecl>
+      </egXML>
+      <p>An authority's link holds <code>$1</code>, or it can't make a record's address:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="authority-link">
+        <category xml:id="catalogusSineNumero">
+          <catDesc>Catalogus sine numero <ptr target="https://example.org/catalogus/"/><!-- breaks the rule --></catDesc>
+        </category>
+      </egXML>
       <specGrp xml:id="header-external-ids-specs">
         <!-- External ids: a node's in @sameAs, its prefix declared in the header; a record's or a manuscript's in an
              idno typed by its authority. -->
@@ -1390,6 +1546,29 @@
               <sch:rule context="tei:prefixDef">
                 <sch:assert id="prefix-known" role="warning" test="@ident = ('scta', 'clavis', 'pseudoisidor',                   'corpuscorporum')">The prefix <sch:value-of select="@ident"/> isn't one the application knows (scta,
                   clavis, pseudoisidor, corpuscorporum).</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <!-- A record's authorities: the guide's, or declared in the file's taxonomy of authorities; a declared
+               authority's links hold $1 for the id. -->
+          <constraintSpec ident="authority-term" scheme="schematron" corresp="#tier-full">
+            <desc>An identifier's type is one of the guide's authorities, or declared in the file.</desc>
+            <constraint>
+              <sch:rule context="tei:idno[@type][not(parent::tei:title[@type = 'formal'])]">
+                <sch:let name="terms" value="('category', 'type', 'work', 'version', 'witness', 'transcription',                   'wikidata', 'viaf', 'gnd', 'geonames', 'tgn', 'pleiades', 'mirabile', 'clavis', 'biblissima',                   'schoenberg', 'hmml', 'bodleian', 'manusOnline', 'ieArk', 'crArk', 'SCN', 'isil', 'doi', 'k10plus',                   'dnb', 'openAlex', 'gryson', 'kery', 'whg', 'jaffe', 'shelfmark', 'ISBN', 'url', 'biblatex',                   'permalink')"/>
+                <sch:let name="declared" value="/tei:TEI/tei:teiHeader//tei:taxonomy[@xml:id =                   'authorities']/tei:category/@xml:id"/>
+                <sch:assert id="authority-term" role="warning" test="@type = ($terms, $declared)">The identifier's type
+                  <sch:value-of select="@type"/> isn't among the guide's authorities, nor declared in the file's
+                  taxonomy of authorities: check its spelling, or declare it.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <constraintSpec ident="authority-link" scheme="schematron" corresp="#tier-full">
+            <desc>An authority's link holds $1 where the id goes.</desc>
+            <constraint>
+              <sch:rule context="tei:taxonomy[@xml:id = 'authorities']//tei:ptr">
+                <sch:assert id="authority-link" test="contains(@target, '$1')">An authority's link holds $1 where the
+                  id goes (<sch:value-of select="@target"/>).</sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>
@@ -1542,6 +1721,7 @@
         <content>
           <alternate>
             <elementRef key="pb"/>
+            <elementRef key="milestone"/>
             <elementRef key="note"/>
             <elementRef key="gap"/>
           </alternate>
@@ -1556,7 +1736,7 @@
           <desc>Inside the text, only the annotation layers' elements.</desc>
           <constraint>
             <sch:rule context="tei:body//tei:*">
-              <sch:assert id="text-elements" test="local-name() = ('div', 'head', 'p', 'note', 'pb', 'lb', 'gap',                 'persName', 'placeName', 'eventName', 'bibl', 'cit', 'quote', 'ref', 'seg', 'date', 'subst', 'add',                 'del', 'unclear', 'foreign', 'choice', 'corr', 'sic', 'abbr', 'expan', 'supplied', 'rs',                 'anchor')">&lt;<sch:name/>&gt; isn't one of the text's elements.</sch:assert>
+              <sch:assert id="text-elements" test="local-name() = ('div', 'head', 'p', 'note', 'pb', 'milestone', 'lb', 'gap',                 'persName', 'placeName', 'eventName', 'bibl', 'cit', 'quote', 'ref', 'seg', 'date', 'subst', 'add',                 'del', 'unclear', 'foreign', 'choice', 'corr', 'sic', 'abbr', 'expan', 'supplied', 'rs',                 'anchor')">&lt;<sch:name/>&gt; isn't one of the text's elements.</sch:assert>
             </sch:rule>
           </constraint>
         </constraintSpec>
@@ -1566,6 +1746,15 @@
         <content>
           <macroRef key="solemne.structure"/>
         </content>
+        <constraintSpec ident="book-code-section" scheme="schematron" corresp="#tier-full">
+          <desc>A book's code, in @n, stands only on a section.</desc>
+          <constraint>
+            <sch:rule context="tei:div[matches(@n, '^[1-4]?[A-Z]')]">
+              <sch:assert id="book-code-section" test="@type = 'section'">A book's code (<sch:value-of select="@n"/>)
+                stands only on a section: a book of the Bible.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
         <constraintSpec ident="unit-alone" scheme="schematron" corresp="#tier-full">
           <desc>Units are written only where they stand side by side.</desc>
           <constraint>
@@ -1651,9 +1840,9 @@
           </attDef>
           <attDef ident="n" mode="change" corresp="#tier-common">
             <desc>the division's number, as a value: 49 for a heading XLVIIII; a letter after it for a chapter after a
-              numbered one, or for a number repeated</desc>
+              numbered one, or for a number repeated; on a book of the Bible, its code</desc>
             <datatype xml:id="division-number-not-a-value" corresp="#tier-common">
-              <dataRef name="token" restriction="[0-9]+[a-z]?"/>
+              <dataRef name="token" restriction="[0-9]+[a-z]?|GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV"/>
             </datatype>
           </attDef>
           <attDef ident="subtype" mode="delete"/>
@@ -1691,6 +1880,24 @@
         <head type="inscription">In Antioceno concilio de peregrinorum susceptione, t. VII.</head>
         <p>Nullus peregrinorum sine pacificis, id est commendaticiis, suscipiatur epistolis.</p>
       </div>
+    </egXML>
+    <p>A heading may head the whole text: the body holds it before the text's divisions, as a division holds its
+      headings, so that the chapters below are cited by their own numbers (<code>9</code>, not <code>1.9</code>).
+      Childebert II's decree, in Boretius's edition, opens with its title, then its preface and its chapters:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-CPT.CHB-0596">
+      <body>
+        <head type="rubric">Incipit decretio Childeberti regis.</head>
+        <div type="preface">
+          <p>Childebertus, rex Francorum, vir inluster. Cum in Dei nomine nos omnes Kalendas Martias de quascumque
+            condiciones una cum nostris optimatibus pertractavimus, ad unumquemque noticia volumus pervenire.</p>
+        </div>
+        <div type="chapter" n="1">
+          <head type="number">1.</head>
+          <p>Ita, Deo propitiante, Antonaco Kalendas Marcias anno vicesimo regni nostri convenit, ut nepotes ex filio
+            vel ex filia ad aviaticas res cum avunculos vel amitas sic venirent, tamquam si pater aut mater vivi
+            fuissent. …</p>
+        </div>
+      </body>
     </egXML>
     <p>A heading without a type, or with one not in the list, fails the RelaxNG:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="heading-type-missing">
@@ -1757,7 +1964,8 @@
     </egXML>
     <p>The import keeps the value as the node's number, and the citation of a chapter or a register item is made from
       it (<ptr target="#citations-and-permalinks"/>). A division without a number heading may still have
-      <att>n</att>, where the numbering of the file gives one.</p>
+      <att>n</att>, where the numbering of the file gives one. One kind of value isn't a number: a book of the Bible,
+      a section, has its book's code (<ptr target="#text-bible"/>).</p>
   </div>
 
   <div xml:id="text-units">
@@ -1929,6 +2137,60 @@
     </egXML>
   </div>
 
+  <div xml:id="text-bible">
+    <head>The Bible</head>
+    <p>The Bible is one file, the Vulgate (<code>BIB.Vulg</code>, of the category <val>BIB</val>), divided by book,
+      chapter and verse, so that the pointers to it (<ptr target="#marked-pointers"/>) name its nodes without a table
+      between them. A book is a section, its code in <att>n</att> (<val>MAT</val>, one of the 73 the pointers use) and
+      its name as a rubric; a chapter is a chapter, numbered; a verse is a chapter inside it, numbered, its text a
+      paragraph, since a chapter is a numbered unit as the source divides it and is cited by its number. So
+      <code>MAT_18_19</code> names the verse cited <code>MAT.18.19</code>, <code>JOH_1</code> the chapter
+      <code>JOH.1</code>, and a range, <code>PHP_3_17-20</code>, its run of verses. The Psalms keep the Vulgate's
+      numbers, and a psalm's title stays in its first verse, as the Clementine text prints it. A book's prologue,
+      which the Clementine text prints before the first verse, as Sirach's and Lamentations', is a preface of its
+      book, before its first chapter, cited <code>pr1</code> (<code>SIR.pr1</code>), its heading as the text gives
+      it. Matthew 18:19–20, made up from the Vulgate's words:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <div type="section" n="MAT">
+        <head type="rubric">Evangelium secundum Matthaeum</head>
+        <div type="chapter" n="18">
+          <div type="chapter" n="19">
+            <p>Iterum dico vobis, quia si duo ex vobis consenserint super terram, de omni re quamcumque petierint,
+              fiet illis a Patre meo, qui in caelis est.</p>
+          </div>
+          <div type="chapter" n="20">
+            <p>Ubi enim sunt duo vel tres congregati in nomine meo, ibi sum in medio eorum.</p>
+          </div>
+        </div>
+      </div>
+    </egXML>
+    <p>The opening of Sirach, its prologue shortened, made up from the Vulgate's words:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <div type="section" n="SIR">
+        <head type="rubric">Ecclesiasticus</head>
+        <div type="preface">
+          <head type="rubric">Prologus.</head>
+          <p>Multorum nobis, et magnorum, per legem et prophetas, aliosque qui secuti sunt illos, sapientia
+            demonstrata est …</p>
+        </div>
+        <div type="chapter" n="1">
+          <div type="chapter" n="1">
+            <p>Omnis sapientia a Domino Deo est, et cum illo fuit semper, et est ante aevum.</p>
+          </div>
+          <div type="chapter" n="2">
+            <p>Arenam maris, et pluviae guttas, et dies saeculi quis dinumeravit?</p>
+          </div>
+        </div>
+      </div>
+    </egXML>
+    <p>A book's code stands only on a section, and <att>n</att> takes no other name:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="book-code-section">
+      <div type="chapter" n="JOH"><!-- breaks the rule: a chapter -->
+        <p>In principio erat Verbum.</p>
+      </div>
+    </egXML>
+  </div>
+
   <div xml:id="text-between">
     <head>What stands between</head>
     <p>Page breaks, notes and gaps may stand between headings, paragraphs and divisions, where the source has them.
@@ -1966,6 +2228,8 @@
       <p>Layout comes second: what is written, and how the text is organised, rather than where it stands on the
         page. So the layout is encoded only in page breaks, in where a change was made (above the line, in the
         margin), and in what can't be read.</p>
+      <p>A charter's signs, which an edition gives in words, a chrismon ("C."), a monogram ("(Monogramma.)"), a seal
+        ("Cum sigillo …"), stay text where the edition puts them: they have no mark of their own.</p>
     </div>
 
     <div xml:id="transcription-page-breaks">
@@ -1988,6 +2252,104 @@
           <attList>
             <attDef ident="n" mode="change" usage="req" xml:id="page-break-without-number" corresp="#tier-common">
               <desc>the page, folio or column: 255, 120ra, 0187A</desc>
+            </attDef>
+          </attList>
+        </elementSpec>
+      </specGrp>
+    </div>
+
+    <div xml:id="transcription-other-editions">
+      <head>Another edition's pages and numbering</head>
+      <p>A text is often cited by another edition's pages or numbering than the one the file follows: Pseudo-Isidore
+        by Hinschius's pages and chapters, the Quadripartitus by Kerff's numbers, Gregory's letters by the Maurists'.
+        That edition is a witness of the same text, listed in the source description's <gi>listWit</gi>, a
+        <gi>witness</gi> pointing to its publication (<ptr target="#records-witnesses"/>). Its pages are page breaks
+        that name it in <att>edRef</att>, as an edition gives a manuscript's folios; a page break without
+        <att>edRef</att> is the file's own edition's page.</p>
+      <p>Its numbering is a milestone (<gi>milestone</gi>) where its unit begins: <att>unit</att> says what it numbers
+        (<val>book</val>, <val>chapter</val>, <val>canon</val>, <val>letter</val>, <val>section</val>, a warning
+        outside them), <att>n</att> gives the number as the edition gives it, and <att>edRef</att> names the witness.
+        Another edition's chapters needn't begin where the file's do, so a milestone stands where its unit begins:
+        between divisions and paragraphs, or inside a paragraph or a heading. A page is a page break, never a
+        milestone. A made-up chapter of Pseudo-Isidore, in an edition that gives Hinschius's pages and chapters, his
+        chapter 5 beginning inside the file's chapter 4:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples">
+        <listWit>
+          <witness xml:id="wit-hinschius"><bibl><ptr target="#new_bibl_hinschius_1863"/></bibl></witness>
+        </listWit>
+        <div type="chapter" n="4">
+          <p><pb n="17"/>Exemplum verborum, quae in hoc capitulo leguntur, <pb edRef="#wit-hinschius" n="131"/>et
+            alia. <milestone unit="chapter" n="5" edRef="#wit-hinschius"/>Aliud exemplum, quod sequitur.</p>
+        </div>
+      </egXML>
+      <p>A letter of Gregory's Register, cited by the Maurists' numbers in the Patrologia Latina and in older works,
+        holds the Maurists' number in a milestone typed <val>letter</val> where its text begins. Clavis canonum's keys
+        stay on the divisions, in <att>sameAs</att> (<ptr target="#header-external-ids"/>); a Clavis location that
+        differs from the file's numbering, such as <code>RR1.97</code> for Regino's book 1, chapter 97, is a milestone
+        of the edition the Clavis follows.</p>
+      <p>Pointers keep citing the file's own numbering: a citation by another edition's is resolved to the file's
+        divisions before it is written (<ptr target="#marked-pointers"/>). The import keeps each milestone as an
+        annotation of its own layer, another numbering: the edition, the unit and the number, for search and
+        citation, never as the file's own divisions (<ptr target="#annotations"/>).</p>
+      <p>The edition a page break or a milestone names is a witness listed in the file:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="edref-witness">
+        <p>Exemplum verborum <pb edRef="#ed-hinschius" n="131"/><!-- breaks the rule -->et alia.</p>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="milestone-term">
+        <listWit>
+          <witness xml:id="wit-hinschius-page"><bibl><ptr target="#new_bibl_hinschius_1863"/></bibl></witness>
+        </listWit>
+        <p>Exemplum verborum <milestone unit="page" n="131" edRef="#wit-hinschius-page"/><!-- breaks the rule --> et
+          alia.</p>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="milestone-without-number">
+        <listWit>
+          <witness xml:id="wit-hinschius-number"><bibl><ptr target="#new_bibl_hinschius_1863"/></bibl></witness>
+        </listWit>
+        <p>Exemplum verborum <milestone unit="chapter" edRef="#wit-hinschius-number"/><!-- breaks the rule --> et
+          alia.</p>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="milestone-without-edition">
+        <p>Exemplum verborum <milestone unit="chapter" n="5"/><!-- breaks the rule --> et alia.</p>
+      </egXML>
+      <specGrp xml:id="text-other-editions-specs">
+        <elementSpec ident="milestone" module="core" mode="change" corresp="#tier-full">
+          <constraintSpec ident="milestone-term" scheme="schematron" corresp="#tier-full">
+            <desc>Another numbering's unit is one of the guide's, or a new term of the vocabulary.</desc>
+            <constraint>
+              <sch:rule context="tei:milestone[@unit]">
+                <sch:let name="terms" value="('book', 'chapter', 'canon', 'letter', 'section')"/>
+                <sch:assert id="milestone-term" role="warning" test="@unit = $terms">The milestone's unit
+                  <sch:value-of select="@unit"/> isn't among the guide's: check its spelling, or add it to the
+                  application's vocabulary; a page is a page break.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <constraintSpec ident="edref-witness" scheme="schematron" corresp="#tier-full">
+            <desc>The edition a page break or a milestone names is a witness listed in the file.</desc>
+            <constraint>
+              <sch:rule context="tei:pb[@edRef] | tei:milestone[@edRef]">
+                <sch:assert id="edref-witness" test="every $ref in tokenize(normalize-space(@edRef), ' ') satisfies                   (starts-with($ref, '#') and exists(ancestor::tei:TEI//tei:witness[@xml:id = substring($ref,                   2)]))">The edition a &lt;<sch:name/>&gt; names (<sch:value-of select="@edRef"/>) is a witness
+                  listed in the file's listWit, by # and its id.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <attList>
+            <attDef ident="unit" mode="change" corresp="#tier-full">
+              <desc>what the other numbering numbers, from the application's vocabulary</desc>
+              <valList type="semi" mode="replace">
+                <valItem ident="book"><desc>a book</desc></valItem>
+                <valItem ident="chapter"><desc>a chapter</desc></valItem>
+                <valItem ident="canon"><desc>a canon</desc></valItem>
+                <valItem ident="letter"><desc>a letter</desc></valItem>
+                <valItem ident="section"><desc>a section, a paragraph or a key, such as Clavis canonum's</desc></valItem>
+              </valList>
+            </attDef>
+            <attDef ident="n" mode="change" usage="req" xml:id="milestone-without-number" corresp="#tier-full">
+              <desc>the number, as the edition gives it</desc>
+            </attDef>
+            <attDef ident="edRef" mode="change" usage="req" xml:id="milestone-without-edition" corresp="#tier-full">
+              <desc>the edition, a witness in the file's listWit</desc>
             </attDef>
           </attList>
         </elementSpec>
@@ -2145,14 +2507,16 @@
       <gi>eventName</gi>, around the words of the text, and points to its record in <att>ref</att>, in one of three
       forms:</p>
     <list>
-      <item>a placeholder: <code>#new_</code>, the kind of record, <code>_</code>, and a name of the encoder's own
+      <item>a new record's id: <code>#new_</code>, the kind of record, <code>_</code>, and a name of the encoder's own
         (<code>#new_person_Arno</code>), the same for every name of that record in the file;</item>
-      <item>an id in the file (<code>#PERS.1234</code>), where the record is listed in the file's standOff (<ptr target="#records"/>);</item>
+      <item>a known record's id (<code>#PERS.1234</code>), the application's, where the record is listed in the
+        file's standOff with its name (<ptr target="#records-ids"/>);</item>
       <item>a permalink of the application (<code>https://…/id/person/PERS.1234</code>).</item>
     </list>
-    <p>The import makes a provisional record of each placeholder, one for all the names that share it, for the
-      project to identify; it uses a permalink as given, without matching: a record merged since forwards to the
-      record that replaced it, and a permalink that leads nowhere is reported. An export writes permalinks. In the
+    <p>The import makes a record of each new one, one for all the names that share it, for whoever imports the file
+      to match or make; it links a known one to the application's record, and uses a permalink as given, without
+      matching: a record merged since forwards to the record that replaced it, and an id or a permalink that leads
+      nowhere is reported. An export points to the records it lists, each holding its permalink. In the
       preface of the Council of Mainz of 813, the king's envoys name themselves and the city:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.MAI-0813">
       <p>Almifice reverentiae vestrae patefacimus nos humillimi famuli ac missi vestri, <persName ref="#new_person_Hildibaldus">Hildibaldus</persName> scilicet sacri palatii archiepiscopus, <persName ref="#new_person_rihholfus">Rihholfus</persName> et <persName ref="#new_person_Arno">Arno</persName>
@@ -2173,7 +2537,8 @@
     <specGrp xml:id="marked-names-specs">
       <!-- Names point to their records: a placeholder until the import resolves it, then a permalink. -->
       <dataSpec ident="solemne.recordPointer" mode="add" xml:id="record-pointer-form" corresp="#tier-full">
-        <desc>A pointer to a record: a placeholder (#new_person_…), an identifier in the file, or a permalink.</desc>
+        <desc>A pointer to a record: a new record's id (#new_person_…), a known record's id in the file (#PERS.12), or
+          a permalink.</desc>
         <content>
           <dataRef name="token" restriction="#new_[a-z]+_\S+|#[A-Za-z_][A-Za-z0-9_.\-]*|https?://\S+"/>
         </content>
@@ -2377,18 +2742,33 @@
           sed ut conuertatur</quote> a perditione poenitendo, et saluatus miseratione Domini uiuat. …</p>
     </egXML>
     <p>A code's prefix is its category's, as the coding rules make it (<ptr target="#header-codes"/>):
-      <code>COLL</code> for both kinds of collection, the category itself for the others, <code>LR</code>,
-      <code>CPT</code> and <code>CHA</code> among them. A file of unknown category, whose code may take any prefix,
-      is reached by a pointer only under one of these. The pattern also takes <code>W</code>, which no category makes:
-      it is kept, and no file uses it yet. A text that takes over a law of the Codex Theodosianus points to it by the
-      law and its paragraph; the example is made up:</p>
+      <code>COLL</code> for the three kinds of collection, the category itself for the others, <code>LR</code>,
+      <code>CPT</code>, <code>CHA</code>, <code>BIB</code>, <code>PATR</code>, <code>SCHOL</code> and <code>W</code>
+      among them. A file of unknown category, whose code may take any prefix, is reached by a pointer only under one
+      of these. A text that takes over a law of the Codex Theodosianus points to it by the law and its paragraph; the
+      example is made up:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <p>Clericos etiam … episcopali audientiae reservamus.<note type="source" source="LR.CTh-0438_16.2.47.1">Cod.
           Theod. 16, 2, 47, 1</note></p>
     </egXML>
+    <p>A pointer by a Gryson siglum names the work as the siglum does, its author and its work joined by an
+      underscore, and a numbered text's number after a dot; then, after a second underscore, the place, by the
+      divisions' numbers, as for a code. Each text it names is one file, coded from the siglum (<ptr target="#header-codes"/>): <code>IS_ety_15.2.1</code> is book 15, chapter 2, section 1 of Isidore's
+      Etymologiae, the file <code>W.IS-ety</code>; <code>HI_ep.52_14</code> is chapter 14 of Jerome's letter 52,
+      <code>W.HI-ep-52</code>; a range is the run of divisions (<code>IS_ety_15.15.1-7</code>). A work with a code
+      of its own is reached through its record, which holds its siglum (<ptr target="#records-works"/>):
+      <code>GR-M_ep.9.219</code>, Gregory's letter IX, 219, is <code>D.GRE-0599-1748</code>. A made-up note:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <p>Clerici … in ecclesia maneant.<note type="source" source="HI_ep.52_14 cf_GR-M_ep.9.219">Hier. ep. 52, 14;
+          cf. Greg. Reg. IX, 219</note></p>
+    </egXML>
     <p>The 73 books of the Bible have one code each. Their names are the Nova Vulgata's: the older Vulgate's I to IV
       Regum are <code>1SA</code>, <code>2SA</code>, <code>1KI</code> and <code>2KI</code>. <code>solemne-tei
-        lists</code> prints the same table.</p>
+        lists</code> prints the same table. A Bible reference names a node of the Bible's file, the Vulgate, whose
+      sections carry the books' codes (<ptr target="#text-bible"/>): <code>MAT_18_19</code> names its verse
+      <code>MAT.18.19</code>, <code>JOH_1</code> its chapter. A pointer to the same verse by the file's code,
+      <code>BIB.Vulg_MAT.18.19</code>, names the Vulgate's verse alone; a Bible reference names the verse as the
+      application holds the Bible, whatever its versions.</p>
     <table xml:id="bible-codes">
       <head>The Bible's books and their codes</head>
       <row role="label">
@@ -2490,10 +2870,11 @@
         <desc>A pointer to a source: a document's code, alone or with a citation after an underscore (C.NIC-0325_3); a
           Bible reference by book, chapter and verse (MAT_18_19, PHP_3_17-20); a Gryson siglum and the place cited
           (IS_ety_1.2.3); each may start with cf_ for a loose reference; or an SCTA resource. A code's prefix is a
-          category's (COLL for both kinds of collection), or W; it holds letters, digits, dots and hyphens; an
-          underscore only separates a code from its citation.</desc>
+          category's (COLL for the three kinds of collection, BIB for the Bible's file, W for a work known by its
+          siglum); it holds letters, digits, dots and hyphens; an underscore only separates a code from its
+          citation.</desc>
         <content>
-          <dataRef name="token" restriction="(cf_)?((C|D|COLL|P|EP|H|EX|LR|CPT|CHA|W)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?|(GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV)_[0-9]+(-[0-9]+)?(_[0-9]+(-[0-9]+)?)?|[A-Z][A-Za-z]*(-[A-Z][A-Za-z]*)*_[A-Za-z][A-Za-z0-9]*(\.[A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?)|https?://scta\.info/resource/\S+"/>
+          <dataRef name="token" restriction="(cf_)?((C|D|COLL|P|EP|H|EX|LR|CPT|CHA|BIB|PATR|SCHOL|W)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?|(GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV)_[0-9]+(-[0-9]+)?(_[0-9]+(-[0-9]+)?)?|[A-Z][A-Za-z]*(-[A-Z][A-Za-z]*)*_[A-Za-z][A-Za-z0-9]*(\.[A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?)|https?://scta\.info/resource/\S+"/>
         </content>
       </dataSpec>
     </specGrp>
@@ -2610,7 +2991,7 @@
             isn't.</desc>
           <constraint>
             <sch:rule context="tei:note[@type = ('source', 'reception')]">
-              <sch:report id="source-note-codes" role="warning" test="some $w in tokenize(normalize-space(.),                 '[\s;,]+') satisfies matches($w,                 '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*[\-_.][0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|LR|CPT|CHA|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
+              <sch:report id="source-note-codes" role="warning" test="some $w in tokenize(normalize-space(.),                 '[\s;,]+') satisfies matches($w,                 '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*[\-_.][0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|LR|CPT|CHA|BIB|PATR|SCHOL|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
                 <sch:value-of select="@type"/> note's words hold a code (<sch:value-of select="normalize-space(.)"/>):
                 it belongs in @source.</sch:report>
             </sch:rule>
@@ -2640,6 +3021,10 @@
               </valItem>
               <valItem ident="extra">
                 <desc>in a record: the fields its form has no element for, in a feature structure</desc>
+              </valItem>
+              <valItem ident="unreviewed">
+                <desc>in a record: what wasn't checked yet, in words; the application reads it as the record's trust
+                  mark</desc>
               </valItem>
             </valList>
           </attDef>
@@ -2849,34 +3234,111 @@
     <gi>listOrg</gi>, events in <gi>listEvent</gi>, works, versions and publications in <gi>listBibl</gi>. Every
     record may have its names, its dates in the one form (<ptr target="#dates"/>), its ids elsewhere, its sources,
     notes, and its relations to other records (<ptr target="#relations"/>). Manuscripts have a part of their own
-    (<ptr target="#manuscripts"/>), and publications will (<ptr target="#editions-and-literature"/>).</p>
+    (<ptr target="#manuscripts"/>), and so do publications (<ptr target="#editions-and-literature"/>). A record is
+    known, the application's, or new, to be made (<ptr target="#records-ids"/>); the registers hold the known ones
+    before the application's first import (<ptr target="#records-registers"/>).</p>
   <p>Persons are <hi>common</hi>, since most files list those they name; the rest is <hi>full</hi>.</p>
 
   <div xml:id="records-ids">
-    <head>Placeholders, ids and permalinks</head>
+    <head>Known and new records</head>
     <p>A record listed in a file has an <att>xml:id</att>, which the file's names point to by <att>ref</att>
-      (<code>#new_person_Arno</code>):</p>
+      (<code>#PERS.12</code>, <code>#new_person_Arno</code>). The id says whether the record is known or new:</p>
     <list>
-      <item>a placeholder's, for a record the application doesn't have yet: <code>new_</code>, the kind, and a name of
-        the encoder's own (<code>new_person_Arno</code>, <code>new_place_Mainz</code>); the import makes a
-        provisional record of it, with what the entry holds, for the project to identify;</item>
-      <item>a record's, for one it has: its kind and its number (<code>PERS.1234</code>); a work's or a version's is
-        its code (<code>C.NIC-0325</code>).</item>
+      <item><hi>known</hi>: the entity exists before the file is imported, in a register or in the application's
+        database, and the id is its own (<ptr target="#records-registers"/>). The record holds a name for reading,
+        and may hold nothing else; the import links the file to the entity, and never takes the record as a
+        change;</item>
+      <item><hi>new</hi>: <code>new_</code>, the kind's word and a name of the encoder's own
+        (<code>new_person_Arno</code>, <code>new_place_Mainz</code>). The entity is to be made, and the record
+        describes it, with what the guide asks of its kind. The import's dry run shows each new record with the
+        records it may be, for whoever imports the file to match or make.</item>
     </list>
-    <p>A name may also point to a record the file doesn't list, by its permalink
-      (<code>https://…/id/person/PERS.1234</code>), which the import uses as given. An export points by permalinks,
-      and lists the records it points to, with their names, so that the file reads on its own (<ptr target="#exports"/>). The records of the Council of Carthage of 397 list its two councils by placeholders,
-      with their dates:</p>
+    <table xml:id="record-ids">
+      <head>A record's id, by its kind</head>
+      <row role="label">
+        <cell>Kind</cell>
+        <cell>Element</cell>
+        <cell>Known</cell>
+        <cell>New</cell>
+      </row>
+      <row><cell>person, group of persons</cell><cell><gi>person</gi>, <gi>personGrp</gi></cell><cell><code>PERS.12</code></cell><cell><code>new_person_…</code></cell></row>
+      <row><cell>place</cell><cell><gi>place</gi></cell><cell><code>PLACE.7</code></cell><cell><code>new_place_…</code></cell></row>
+      <row><cell>institution, libraries among them</cell><cell><gi>org</gi></cell><cell><code>INST.3</code></cell><cell><code>new_org_…</code></cell></row>
+      <row><cell>event</cell><cell><gi>event</gi></cell><cell><code>EVENT.4</code></cell><cell><code>new_event_…</code></cell></row>
+      <row><cell>publication</cell><cell><gi>biblStruct</gi></cell><cell><code>PUBL.5</code></cell><cell><code>new_bibl_…</code></cell></row>
+      <row><cell>work, version</cell><cell><gi>bibl</gi> typed <val>work</val>, <val>version</val></cell><cell>its code (<code>C.NIC-0325</code>)</cell><cell><code>new_work_…</code>, <code>new_version_…</code></cell></row>
+      <row><cell>work group</cell><cell><gi>bibl</gi> typed <val>workGroup</val></cell><cell><code>GROUP.2</code></cell><cell><code>new_group_…</code></cell></row>
+      <row><cell>manuscript</cell><cell><gi>msDesc</gi></cell><cell>its short code (<code>Mun-BSB-4592</code>)</cell><cell><code>new_manuscript_…</code></cell></row>
+    </table>
+    <p>A known id is the application's: a kind's prefix and a number, a work's or a version's code (<ptr target="#header-codes"/>), a manuscript's short code, which the application keeps beside its own id. An
+      edition in the header names its publication by the publication's id, on the element that describes it: a
+      volume's on its <gi>monogr</gi>, where an <gi>analytic</gi> names the text in it; the whole
+      <gi>biblStruct</gi>'s where there is no <gi>analytic</gi> (<ptr target="#editions-and-literature"/>). Either is
+      then checked as a record. A name may also point to a record the file doesn't list, by its permalink
+      (<code>https://…/id/person/PERS.12</code>), which the import uses as given. An export lists every record it
+      points to, as known records with their permalinks (<ptr target="#exports-ids"/>).</p>
+    <p>The files of the application's first import name only known records, every placeholder of the corpus having
+      gone into a register; a later file names the entities the application holds by their ids, and the others as
+      new records. A made-up passage, with God known and a priest new:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <p>Placuit coram <persName ref="#PERS.12">Deo</persName> ut <persName ref="#new_person_rotharius">Rotharius
+          presbyter</persName> ecclesiam suam teneat.</p>
+      <listPerson>
+        <person xml:id="PERS.12">
+          <persName type="main">God</persName>
+        </person>
+        <person xml:id="new_person_rotharius">
+          <persName type="main">Rotharius</persName>
+          <note>A priest, named in chapter 3.</note>
+        </person>
+      </listPerson>
+    </egXML>
+    <p>The records of the Council of Carthage of 397 list its two councils as new events, with their types and
+      dates:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.CAR-0397">
       <listEvent>
-        <event xml:id="new_event_carthage_0397" when="0397">
+        <event xml:id="new_event_carthage_0397" type="council" when="0397">
           <eventName>Council of Carthage, 397</eventName>
         </event>
-        <event xml:id="new_event_hippo_0393" when="0393">
+        <event xml:id="new_event_hippo_0393" type="council" when="0393">
           <eventName>Council of Hippo, 393</eventName>
         </event>
       </listEvent>
     </egXML>
+    <p>An id that is neither its kind's known form nor a new one with its kind's word is an error: a person listed
+      under a place's word, an id with a capital <code>New_</code>, an id of another form:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-id">
+      <person xml:id="new_place_Secunda"><!-- breaks the rule: a place's word -->
+        <persName type="main">Secunda</persName>
+      </person>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-id">
+      <place xml:id="New_place_Bracara"><!-- breaks the rule -->
+        <placeName>Bracara</placeName>
+      </place>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-id">
+      <person xml:id="person_7"><!-- breaks the rule -->
+        <persName type="main">Exemplus</persName>
+      </person>
+    </egXML>
+    <specGrp xml:id="records-ids-specs">
+      <!-- A record's id: its kind's known form, or new_, its kind's word and a name. -->
+      <elementSpec ident="standOff" module="linking" mode="change" corresp="#tier-common">
+        <constraintSpec ident="record-id" scheme="schematron" corresp="#tier-common">
+          <desc>A record listed in the standOff, and an edition or its volume in the header with an id, has its
+            kind's known id, or a new one: new_, its kind's word, and a name.</desc>
+          <constraint>
+            <sch:rule context="tei:standOff//tei:person | tei:standOff//tei:personGrp | tei:standOff//tei:place |               tei:standOff//tei:org | tei:standOff//tei:event | tei:standOff//tei:biblStruct |               tei:standOff//tei:bibl[@type = ('work', 'version', 'workGroup')] | tei:standOff//tei:msDesc |               tei:teiHeader//tei:biblStruct[@xml:id] | tei:teiHeader//tei:monogr[@xml:id]">
+              <sch:let name="word" value="if (self::tei:person or self::tei:personGrp) then 'person' else if                 (self::tei:place) then 'place' else if (self::tei:org) then 'org' else if (self::tei:event) then                 'event' else if (self::tei:biblStruct or self::tei:monogr) then 'bibl' else if (self::tei:msDesc) then 'manuscript' else if                 (@type = 'workGroup') then 'group' else string(@type)"/>
+              <sch:let name="known" value="if (self::tei:person or self::tei:personGrp) then 'PERS\.[0-9]+' else if                 (self::tei:place) then 'PLACE\.[0-9]+' else if (self::tei:org) then 'INST\.[0-9]+' else if                 (self::tei:event) then 'EVENT\.[0-9]+' else if (self::tei:biblStruct or self::tei:monogr) then 'PUBL\.[0-9]+' else if                 (self::tei:msDesc) then '[A-Z][A-Za-z]{2}(-[A-Za-z0-9]+){2,}' else if (@type = 'workGroup') then                 'GROUP\.[0-9]+' else '[A-Z]+\.[A-Za-z0-9]+(-[A-Za-z0-9]+)*(\.[A-Za-z][A-Za-z0-9]*(-[A-Za-z0-9]+)*)*'"/>
+              <sch:assert id="record-id" test="matches(string(@xml:id), concat('^(', $known, '|new_', $word,                 '_.+)$'))">A <sch:value-of select="$word"/> record has an @xml:id: its known id (<sch:value-of select="replace($known, '\\', '')"/>) or a new one, new_<sch:value-of select="$word"/>_ and a name
+                (<sch:value-of select="@xml:id"/>).</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+      </elementSpec>
+    </specGrp>
   </div>
 
   <div xml:id="records-persons">
@@ -2892,13 +3354,32 @@
         <death notBefore="0400" notAfter="0401" when-custom="[0400,0401]" datingMethod="#edtf">400 or 401</death>
       </person>
     </egXML>
-    <p>A person in the standOff has a record's id or a placeholder's; a placeholder's person has one main name; a
-      floruit gives its dates. Each is checked:</p>
-    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="person-id">
-      <person xml:id="person_7">
+    <p>A person's kind is its <att>type</att>, from a vocabulary of the application that grows, which these seed:
+      <val>historical</val>, a person of the texts' times, the default, which needn't be written;
+      <val>modernScholar</val>, an author or editor of a publication; <val>divine</val>, God, Christ, the Spirit;
+      <val>fictitious</val>, a name a text takes, such as Isidorus Mercator, the name Pseudo-Isidore's preface gives
+      its compiler. A type outside them is reported, so that a slip is seen and a new type is added on purpose. Made
+      up:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <person xml:id="new_person_isidorus_mercator" type="fictitious">
+        <persName type="main">Isidorus Mercator</persName>
+      </person>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="person-term">
+      <person xml:id="new_person_exemplus_sanctus" type="saint"><!-- breaks the rule -->
         <persName type="main">Exemplus</persName>
       </person>
     </egXML>
+    <p>A group of persons, the Romans, the Arians, the Novatians, is a <gi>personGrp</gi> in <gi>listPerson</gi>,
+      with a person's id and its main name: the application keeps it as a person of the type group. A person known to
+      belong to it joins it by a relation, <val>memberOf</val>, with its dates and certainty (<ptr target="#relations-types"/>). The Novatians, whom the Council of Telepte names:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.THE-0418">
+      <personGrp xml:id="new_person_novatians">
+        <persName type="main">Novatians</persName>
+      </personGrp>
+    </egXML>
+    <p>A new person or group, and a register's, has one main name; a floruit gives its dates. Both are
+      checked:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="person-main-name">
       <person xml:id="new_person_Secundus">
         <persName type="alternative">Secundus</persName>
@@ -2913,25 +3394,40 @@
     <p>Offices and roles, a scribe's hand, an author's works, are relations from the person (<ptr target="#relations"/>), not parts of the record.</p>
     <specGrp xml:id="records-persons-specs">
       <elementSpec ident="person" module="namesdates" mode="change" corresp="#tier-common">
-        <constraintSpec ident="person-id" scheme="schematron" corresp="#tier-common">
-          <desc>A person listed in the standOff is a record or a placeholder for one.</desc>
-          <constraint>
-            <sch:rule context="tei:standOff//tei:listPerson/tei:person">
-              <sch:assert id="person-id" test="matches(@xml:id, '^(PERS\.\d+|solemne_person_\d+|new_person_\S+)$')">A
-                person in the standOff has an @xml:id: a record's (PERS. and a number, or solemne_person_ and a
-                number), or a placeholder's (new_person_ and a name).</sch:assert>
-            </sch:rule>
-          </constraint>
-        </constraintSpec>
         <constraintSpec ident="person-main-name" scheme="schematron" corresp="#tier-common">
-          <desc>A new person has one main name.</desc>
+          <desc>A new person or group, and a register's, has one main name.</desc>
           <constraint>
-            <sch:rule context="tei:standOff//tei:listPerson/tei:person">
-              <sch:assert id="person-main-name" test="count(tei:persName[@type = 'main']) = 1 or                 not(starts-with(@xml:id, 'new_person_'))">A new person has one main name (persName typed
-                main).</sch:assert>
+            <sch:rule context="tei:standOff//tei:person | tei:standOff//tei:personGrp">
+              <sch:let name="register" value="normalize-space(/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type'][1]) = 'register'"/>
+              <sch:assert id="person-main-name" test="count(tei:persName[@type = 'main']) = 1 or                 not(starts-with(@xml:id, 'new_person_') or $register)">A new person or group, and a register's, has
+                one main name (persName typed main).</sch:assert>
             </sch:rule>
           </constraint>
         </constraintSpec>
+        <constraintSpec ident="person-term" scheme="schematron" corresp="#tier-full">
+          <desc>A person's type is one of the guide's, or a new term of the vocabulary.</desc>
+          <constraint>
+            <sch:rule context="tei:person[@type]">
+              <sch:let name="terms" value="('historical', 'modernScholar', 'divine', 'fictitious')"/>
+              <sch:assert id="person-term" role="warning" test="@type = $terms">The person's type <sch:value-of select="@type"/> isn't among the guide's: check its spelling, or add it to the application's
+                vocabulary.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="type" mode="add" corresp="#tier-full">
+            <desc>the person's kind, from the application's vocabulary; historical when there is none</desc>
+            <datatype>
+              <dataRef key="teidata.enumerated"/>
+            </datatype>
+            <valList type="semi">
+              <valItem ident="historical"><desc>a person of the texts' times: the default, not written</desc></valItem>
+              <valItem ident="modernScholar"><desc>an author or editor of a publication</desc></valItem>
+              <valItem ident="divine"><desc>God, Christ, the Spirit</desc></valItem>
+              <valItem ident="fictitious"><desc>a name a text takes, such as Isidorus Mercator</desc></valItem>
+            </valList>
+          </attDef>
+        </attList>
       </elementSpec>
 
       <elementSpec ident="floruit" module="namesdates" mode="change" corresp="#tier-full">
@@ -2995,8 +3491,28 @@
     <head>Events</head>
     <p>An event, a council or a synod, is an <gi>event</gi>, dated in its attributes in the one form. TEI 4.12 lets
       it hold a name (<gi>eventName</gi>), or a description, or paragraphs, not two of them; a name is what the
-      import reads first. Where it took place, and what it enacted, are relations (<ptr target="#relations"/>). An
-      event points to a record by <att>ref</att>, or describes one, and its description has words:</p>
+      import reads first. Where it took place, and what it enacted, are relations (<ptr target="#relations"/>).</p>
+    <p>An event's type is its <att>type</att>, one key of the application's vocabulary of events, a narrower term
+      its own key: <val>council</val>, <val>ecumenicalCouncil</val>, <val>generalCouncil</val>,
+      <val>provincialCouncil</val>, <val>synod</val>, <val>diocesanSynod</val>, <val>session</val>,
+      <val>assembly</val>, <val>royalAssembly</val>. The vocabulary grows, and a type outside these is reported. A
+      new event, and a register's, has a type; a known event in another file needn't (<ptr target="#records-ids"/>). The Council of Mainz of 813, as a register gives it, with a made-up id:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <event xml:id="EVENT.40" type="provincialCouncil" when="0813">
+        <eventName>Council of Mainz, 813</eventName>
+      </event>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="event-typed">
+      <event xml:id="new_event_synodus_exempli" when="0601"><!-- breaks the rule: no type -->
+        <eventName>Synodus exempli gratia, 601</eventName>
+      </event>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="event-term">
+      <event xml:id="new_event_concilium_exempli" type="councel" when="0602"><!-- breaks the rule -->
+        <eventName>Concilium exempli gratia, 602</eventName>
+      </event>
+    </egXML>
+    <p>An event points to a record by <att>ref</att>, or describes one, and its description has words:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="event-described">
       <event when="0600">
         <desc>A council.</desc>
@@ -3027,6 +3543,41 @@
             </sch:rule>
           </constraint>
         </constraintSpec>
+        <constraintSpec ident="event-typed" scheme="schematron" corresp="#tier-full">
+          <desc>A new event, and a register's, has a type.</desc>
+          <constraint>
+            <sch:rule context="tei:standOff//tei:event">
+              <sch:let name="register" value="normalize-space(/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type'][1]) = 'register'"/>
+              <sch:assert id="event-typed" test="@type or not(starts-with(@xml:id, 'new_event_') or $register)">A new
+                event, and a register's, has a type (@type: council, synod, …).</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="event-term" scheme="schematron" corresp="#tier-full">
+          <desc>An event's type is one of the guide's, or a new term of the vocabulary.</desc>
+          <constraint>
+            <sch:rule context="tei:event[@type]">
+              <sch:let name="terms" value="('council', 'ecumenicalCouncil', 'generalCouncil', 'provincialCouncil',                 'synod', 'diocesanSynod', 'session', 'assembly', 'royalAssembly')"/>
+              <sch:assert id="event-term" role="warning" test="@type = $terms">The event's type <sch:value-of select="@type"/> isn't among the guide's: check its spelling, or add it to the application's
+                vocabulary.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <attList>
+          <attDef ident="type" mode="change" corresp="#tier-full">
+            <valList type="semi" mode="replace">
+              <valItem ident="council"><desc>a council</desc></valItem>
+              <valItem ident="ecumenicalCouncil"><desc>an ecumenical council</desc></valItem>
+              <valItem ident="generalCouncil"><desc>a general council</desc></valItem>
+              <valItem ident="provincialCouncil"><desc>a provincial council</desc></valItem>
+              <valItem ident="synod"><desc>a synod</desc></valItem>
+              <valItem ident="diocesanSynod"><desc>a diocesan synod</desc></valItem>
+              <valItem ident="session"><desc>a session of a council</desc></valItem>
+              <valItem ident="assembly"><desc>an assembly</desc></valItem>
+              <valItem ident="royalAssembly"><desc>a royal assembly</desc></valItem>
+            </valList>
+          </attDef>
+        </attList>
       </elementSpec>
     </specGrp>
   </div>
@@ -3051,8 +3602,13 @@
     <p>A work names its canonical version, whose canons are the work's, and, where that version has no text in the
       application, the version whose text stands in for it; otherwise the earliest version with a text stands in.
       Both are defaults the project chooses, not claims about the texts, so they are pointers in the work's record,
-      <gi>ptr</gi> typed <val>canonical</val> and <val>stand-in</val>, to the versions' records. Nicaea's canons are
-      canonical in Greek, which the corpus doesn't hold; a made-up record lets a Latin version stand in:</p>
+      <gi>ptr</gi> typed <val>canonical</val> and <val>stand-in</val>, to the versions' records.</p>
+    <p>A known work's canonical version has the work's own code: <code>C.NIC-0325</code> is the council and its
+      Greek canons. One file can't hold two records with one id, so the work's record stands for that version, with
+      no record or pointer of its own, and the import makes the version from the work. Only a version with a code of
+      its own is a record, joined to its work by <val>versionOf</val> (<ptr target="#relations-levels"/>). Nicaea's
+      canons are canonical in Greek, which the corpus doesn't hold, and its first Dionysiana stands in, as the
+      project's register of works has it:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <listBibl>
         <bibl type="work" xml:id="C.NIC-0325">
@@ -3060,14 +3616,45 @@
           <idno>C.NIC-0325</idno>
           <idno type="category">C</idno>
           <date when="0325">325</date>
-          <ptr type="canonical" target="#new_version_nicaea_greek"/>
-          <ptr type="stand-in" target="#new_version_nicaea_dionysius"/>
+          <ptr type="stand-in" target="#C.NIC-0325-vDIO1"/>
         </bibl>
-        <bibl type="version" xml:id="new_version_nicaea_greek">
-          <title>Council of Nicaea, 325, the Greek canons</title>
+        <bibl type="version" xml:id="C.NIC-0325-vDIO1">
+          <title>Council of Nicaea, 325, in the first Dionysiana</title>
+          <idno>C.NIC-0325-vDIO1</idno>
         </bibl>
-        <bibl type="version" xml:id="new_version_nicaea_dionysius">
-          <title>Council of Nicaea, 325, in Dionysius Exiguus's translation</title>
+      </listBibl>
+      <listRelation>
+        <relation name="versionOf" active="#C.NIC-0325-vDIO1" passive="#C.NIC-0325"/>
+      </listRelation>
+    </egXML>
+    <p>A new work, not yet in the application, names its versions' records by their new ids, its canonical version
+      among them. A made-up council, canonical in Greek, its Latin version standing in:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listBibl>
+        <bibl type="work" xml:id="new_work_concilium_exempli">
+          <title>Council of Exemplum</title>
+          <ptr type="canonical" target="#new_version_concilium_exempli_graece"/>
+          <ptr type="stand-in" target="#new_version_concilium_exempli_latine"/>
+        </bibl>
+        <bibl type="version" xml:id="new_version_concilium_exempli_graece">
+          <title>Council of Exemplum, the Greek canons</title>
+        </bibl>
+        <bibl type="version" xml:id="new_version_concilium_exempli_latine">
+          <title>Council of Exemplum, in a Latin translation</title>
+        </bibl>
+      </listBibl>
+    </egXML>
+    <p>A work cited by its siglum in Gryson's <title>Répertoire</title> holds the siglum in its record, an
+      <gi>idno</gi> typed <val>gryson</val>, whether its code is made from the siglum (<code>W.IS-ety</code>) or is
+      its own, as a pope's letter's is: a pointer by the siglum reaches its file through it (<ptr target="#marked-pointers"/>). The file doesn't hold the siglum, since its formal title holds only its code,
+      category, type and levels. Gregory's letter IX, 219, in the register of works:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-D.GRE-0599-1748">
+      <listBibl>
+        <bibl type="work" xml:id="D.GRE-0599-1748">
+          <title>Gregory I to Aregio episcopo Franciis, 599 (Register IX, 219)</title>
+          <idno>D.GRE-0599-1748</idno>
+          <idno type="category">D</idno>
+          <idno type="gryson">GR-M ep 9, 219</idno>
         </bibl>
       </listBibl>
     </egXML>
@@ -3116,6 +3703,33 @@
               <valItem ident="via">
                 <desc>in a relation's description: the work, version or transcription a text came through</desc>
               </valItem>
+              <valItem ident="person">
+                <desc>in an authority's declaration: the link for its records of persons</desc>
+              </valItem>
+              <valItem ident="place">
+                <desc>in an authority's declaration: the link for its records of places</desc>
+              </valItem>
+              <valItem ident="org">
+                <desc>in an authority's declaration: the link for its records of institutions</desc>
+              </valItem>
+              <valItem ident="event">
+                <desc>in an authority's declaration: the link for its records of events</desc>
+              </valItem>
+              <valItem ident="bibl">
+                <desc>in an authority's declaration: the link for its records of publications</desc>
+              </valItem>
+              <valItem ident="work">
+                <desc>in an authority's declaration: the link for its records of works</desc>
+              </valItem>
+              <valItem ident="version">
+                <desc>in an authority's declaration: the link for its records of versions</desc>
+              </valItem>
+              <valItem ident="group">
+                <desc>in an authority's declaration: the link for its records of work groups</desc>
+              </valItem>
+              <valItem ident="manuscript">
+                <desc>in an authority's declaration: the link for its records of manuscripts</desc>
+              </valItem>
             </valList>
           </attDef>
           <attDef ident="subtype" mode="delete"/>
@@ -3142,20 +3756,30 @@
 
   <div xml:id="records-work-groups">
     <head>Work groups</head>
-    <p>A work group is a scholarly construct over several works, "the Pseudo-Isidorian forgeries": a
-      <gi>listBibl</gi> typed <val>workGroup</val>, with its name in <gi>head</gi>, what it is in <gi>desc</gi>, and
-      its members, each a <gi>bibl</gi> holding a <gi>ptr</gi> to the work's record (TEI lets a list of
-      bibliography hold only bibliographic items). Every heading is typed (<ptr target="#text-headings"/>); a group's
-      name is typed <val>rubric</val>, which says nothing more there. A made-up group:</p>
+    <p>A work group is a scholarly construct over several works, "the Pseudo-Isidorian forgeries": a <gi>bibl</gi>
+      typed <val>workGroup</val> in <gi>listBibl</gi>, as works and versions are, with its name in <gi>title</gi>,
+      what it is in a <gi>note</gi>, and its type in <att>subtype</att>, a key in lower camel case for one of the
+      application's types of group: one origin, a collection and those derived from it, the collections of one
+      manuscript, the project's own grouping (<val>oneOrigin</val>, until the application's vocabulary gives its
+      keys). A group made as a part of a larger one points to it by <att>corresp</att>, since
+      containment is a pointer. Its members join it by relations, <val>memberOf</val>, each from the member, a work,
+      a version or another group, with its certainty and evidence, since membership is a claim (<ptr target="#relations-types"/>): the Clavis canonum counts the Collectio Lanfranci among the Pseudo-Isidorian
+      forgeries, an abridgement made two centuries later. A made-up group, its ids made up too:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
-      <listBibl type="workGroup" xml:id="new_group_pseudo_isidore">
-        <head type="rubric">The Pseudo-Isidorian forgeries</head>
-        <desc>The forgeries made in the circle of the False Decretals, in the middle of the 9th century.</desc>
-        <bibl><ptr target="#new_work_false_decretals"/></bibl>
-        <bibl><ptr target="#new_work_benedictus_levita"/></bibl>
+      <listBibl>
+        <bibl type="workGroup" subtype="oneOrigin" xml:id="GROUP.2">
+          <title>The Pseudo-Isidorian forgeries</title>
+          <note>The forgeries made in the circle of the False Decretals, in the middle of the 9th century.</note>
+        </bibl>
       </listBibl>
+      <listRelation>
+        <relation name="memberOf" type="judgement" active="COLL.PsIsidore" passive="#GROUP.2"/>
+        <relation name="memberOf" type="judgement" cert="low" active="COLL.Lanfranc" passive="#GROUP.2">
+          <desc>after <bibl><ptr target="#PUBL.5"/></bibl></desc>
+        </relation>
+      </listRelation>
     </egXML>
-    <p>A group is stored with its name, description, author and members; it is never a level of a text.</p>
+    <p>A group is stored with its name, description, type, author and members; it is never a level of a text.</p>
   </div>
 
   <div xml:id="records-rare">
@@ -3181,12 +3805,17 @@
 
   <div xml:id="records-external-ids">
     <head>Ids elsewhere</head>
-    <p>A record's ids in other projects' catalogues are <gi>idno</gi>s, each typed by its authority, from a closed
-      list: <val>wikidata</val>, <val>viaf</val>, <val>gnd</val>, <val>geonames</val>, <val>tgn</val>,
-      <val>pleiades</val>, <val>mirabile</val>, <val>clavis</val>, <val>biblissima</val>, <val>schoenberg</val>,
-      <val>hmml</val>, <val>bodleian</val>, <val>manusOnline</val>, and the Bodleian's <val>ieArk</val>,
-      <val>crArk</val> and <val>SCN</val> (<ptr target="#header-external-ids"/>). The import keeps them beside the
-      record's own id, and matches by them. Justinian, as Mirabile names him, with his id there:</p>
+    <p>A record's ids in other projects' catalogues are <gi>idno</gi>s, each typed by its authority, its key in lower
+      camel case. The guide knows <val>wikidata</val>, <val>viaf</val>, <val>gnd</val>, <val>geonames</val>,
+      <val>tgn</val>, <val>pleiades</val>, <val>mirabile</val>, <val>clavis</val>, <val>biblissima</val>,
+      <val>schoenberg</val>, <val>hmml</val>, <val>bodleian</val>, <val>manusOnline</val>, the Bodleian's
+      <val>ieArk</val>, <val>crArk</val> and <val>SCN</val>, a library's ISIL (<val>isil</val>), a publication's
+      <val>doi</val> and its records in <val>k10plus</val>, the <val>dnb</val> and <val>openAlex</val>, Gryson's
+      sigla (<val>gryson</val>), Kéry's catalogue (<val>kery</val>), the World Historical Gazetteer
+      (<val>whg</val>), and Jaffé's register of the popes' letters (<val>jaffe</val>). The authorities grow: another
+      is reported, unless the file declares it, with its links (<ptr target="#header-external-ids"/>). The import
+      keeps the ids beside the record's own, and matches by them. Justinian, as Mirabile names him, with his id
+      there:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
       <person xml:id="new_person_iustinianus">
         <persName type="main">Iustinianus imperator</persName>
@@ -3222,8 +3851,9 @@
         <cell><code>https://www.mirabileweb.it/manuscript/-manuscript/220110</code></cell>
       </row>
     </table>
-    <p>Mirabile's other indices, such as its institutions', join the table as the application reads them. Bernardus
-      of Pavia and his Summa decretalium, each with the number of its own index:</p>
+    <p>Mirabile's other indices, such as its institutions', join the table as the application reads them. A file may
+      declare the same links, each typed by the kind of record, as Part II's example of a declaration does (<ptr target="#header-external-ids"/>).</p>
+    <p>Bernardus of Pavia and his Summa decretalium, each with the number of its own index:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
       <person xml:id="new_person_bernardus_papiensis">
         <persName type="main">Bernardus Papiensis praepositus</persName>
@@ -3234,6 +3864,16 @@
           <title>Summa decretalium</title>
           <author ref="#new_person_bernardus_papiensis">Bernardus Papiensis</author>
           <idno type="mirabile">20174</idno>
+        </bibl>
+      </listBibl>
+    </egXML>
+    <p>A Jaffé number is written as it's cited, its editor's letters first, the third edition's another key when a
+      file needs it. A letter of Leo I, made up as a record:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listBibl>
+        <bibl type="work" xml:id="D.LEO-0447-414">
+          <title>Leo I, a letter of 447</title>
+          <idno type="jaffe">JK 414</idno>
         </bibl>
       </listBibl>
     </egXML>
@@ -3352,13 +3992,150 @@
         </bibl>
       </place>
     </egXML>
+    <p>A record known only from a list, without a page or a description, says so in words, in a note in its
+      source. A made-up library:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <org xml:id="new_org_bibliotheca_exempli" type="library">
+        <orgName type="main">Bibliotheca exempli gratia</orgName>
+        <bibl type="source">
+          <title>Clavis canonum</title>
+          <note>Known only from the Clavis's list of libraries, without a page.</note>
+        </bibl>
+      </org>
+    </egXML>
     <p>A text taken from another project names its source in the same form, in its header (<ptr target="#header-publication"/>).</p>
+  </div>
+
+  <div xml:id="records-literature">
+    <head>Literature</head>
+    <p>A record's literature is the publications that discuss it or cite it, as a record's source is where its data
+      was taken from. Each is a <gi>bibl</gi> in the record, without a type: a <gi>ptr</gi> to the publication's
+      record and its pages in <gi>citedRange</gi>, as a witness and a relation's evidence point to a publication,
+      and in its words how the publication cites the record. Several publications are several <gi>bibl</gi>s. A
+      made-up bishop, and the page that names him:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <person xml:id="new_person_exemplus_literature">
+        <persName type="main">Exemplus, bishop of Exemplum</persName>
+        <bibl><ptr target="#PUBL.5"/><citedRange unit="page" from="112" to="114">112–114</citedRange>, as "Exemplus
+          episcopus", among a council's signatories</bibl>
+      </person>
+    </egXML>
+    <p>Literature is never a relation: no type of the guide's says it (<ptr target="#relations-types"/>), and a
+      relation named <val>referencedIn</val>, the application's own name for it, is reported as any type outside the
+      list is. The import keeps each publication with its pages and words; an export writes a record's literature
+      in the same form.</p>
+  </div>
+
+  <div xml:id="records-registers">
+    <head>Registers</head>
+    <p>A register is a file of records of one kind, the seed of the application's database. The data project makes
+      one for each kind, persons with their groups, places, institutions with the libraries, events, works with their
+      versions and the work groups, manuscripts, publications, from authoritative lists (the popes, the emperors,
+      the councils, the Clavis canonum's libraries, Gryson's works) and from every set's placeholders, reconciled
+      and reviewed. The application loads the registers first, then the files, which name the registers' records by
+      their ids. After that the database is the records' truth, and the registers' form is how it exports its
+      lists.</p>
+    <p>A register is a header and a <gi>standOff</gi>, without a text. Its formal title holds its type,
+      <val>register</val>, alone: a register has no code and no category, since it isn't a document (<ptr target="#header-categories"/>). Its source description names every list it's made from, each a
+      <gi>bibl</gi> typed <val>source</val>, and its publication statement its licence. Its records stand in the
+      lists of their kind, each in the guide's form, its <att>xml:id</att> its known id, with its sources, its ids
+      elsewhere, and its relations in a <gi>listRelation</gi>: a group's members, a work group's members, a
+      version's work, with their certainty and evidence. A work's record stands for its canonical version, which
+      has the work's code; only versions with codes of their own are records (<ptr target="#records-works"/>). Records point to each other by their ids (<code>#INST.3</code>
+      for a manuscript's library, <code>#PERS.88</code> for a publication's editor), which may stand in another
+      register: the registers resolve as a set, which the data project checks and the import reports on. A
+      register's records are held to what the guide asks of a new record (<ptr target="#records-ids"/>).</p>
+    <p>A record not reviewed yet says so in a <gi>note</gi> typed <val>unreviewed</val>, its words saying what
+      wasn't checked; the application reads it as the record's trust mark, "not checked". A register of persons,
+      its records and sources made up:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <TEI>
+        <teiHeader>
+          <fileDesc>
+            <titleStmt>
+              <title type="formal">
+                <idno type="type">register</idno>
+              </title>
+              <title type="alias">SOLEMNE's register of persons</title>
+            </titleStmt>
+            <publicationStmt>
+              <publisher>SOLEMNE: 'The Social Life of Early Medieval Normative Texts'</publisher>
+              <availability>
+                <licence target="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</licence>
+              </availability>
+            </publicationStmt>
+            <sourceDesc>
+              <bibl type="source">
+                <title>Episcopi exempli gratia, a list of bishops</title>
+              </bibl>
+              <bibl type="source">
+                <title>The project's files</title>
+              </bibl>
+            </sourceDesc>
+          </fileDesc>
+        </teiHeader>
+        <standOff>
+          <listPerson>
+            <person xml:id="PERS.20">
+              <persName type="main">Exemplus, bishop of Exemplum</persName>
+              <persName type="alternative">Exemplus episcopus</persName>
+              <bibl type="source">
+                <title>Episcopi exempli gratia, a list of bishops</title>
+                <note>Known only from the list, without a page.</note>
+              </bibl>
+            </person>
+            <personGrp xml:id="PERS.21">
+              <persName type="main">Exemplenses</persName>
+            </personGrp>
+            <person xml:id="PERS.22">
+              <persName type="main">Secundus Exemplensis</persName>
+              <note type="unreviewed">Named once, in one file; not matched against an authority.</note>
+            </person>
+          </listPerson>
+          <listRelation>
+            <relation name="memberOf" type="observation" active="#PERS.22" passive="#PERS.21"/>
+          </listRelation>
+        </standOff>
+      </TEI>
+    </egXML>
+    <p>A register has no text, and every other file has one:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="register-form">
+      <TEI>
+        <teiHeader>
+          <fileDesc>
+            <titleStmt>
+              <title type="formal">
+                <idno type="type">register</idno>
+              </title>
+            </titleStmt>
+            <publicationStmt>
+              <p>An example of the guide.</p>
+            </publicationStmt>
+            <sourceDesc>
+              <p>Made up.</p>
+            </sourceDesc>
+          </fileDesc>
+        </teiHeader>
+        <text><!-- breaks the rule -->
+          <body>
+            <p>Textus.</p>
+          </body>
+        </text>
+        <standOff>
+          <listPlace>
+            <place xml:id="PLACE.30">
+              <placeName>Exemplum</placeName>
+            </place>
+          </listPlace>
+        </standOff>
+      </TEI>
+    </egXML>
   </div>
 </div>
       <div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="relations" n="VI">
   <head>Relations</head>
   <p>A relation is a typed statement from one thing to another: a chapter is a text of a council's canon, a
-    manuscript was owned by an abbey, a hand was a scribe's, a bishop held office in a church. It joins records,
+    manuscript was owned by an abbey, a hand was a scribe's, a man was bishop of a see. It joins records,
     nodes of texts, or other relations, and may carry a date, a certainty, a role and a place, its evidence, its
     author, and, for a judgement, its method. Facts that belong to one record alone are its fields (<ptr target="#records"/>); what joins two things, may be uncertain or disputed, or needs evidence, is a
     relation.</p>
@@ -3387,8 +4164,11 @@
     <p>TEI 4.12 lets a relation hold one <gi>desc</gi>, and nothing else. What the type needs beyond its ends goes
       there, each in its element:</p>
     <list>
-      <item>a role (bishop, abbot, owner), by <gi>roleName</gi>;</item>
-      <item>a place (an office held in a diocese), by <gi>placeName</gi> with <att>ref</att>;</item>
+      <item>a role in what the relation joins (an editor's, a participant's at a council), by
+        <gi>roleName</gi>;</item>
+      <item>where a role was held (a bishop's see), by <gi>placeName</gi> or <gi>orgName</gi> with
+        <att>ref</att>;</item>
+      <item>a name as a publication prints it, for <val>editor</val>, by <gi>persName</gi>;</item>
       <item>a judgement's method ("in all witnesses", "in the canonical witness", "the editor's text", "the
         register"), by <gi>term</gi> typed <val>method</val>;</item>
       <item>what a text came through, for <val>derivedFrom</val>, by <gi>ptr</gi> typed <val>via</val>, pointing to the
@@ -3406,13 +4186,33 @@
         </relation>
       </listRelation>
     </egXML>
-    <p>An office, with its role and its years, and a symmetric relation between two hands, both made up:</p>
+    <p>A role a person held is a relation from the person to the role, a term of the application's vocabulary of
+      roles, which a file declares as it declares any vocabulary's terms (<ptr target="#exports-vocabularies"/>):
+      where it was held in the description, and when in the relation's dates. A bishop of a see, and a symmetric
+      relation between two hands, both made up:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <classDecl>
+        <taxonomy xml:id="roles">
+          <category xml:id="bishop">
+            <catDesc xml:lang="en">bishop</catDesc>
+          </category>
+        </taxonomy>
+      </classDecl>
       <listRelation>
-        <relation name="holdsOfficeIn" type="observation" active="#new_person_exemplus" passive="#new_org_ecclesia_exemplensis" from="0801" to="0814">
-          <desc><roleName>episcopus</roleName></desc>
+        <relation name="hasRole" type="observation" active="#new_person_exemplus" passive="#bishop" from="0801" to="0814">
+          <desc><placeName ref="#new_place_dioecesis_exemplensis">Exemplum</placeName></desc>
         </relation>
         <relation name="sameHandAs" type="judgement" cert="low" mutual="#hand-A #hand-C"/>
+      </listRelation>
+    </egXML>
+    <p>An editor of a publication, the first of two, with the name as the volume prints it; a person who belongs to a
+      group, probably:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listRelation>
+        <relation name="editor" active="#new_bibl_concilia_exempli" passive="#new_person_editor_exempli" n="1">
+          <desc><persName>A. Exemplarius</persName></desc>
+        </relation>
+        <relation name="memberOf" type="judgement" cert="medium" active="#new_person_exemplus" passive="#new_person_novatians"/>
       </listRelation>
     </egXML>
     <p>A relation has a name, its type is one of the two, and its certainty one of the three:</p>
@@ -3433,37 +4233,71 @@
           <attDef ident="name" mode="change" usage="req" xml:id="relation-without-name" corresp="#tier-full">
             <valList type="semi" mode="add">
               <valItem ident="isTextOf"><desc>a unit is a text of another (fixed)</desc></valItem>
-              <valItem ident="derivedFrom"><desc>a unit derives from another, through a work, version or
-                  transcription, the via (fixed)</desc></valItem>
+              <valItem ident="derivedFrom"><desc>a unit derives from another, through a work, version or transcription, the via (fixed)</desc></valItem>
               <valItem ident="versionOf"><desc>a version is a version of a work (fixed)</desc></valItem>
               <valItem ident="witnessOf"><desc>a witness is a witness of a version or a work (fixed)</desc></valItem>
-              <valItem ident="transcriptionOf"><desc>a transcription is a transcription of a witness
-                  (fixed)</desc></valItem>
-              <valItem ident="in"><desc>a witness is in a manuscript or a publication, at folios or pages
-                  (fixed)</desc></valItem>
+              <valItem ident="transcriptionOf"><desc>a transcription is a transcription of a witness (fixed)</desc></valItem>
+              <valItem ident="in"><desc>a witness is in a manuscript or a publication, at folios or pages (fixed)</desc></valItem>
               <valItem ident="isVerbatimOf"><desc>a unit is a text of another, word for word</desc></valItem>
               <valItem ident="isVariantOf"><desc>a unit is a text of another, with variants</desc></valItem>
               <valItem ident="isShorterVersionOf"><desc>a unit is a text of another, shortened</desc></valItem>
-              <valItem ident="translationOf"><desc>a version translates another</desc></valItem>
+              <valItem ident="isLongerVersionOf"><desc>a unit is a text of another, lengthened</desc></valItem>
+              <valItem ident="translationOf"><desc>a version or a publication translates another</desc></valItem>
+              <valItem ident="closeTranslationOf"><desc>a version translates another closely</desc></valItem>
+              <valItem ident="looseTranslationOf"><desc>a version translates another loosely</desc></valItem>
+              <valItem ident="verbatimTranslationOf"><desc>a version translates another word for word</desc></valItem>
+              <valItem ident="indirectTranslationOf"><desc>a version translates another through a third</desc></valItem>
               <valItem ident="revisionOf"><desc>a version revises another</desc></valItem>
               <valItem ident="abridgementOf"><desc>a version abridges another</desc></valItem>
               <valItem ident="augmentationOf"><desc>a version augments another</desc></valItem>
+              <valItem ident="sameSequenceAs"><desc>two versions or divisions give their texts in the same order (symmetric)</desc></valItem>
+              <valItem ident="similarSequenceTo"><desc>two versions or divisions give their texts in a similar order (symmetric)</desc></valItem>
+              <valItem ident="subsequenceOf"><desc>a division gives a part of another's texts, in their order</desc></valItem>
+              <valItem ident="madeFrom"><desc>a version is made from a witness: a reconstruction's sources</desc></valItem>
               <valItem ident="adaptationOf"><desc>a work adapts another</desc></valItem>
               <valItem ident="basedOn"><desc>a work is based on another</desc></valItem>
-              <valItem ident="origin"><desc>a manuscript or unit was made at a place or institution</desc></valItem>
-              <valItem ident="ownedBy"><desc>a manuscript or unit was owned by a person or institution, with
-                  dates</desc></valItem>
+              <valItem ident="sameAs"><desc>two units are the same text, neither taken from the other (symmetric)</desc></valItem>
+              <valItem ident="correctionOf"><desc>a unit corrects another's text</desc></valItem>
+              <valItem ident="closeRenderingOf"><desc>a unit renders another's text closely, in the same language</desc></valItem>
+              <valItem ident="looseRenderingOf"><desc>a unit renders another's text loosely, in the same language</desc></valItem>
+              <valItem ident="paraphraseOf"><desc>a unit paraphrases another's text</desc></valItem>
+              <valItem ident="reactionTo"><desc>a collection answers another</desc></valItem>
+              <valItem ident="replacedBy"><desc>a collection was replaced by another</desc></valItem>
+              <valItem ident="origin"><desc>a manuscript, a unit or a work was made at a place or institution</desc></valItem>
+              <valItem ident="ownedBy"><desc>a manuscript or unit was owned by a person or institution, with dates</desc></valItem>
+              <valItem ident="formerlyIn"><desc>a unit was part of another manuscript, with dates</desc></valItem>
+              <valItem ident="fromSamePlaceAs"><desc>two manuscripts or units were made at the same place (symmetric)</desc></valItem>
+              <valItem ident="olderThan"><desc>a manuscript or unit is older than another</desc></valItem>
+              <valItem ident="copiedFrom"><desc>a witness was copied from another</desc></valItem>
+              <valItem ident="siblingOf"><desc>two witnesses were copied from one exemplar (symmetric)</desc></valItem>
+              <valItem ident="usedBy"><desc>a manuscript, unit, witness or work was used by a person, with dates</desc></valItem>
               <valItem ident="scribe"><desc>a hand was a person's</desc></valItem>
-              <valItem ident="artist"><desc>a decoration was a person's or a workshop's</desc></valItem>
-              <valItem ident="author"><desc>a work's author was a person</desc></valItem>
-              <valItem ident="enactedAt"><desc>a work was enacted at an event, a council's canons at the
-                  council</desc></valItem>
+              <valItem ident="artist"><desc>a decoration or a binding was a person's or a workshop's</desc></valItem>
+              <valItem ident="author"><desc>a work, version, publication or work group's author was a person, with a role and an order</desc></valItem>
+              <valItem ident="attributedTo"><desc>a work or a manuscript's item is attributed to a person</desc></valItem>
+              <valItem ident="editor"><desc>a publication's editor was a person, with an order and the name as printed</desc></valItem>
+              <valItem ident="madeBy"><desc>a transcription was made by a person, in a role</desc></valItem>
+              <valItem ident="addressedTo"><desc>a work is addressed to a person, an institution or an event</desc></valItem>
+              <valItem ident="enactedAt"><desc>a work was enacted at an event, a council's canons at the council</desc></valItem>
               <valItem ident="tookPlaceAt"><desc>an event took place at a place</desc></valItem>
-              <valItem ident="holdsOfficeIn"><desc>a person held office in an institution, with a role and
-                  dates</desc></valItem>
+              <valItem ident="tookPartIn"><desc>a person took part in an event, in a role</desc></valItem>
+              <valItem ident="hasRole"><desc>a person held a role, where and when</desc></valItem>
+              <valItem ident="memberOf"><desc>a person, institution, work, version or group was a member of a group, an institution or a work group</desc></valItem>
+              <valItem ident="locatedIn"><desc>an institution stood in a place, with dates</desc></valItem>
+              <valItem ident="belongedTo"><desc>a place belonged to a historical unit, a province, a kingdom, a diocese, with dates</desc></valItem>
+              <valItem ident="foundedBy"><desc>an institution was founded by a person</desc></valItem>
+              <valItem ident="bornAt"><desc>a person was born at a place</desc></valItem>
+              <valItem ident="diedAt"><desc>a person died at a place</desc></valItem>
+              <valItem ident="livedIn"><desc>a person lived in a place, with dates</desc></valItem>
+              <valItem ident="studiedAt"><desc>a person studied at an institution, with dates</desc></valItem>
               <valItem ident="lists"><desc>a register item lists a chapter</desc></valItem>
               <valItem ident="sameScribeAs"><desc>two hands are the same scribe's (symmetric)</desc></valItem>
               <valItem ident="sameHandAs"><desc>two hands are the same (symmetric)</desc></valItem>
+              <valItem ident="reprintOf"><desc>a publication reprints another</desc></valItem>
+              <valItem ident="reviewOf"><desc>a publication reviews another</desc></valItem>
+              <valItem ident="firstPublishedIn"><desc>a publication was first published in another</desc></valItem>
+              <valItem ident="relatedTo"><desc>two things are related, how not yet said (symmetric)</desc></valItem>
+              <valItem ident="notSameAs"><desc>two records of one kind are told apart (symmetric)</desc></valItem>
             </valList>
           </attDef>
           <attDef ident="type" mode="change" corresp="#tier-full">
@@ -3496,51 +4330,91 @@
 
   <div xml:id="relations-types">
     <head>The types</head>
-    <p>Each type says what it joins, and has a reverse: "a version of" reads back as "has as a version". The six types
-      of the texts' levels and units are fixed; the others are a vocabulary of the application, which grows as the
-      project needs, each type mapped later to SAWS or another ontology. The guide holds the types to start with;
-      a name outside them is reported, so that a slip is seen and a new type is added to the vocabulary on
-      purpose.</p>
+    <p>Each type says what it joins, and has a reverse: "a version of" reads back as "has as a version"; a symmetric
+      type reads the same both ways, and joins its two ends by <att>mutual</att>. The six types of the texts'
+      levels and units are fixed; the others are a vocabulary of the application, which grows as the project needs.
+      The guide holds the types to start with, each named by a plain key, and, where it has one, the term of SAWS,
+      the Sharing Ancient Wisdoms ontology, that the application maps it to ("nearest" where SAWS's says a little more
+      or less); an export writes it beside the type (<ptr target="#exports-vocabularies"/>). A name outside them is
+      reported, so that a slip is seen and a new type is added to the vocabulary on purpose.</p>
     <table xml:id="relation-types-table">
       <head>The relation types to start with</head>
       <row role="label">
         <cell>Name</cell>
         <cell>From, to</cell>
         <cell>Reverse</cell>
+        <cell>SAWS</cell>
       </row>
-      <row><cell><val>isTextOf</val> (fixed)</cell><cell>unit, unit: a node or a canon</cell><cell>has as a text</cell></row>
-      <row><cell><val>derivedFrom</val> (fixed)</cell><cell>unit, unit; via a work, version or
-          transcription</cell><cell>used in</cell></row>
-      <row><cell><val>versionOf</val> (fixed)</cell><cell>version, work</cell><cell>has as a version</cell></row>
-      <row><cell><val>witnessOf</val> (fixed)</cell><cell>witness, version or work</cell><cell>has as a
-          witness</cell></row>
-      <row><cell><val>transcriptionOf</val> (fixed)</cell><cell>transcription, witness</cell><cell>has as a
-          transcription</cell></row>
-      <row><cell><val>in</val> (fixed)</cell><cell>witness, manuscript or publication; at folios or
-          pages</cell><cell>holds</cell></row>
-      <row><cell><val>isVerbatimOf</val>, <val>isVariantOf</val>, <val>isShorterVersionOf</val></cell><cell>unit,
-          unit: narrower terms of <val>isTextOf</val>, after SAWS</cell><cell>as SAWS has them</cell></row>
-      <row><cell><val>translationOf</val>, <val>revisionOf</val>, <val>abridgementOf</val>,
-          <val>augmentationOf</val></cell><cell>version, version</cell><cell>translated as, revised as, abridged as,
-          augmented as</cell></row>
-      <row><cell><val>adaptationOf</val>, <val>basedOn</val></cell><cell>work, work</cell><cell>adapted as, basis
-          of</cell></row>
-      <row><cell><val>origin</val></cell><cell>manuscript or unit, place or institution</cell><cell>origin
-          of</cell></row>
-      <row><cell><val>ownedBy</val></cell><cell>manuscript or unit, person or institution; with
-          dates</cell><cell>owner of</cell></row>
-      <row><cell><val>scribe</val></cell><cell>hand, person</cell><cell>scribe of</cell></row>
-      <row><cell><val>artist</val></cell><cell>decoration, person or workshop</cell><cell>artist of</cell></row>
-      <row><cell><val>author</val></cell><cell>work, person</cell><cell>author of</cell></row>
-      <row><cell><val>enactedAt</val></cell><cell>work, event: a council's canons, the council</cell><cell>enacted</cell></row>
-      <row><cell><val>tookPlaceAt</val></cell><cell>event, place</cell><cell>place of</cell></row>
-      <row><cell><val>holdsOfficeIn</val></cell><cell>person, institution; with a role and dates</cell><cell>office held
-          by</cell></row>
-      <row><cell><val>lists</val></cell><cell>register item, chapter</cell><cell>listed in</cell></row>
-      <row><cell><val>sameScribeAs</val>, <val>sameHandAs</val></cell><cell>hand, hand</cell><cell>symmetric: by
-          <att>mutual</att></cell></row>
+      <row><cell><val>isTextOf</val> (fixed)</cell><cell>unit, unit: a node or a canon</cell><cell>has as a text</cell><cell/></row>
+      <row><cell><val>derivedFrom</val> (fixed)</cell><cell>unit, unit; via a work, version or transcription</cell><cell>used in</cell><cell/></row>
+      <row><cell><val>versionOf</val> (fixed)</cell><cell>version, work; with its certainty and evidence</cell><cell>has as a version</cell><cell/></row>
+      <row><cell><val>witnessOf</val> (fixed)</cell><cell>witness, version or work</cell><cell>has as a witness</cell><cell/></row>
+      <row><cell><val>transcriptionOf</val> (fixed)</cell><cell>transcription, witness</cell><cell>has as a transcription</cell><cell/></row>
+      <row><cell><val>in</val> (fixed)</cell><cell>witness, manuscript or publication; at folios or pages</cell><cell>holds</cell><cell/></row>
+      <row><cell><val>isVerbatimOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>has as a verbatim text</cell><cell><code>isVerbatimOf</code></cell></row>
+      <row><cell><val>isVariantOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>has as a variant</cell><cell><code>isVariantOf</code></cell></row>
+      <row><cell><val>isShorterVersionOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>has as a shorter version</cell><cell><code>isShorterVersionOf</code></cell></row>
+      <row><cell><val>isLongerVersionOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>has as a longer version</cell><cell><code>isLongerVersionOf</code></cell></row>
+      <row><cell><val>translationOf</val></cell><cell>version, version; publication, publication</cell><cell>translated as</cell><cell/></row>
+      <row><cell><val>closeTranslationOf</val></cell><cell>version, version: narrower than translationOf</cell><cell>closely translated as</cell><cell><code>isCloseTranslationOf</code></cell></row>
+      <row><cell><val>looseTranslationOf</val></cell><cell>version, version: narrower than translationOf</cell><cell>loosely translated as</cell><cell><code>isLooseTranslationOf</code></cell></row>
+      <row><cell><val>verbatimTranslationOf</val></cell><cell>version, version: narrower than translationOf</cell><cell>translated word for word as</cell><cell><code>isVerbatimTranslationOf</code></cell></row>
+      <row><cell><val>indirectTranslationOf</val></cell><cell>version, version: narrower than translationOf</cell><cell>indirectly translated as</cell><cell><code>isIndirectTranslationOf</code></cell></row>
+      <row><cell><val>revisionOf</val></cell><cell>version, version</cell><cell>revised as</cell><cell/></row>
+      <row><cell><val>abridgementOf</val></cell><cell>version, version</cell><cell>abridged as</cell><cell/></row>
+      <row><cell><val>augmentationOf</val></cell><cell>version, version</cell><cell>augmented as</cell><cell/></row>
+      <row><cell><val>sameSequenceAs</val></cell><cell>version or division, the same</cell><cell>symmetric: by <att>mutual</att></cell><cell><code>isSequentiallySameAs</code></cell></row>
+      <row><cell><val>similarSequenceTo</val></cell><cell>version or division, the same</cell><cell>symmetric: by <att>mutual</att></cell><cell><code>isSequentiallySimilarTo</code></cell></row>
+      <row><cell><val>subsequenceOf</val></cell><cell>division; version or division</cell><cell>has as a subsequence</cell><cell><code>isSubSequenceOf</code></cell></row>
+      <row><cell><val>madeFrom</val></cell><cell>version, witness</cell><cell>source of</cell><cell><code>isBasedOn</code></cell></row>
+      <row><cell><val>adaptationOf</val></cell><cell>work, work</cell><cell>adapted as</cell><cell/></row>
+      <row><cell><val>basedOn</val></cell><cell>work, work</cell><cell>basis of</cell><cell/></row>
+      <row><cell><val>sameAs</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>symmetric: by <att>mutual</att></cell><cell/></row>
+      <row><cell><val>correctionOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>corrected as</cell><cell/></row>
+      <row><cell><val>closeRenderingOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>rendered closely as</cell><cell><code>isCloseRenderingOf</code></cell></row>
+      <row><cell><val>looseRenderingOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>rendered loosely as</cell><cell><code>isLooseRenderingOf</code></cell></row>
+      <row><cell><val>paraphraseOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>paraphrased as</cell><cell/></row>
+      <row><cell><val>reactionTo</val></cell><cell>collection, collection</cell><cell>answered by</cell><cell/></row>
+      <row><cell><val>replacedBy</val></cell><cell>collection, collection</cell><cell>replaces</cell><cell/></row>
+      <row><cell><val>origin</val></cell><cell>manuscript, unit or work; place or institution</cell><cell>origin of</cell><cell/></row>
+      <row><cell><val>ownedBy</val></cell><cell>manuscript or unit, person or institution; with dates</cell><cell>owner of</cell><cell/></row>
+      <row><cell><val>formerlyIn</val></cell><cell>unit, manuscript; with dates</cell><cell>formerly held</cell><cell><code>formsPartOf</code></cell></row>
+      <row><cell><val>fromSamePlaceAs</val></cell><cell>manuscript or unit, the same; with a certainty</cell><cell>symmetric: by <att>mutual</att></cell><cell><code>isFromSamePlaceAs</code></cell></row>
+      <row><cell><val>olderThan</val></cell><cell>manuscript or unit, the same; with a certainty</cell><cell>younger than</cell><cell><code>isOlderThan</code></cell></row>
+      <row><cell><val>copiedFrom</val></cell><cell>witness, witness; with certainty and evidence</cell><cell>exemplar of</cell><cell><code>isChildOf</code></cell></row>
+      <row><cell><val>siblingOf</val></cell><cell>witness, witness; with certainty and evidence</cell><cell>symmetric: by <att>mutual</att></cell><cell><code>isSiblingOf</code></cell></row>
+      <row><cell><val>usedBy</val></cell><cell>manuscript, unit, witness or work; person; with dates and evidence</cell><cell>user of</cell><cell><code>usedBy</code></cell></row>
+      <row><cell><val>scribe</val></cell><cell>hand, person</cell><cell>scribe of</cell><cell/></row>
+      <row><cell><val>artist</val></cell><cell>decoration or binding, person or workshop</cell><cell>artist of</cell><cell/></row>
+      <row><cell><val>author</val></cell><cell>work, version, publication or work group; person; a role (roleName) and an order (@n)</cell><cell>author of</cell><cell/></row>
+      <row><cell><val>attributedTo</val></cell><cell>work or item, person; with certainty and evidence</cell><cell>to whom attributed</cell><cell><code>isAttributedToAuthor</code></cell></row>
+      <row><cell><val>editor</val></cell><cell>publication, person; an order (@n), the name as printed (persName)</cell><cell>editor of</cell><cell><code>isEditedBy</code></cell></row>
+      <row><cell><val>madeBy</val></cell><cell>transcription, person; a role (roleName)</cell><cell>maker of</cell><cell><code>isWrittenBy</code>, nearest</cell></row>
+      <row><cell><val>addressedTo</val></cell><cell>work; person, institution or event</cell><cell>addressee of</cell><cell/></row>
+      <row><cell><val>enactedAt</val></cell><cell>work, event: a council's canons, the council</cell><cell>enacted</cell><cell/></row>
+      <row><cell><val>tookPlaceAt</val></cell><cell>event, place</cell><cell>place of</cell><cell/></row>
+      <row><cell><val>tookPartIn</val></cell><cell>person, event; a role (roleName)</cell><cell>had as a participant</cell><cell/></row>
+      <row><cell><val>hasRole</val></cell><cell>person, a role's term; where (placeName, orgName), dates</cell><cell>held by</cell><cell/></row>
+      <row><cell><val>memberOf</val></cell><cell>person, institution, work, version or work group; group, institution or work group; dates, certainty</cell><cell>has as a member</cell><cell><code>isMemberOf</code></cell></row>
+      <row><cell><val>locatedIn</val></cell><cell>institution, place; with dates</cell><cell>place of</cell><cell><code>isLocatedAt</code></cell></row>
+      <row><cell><val>belongedTo</val></cell><cell>place, place; with dates</cell><cell>held</cell><cell/></row>
+      <row><cell><val>foundedBy</val></cell><cell>institution, person; date, certainty</cell><cell>founder of</cell><cell/></row>
+      <row><cell><val>bornAt</val></cell><cell>person, place; with a certainty</cell><cell>birthplace of</cell><cell/></row>
+      <row><cell><val>diedAt</val></cell><cell>person, place; with a certainty</cell><cell>place of death of</cell><cell/></row>
+      <row><cell><val>livedIn</val></cell><cell>person, place; with dates</cell><cell>home of</cell><cell/></row>
+      <row><cell><val>studiedAt</val></cell><cell>person, institution; with dates</cell><cell>school of</cell><cell/></row>
+      <row><cell><val>lists</val></cell><cell>register item, chapter</cell><cell>listed in</cell><cell/></row>
+      <row><cell><val>sameScribeAs</val></cell><cell>hand, hand</cell><cell>symmetric: by <att>mutual</att></cell><cell/></row>
+      <row><cell><val>sameHandAs</val></cell><cell>hand, hand</cell><cell>symmetric: by <att>mutual</att></cell><cell/></row>
+      <row><cell><val>reprintOf</val></cell><cell>publication, publication</cell><cell>reprinted as</cell><cell>biblatex's <code>related</code></cell></row>
+      <row><cell><val>reviewOf</val></cell><cell>publication, publication</cell><cell>reviewed in</cell><cell>biblatex's <code>related</code></cell></row>
+      <row><cell><val>firstPublishedIn</val></cell><cell>publication, publication</cell><cell>first publication of</cell><cell>biblatex's <code>related</code></cell></row>
+      <row><cell><val>relatedTo</val></cell><cell>any, any: a link seen, not yet named</cell><cell>symmetric: by <att>mutual</att></cell><cell><code>isRelatedTo</code></cell></row>
+      <row><cell><val>notSameAs</val></cell><cell>a record, another of its kind</cell><cell>symmetric: by <att>mutual</att></cell><cell><code>isDifferentTo</code></cell></row>
     </table>
-    <p>A family of texts is never encoded: the application works it out from the relations.</p>
+    <p>A family of texts is never encoded: the application works it out from the relations. A relation the project
+      sees and can't name yet is <val>relatedTo</val>; two records told apart, two bishops of one name,
+      <val>notSameAs</val>.</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-term">
       <relation name="isQuotedIn" type="observation" active="#ch1" passive="C.NIC-0325_3"/>
     </egXML>
@@ -3552,7 +4426,7 @@
           <desc>A relation's type is one of the types to start with, or a new term of the vocabulary.</desc>
           <constraint>
             <sch:rule context="tei:relation[@name]">
-              <sch:let name="terms" value="('isTextOf', 'derivedFrom', 'versionOf', 'witnessOf', 'transcriptionOf',                 'in', 'isVerbatimOf', 'isVariantOf', 'isShorterVersionOf', 'translationOf', 'revisionOf',                 'abridgementOf', 'augmentationOf', 'adaptationOf', 'basedOn', 'origin', 'ownedBy', 'scribe',                 'artist', 'author', 'enactedAt', 'tookPlaceAt', 'holdsOfficeIn', 'lists', 'sameScribeAs',                 'sameHandAs')"/>
+              <sch:let name="terms" value="('isTextOf', 'derivedFrom', 'versionOf', 'witnessOf', 'transcriptionOf',                 'in', 'isVerbatimOf', 'isVariantOf', 'isShorterVersionOf', 'isLongerVersionOf', 'translationOf',                 'closeTranslationOf',                 'looseTranslationOf', 'verbatimTranslationOf', 'indirectTranslationOf', 'revisionOf',                 'abridgementOf', 'augmentationOf', 'sameSequenceAs', 'similarSequenceTo', 'subsequenceOf',                 'madeFrom', 'adaptationOf', 'basedOn', 'sameAs', 'correctionOf', 'closeRenderingOf',                 'looseRenderingOf', 'paraphraseOf', 'reactionTo', 'replacedBy', 'origin', 'ownedBy', 'formerlyIn',                 'fromSamePlaceAs', 'olderThan', 'copiedFrom', 'siblingOf', 'usedBy', 'scribe', 'artist', 'author',                 'attributedTo', 'editor', 'madeBy', 'addressedTo', 'enactedAt', 'tookPlaceAt', 'tookPartIn',                 'hasRole', 'memberOf', 'locatedIn', 'belongedTo', 'foundedBy', 'bornAt', 'diedAt', 'livedIn',                 'studiedAt', 'lists', 'sameScribeAs', 'sameHandAs', 'reprintOf', 'reviewOf', 'firstPublishedIn',                 'relatedTo', 'notSameAs')"/>
               <sch:assert id="relation-term" role="warning" test="@name = $terms">The relation type <sch:value-of select="@name"/> isn't among the guide's types: check its spelling, or add it to the application's
                 vocabulary.</sch:assert>
             </sch:rule>
@@ -3572,14 +4446,24 @@
       is a version of a work, or that a witness is of a version and not only of its work. An export writes the
       levels' ids in the formal title (<ptr target="#header-title"/>), and their relations in its
       standOff.</p>
+    <p>Which work a version belongs to is a judgement, as which version a witness carries is: <val>versionOf</val>,
+      as <val>witnessOf</val>, takes a certainty and its evidence, and the import keeps both. A made-up version,
+      probably of Nicaea's canons, after an edition:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <listRelation>
-        <relation name="versionOf" type="judgement" active="#new_version_nicaea_dionysius_ii" passive="C.NIC-0325"/>
+        <relation name="versionOf" type="judgement" cert="medium" active="#new_version_nicaea_dionysius_ii" passive="C.NIC-0325">
+          <desc>after <bibl><ptr target="#new_bibl_maassen_1870"/><citedRange unit="page" from="12" to="13">12–13</citedRange></bibl></desc>
+        </relation>
       </listRelation>
     </egXML>
     <p><val>isTextOf</val> joins a node of a witness to its version's canon: it is how a witness's own structure is
       mapped to the canons (<ptr target="#levels"/>). The import makes it as an observation from each source note
       that names a canon; an encoder writes it where no note does.</p>
+    <p>Its narrower types say more about how one unit's text is another's: <val>isVerbatimOf</val>,
+      <val>isVariantOf</val>, <val>isShorterVersionOf</val> and <val>isLongerVersionOf</val>, after SAWS;
+      <val>sameAs</val>, <val>correctionOf</val>, <val>closeRenderingOf</val>, <val>looseRenderingOf</val> and
+      <val>paraphraseOf</val>. Each joins two units, as <val>isTextOf</val> does, and a search for
+      <val>isTextOf</val> finds them too.</p>
     <p>A reception note's codes read the other way: each names a later text that took the passage over (<ptr target="#marked-notes"/>). The import keeps the note's words and codes; the relation it makes of each code,
       from the later text to the passage, and where that relation ends when the passage runs over several nodes, are
       still to be settled with the application.</p>
@@ -3617,7 +4501,9 @@
         <list>
           <item>circa, by <code>~</code> (<code>0800~</code>), uncertain, by <code>?</code> (<code>0756?</code>), or
             both, by <code>%</code>;</item>
-          <item>a century or a decade, by unspecified digits (<code>08XX</code>, <code>081X</code>);</item>
+          <item>a century as the interval of its years (<code>0801/0900</code>), and a part of one as its own
+            (<code>0867/0900</code>);</item>
+          <item>a decade by unspecified digits (<code>081X</code>);</item>
           <item>a point among a few dates, by a set (<code>[0755,0756]</code>).</item>
         </list>
       </item>
@@ -3628,13 +4514,15 @@
       TEI's other forms of the same date, its ISO attributes (<att>when-iso</att>, …), a named period
       (<att>period</att>), and the custom bounds (<att>notBefore-custom</att>, <att>notAfter-custom</att>), aren't
       taken: one form.</p>
-    <p>A century is the commonest date of a manuscript. The bounds follow the words: "sec. X" is 901 to 1000. Its
-      EDTF is <code>09XX</code>, which EDTF reads as 900 to 999; the checks allow the year's difference (<ptr target="#dates-checks"/>):</p>
+    <p>A century is the commonest date of a manuscript, and counts as catalogues mean it: "sec. X" is 901 to 1000,
+      in the bounds and in the EDTF, which is the interval of its years, <code>0901/1000</code>. Not
+      <code>09XX</code>, which EDTF reads as 900 to 999, a year off at each end (<ptr target="#dates-checks"/>):</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.His.ms-Vat-BAV-Pal575">
-      <origDate notBefore="0901" notAfter="1000" when-custom="09XX" datingMethod="#edtf" calendar="#gregorian">sec.
+      <origDate notBefore="0901" notAfter="1000" when-custom="0901/1000" datingMethod="#edtf" calendar="#gregorian">sec.
         X</origDate>
     </egXML>
-    <p>A part of a century needs no EDTF: the bounds say it, and the words keep how it was said.</p>
+    <p>A part of a century needs no EDTF: the bounds say it, and the words keep how it was said. Where one is given,
+      it is its interval too (<code>0867/0900</code> for the last third of the 9th century).</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.Dach.ms-Brn-Burg-425">
       <origDate notBefore="0867" notAfter="0900" calendar="#gregorian">sec. IX ultimo terzo</origDate>
     </egXML>
@@ -3647,7 +4535,7 @@
     <p>An uncertain year, and the years it may be instead, is a point between bounds with its EDTF marked uncertain.
       The edition of the Council of Aschheim dates it "a. 756 vel 755-60"; as a record of the council:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
-      <event xml:id="new_event_aschheim" notBefore="0755" notAfter="0760" when-custom="0756?" datingMethod="#edtf">
+      <event xml:id="new_event_aschheim" type="council" notBefore="0755" notAfter="0760" when-custom="0756?" datingMethod="#edtf">
         <eventName>Concilium Ascheimense</eventName>
       </event>
     </egXML>
@@ -3799,9 +4687,9 @@
       <item>no bound comes after its pair: <att>notBefore</att> after <att>notAfter</att>, or <att>from</att> after
         <att>to</att> (an error);</item>
       <item>an EDTF value has EDTF's form, as this part uses it, and its <att>datingMethod</att> (an error);</item>
-      <item>the bounds agree with the EDTF, by years: an exact date has the bounds' years; one with unspecified
-        digits may differ from them by a year at each end, as a century does; a circa or uncertain one lies within
-        the bounds (a warning);</item>
+      <item>the bounds agree with the EDTF, by years: an exact date, an interval and a date with unspecified
+        digits have the bounds' years exactly, so that <code>09XX</code> goes with 900 to 999; a circa or uncertain
+        one lies within the bounds (a warning);</item>
       <item>a manuscript's date and a date in the text name their calendar (an error);</item>
       <item>every <att>calendar</att> and <att>datingMethod</att> points to a declared <gi>calendar</gi> (an
         error).</item>
@@ -3824,6 +4712,10 @@
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="date-edtf-bounds">
       <origDate notBefore="0901" notAfter="1000" when-custom="08XX" datingMethod="#edtf" calendar="#gregorian">sec.
         X</origDate>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="date-edtf-bounds">
+      <origDate notBefore="0901" notAfter="1000" when-custom="09XX" datingMethod="#edtf" calendar="#gregorian">sec.
+        X</origDate><!-- breaks the rule: 09XX is 900 to 999 -->
     </egXML>
     <specGrp xml:id="dates-specs">
       <!-- A date reads one way: its bounds complete and in order, its EDTF well formed and agreeing with them. The
@@ -3866,11 +4758,11 @@
             <sch:rule context="tei:*[@when-custom or @from-custom or @to-custom]">
               <sch:let name="day" value="'-?[0-9]{2}([0-9]{2}|[0-9]X|XX)(-([0-9]{2}|XX)(-([0-9]{2}|XX))?)?[~?%]?'"/>
               <sch:let name="item" value="concat('(', $day, ')(\.\.(', $day, '))?')"/>
-              <sch:let name="edtf" value="concat('^((', $day, ')|\[(', $item, ')(,(', $item, '))*\])$')"/>
+              <sch:let name="edtf" value="concat('^((', $day, ')|(', $day, ')/(', $day, ')|\[(', $item, ')(,(', $item,                 '))*\])$')"/>
               <sch:assert id="date-edtf-form" test="@datingMethod = '#edtf' and (every $v in (@when-custom,                 @from-custom, @to-custom) satisfies matches(normalize-space($v), $edtf))">An EDTF value is a date
-                (0813, 0816-08, 0813-06-13), its last digits unspecified (08XX) or itself marked circa or uncertain
-                (~, ?, %), or a set of them ([0755,0756], [0867..0900]); and the element points to EDTF by
-                @datingMethod="#edtf".</sch:assert>
+                (0813, 0816-08, 0813-06-13), its last digits unspecified (081X) or itself marked circa or uncertain
+                (~, ?, %), an interval of two of them (0801/0900), or a set of them ([0755,0756], [0867..0900]); and
+                the element points to EDTF by @datingMethod="#edtf".</sch:assert>
             </sch:rule>
           </constraint>
         </constraintSpec>
@@ -3878,8 +4770,8 @@
           <desc>The bounds agree with the EDTF, by years.</desc>
           <constraint>
             <sch:rule context="tei:*[@datingMethod = '#edtf'][@when-custom or @from-custom or @to-custom]">
-              <!-- The EDTF's earliest and latest years, its unspecified digits read as 0 and 9; and the bounds'
-                   years. Exact: equal; unspecified digits: a year apart at most; circa or uncertain: within. -->
+              <!-- The EDTF's earliest and latest years, its unspecified digits read as 0 and 9, an interval's from
+                   its ends; and the bounds' years. Circa or uncertain: within; otherwise equal. -->
               <sch:let name="w" value="normalize-space(@when-custom)"/>
               <sch:let name="wy" value="tokenize(replace($w, '[^0-9X]+', ' '), ' ')[string-length(.) = 4]"/>
               <sch:let name="wlo" value="min(for $y in $wy return xs:integer(translate($y, 'X', '0')))"/>
@@ -3888,20 +4780,20 @@
               <sch:let name="hi" value="for $b in (@notAfter, @when)[1] return substring($b, 1, 4)"/>
               <sch:let name="blo" value="if ($lo castable as xs:integer) then xs:integer($lo) else ()"/>
               <sch:let name="bhi" value="if ($hi castable as xs:integer) then xs:integer($hi) else ()"/>
-              <sch:let name="point" value="empty($wlo) or empty($blo) or empty($bhi) or (if (matches($w, '[~?%]'))                 then $blo le $wlo and $whi le $bhi else if (contains($w, 'X')) then abs($blo - $wlo) le 1 and                 abs($bhi - $whi) le 1 else $blo eq $wlo and $bhi eq $whi)"/>
+              <sch:let name="point" value="empty($wlo) or empty($blo) or empty($bhi) or (if (matches($w, '[~?%]'))                 then $blo le $wlo and $whi le $bhi else $blo eq $wlo and $bhi eq $whi)"/>
               <sch:let name="f" value="normalize-space(@from-custom)"/>
               <sch:let name="flo" value="min(for $y in tokenize(replace($f, '[^0-9X]+', ' '), ' ')[string-length(.) =                 4] return xs:integer(translate($y, 'X', '0')))"/>
               <sch:let name="fb" value="substring(@from, 1, 4)"/>
               <sch:let name="bf" value="if ($fb castable as xs:integer) then xs:integer($fb) else ()"/>
-              <sch:let name="start" value="empty($flo) or empty($bf) or (if (matches($f, '[~?%]')) then $bf le $flo                 else if (contains($f, 'X')) then abs($bf - $flo) le 1 else $bf eq $flo)"/>
+              <sch:let name="start" value="empty($flo) or empty($bf) or (if (matches($f, '[~?%]')) then $bf le $flo                 else $bf eq $flo)"/>
               <sch:let name="t" value="normalize-space(@to-custom)"/>
               <sch:let name="thi" value="max(for $y in tokenize(replace($t, '[^0-9X]+', ' '), ' ')[string-length(.) =                 4] return xs:integer(translate($y, 'X', '9')))"/>
               <sch:let name="tb" value="substring(@to, 1, 4)"/>
               <sch:let name="bt" value="if ($tb castable as xs:integer) then xs:integer($tb) else ()"/>
-              <sch:let name="end" value="empty($thi) or empty($bt) or (if (matches($t, '[~?%]')) then $thi le $bt                 else if (contains($t, 'X')) then abs($bt - $thi) le 1 else $bt eq $thi)"/>
+              <sch:let name="end" value="empty($thi) or empty($bt) or (if (matches($t, '[~?%]')) then $thi le $bt                 else $bt eq $thi)"/>
               <sch:assert id="date-edtf-bounds" role="warning" test="$point and $start and $end">The bounds agree with
-                the EDTF, by years: an exact date has the bounds' years, a century or decade (08XX) differs by a year
-                at most, a circa or uncertain date lies within them.</sch:assert>
+                the EDTF, by years: an exact date, an interval (0801/0900) and a date with unspecified digits (081X)
+                have the bounds' years, a circa or uncertain date lies within them.</sch:assert>
             </sch:rule>
           </constraint>
         </constraintSpec>
@@ -4038,10 +4930,13 @@
       <!-- A description has at least one unit, and holds only the profile's elements, in their places. -->
       <elementSpec ident="msDesc" module="msdescription" mode="change" corresp="#tier-full">
         <constraintSpec ident="manuscript-unit" scheme="schematron" corresp="#tier-full">
-          <desc>A manuscript's description has at least one codicological unit.</desc>
+          <desc>A manuscript's description has at least one codicological unit; a known manuscript listed in a
+            file's standOff may hold its identifier alone.</desc>
           <constraint>
             <sch:rule context="tei:msDesc">
-              <sch:assert id="manuscript-unit" test="tei:msPart">A manuscript's description has at least one
+              <sch:let name="register" value="normalize-space(/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type'][1]) = 'register'"/>
+              <sch:let name="known" value="ancestor::tei:standOff and not(starts-with(@xml:id, 'new_manuscript_')) and                 not($register)"/>
+              <sch:assert id="manuscript-unit" test="tei:msPart or $known">A manuscript's description has at least one
                 codicological unit (msPart), with its own identifier: the unit holds the physical description, the
                 date, the hands and the decoration.</sch:assert>
             </sch:rule>
@@ -5187,10 +6082,12 @@
     <head>Publications as records</head>
     <p>A publication that more than one thing refers to, the edition several witnesses are in, the catalogue a
       manuscript's literature cites, is listed once in the standOff's <gi>listBibl</gi>, with an <att>xml:id</att>,
-      a record's or a placeholder's (<code>new_bibl_</code> and a name), and pointed to: a witness by a
+      its known id (<code>PUBL.5</code>) or a new one (<code>new_bibl_</code> and a name), and pointed to: a witness by a
       <gi>ptr</gi> and its pages in <gi>citedRange</gi> (<ptr target="#records-witnesses"/>), a manuscript's
-      literature the same way. The import makes the application's records from a <gi>biblStruct</gi>: the volume, the
-      text in it and the series, related to one another; then the file's witness, in the publication at the pages of
+      literature the same way. An edition in the header names its volume's record by the id on its
+      <gi>monogr</gi>, or, without an <gi>analytic</gi>, on the <gi>biblStruct</gi> (<ptr target="#records-ids"/>).
+      The import makes the application's records from a <gi>biblStruct</gi>: the volume, the text in it and the
+      series, related to one another; then the file's witness, in the publication at the pages of
       the <gi>citedRange</gi>. An export writes each publication it points to as a <gi>biblStruct</gi> with its entry
       type.</p>
   </div>
@@ -5206,7 +6103,7 @@
       Additio:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.Benedictus">
       <sourceDesc>
-        <biblStruct xml:id="pertz-1837">
+        <biblStruct xml:id="new_bibl_pertz_1837">
           <analytic>
             <title level="a">Benedicti Capitularia</title>
           </analytic>
@@ -5233,7 +6130,7 @@
           <note>A reconstruction: the collection as the project puts it together, from Pertz's edition for the whole
             text, and from Schmitz's for Additio 1, which Pertz's lacks.</note>
         </biblStruct>
-        <biblStruct xml:id="schmitz-2008">
+        <biblStruct xml:id="new_bibl_schmitz_2008">
           <monogr>
             <editor>
               <persName>
@@ -5250,8 +6147,8 @@
           </monogr>
         </biblStruct>
         <listWit>
-          <witness xml:id="wit-pertz"><bibl><ptr target="#pertz-1837"/><citedRange unit="page" from="17" to="158">17–158</citedRange></bibl>: the whole text but Additio 1</witness>
-          <witness xml:id="wit-schmitz"><bibl><ptr target="#schmitz-2008"/></bibl>: Additio 1</witness>
+          <witness xml:id="wit-pertz"><bibl><ptr target="#new_bibl_pertz_1837"/><citedRange unit="page" from="17" to="158">17–158</citedRange></bibl>: the whole text but Additio 1</witness>
+          <witness xml:id="wit-schmitz"><bibl><ptr target="#new_bibl_schmitz_2008"/></bibl>: Additio 1</witness>
         </listWit>
       </sourceDesc>
     </egXML>
@@ -5281,16 +6178,29 @@
       <div type="chapter" n="1" xml:id="C.SOI-0744_1">
         <head type="number" xml:id="C.SOI-0744_1.h1"><pb n="34"/>(I).</head>
         <p xml:id="C.SOI-0744_1.p1">In primitus constituimus fide catholica, quam constituerunt CCCXVIII episcopi in
-          <eventName ref="https://example.org/id/event/EVENT.1">Niceno concilio</eventName>, ut denuntiaretur per
+          <eventName ref="#EVENT.1">Niceno concilio</eventName>, ut denuntiaretur per
           universa regione nostra …</p>
       </div>
     </egXML>
-    <p>A pointer to anything outside the file, a record, a canon, another document, is a permalink, since one code can
-      name several kinds of thing (<ptr target="#citations-and-permalinks"/>). The records an export points to are
-      listed in its standOff, each with its own id as its <att>xml:id</att>, the permalink's last step, and its names,
-      so that the file reads on its own. A record's links to pages that aren't an authority's record are written
-      back in its note of links (<ptr target="#records-external-ids"/>), and every manuscript's date and every date in
-      the text names its calendar (<ptr target="#dates-calendars"/>).</p>
+    <p>A record an export points to, a person, a place, an event, the author of an annotation or a change, is listed
+      in its standOff as a known record (<ptr target="#records-ids"/>): its own id as its <att>xml:id</att>, its
+      names, and its permalink, an <gi>idno</gi> typed <val>permalink</val>, so that the file reads on its own. Every
+      pointer to it is <code>#</code> and its id. Imported again, the file is compared with the database's records
+      as one change set. A pointer to a canon or another document is a permalink, since one code can name several
+      kinds of thing (<ptr target="#citations-and-permalinks"/>). The council's record of Nicaea:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.SOI-0744-export">
+      <listEvent>
+        <event xml:id="EVENT.1" when="0325">
+          <eventName>Council of Nicaea, 325</eventName>
+          <idno type="permalink">https://example.org/id/event/EVENT.1</idno>
+        </event>
+      </listEvent>
+    </egXML>
+    <p> A record's links to pages that aren't an authority's record are written
+      back in its note of links (<ptr target="#records-external-ids"/>), its literature as untyped <gi>bibl</gi>s in
+      it (<ptr target="#records-literature"/>); a work's record stands for its canonical version, as in a register
+      (<ptr target="#records-works"/>); and every manuscript's date and every date in the text names its
+      calendar (<ptr target="#dates-calendars"/>).</p>
   </div>
 
   <div xml:id="exports-citations">
@@ -5323,7 +6233,7 @@
         counted in characters of the node's text as the application holds it, its words without the markup and each
         run of spaces as one, from 0; or a node, an anchor or the range between two, by their ids. An annotation
         over several spans or nodes has several targets;</item>
-      <item><hi>its author</hi>, in a <gi>respStmt</gi> naming them by permalink, and its licence, in a
+      <item><hi>its author</hi>, in a <gi>respStmt</gi> naming them by their record, and its licence, in a
         <gi>licence</gi>;</item>
       <item><hi>its body</hi>: a <gi>note</gi> holding the element of its layer, with the attributes it has inline and
         the span's words, which the import checks the target against; for a note's layers, a source note, a
@@ -5334,12 +6244,12 @@
       stands in the standOff:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.SOI-0744-export">
       <p xml:id="C.SOI-0744_pr1.p1"><pb n="33"/>In Dei nomine trinitatis. Anno septingentesimo quadragesimo quarto ab
-        incarnatione Christi sub die VI. Nonas Martii et luna XIIII. in anno secundo <persName ref="https://example.org/id/person/PERS.31">Childerici regis Francorum</persName> ego <persName ref="https://example.org/id/person/PERS.32">Pippinus, dux et princeps Francorum</persName>. …</p>
+        incarnatione Christi sub die VI. Nonas Martii et luna XIIII. in anno secundo <persName ref="#PERS.31">Childerici regis Francorum</persName> ego <persName ref="#PERS.32">Pippinus, dux et princeps Francorum</persName>. …</p>
       <listAnnotation>
         <annotation xml:id="annotation-date" target="#string-range(C.SOI-0744_pr1.p1,26,137)">
           <respStmt>
             <resp>dated</resp>
-            <persName ref="https://example.org/id/person/PERS.12">An editor</persName>
+            <persName ref="#PERS.12">An editor</persName>
           </respStmt>
           <licence target="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</licence>
           <note><date when="0744-03-06" calendar="#julian">Anno septingentesimo quadragesimo quarto ab incarnatione
@@ -5457,7 +6367,7 @@
         (<code>2027.1</code>), its date in <att>when</att>, and as its words a summary of the changes since the last
         release;</item>
       <item><hi>the change sets</hi>, on request: each a <gi>change</gi> without a type, its date, its author's
-        permalink in <att>who</att>, the nodes it touched in <att>target</att>, and its message as its words. An
+        record in <att>who</att>, the nodes it touched in <att>target</att>, and its message as its words. An
         earlier text of a node is pointed to by its permalink and version (<code>…@t3</code>), not copied.</item>
     </list>
     <p>The history a file had before its import stays as it was, read-only (<ptr target="#header-revisions"/>). The
@@ -5466,7 +6376,7 @@
       <revisionDesc>
         <change type="release" n="2027.1" when="2027-06-30">The project's first release: the council checked against
           its edition, its persons, places and events identified.</change>
-        <change when="2027-05-02" who="https://example.org/id/person/PERS.12" target="#C.SOI-0744_2.p1">A reading
+        <change when="2027-05-02" who="#PERS.12" target="#C.SOI-0744_2.p1">A reading
           corrected against the edition.</change>
       </revisionDesc>
     </egXML>
@@ -5511,7 +6421,9 @@
     <p>An export declares the terms of the application's vocabularies it uses, in the encoding description's
       <gi>classDecl</gi>: a <gi>taxonomy</gi> for each vocabulary, and in it a <gi>category</gi> for each term, its
       <att>xml:id</att> the term's name, its labels in <gi>catDesc</gi>, one for each language, its permalink in
-      <att>sameAs</att>, since the category is that term, and its equivalents elsewhere in <att>corresp</att>. An
+      <att>sameAs</att>, since the category is that term, and its equivalents elsewhere in <att>corresp</att>: for a
+      relation type, its term in SAWS, by its address (<code>http://purl.org/saws/ontology#isChildOf</code> for
+      <val>copiedFrom</val>; <ptr target="#relations-types"/>). An
       element that uses a term names it, as an attribute's value or by a pointer, as the guide's parts say. The
       council's relations use one term:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.SOI-0744-export">
@@ -5558,7 +6470,7 @@
               <gi>address</gi> <gi>analytic</gi>
               <gi>distributor</gi> <gi>email</gi> <gi>forename</gi> <gi>imprint</gi> <gi>listPerson</gi>
               <gi>monogr</gi> <gi>p</gi> <gi>postCode</gi> <gi>publisher</gi> <gi>pubPlace</gi>
-              <gi>series</gi> <gi>standOff</gi> <gi>street</gi> <gi>surname</gi>
+              <gi>series</gi> <gi>street</gi> <gi>surname</gi>
             </cell>
           </row>
           <row corresp="#tier-full">
@@ -5580,7 +6492,8 @@
               <gi>listPlace</gi> <gi>listPrefixDef</gi> <gi>listWit</gi> <gi>location</gi> <gi>locus</gi>
               <gi>locusGrp</gi> <gi>measure</gi> <gi>msContents</gi> <gi>msIdentifier</gi> <gi>msName</gi>
               <gi>name</gi> <gi>nameLink</gi> <gi>normalization</gi> <gi>notesStmt</gi> <gi>num</gi>
-              <gi>occupation</gi> <gi>org</gi> <gi>orig</gi> <gi>origin</gi> <gi>physDesc</gi> <gi>place</gi>
+              <gi>occupation</gi> <gi>org</gi> <gi>orig</gi> <gi>origin</gi> <gi>personGrp</gi> <gi>physDesc</gi>
+              <gi>place</gi>
               <gi>principal</gi> <gi>profileDesc</gi> <gi>projectDesc</gi> <gi>provenance</gi> <gi>punctuation</gi>
               <gi>q</gi> <gi>quotation</gi> <gi>recordHist</gi> <gi>refsDecl</gi> <gi>reg</gi> <gi>resp</gi>
               <gi>respStmt</gi> <gi>revisionDesc</gi> <gi>roleName</gi> <gi>rubric</gi> <gi>samplingDecl</gi>
@@ -5600,10 +6513,10 @@
 
           <!-- The modules, and the elements taken from each. -->
           <moduleRef key="tei"/>
-          <moduleRef key="core" include="abbr add addrLine address analytic author bibl biblScope biblStruct choice cit citedRange corr               date del desc editor email expan foreign gap graphic head imprint item label lb list listBibl measure               monogr name note num orig p pb postCode ptr publisher pubPlace q quote ref reg resp respStmt rs series sic               street term textLang title unclear hi"/>
+          <moduleRef key="core" include="abbr add addrLine address analytic author bibl biblScope biblStruct choice cit citedRange corr               date del desc editor email expan foreign gap graphic head imprint item label lb list listBibl measure               milestone monogr name note num orig p pb postCode ptr publisher pubPlace q quote ref reg resp respStmt               rs series sic street term textLang title unclear hi"/>
           <moduleRef key="header" include="abstract authority availability calendar calendarDesc catDesc category change citeData               citeStructure classDecl correction creation distributor edition editionStmt editorialDecl encodingDesc               extent fileDesc funder handNote idno interpretation keywords langUsage language licence listChange listPrefixDef normalization               notesStmt prefixDef principal profileDesc projectDesc publicationStmt punctuation quotation refsDecl               revisionDesc               samplingDecl segmentation seriesStmt sourceDesc sponsor stdVals taxonomy teiHeader textClass               titleStmt"/>
           <moduleRef key="textstructure" include="TEI body div text"/>
-          <moduleRef key="namesdates" include="addName affiliation birth bloc country death district event eventName floruit forename genName               geo geogName listEvent listOrg listPerson listPlace listRelation location nameLink occupation org               orgName persName person place placeName region relation roleName settlement surname"/>
+          <moduleRef key="namesdates" include="addName affiliation birth bloc country death district event eventName floruit forename genName               geo geogName listEvent listOrg listPerson listPlace listRelation location nameLink occupation org               orgName persName person personGrp place placeName region relation roleName settlement surname"/>
           <moduleRef key="msdescription" include="acquisition additional additions adminInfo altIdentifier binding bindingDesc collation collection               colophon condition decoDesc decoNote depth dimensions explicit finalRubric foliation handDesc height               history incipit institution layout layoutDesc locus locusGrp msContents msDesc msIdentifier msItem msName               msPart objectDesc origDate origin origPlace physDesc provenance recordHist repository rubric source               summary support supportDesc surrogates width"/>
           <moduleRef key="linking" include="anchor annotation link linkGrp listAnnotation seg standOff"/>
           <moduleRef key="transcr" include="subst supplied"/>
@@ -5619,6 +6532,7 @@
           <specGrpRef target="#text-divisions-specs"/>
           <specGrpRef target="#text-headings-specs"/>
           <specGrpRef target="#text-page-breaks-specs"/>
+          <specGrpRef target="#text-other-editions-specs"/>
           <specGrpRef target="#text-gaps-specs"/>
           <specGrpRef target="#marked-names-specs"/>
           <specGrpRef target="#marked-works-specs"/>
@@ -5626,6 +6540,7 @@
           <specGrpRef target="#marked-pointers-specs"/>
           <specGrpRef target="#marked-notes-specs"/>
           <specGrpRef target="#marked-other-specs"/>
+          <specGrpRef target="#records-ids-specs"/>
           <specGrpRef target="#records-persons-specs"/>
           <specGrpRef target="#records-institutions-specs"/>
           <specGrpRef target="#records-events-specs"/>
@@ -5821,6 +6736,41 @@
               <gi>note</gi> typed <val>authorities</val></cell>
             <cell><gi>idno</gi> typed by the authority (<code>&lt;idno type="mirabile"&gt;19840&lt;/idno&gt;</code>)</cell>
             <cell><ptr target="#records-external-ids"/></cell>
+          </row>
+          <row>
+            <cell>A record's id <code>solemne_person_</code> and a number; a register's id by
+              <att>sameAs</att> on a placeholder</cell>
+            <cell>a known id, the application's (<code>PERS.12</code>), or a new one (<code>new_person_…</code>), the
+              record's own <att>xml:id</att></cell>
+            <cell><ptr target="#records-ids"/></cell>
+          </row>
+          <row>
+            <cell>A group of persons as a <gi>person</gi> (<code>new_person_romans</code>)</cell>
+            <cell><gi>personGrp</gi>, its members by <val>memberOf</val></cell>
+            <cell><ptr target="#records-persons"/></cell>
+          </row>
+          <row>
+            <cell>A work group as a <gi>listBibl</gi> typed <val>workGroup</val>, its name a <gi>head</gi> typed
+              <val>rubric</val>, its members <gi>bibl</gi>s holding a <gi>ptr</gi></cell>
+            <cell>a <gi>bibl</gi> typed <val>workGroup</val>, its name a <gi>title</gi>, its members by
+              <val>memberOf</val></cell>
+            <cell><ptr target="#records-work-groups"/></cell>
+          </row>
+          <row>
+            <cell><val>holdsOfficeIn</val>, from a person to an institution, the office a <gi>roleName</gi></cell>
+            <cell><val>hasRole</val>, from a person to a role's term, where it was held in the description</cell>
+            <cell><ptr target="#relations-form"/></cell>
+          </row>
+          <row>
+            <cell>A century's EDTF by unspecified digits (<code>08XX</code>), a year off at each end</cell>
+            <cell>its interval, <code>0801/0900</code></cell>
+            <cell><ptr target="#dates"/></cell>
+          </row>
+          <row>
+            <cell>An export's pointer to a record by its permalink</cell>
+            <cell><code>#</code> and the id of the record listed, which holds its permalink in an <gi>idno</gi>
+              typed <val>permalink</val></cell>
+            <cell><ptr target="#exports-ids"/></cell>
           </row>
           <row>
             <cell>Relations after SAWS and the project's own terms, their ends pointing to the standOff's
@@ -6367,6 +7317,9 @@
           <bibl xml:id="source-C.VLA-0549"><idno>C.VLA-0549</idno>: <title>Council of Valencia, 549</title>, ed.
             <editor>José Vives</editor>, <title>Concilios visigóticos e hispano-romanos</title>, España Cristiana 1
             (Barcelona and Madrid, <date>1963</date>), pp. 61–64.</bibl>
+          <bibl xml:id="source-C.THE-0418"><idno>C.THE-0418</idno>: <title>Council of Telepte, 418</title>, ed.
+            <editor>Charles Munier</editor>, <title>Concilia Africae a. 345 – a. 525</title>, CCSL 149 (Turnhout,
+            <date>1974</date>), pp. 54–65: the records of its standOff, the project's own.</bibl>
           <bibl xml:id="source-C.CON-0381-v5"><idno>C.CON-0381-v5</idno>: <title>First Council of Constantinople,
               381</title>, ed. <editor>Adolf Martin Ritter</editor>, in <title>The oecumenical councils: from Nicaea I
               to Nicaea II (325-787)</title>, ed. <editor>Giuseppe Alberigo</editor>, Corpus Christianorum,
@@ -6378,6 +7331,22 @@
             edition.</bibl>
           <bibl xml:id="source-LR.CTh-0438"><idno>LR.CTh-0438</idno>: <title>Codex Theodosianus</title>, in The
             Latin Library's text (thelatinlibrary.com/theodosius.html), which names no edition.</bibl>
+          <bibl xml:id="source-CPT.CHB-0596"><idno>CPT.CHB-0596</idno>: <title>Childeberti secundi decretio,
+              596</title>, ed. <editor>Alfred Boretius</editor>, <title>Capitularia regum Francorum</title> I, MGH
+            Capitularia 1 (Hannover, <date>1881</date>), pp. 16–18, in the Latin Text Archive's text, converted by the
+            data project.</bibl>
+          <bibl xml:id="source-CPT.CHL-0614"><idno>CPT.CHL-0614</idno>: <title>Chlotharii II. edictum, 614</title>,
+            ed. <editor>Alfred Boretius</editor>, <title>Capitularia regum Francorum</title> I, MGH Capitularia 1
+            (Hannover, <date>1881</date>), pp. 21–24, BK 9, in the Latin Text Archive's text, converted by the data
+            project.</bibl>
+          <bibl xml:id="source-D.GRE-0599-1748"><idno>D.GRE-0599-1748</idno>: <title>Gregory I to Aregius, bishop in
+              Gaul, 599</title>, Register IX, 219, ed. <editor>Ludo M. Hartmann</editor>, <title>Gregorii I papae
+              Registrum epistolarum</title> II, MGH Epistolae 2 (Berlin, <date>1892–1899</date>), pp. 210–211, in
+            the digital MGH's text, converted by the data project: the record's title, its code and its
+            siglum.</bibl>
+          <bibl xml:id="source-CHA.RAT-0974.ed-PL136"><idno>CHA.RAT-0974.ed-PL136</idno>: <title>Ratherius of Verona,
+              Testamentum</title>, ed. <editor>Jacques-Paul Migne</editor>, Patrologia Latina 136, cols. 641–644, in Corpus
+            Corporum's text through the Latin Text Archive, converted by the data project.</bibl>
           <bibl xml:id="source-COLL.400.ms-Mun-BSB-4592"><idno>COLL.400.ms-Mun-BSB-4592</idno>: <title>Collectio 400
               capitulorum</title>, transcribed by the project from Munich, Bayerische Staatsbibliothek, Clm
             4592.</bibl>

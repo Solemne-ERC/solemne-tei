@@ -1,0 +1,78 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta charset="UTF-8"/><!--THIS FILE IS GENERATED FROM AN XML MASTER. DO NOT EDIT (7)--><title>TEI element imprint </title><meta name="author" content="Gleb Schmidt, Friederike Voit and Sven Meeder"/><meta name="generator" content="Text Encoding Initiative Consortium XSLT stylesheets"/><meta name="DC.Title" content="TEI element imprint"/><meta name="DC.Type" content="Text"/><meta name="DC.Format" content="text/html"/><link href="guide.css" rel="stylesheet" type="text/css"/><script type="text/javascript"><!--
+var displayXML=0;
+states=new Array()
+states[0]="element-a"
+states[1]="element-b"
+states[2]="element-c"
+states[3]="element-d"
+states[4]="element-e"
+states[5]="element-f"
+states[6]="element-g"
+states[7]="element-h"
+states[8]="element-i"
+states[9]="element-j"
+states[10]="element-k"
+states[11]="element-l"
+states[12]="element-m"
+states[13]="element-n"
+states[14]="element-o"
+states[15]="element-p"
+states[16]="element-q"
+states[17]="element-r"
+states[18]="element-s"
+states[19]="element-t"
+states[20]="element-u"
+states[21]="element-v"
+states[22]="element-w"
+states[23]="element-x"
+states[24]="element-y"
+states[25]="element-z"
+
+function startUp() {
+
+}
+
+function hideallExcept(elm) {
+for (var i = 0; i < states.length; i++) {
+ var layer;
+ if (layer = document.getElementById(states[i]) ) {
+  if (states[i] != elm) {
+    layer.style.display = "none";
+  }
+  else {
+   layer.style.display = "block";
+      }
+  }
+ }
+ var mod;
+ if ( mod = document.getElementById('byMod') ) {
+     mod.style.display = "none";
+ }
+}
+
+function showall() {
+ for (var i = 0; i < states.length; i++) {
+   var layer;
+   if (layer = document.getElementById(states[i]) ) {
+      layer.style.display = "block";
+      }
+  }
+}
+
+function showByMod() {
+  hideallExcept('');
+  var mod;
+  if (mod = document.getElementById('byMod') ) {
+     mod.style.display = "block";
+     }
+}
+
+        --></script></head><body id="TOP"><p class="guide-title"><a href="index.html">The SOLEMNE Encoding Guidelines</a>, <a href="specification.html">the specification</a></p><div class="main-content"><div><h3 class="oddSpec" id="imprint">&lt;imprint&gt;</h3><table class="wovenodd"><tr><td colspan="2" class="wovenodd-col2"><span class="label">&lt;imprint&gt; </span>groups information relating to the publication or distribution of a bibliographic item. [3.12.2.4. Imprint, Size of a Document, and Reprint Information]</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Module</span></td><td class="wovenodd-col2">core — The specification</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Attributes</span></td><td class="wovenodd-col2"><ul class="attList"><?DEBUG calling showAttClasses 06 ?><li class="classSpecItem"><a class="link_odd" title="provides attributes common to all elements in the TEI encoding scheme." href="ref-att.global.html">att.global</a><ul class="classSpecAttDefs"><li><span class="attribute">@xml:id</span></li><li><span class="attribute">@n</span></li><li><span class="attribute">@xml:lang</span></li><li><span class="attribute">@xml:base</span></li><li><span class="attribute">@xml:space</span></li></ul><ul class="classSpecMemberOfs"><li class="classSpecItem"><a class="link_odd" title="provides attributes allowing its member elements to specify one or more states or revision campaigns with which they are associated." href="ref-att.global.change.html">att.global.change</a><ul class="classSpecAttDefs"><li><span class="attribute">@change</span></li></ul></li><li class="classSpecItem"><a class="link_odd" title="provides attributes used to express correspondence between an element and all or part of a facsimile image or surface." href="ref-att.global.facs.html">att.global.facs</a><ul class="classSpecAttDefs"><li><span class="attribute">@facs</span></li></ul></li><li class="classSpecItem"><a class="link_odd" title="provides a set of attributes for hypertextual linking." href="ref-att.global.linking.html">att.global.linking</a><ul class="classSpecAttDefs"><li><span class="attribute">@corresp</span></li><li><span class="attribute">@synch</span></li><li><span class="attribute">@sameAs</span></li><li><span class="attribute">@copyOf</span></li><li><span class="attribute">@next</span></li><li><span class="attribute">@prev</span></li><li><span class="attribute">@exclude</span></li><li><span class="attribute">@select</span></li></ul></li><li class="classSpecItem"><a class="link_odd" title="provides rendering attributes common to all elements in the TEI encoding scheme." href="ref-att.global.rendition.html">att.global.rendition</a><ul class="classSpecAttDefs"><li><span class="attribute">@rend</span></li><li><span class="attribute">@style</span></li><li><span class="attribute">@rendition</span></li></ul></li><li class="classSpecItem"><a class="link_odd" title="provides attributes indicating the agent responsible for some aspect of the text, the markup or something asserted by the markup, and the degree of certainty associated with it." href="ref-att.global.responsibility.html">att.global.responsibility</a><ul class="classSpecAttDefs"><li><span class="attribute">@cert</span></li><li><span class="attribute">@resp</span></li></ul></li><li class="classSpecItem"><a class="link_odd" title="provides attributes used by elements to point to an external source." href="ref-att.global.source.html">att.global.source</a><ul class="classSpecAttDefs"><li><span class="attribute">@source</span></li></ul></li></ul></li></ul></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Contained by</span></td><td class="wovenodd-col2"><div class="parent"><div class="specChildren"><div class="specChild"><span class="specChildModule">core: </span><span class="specChildElements"><a class="link_odd_elementSpec" title="(monographic level) contains bibliographic elements describing an item (e.g. a book or journal) published as an independent item (i.e. as a separate physical object)." href="ref-monogr.html">monogr</a></span></div></div></div></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">May contain</span></td><td class="wovenodd-col2"><div class="specChildren"><div class="specChild"><span class="specChildModule">core: </span><span class="specChildElements"><a class="link_odd_elementSpec" title="(scope of bibliographic reference) defines the scope of a bibliographic reference, for example as a list of page numbers, or a named subdivision of a larger work." href="ref-biblScope.html">biblScope</a> <a class="link_odd_elementSpec" title="(date) contains a date in any format." href="ref-date.html">date</a> <a class="link_odd_elementSpec" title="(gap) indicates a point where material has been omitted in a transcription, whether for editorial reasons described in the TEI header, as part of sampling practice, or because the material is illegible, invisible, or inaudible." href="ref-gap.html">gap</a> <a class="link_odd_elementSpec" title="(line beginning) marks the beginning of a topographic line in some edition or version of a text." href="ref-lb.html">lb</a> <a class="link_odd_elementSpec" title="(milestone) marks a boundary point separating any kind of section of a text, typically but not necessarily indicating a point at which some part of a standard reference system changes, where the change is not represented by a structural element." href="ref-milestone.html">milestone</a> <a class="link_odd_elementSpec" title="(note) contains a note or annotation." href="ref-note.html">note</a> <a class="link_odd_elementSpec" title="(page beginning) marks the beginning of a new page in a paginated document." href="ref-pb.html">pb</a> <a class="link_odd_elementSpec" title="(publication place) contains the name of the place where a bibliographic item was published." href="ref-pubPlace.html">pubPlace</a> <a class="link_odd_elementSpec" title="(publisher) provides the name of the organization responsible for the publication or distribution of a bibliographic item." href="ref-publisher.html">publisher</a> <a class="link_odd_elementSpec" title="(statement of responsibility) supplies a statement of responsibility for the intellectual content of a text, edition, recording, or series, where the specialized elements for authors, editors, etc. do not suffice or do not apply. May also be used to encode information about individuals or organizations which have played a role in the production or distribution of a bibliographic work." href="ref-respStmt.html">respStmt</a></span></div><div class="specChild"><span class="specChildModule">header: </span><span class="specChildElements"><a class="link_odd_elementSpec" title="(distributor) supplies the name of a person or other agency responsible for the distribution of a text." href="ref-distributor.html">distributor</a></span></div><div class="specChild"><span class="specChildModule">iso-fs: </span><span class="specChildElements"><a class="link_odd_elementSpec" title="(feature structure) represents a feature structure, that is, a collection of feature-value pairs organized as a structural unit." href="ref-fs.html">fs</a></span></div><div class="specChild"><span class="specChildModule">linking: </span><span class="specChildElements"><a class="link_odd_elementSpec" title="(anchor point) attaches an identifier to a point within a text, whether or not it corresponds with a textual element." href="ref-anchor.html">anchor</a> <a class="link_odd_elementSpec" title="(link) defines an association or hypertextual link among elements or passages, of some type not more precisely specifiable by other elements." href="ref-link.html">link</a> <a class="link_odd_elementSpec" title="(link group) defines a collection of associations or hypertextual links." href="ref-linkGrp.html">linkGrp</a></span></div></div></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Example</span></td><td class="wovenodd-col2"><div id="gi-imprint-egXML-xq" class="pre egXML_valid"><span class="element">&lt;imprint&gt;</span><br/> <span class="element">&lt;pubPlace&gt;</span>Oxford<span class="element">&lt;/pubPlace&gt;</span><br/> <span class="element">&lt;publisher&gt;</span>Clarendon Press<span class="element">&lt;/publisher&gt;</span><br/> <span class="element">&lt;date&gt;</span>1987<span class="element">&lt;/date&gt;</span><br/><span class="element">&lt;/imprint&gt;</span></div></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Content model</span></td><td class="wovenodd-col2"><pre class="eg"><span class="element">&lt;content&gt;</span><br/> <span class="element">&lt;sequence&gt;</span><br/>  <span class="element">&lt;alternate <span class="attribute">minOccurs</span>="<span class="attributevalue">0</span>"<br/>   <span class="attribute">maxOccurs</span>="<span class="attributevalue">unbounded</span>"&gt;</span><br/>   <span class="element">&lt;elementRef <span class="attribute">key</span>="<a class="link_odd" href="ref-classCode.html">classCode</a>"/&gt;</span><br/>   <span class="element">&lt;elementRef <span class="attribute">key</span>="<a class="link_odd" href="ref-catRef.html">catRef</a>"/&gt;</span><br/>  <span class="element">&lt;/alternate&gt;</span><br/>  <span class="element">&lt;sequence <span class="attribute">minOccurs</span>="<span class="attributevalue">1</span>"<br/>   <span class="attribute">maxOccurs</span>="<span class="attributevalue">unbounded</span>"&gt;</span><br/>   <span class="element">&lt;alternate&gt;</span><br/>    <span class="element">&lt;classRef <span class="attribute">key</span>="<a class="link_odd" href="ref-model.imprintPart.html">model.imprintPart</a>"/&gt;</span><br/>    <span class="element">&lt;classRef <span class="attribute">key</span>="<a class="link_odd" href="ref-model.dateLike.html">model.dateLike</a>"/&gt;</span><br/>   <span class="element">&lt;/alternate&gt;</span><br/>   <span class="element">&lt;elementRef <span class="attribute">key</span>="<a class="link_odd" href="ref-respStmt.html">respStmt</a>" <span class="attribute">minOccurs</span>="<span class="attributevalue">0</span>"<br/>    <span class="attribute">maxOccurs</span>="<span class="attributevalue">unbounded</span>"/&gt;</span><br/>   <span class="element">&lt;classRef <span class="attribute">key</span>="<a class="link_odd" href="ref-model.global.html">model.global</a>"<br/>    <span class="attribute">minOccurs</span>="<span class="attributevalue">0</span>" <span class="attribute">maxOccurs</span>="<span class="attributevalue">unbounded</span>"/&gt;</span><br/>  <span class="element">&lt;/sequence&gt;</span><br/> <span class="element">&lt;/sequence&gt;</span><br/><span class="element">&lt;/content&gt;</span></pre></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Schema Declaration</span></td><td class="wovenodd-col2"><pre class="eg">
+<span class="rnc_keyword">element</span> <span class="rnc_nc">imprint</span>
+{
+   <a class="link_odd" title="provides attributes common to all elements in the TEI encoding scheme." href="ref-att.global.html">att.global.attributes</a>,
+   (
+      ( classCode | catRef )*,
+      ( ( ( <a class="link_odd" title="groups the bibliographic elements which occur inside imprints." href="ref-model.imprintPart.html">model.imprintPart</a> | <a class="link_odd" title="groups elements containing temporal expressions." href="ref-model.dateLike.html">model.dateLike</a> ), <a class="link_odd" title="(statement of responsibility) supplies a statement of responsibility for the intellectual content of a text, edition, recording, or series, where the specialized elements for authors, editors, etc. do not suffice or do not apply. May also be used to encode information about individuals or organizations which have played a role in the production or distribution of a bibliographic work." href="ref-respStmt.html">respStmt</a>*, <a class="link_odd" title="groups elements which may appear at any point within a TEI text." href="ref-model.global.html">model.global</a>* )+ )
+   )
+}</pre></td></tr></table></div></div><footer class="guide-footer"><p><a href="index.html">The SOLEMNE Encoding Guidelines</a>, Version 1.0.0. Under the Creative Commons Attribution 4.0 licence.</p></footer></body></html>
