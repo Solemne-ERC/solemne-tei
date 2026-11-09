@@ -276,6 +276,16 @@ def test_the_schema_s_prefix_for_a_category_is_the_package_s(
     assert "code-category" not in schematron_rules(validator, code)
 
 
+def test_a_collection_in_no_order_takes_the_collections_prefix(validator: Validator, tmp_path: Path) -> None:
+    assert "code-category" not in schematron_rules(validator, with_code(tmp_path, "COLL.Exemplum", "FARCOLL"))
+    assert "code-category" in schematron_rules(validator, with_code(tmp_path, "FARCOLL.Exemplum", "FARCOLL"))
+
+
+def test_a_work_known_by_its_siglum_is_coded_from_it(validator: Validator, tmp_path: Path) -> None:
+    found = schematron_rules(validator, with_code(tmp_path, "W.IS-ety", "W", "W.IS-ety.xml"))
+    assert not found & {"code-format", "code-category", "category-value", "code-matches-file-name"}
+
+
 @pytest.mark.parametrize("category", ["C", "LR", "CPT", "CHA", "SYSCOLL"])
 def test_a_file_named_by_a_code_is_named_by_its_own(validator: Validator, tmp_path: Path, category: str) -> None:
     prefix = code_prefix(category)

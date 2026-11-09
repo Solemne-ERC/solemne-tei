@@ -117,6 +117,7 @@
               <valItem ident="isVerbatimOf"><desc>a unit is a text of another, word for word</desc></valItem>
               <valItem ident="isVariantOf"><desc>a unit is a text of another, with variants</desc></valItem>
               <valItem ident="isShorterVersionOf"><desc>a unit is a text of another, shortened</desc></valItem>
+              <valItem ident="isLongerVersionOf"><desc>a unit is a text of another, lengthened</desc></valItem>
               <valItem ident="translationOf"><desc>a version or a publication translates another</desc></valItem>
               <valItem ident="closeTranslationOf"><desc>a version translates another closely</desc></valItem>
               <valItem ident="looseTranslationOf"><desc>a version translates another loosely</desc></valItem>
@@ -131,11 +132,11 @@
               <valItem ident="madeFrom"><desc>a version is made from a witness: a reconstruction's sources</desc></valItem>
               <valItem ident="adaptationOf"><desc>a work adapts another</desc></valItem>
               <valItem ident="basedOn"><desc>a work is based on another</desc></valItem>
-              <valItem ident="sameAs"><desc>two texts are the same, neither taken from the other (symmetric)</desc></valItem>
-              <valItem ident="correctionOf"><desc>a text corrects another</desc></valItem>
-              <valItem ident="closeRenderingOf"><desc>a text renders another closely, in the same language</desc></valItem>
-              <valItem ident="looseRenderingOf"><desc>a text renders another loosely, in the same language</desc></valItem>
-              <valItem ident="paraphraseOf"><desc>a text paraphrases another</desc></valItem>
+              <valItem ident="sameAs"><desc>two units are the same text, neither taken from the other (symmetric)</desc></valItem>
+              <valItem ident="correctionOf"><desc>a unit corrects another's text</desc></valItem>
+              <valItem ident="closeRenderingOf"><desc>a unit renders another's text closely, in the same language</desc></valItem>
+              <valItem ident="looseRenderingOf"><desc>a unit renders another's text loosely, in the same language</desc></valItem>
+              <valItem ident="paraphraseOf"><desc>a unit paraphrases another's text</desc></valItem>
               <valItem ident="reactionTo"><desc>a collection answers another</desc></valItem>
               <valItem ident="replacedBy"><desc>a collection was replaced by another</desc></valItem>
               <valItem ident="origin"><desc>a manuscript, a unit or a work was made at a place or institution</desc></valItem>
@@ -229,6 +230,7 @@
       <row><cell><val>isVerbatimOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>has as a verbatim text</cell><cell><code>isVerbatimOf</code></cell></row>
       <row><cell><val>isVariantOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>has as a variant</cell><cell><code>isVariantOf</code></cell></row>
       <row><cell><val>isShorterVersionOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>has as a shorter version</cell><cell><code>isShorterVersionOf</code></cell></row>
+      <row><cell><val>isLongerVersionOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>has as a longer version</cell><cell><code>isLongerVersionOf</code></cell></row>
       <row><cell><val>translationOf</val></cell><cell>version, version; publication, publication</cell><cell>translated as</cell><cell></cell></row>
       <row><cell><val>closeTranslationOf</val></cell><cell>version, version: narrower than translationOf</cell><cell>closely translated as</cell><cell><code>isCloseTranslationOf</code></cell></row>
       <row><cell><val>looseTranslationOf</val></cell><cell>version, version: narrower than translationOf</cell><cell>loosely translated as</cell><cell><code>isLooseTranslationOf</code></cell></row>
@@ -243,11 +245,11 @@
       <row><cell><val>madeFrom</val></cell><cell>version, witness</cell><cell>source of</cell><cell><code>isBasedOn</code></cell></row>
       <row><cell><val>adaptationOf</val></cell><cell>work, work</cell><cell>adapted as</cell><cell></cell></row>
       <row><cell><val>basedOn</val></cell><cell>work, work</cell><cell>basis of</cell><cell></cell></row>
-      <row><cell><val>sameAs</val></cell><cell>version or unit, the same</cell><cell>symmetric: by <att>mutual</att></cell><cell></cell></row>
-      <row><cell><val>correctionOf</val></cell><cell>version or unit, the same</cell><cell>corrected as</cell><cell></cell></row>
-      <row><cell><val>closeRenderingOf</val></cell><cell>version or unit, the same</cell><cell>rendered closely as</cell><cell></cell></row>
-      <row><cell><val>looseRenderingOf</val></cell><cell>version or unit, the same</cell><cell>rendered loosely as</cell><cell></cell></row>
-      <row><cell><val>paraphraseOf</val></cell><cell>version or unit, the same</cell><cell>paraphrased as</cell><cell></cell></row>
+      <row><cell><val>sameAs</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>symmetric: by <att>mutual</att></cell><cell></cell></row>
+      <row><cell><val>correctionOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>corrected as</cell><cell></cell></row>
+      <row><cell><val>closeRenderingOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>rendered closely as</cell><cell><code>isCloseRenderingOf</code></cell></row>
+      <row><cell><val>looseRenderingOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>rendered loosely as</cell><cell><code>isLooseRenderingOf</code></cell></row>
+      <row><cell><val>paraphraseOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>paraphrased as</cell><cell></cell></row>
       <row><cell><val>reactionTo</val></cell><cell>collection, collection</cell><cell>answered by</cell><cell></cell></row>
       <row><cell><val>replacedBy</val></cell><cell>collection, collection</cell><cell>replaces</cell><cell></cell></row>
       <row><cell><val>origin</val></cell><cell>manuscript, unit or work; place or institution</cell><cell>origin of</cell><cell></cell></row>
@@ -301,7 +303,8 @@
           <constraint>
             <sch:rule context="tei:relation[@name]">
               <sch:let name="terms" value="('isTextOf', 'derivedFrom', 'versionOf', 'witnessOf', 'transcriptionOf',
-                'in', 'isVerbatimOf', 'isVariantOf', 'isShorterVersionOf', 'translationOf', 'closeTranslationOf',
+                'in', 'isVerbatimOf', 'isVariantOf', 'isShorterVersionOf', 'isLongerVersionOf', 'translationOf',
+                'closeTranslationOf',
                 'looseTranslationOf', 'verbatimTranslationOf', 'indirectTranslationOf', 'revisionOf',
                 'abridgementOf', 'augmentationOf', 'sameSequenceAs', 'similarSequenceTo', 'subsequenceOf',
                 'madeFrom', 'adaptationOf', 'basedOn', 'sameAs', 'correctionOf', 'closeRenderingOf',
@@ -346,6 +349,11 @@
     <p><val>isTextOf</val> joins a node of a witness to its version's canon: it is how a witness's own structure is
       mapped to the canons (<ptr target="#levels"/>). The import makes it as an observation from each source note
       that names a canon; an encoder writes it where no note does.</p>
+    <p>Its narrower types say more about how one unit's text is another's: <val>isVerbatimOf</val>,
+      <val>isVariantOf</val>, <val>isShorterVersionOf</val> and <val>isLongerVersionOf</val>, after SAWS;
+      <val>sameAs</val>, <val>correctionOf</val>, <val>closeRenderingOf</val>, <val>looseRenderingOf</val> and
+      <val>paraphraseOf</val>. Each joins two units, as <val>isTextOf</val> does, and a search for
+      <val>isTextOf</val> finds them too.</p>
     <p>A reception note's codes read the other way: each names a later text that took the passage over (<ptr
         target="#marked-notes"/>). The import keeps the note's words and codes; the relation it makes of each code,
       from the later text to the passage, and where that relation ends when the passage runs over several nodes, are

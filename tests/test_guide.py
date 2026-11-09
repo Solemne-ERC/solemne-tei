@@ -225,6 +225,7 @@ VOCABULARIES = {
     "decoration-term": ("decoNote", "type"),
     "entry-type": ("biblStruct", "type"),
     "authority-term": ("idno", "type"),
+    "milestone-term": ("milestone", "unit"),
     "person-term": ("person", "type"),
     "event-term": ("event", "type"),
 }

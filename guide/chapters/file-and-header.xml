@@ -86,11 +86,14 @@
 
     <div xml:id="header-categories">
       <head>Categories and types</head>
-      <p>The category says what kind of text the document is. The application keeps the categories as a vocabulary,
-        which may grow; the schema checks them against its list, which these seed:</p>
+      <p>The category says what kind of text the document is, or, for <val>W</val>, how the work is known. The
+        categories are a closed list, released with the guide: a category the application adds comes to the guide
+        first and joins it in a release, with its prefix, since every code's and every pointer's prefix depends on
+        it.</p>
       <list xml:id="category-list">
         <item><val>SYSCOLL</val>: a collection arranged by subject;</item>
         <item><val>CHRCOLL</val>: a collection arranged chronologically;</item>
+        <item><val>FARCOLL</val>: a collection in no order, a farrago, as Clavis canonum calls it;</item>
         <item><val>C</val>: a council;</item>
         <item><val>D</val>: a decretal;</item>
         <item><val>P</val>: a penitential;</item>
@@ -101,6 +104,12 @@
         <item><val>CPT</val>: a capitulary;</item>
         <item><val>CHA</val>: a charter;</item>
         <item><val>BIB</val>: the Bible;</item>
+        <item><val>PATR</val>: a patristic work not known by a siglum;</item>
+        <item><val>SCHOL</val>: a scholarly work worth citing into, such as Kéry's catalogue of canonical
+          collections;</item>
+        <item><val>W</val>: a work known by its siglum in Gryson's <title>Répertoire général des auteurs
+            ecclésiastiques latins</title>, whatever its kind: a Father's letter cited by its siglum is
+          <val>W</val>, not <val>EP</val>;</item>
         <item><val>UNK</val>: not known.</item>
       </list>
       <p>The type says what the file transcribes:</p>
@@ -150,8 +159,8 @@
       <list>
         <item><hi>The category's prefix:</hi> the category itself (<code>C</code>, <code>D</code>, <code>P</code>,
           <code>H</code>, <code>EX</code>, <code>EP</code>, <code>LR</code>, <code>CPT</code>, <code>CHA</code>,
-          <code>BIB</code>), and <code>COLL</code> for both kinds of collection. A document of an unknown category
-          takes any prefix.</item>
+          <code>BIB</code>, <code>PATR</code>, <code>SCHOL</code>, <code>W</code>), and <code>COLL</code> for the
+          three kinds of collection. A document of an unknown category takes any prefix.</item>
         <item><hi>The title part,</hi> its subparts joined by hyphens:
           <list>
             <item>the title: for a council, three capitals for its place (<code>C.MAI</code> for Mainz); for a
@@ -162,8 +171,8 @@
               for Justinian's Codex, <code>LR.Inst</code>, <code>LR.Dig</code>); for a capitulary, a bishop's
               statutes or a charter, three letters for the person who issued it (<code>CPT.CHL</code> for Chlothar
               II, <code>CPT.GER</code> for Gerbald of Liège, <code>CHA.RAT</code> for Ratherius of Verona); for the
-              Bible, its version (<code>BIB.Vulg</code>, the Vulgate); <code>UNK</code> where the title isn't
-              known;</item>
+              Bible, its version (<code>BIB.Vulg</code>, the Vulgate); for a work known by its Gryson siglum, the
+              siglum (<code>W.IS-ety</code>, below); <code>UNK</code> where the title isn't known;</item>
             <item>the date, where wanted: four digits, the year (<code>C.MAI-0813</code>), and for a code of Roman law
               the year of its promulgation (<code>LR.CTh-0438</code>, <code>LR.CJ-0534</code>); the latest possible
               year, where the date is a range; <code>9999</code> where the date isn't known
@@ -197,8 +206,29 @@
         <code>CPT.KAR-0869</code>, <code>CPT.KAR-0880</code>). An issuer the edition leaves open between two, or
         doesn't name, is <code>UNK</code>, and a statute without a name of its own has the edition's name for it in
         its alias. A capitulary's year is the latest its edition's heading gives ("a. 805/813" is 813), a charter's
-        too. A collection of capitularies is a collection (<code>COLL.Ansegis</code>). A letter, a homiliary and
-        exegesis take their title parts with their first files.</p>
+        too. A collection of capitularies is a collection (<code>COLL.Ansegis</code>). A letter, a homiliary,
+        exegesis, a patristic work and a scholarly work take their title parts with their first files; until then,
+        the Schematron checks their codes' form and prefix.</p>
+      <p>A work known by its siglum in Gryson's <title>Répertoire</title> takes the siglum as its title part, its
+        spaces, dots and underscores made hyphens, the author's hyphen kept, and no date: <code>W.IS-ety</code> for
+        Isidore's Etymologiae, <code>W.HI-ep-52</code> for Jerome's letter 52, <code>W.AU-s-351</code> for
+        Augustine's sermon 351. A file holds one text, as the siglum's work part names it: a treatise is one file,
+        and a numbered collection of texts, such as a Father's letters or sermons, one file for each, its number in
+        the work part (<code>HI_ep.52</code>). It is cited by its divisions, as any code is: Isidore's book 15,
+        chapter 2, section 1 is <code>W.IS-ety_15.2.1</code>, and a pointer by the siglum,
+        <code>IS_ety_15.2.1</code>, names the same place (<ptr target="#marked-pointers"/>). A work that has a code
+        of its own, such as a pope's letter, keeps it, and its siglum stands on its record (<ptr
+          target="#records-works"/>). A made-up file of the Etymologiae opens so:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples">
+        <titleStmt>
+          <title type="formal">
+            <idno>W.IS-ety</idno>
+            <idno type="category">W</idno>
+            <idno type="type">edition</idno>
+          </title>
+          <title type="alias">Isidore of Seville, Etymologiae</title>
+        </titleStmt>
+      </egXML>
       <p>A capitulary's chapter is cited by its number, as its edition numbers it: <code>CPT.CHL-0614_9</code>.
         Ansegis's collection, by book and chapter: <code>COLL.Ansegis_2.5</code>. A charter is cited whole, by its
         code, or by its own numbers where it numbers its parts (<code>CHA.RAT-0974.ed-PL136_2</code>). Chlothar II's
@@ -386,17 +416,17 @@
             </constraint>
           </constraintSpec>
           <constraintSpec ident="code-category" scheme="schematron" corresp="#tier-required">
-            <desc>The document's code begins with its category's prefix: COLL for both kinds of collection, the
-              category itself for the others; UNK's any.</desc>
+            <desc>The document's code begins with its category's prefix: COLL for the three kinds of collection,
+              the category itself for the others; UNK's any.</desc>
             <constraint>
               <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
                 <sch:let name="category" value="normalize-space(../tei:idno[@type = 'category'][1])"/>
                 <sch:let name="prefix" value="substring-before(normalize-space(.), '.')"/>
                 <sch:assert id="code-category" test="$category = ('', 'UNK') or $prefix = (if
-                  ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category)">The document's code
+                  ($category = ('SYSCOLL', 'CHRCOLL', 'FARCOLL')) then 'COLL' else $category)">The document's code
                   (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of
-                  select="if ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category"/>, for the category
-                  <sch:value-of select="$category"/>).</sch:assert>
+                  select="if ($category = ('SYSCOLL', 'CHRCOLL', 'FARCOLL')) then 'COLL' else $category"/>, for the
+                  category <sch:value-of select="$category"/>).</sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>
@@ -426,10 +456,10 @@
             <desc>The document's category is one of the categories.</desc>
             <constraint>
               <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'category']">
-                <sch:assert id="category-value" test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'C', 'D', 'P', 'H',
-                  'EX', 'EP', 'LR', 'CPT', 'CHA', 'BIB', 'UNK')">The document's category (<sch:value-of
-                  select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, C, D, P, H, EX, EP, LR, CPT, CHA, BIB,
-                  UNK.</sch:assert>
+                <sch:assert id="category-value" test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'FARCOLL', 'C', 'D',
+                  'P', 'H', 'EX', 'EP', 'LR', 'CPT', 'CHA', 'BIB', 'PATR', 'SCHOL', 'W', 'UNK')">The document's category
+                  (<sch:value-of select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, FARCOLL, C, D, P, H, EX, EP,
+                  LR, CPT, CHA, BIB, PATR, SCHOL, W, UNK.</sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>

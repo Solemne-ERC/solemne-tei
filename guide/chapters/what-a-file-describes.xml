@@ -168,6 +168,11 @@
         <cell>a point</cell>
       </row>
       <row>
+        <cell>another numbering: another edition's chapter, canon or letter</cell>
+        <cell><gi>milestone</gi></cell>
+        <cell>a point</cell>
+      </row>
+      <row>
         <cell>language</cell>
         <cell><gi>foreign</gi></cell>
         <cell>a span</cell>

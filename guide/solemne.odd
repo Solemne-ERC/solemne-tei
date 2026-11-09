@@ -155,8 +155,8 @@
           <moduleRef key="core"
             include="abbr add addrLine address analytic author bibl biblScope biblStruct choice cit citedRange corr
               date del desc editor email expan foreign gap graphic head imprint item label lb list listBibl measure
-              monogr name note num orig p pb postCode ptr publisher pubPlace q quote ref reg resp respStmt rs series sic
-              street term textLang title unclear hi"/>
+              milestone monogr name note num orig p pb postCode ptr publisher pubPlace q quote ref reg resp respStmt
+              rs series sic street term textLang title unclear hi"/>
           <moduleRef key="header"
             include="abstract authority availability calendar calendarDesc catDesc category change citeData
               citeStructure classDecl correction creation distributor edition editionStmt editorialDecl encodingDesc
@@ -190,6 +190,7 @@
           <specGrpRef target="#text-divisions-specs"/>
           <specGrpRef target="#text-headings-specs"/>
           <specGrpRef target="#text-page-breaks-specs"/>
+          <specGrpRef target="#text-other-editions-specs"/>
           <specGrpRef target="#text-gaps-specs"/>
           <specGrpRef target="#marked-names-specs"/>
           <specGrpRef target="#marked-works-specs"/>
@@ -524,6 +525,11 @@
             ed. <editor>Alfred Boretius</editor>, <title>Capitularia regum Francorum</title> I, MGH Capitularia 1
             (Hannover, <date>1881</date>), pp. 21–24, BK 9, in the Latin Text Archive's text, converted by the data
             project.</bibl>
+          <bibl xml:id="source-D.GRE-0599-1748"><idno>D.GRE-0599-1748</idno>: <title>Gregory I to Aregius, bishop in
+              Gaul, 599</title>, Register IX, 219, ed. <editor>Ludo M. Hartmann</editor>, <title>Gregorii I papae
+              Registrum epistolarum</title> II, MGH Epistolae 2 (Berlin, <date>1892–1899</date>), pp. 210–211, in
+            the digital MGH's text, converted by the data project: the record's title, its code and its
+            siglum.</bibl>
           <bibl xml:id="source-CHA.RAT-0974.ed-PL136"><idno>CHA.RAT-0974.ed-PL136</idno>: <title>Ratherius of Verona,
               Testamentum</title>, ed. <editor>Jacques-Paul Migne</editor>, Patrologia Latina 136, cols. 641–644, in Corpus
             Corporum's text through the Latin Text Archive, converted by the data project.</bibl>

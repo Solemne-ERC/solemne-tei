@@ -223,7 +223,17 @@ def test_a_type_outside_the_seeds_is_reported(
     assert [(p.rule, p.severity) for p in found] == ([(rule, "warning")] if flagged else [])
 
 
-@pytest.mark.parametrize(("name", "reported"), [("holdsOfficeIn", True), ("hasRole", False), ("memberOf", False)])
+@pytest.mark.parametrize(
+    ("name", "reported"),
+    [
+        ("holdsOfficeIn", True),
+        ("referencedIn", True),
+        ("hasRole", False),
+        ("memberOf", False),
+        ("isLongerVersionOf", False),
+        ("closeRenderingOf", False),
+    ],
+)
 def test_the_relation_types_to_start_with(validator: Validator, tmp_path: Path, name: str, reported: bool) -> None:
     relation = f"<relation name='{name}' active='#new_person_a' passive='#new_person_b'/>"
     assert ("relation-term" in rules(fragment(validator, tmp_path, relation))) == reported
@@ -256,3 +266,29 @@ def test_a_book_s_code_stands_only_on_a_section(validator: Validator, tmp_path: 
 def test_n_takes_no_name_but_a_book_s_code(validator: Validator, tmp_path: Path) -> None:
     found = fragment(validator, tmp_path, '<div type="section" n="XYZ"><p>In principio.</p></div>')
     assert {p.check for p in found} == {"relaxng"}
+
+
+def test_a_record_s_literature_is_an_untyped_bibl_in_it(validator: Validator, tmp_path: Path) -> None:
+    person = """<person xml:id="new_person_exemplus"><persName type="main">Exemplus</persName>
+      <bibl><ptr target="#PUBL.5"/><citedRange unit="page" from="112" to="114">112–114</citedRange>, as
+        "Exemplus episcopus"</bibl></person>"""
+    assert fragment(validator, tmp_path, person) == []
+
+
+def test_a_known_work_stands_for_its_canonical_version(validator: Validator, tmp_path: Path) -> None:
+    works = """<listBibl>
+        <bibl type="work" xml:id="C.NIC-0325"><title>Nicaea</title><idno>C.NIC-0325</idno>
+          <ptr type="stand-in" target="#C.NIC-0325-vDIO1"/></bibl>
+        <bibl type="version" xml:id="C.NIC-0325-vDIO1"><title>Nicaea, Dionysiana</title>
+          <idno>C.NIC-0325-vDIO1</idno></bibl>
+      </listBibl>
+      <listRelation><relation name="versionOf" active="#C.NIC-0325-vDIO1" passive="#C.NIC-0325"/></listRelation>"""
+    assert whole(validator, tmp_path, register(works)) == []
+
+
+def test_a_book_s_prologue_is_a_preface_before_its_first_chapter(validator: Validator, tmp_path: Path) -> None:
+    book = """<div type="section" n="SIR"><head type="rubric">Ecclesiasticus</head>
+      <div type="preface"><head type="rubric">Prologus.</head><p>Multorum nobis et magnorum.</p></div>
+      <div type="chapter" n="1"><div type="chapter" n="1"><p>Omnis sapientia a Domino Deo est.</p></div>
+        <div type="chapter" n="2"><p>Arenam maris quis dinumeravit?</p></div></div></div>"""
+    assert fragment(validator, tmp_path, book) == []

@@ -5,9 +5,11 @@ Each release says what changed, and whether files that passed may now fail.
 
 ## Unreleased
 
-The records the application's database starts from: known and new records, the registers that seed it, authorities
-that grow, the types of persons and events, the application's relation types, work groups; a century as an
-interval; the Bible's file; the codes of capitularies and charters.
+The first stable release: from it on, a file that passes fails only after a major version. It holds the records the
+application's database starts from: known and new records, the registers that seed it, authorities that grow, the
+types of persons and events, the application's relation types, work groups, a record's literature; a century as an
+interval; the Bible's file; the codes of capitularies and charters; the categories of collections in no order, the
+Fathers, scholarship and works known by their Gryson siglum; another edition's pages and numbering.
 
 ### What changes for existing files
 
@@ -22,6 +24,8 @@ Files that passed may now meet Schematron errors, which the import reports and `
 - **`register-form`:** a file without a text is a register, and a register has none.
 - **`book-code-section`:** a book of the Bible's code in `@n` stands only on a section.
 - **`authority-link`:** a declared authority's link holds `$1` where the id goes.
+- **`edref-witness`:** a page break's or a milestone's `@edRef` names a witness listed in the file, by `#` and its
+  id. No file of the project's corpus uses `@edRef`.
 
 What now passes:
 - an `idno` typed by an authority the guide doesn't list: reported by a warning, `authority-term`, unless the file
@@ -30,13 +34,17 @@ What now passes:
   or a category;
 - an EDTF interval (`0801/0900`), a century's form;
 - a book's code (`MAT`) in a section's `@n`;
-- pointers with the prefix `BIB`, the Bible's file's.
+- pointers with the prefix `BIB`, the Bible's file's;
+- the categories `FARCOLL`, `PATR`, `SCHOL` and `W`, and pointers with the prefixes `PATR` and `SCHOL`;
+- `milestone`, for another edition's numbering.
 
 Warnings that change:
 - **`date-edtf-bounds`** compares a date with unspecified digits exactly: `09XX` is 900 to 999, so with the bounds
   901 to 1000 it's now reported; a century is `0901/1000`. No file of the corpus writes an EDTF.
-- **`relation-term`** reports `holdsOfficeIn`, which `hasRole` replaces, and knows 40 more types.
-- **`person-term` and `event-term`** report a person's or an event's type outside the guide's seeds.
+- **`relation-term`** reports `holdsOfficeIn`, which `hasRole` replaces, and knows 41 more types, `isLongerVersionOf`
+  among them.
+- **`person-term` and `event-term`** report a person's or an event's type outside the guide's seeds, and
+  **`milestone-term`** a milestone's unit outside them.
 
 On the project's files: the corpus as received and as corrected meets the 217 errors above in each copy and nothing
 else new; the corpus as received has 1,233 fewer RelaxNG errors, the formal title's identifiers of older types,
@@ -59,30 +67,49 @@ which `idno-type` still reports. The data project's sets, its charters among the
 - **Persons:** `person/@type`, added: `historical` (the default), `modernScholar`, `divine`, `fictitious`, with
   `person-term`. `personGrp` joins the schema, for a group of persons.
 - **Events:** `event/@type`'s seeds, `council` to `royalAssembly`, with `event-term` and `event-typed`.
-- **Relations:** 65 types to start with: the application's, from `closeTranslationOf` to `firstPublishedIn`, and
+- **Relations:** 66 types to start with: the application's, from `closeTranslationOf` to `firstPublishedIn`, and
   seven between texts and collections (`sameAs`, `correctionOf`, `closeRenderingOf`, `looseRenderingOf`,
-  `paraphraseOf`, `reactionTo`, `replacedBy`); `hasRole` in place of `holdsOfficeIn`.
+  `paraphraseOf`, `reactionTo`, `replacedBy`); `isLongerVersionOf`, SAWS's; `hasRole` in place of
+  `holdsOfficeIn`.
 - **A century:** `date-edtf-form` takes an interval; `date-edtf-bounds` compares exactly.
 - **The Bible:** the category `BIB`, in the pointers' patterns and `source-note-codes`; `div/@n` takes the 73 books'
   codes, `book-code-section` keeping them on sections.
+- **Categories:** `FARCOLL`, a collection in no order, its codes under `COLL`; `PATR`, a patristic work; `SCHOL`, a
+  scholarly work; `W`, a work known by its Gryson siglum; each in `category-value`, `code-category`, the pointers'
+  pattern and `source-note-codes`. The list stays closed, released with the guide.
+- **Another edition's numbering:** `milestone` joins the schema, where another edition's unit begins, between
+  divisions and paragraphs or inside them, with `@unit` (seeds `book`, `chapter`, `canon`, `letter`, `section`,
+  and `milestone-term`), and `@n` and `@edRef` required; `edref-witness` for it and for `pb`.
 
 ### The guide
 
 - Part V: known and new records, by kind; persons' types and groups; events' types; work groups as `bibl`s typed
   `workGroup`, their members by `memberOf`; authorities that grow, a Jaffé number; a record known only from a list;
   registers, with a register of persons.
-- Part VI: the 65 types with their SAWS terms; roles by `hasRole`; an editor's order; `versionOf`'s certainty and
-  evidence.
+- Part V, too: a record's literature, an untyped `bibl` in it; a work's record standing for its canonical
+  version, which has the work's code; a work's Gryson siglum on its record.
+- Part VI: the 66 types with their SAWS terms; the types between units, narrower than `isTextOf`; roles by
+  `hasRole`; an editor's order; `versionOf`'s certainty and evidence.
 - Part VII: a century as an interval.
 - Part II: the coding rules for capitularies, bishops' statutes and charters (the issuer's letters and the year),
-  for the Bible (`BIB.Vulg`), and an edition by its series and volume; the register's type; declaring an authority.
-- Part III: a body headed by its own heading; the Bible's file, by book, chapter and verse; a charter's chrismon,
-  monogram and seal, which stay text.
-- Part IV: a pointer to the Bible names its file's verse (`MAT_18_19`, `MAT.18.19`).
+  for the Bible (`BIB.Vulg`), for a work known by its Gryson siglum (`W.IS-ety`), and an edition by its series and
+  volume; the categories, closed; the register's type; declaring an authority.
+- Part III: a body headed by its own heading; the Bible's file, by book, chapter and verse, a book's prologue its
+  preface; a charter's chrismon, monogram and seal, which stay text; another edition's pages and numbering, by page
+  breaks and milestones naming it as a witness.
+- Part IV: a pointer to the Bible names its file's verse (`MAT_18_19`, `MAT.18.19`); a pointer by a Gryson siglum
+  names one file and a place in it (`HI_ep.52_14`), or a work with its own code through its record.
+- Part I: the layer "another numbering".
 - Part X: an export's references to records point to the records it lists, each holding its permalink; a relation
-  type's SAWS term in its category's `corresp`.
+  type's SAWS term in its category's `corresp`; a record's literature, and a work standing for its canonical
+  version, as in a file.
 - Appendix D: the older forms these replace.
 - A template, `register.xml`.
+
+### Releases
+
+Releases stay on GitHub, installed from the repository at their tag: the release workflow publishes the GitHub
+release and the pages, and nothing to PyPI.
 
 ## 0.8.1 (2026-11-08)
 

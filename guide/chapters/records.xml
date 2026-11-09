@@ -397,8 +397,13 @@
     <p>A work names its canonical version, whose canons are the work's, and, where that version has no text in the
       application, the version whose text stands in for it; otherwise the earliest version with a text stands in.
       Both are defaults the project chooses, not claims about the texts, so they are pointers in the work's record,
-      <gi>ptr</gi> typed <val>canonical</val> and <val>stand-in</val>, to the versions' records. Nicaea's canons are
-      canonical in Greek, which the corpus doesn't hold; a made-up record lets a Latin version stand in:</p>
+      <gi>ptr</gi> typed <val>canonical</val> and <val>stand-in</val>, to the versions' records.</p>
+    <p>A known work's canonical version has the work's own code: <code>C.NIC-0325</code> is the council and its
+      Greek canons. One file can't hold two records with one id, so the work's record stands for that version, with
+      no record or pointer of its own, and the import makes the version from the work. Only a version with a code of
+      its own is a record, joined to its work by <val>versionOf</val> (<ptr target="#relations-levels"/>). Nicaea's
+      canons are canonical in Greek, which the corpus doesn't hold, and its first Dionysiana stands in, as the
+      project's register of works has it:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <listBibl>
         <bibl type="work" xml:id="C.NIC-0325">
@@ -406,14 +411,46 @@
           <idno>C.NIC-0325</idno>
           <idno type="category">C</idno>
           <date when="0325">325</date>
-          <ptr type="canonical" target="#new_version_nicaea_greek"/>
-          <ptr type="stand-in" target="#new_version_nicaea_dionysius"/>
+          <ptr type="stand-in" target="#C.NIC-0325-vDIO1"/>
         </bibl>
-        <bibl type="version" xml:id="new_version_nicaea_greek">
-          <title>Council of Nicaea, 325, the Greek canons</title>
+        <bibl type="version" xml:id="C.NIC-0325-vDIO1">
+          <title>Council of Nicaea, 325, in the first Dionysiana</title>
+          <idno>C.NIC-0325-vDIO1</idno>
         </bibl>
-        <bibl type="version" xml:id="new_version_nicaea_dionysius">
-          <title>Council of Nicaea, 325, in Dionysius Exiguus's translation</title>
+      </listBibl>
+      <listRelation>
+        <relation name="versionOf" active="#C.NIC-0325-vDIO1" passive="#C.NIC-0325"/>
+      </listRelation>
+    </egXML>
+    <p>A new work, not yet in the application, names its versions' records by their new ids, its canonical version
+      among them. A made-up council, canonical in Greek, its Latin version standing in:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listBibl>
+        <bibl type="work" xml:id="new_work_concilium_exempli">
+          <title>Council of Exemplum</title>
+          <ptr type="canonical" target="#new_version_concilium_exempli_graece"/>
+          <ptr type="stand-in" target="#new_version_concilium_exempli_latine"/>
+        </bibl>
+        <bibl type="version" xml:id="new_version_concilium_exempli_graece">
+          <title>Council of Exemplum, the Greek canons</title>
+        </bibl>
+        <bibl type="version" xml:id="new_version_concilium_exempli_latine">
+          <title>Council of Exemplum, in a Latin translation</title>
+        </bibl>
+      </listBibl>
+    </egXML>
+    <p>A work cited by its siglum in Gryson's <title>Répertoire</title> holds the siglum in its record, an
+      <gi>idno</gi> typed <val>gryson</val>, whether its code is made from the siglum (<code>W.IS-ety</code>) or is
+      its own, as a pope's letter's is: a pointer by the siglum reaches its file through it (<ptr
+        target="#marked-pointers"/>). The file doesn't hold the siglum, since its formal title holds only its code,
+      category, type and levels. Gregory's letter IX, 219, in the register of works:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-D.GRE-0599-1748">
+      <listBibl>
+        <bibl type="work" xml:id="D.GRE-0599-1748">
+          <title>Gregory I to Aregio episcopo Franciis, 599 (Register IX, 219)</title>
+          <idno>D.GRE-0599-1748</idno>
+          <idno type="category">D</idno>
+          <idno type="gryson">GR-M ep 9, 219</idno>
         </bibl>
       </listBibl>
     </egXML>
@@ -773,6 +810,26 @@
         target="#header-publication"/>).</p>
   </div>
 
+  <div xml:id="records-literature">
+    <head>Literature</head>
+    <p>A record's literature is the publications that discuss it or cite it, as a record's source is where its data
+      was taken from. Each is a <gi>bibl</gi> in the record, without a type: a <gi>ptr</gi> to the publication's
+      record and its pages in <gi>citedRange</gi>, as a witness and a relation's evidence point to a publication,
+      and in its words how the publication cites the record. Several publications are several <gi>bibl</gi>s. A
+      made-up bishop, and the page that names him:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <person xml:id="new_person_exemplus_literature">
+        <persName type="main">Exemplus, bishop of Exemplum</persName>
+        <bibl><ptr target="#PUBL.5"/><citedRange unit="page" from="112" to="114">112–114</citedRange>, as "Exemplus
+          episcopus", among a council's signatories</bibl>
+      </person>
+    </egXML>
+    <p>Literature is never a relation: no type of the guide's says it (<ptr target="#relations-types"/>), and a
+      relation named <val>referencedIn</val>, the application's own name for it, is reported as any type outside the
+      list is. The import keeps each publication with its pages and words; an export writes a record's literature
+      in the same form.</p>
+  </div>
+
   <div xml:id="records-registers">
     <head>Registers</head>
     <p>A register is a file of records of one kind, the seed of the application's database. The data project makes
@@ -788,7 +845,8 @@
       <gi>bibl</gi> typed <val>source</val>, and its publication statement its licence. Its records stand in the
       lists of their kind, each in the guide's form, its <att>xml:id</att> its known id, with its sources, its ids
       elsewhere, and its relations in a <gi>listRelation</gi>: a group's members, a work group's members, a
-      version's work, with their certainty and evidence. Records point to each other by their ids (<code>#INST.3</code>
+      version's work, with their certainty and evidence. A work's record stands for its canonical version, which
+      has the work's code; only versions with codes of their own are records (<ptr target="#records-works"/>). Records point to each other by their ids (<code>#INST.3</code>
       for a manuscript's library, <code>#PERS.88</code> for a publication's editor), which may stand in another
       register: the registers resolve as a set, which the data project checks and the import reports on. A
       register's records are held to what the guide asks of a new record (<ptr target="#records-ids"/>).</p>

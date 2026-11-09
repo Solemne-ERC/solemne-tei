@@ -41,8 +41,10 @@
       </listEvent>
     </egXML>
     <p> A record's links to pages that aren't an authority's record are written
-      back in its note of links (<ptr target="#records-external-ids"/>), and every manuscript's date and every date in
-      the text names its calendar (<ptr target="#dates-calendars"/>).</p>
+      back in its note of links (<ptr target="#records-external-ids"/>), its literature as untyped <gi>bibl</gi>s in
+      it (<ptr target="#records-literature"/>); a work's record stands for its canonical version, as in a register
+      (<ptr target="#records-works"/>); and every manuscript's date and every date in the text names its
+      calendar (<ptr target="#dates-calendars"/>).</p>
   </div>
 
   <div xml:id="exports-citations">

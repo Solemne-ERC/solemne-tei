@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: MIT -->
-<!-- Generated from solemne.odd 0.8.1 (SHA-256 b184cc3257b4bc1d1d8220d41b4d7a1b881ac306c0d04280f9382ccf3998f262) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 0.8.1 (SHA-256 e9c220c9e5c94caec21f7c56ca0859afc5c696ff4ce77840af6627efd92eba81) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -117,6 +117,7 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5/4.12.0/
    <define name="solemne.between">
       <choice>
          <ref name="pb"/>
+         <ref name="milestone"/>
          <ref name="note"/>
          <ref name="gap"/>
       </choice>
@@ -2335,6 +2336,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.milestoneLike">
       <choice>
+         <ref name="milestone"/>
          <ref name="pb"/>
          <ref name="lb"/>
          <ref name="anchor"/>
@@ -2342,17 +2344,22 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.milestoneLike_alternation">
       <choice>
+         <ref name="milestone"/>
          <ref name="pb"/>
          <ref name="lb"/>
          <ref name="anchor"/>
       </choice>
    </define>
    <define name="model.milestoneLike_sequence">
+      <ref name="milestone"/>
       <ref name="pb"/>
       <ref name="lb"/>
       <ref name="anchor"/>
    </define>
    <define name="model.milestoneLike_sequenceOptional">
+      <optional>
+         <ref name="milestone"/>
+      </optional>
       <optional>
          <ref name="pb"/>
       </optional>
@@ -2365,6 +2372,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
    </define>
    <define name="model.milestoneLike_sequenceOptionalRepeatable">
       <zeroOrMore>
+         <ref name="milestone"/>
+      </zeroOrMore>
+      <zeroOrMore>
          <ref name="pb"/>
       </zeroOrMore>
       <zeroOrMore>
@@ -2375,6 +2385,9 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
       </zeroOrMore>
    </define>
    <define name="model.milestoneLike_sequenceRepeatable">
+      <oneOrMore>
+         <ref name="milestone"/>
+      </oneOrMore>
       <oneOrMore>
          <ref name="pb"/>
       </oneOrMore>
@@ -3732,7 +3745,7 @@ Sample values include: 1] duplicate; 2] duplicate-partial; 3] excessStart; 4] ex
                <list>
                   <oneOrMore>
                      <data type="token">
-                        <param name="pattern">(cf_)?((C|D|COLL|P|EP|H|EX|LR|CPT|CHA|BIB|W)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?|(GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV)_[0-9]+(-[0-9]+)?(_[0-9]+(-[0-9]+)?)?|[A-Z][A-Za-z]*(-[A-Z][A-Za-z]*)*_[A-Za-z][A-Za-z0-9]*(\.[A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?)|https?://scta\.info/resource/\S+</param>
+                        <param name="pattern">(cf_)?((C|D|COLL|P|EP|H|EX|LR|CPT|CHA|BIB|PATR|SCHOL|W)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?|(GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV)_[0-9]+(-[0-9]+)?(_[0-9]+(-[0-9]+)?)?|[A-Z][A-Za-z]*(-[A-Z][A-Za-z]*)*_[A-Za-z][A-Za-z0-9]*(\.[A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?)|https?://scta\.info/resource/\S+</param>
                      </data>
                   </oneOrMore>
                </list>
@@ -4727,7 +4740,7 @@ Suggested values include: 1] gloss (gloss); 2] index (index); 3] instructions (i
                       context="tei:note[@type = ('source', 'reception')]">
                <sch:report id="source-note-codes"
                            role="warning"
-                           test="some $w in tokenize(normalize-space(.),                 '[\s;,]+') satisfies matches($w,                 '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*[\-_.][0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|LR|CPT|CHA|BIB|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
+                           test="some $w in tokenize(normalize-space(.),                 '[\s;,]+') satisfies matches($w,                 '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*[\-_.][0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|LR|CPT|CHA|BIB|PATR|SCHOL|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
                 <sch:value-of select="@type"/> note's words hold a code (<sch:value-of select="normalize-space(.)"/>):
                 it belongs in @source.</sch:report>
             </sch:rule>
@@ -4763,7 +4776,7 @@ Suggested values include: 1] gloss (gloss); 2] index (index); 3] instructions (i
                <list>
                   <oneOrMore>
                      <data type="token">
-                        <param name="pattern">(cf_)?((C|D|COLL|P|EP|H|EX|LR|CPT|CHA|BIB|W)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?|(GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV)_[0-9]+(-[0-9]+)?(_[0-9]+(-[0-9]+)?)?|[A-Z][A-Za-z]*(-[A-Z][A-Za-z]*)*_[A-Za-z][A-Za-z0-9]*(\.[A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?)|https?://scta\.info/resource/\S+</param>
+                        <param name="pattern">(cf_)?((C|D|COLL|P|EP|H|EX|LR|CPT|CHA|BIB|PATR|SCHOL|W)\.[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?|(GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV)_[0-9]+(-[0-9]+)?(_[0-9]+(-[0-9]+)?)?|[A-Z][A-Za-z]*(-[A-Z][A-Za-z]*)*_[A-Za-z][A-Za-z0-9]*(\.[A-Za-z0-9]+)*(_[A-Za-z0-9]+([.\-][A-Za-z0-9]+)*)?)|https?://scta\.info/resource/\S+</param>
                      </data>
                   </oneOrMore>
                </list>
@@ -4822,6 +4835,95 @@ Suggested values include: 1] gloss (gloss); 2] index (index); 3] instructions (i
          <ref name="att.media.attributes"/>
          <ref name="att.resourced.attributes"/>
          <ref name="att.typed.attributes"/>
+         <empty/>
+      </element>
+   </define>
+   <define name="milestone">
+      <element name="milestone">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(milestone) marks a boundary point separating any kind of section of a text, typically but not necessarily indicating a point at which some part of a standard reference system changes, where the change is not represented by a structural element. [3.11.3. Milestone
+Elements]</a:documentation>
+         <empty/>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                  id="solemne-milestone-milestone-term-constraint-rule-35">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="tei:milestone[@unit]">
+               <sch:let name="terms" value="('book', 'chapter', 'canon', 'letter', 'section')"/>
+               <sch:assert id="milestone-term" role="warning" test="@unit = $terms">The milestone's unit
+                  <sch:value-of select="@unit"/> isn't among the guide's: check its spelling, or add it to the
+                  application's vocabulary; a page is a page break.</sch:assert>
+            </sch:rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                  id="solemne-milestone-edref-witness-constraint-rule-36">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="tei:pb[@edRef] | tei:milestone[@edRef]">
+               <sch:assert id="edref-witness"
+                           test="every $ref in tokenize(normalize-space(@edRef), ' ') satisfies                   (starts-with($ref, '#') and exists(ancestor::tei:TEI//tei:witness[@xml:id = substring($ref,                   2)]))">The edition a &lt;<sch:name/>&gt; names (<sch:value-of select="@edRef"/>) is a witness
+                  listed in the file's listWit, by # and its id.</sch:assert>
+            </sch:rule>
+         </pattern>
+         <ref name="att.global.attribute.xmlid"/>
+         <ref name="att.global.attribute.xmllang"/>
+         <ref name="att.global.attribute.xmlbase"/>
+         <ref name="att.global.attribute.xmlspace"/>
+         <ref name="att.global.change.attribute.change"/>
+         <ref name="att.global.facs.attribute.facs"/>
+         <ref name="att.global.linking.attribute.corresp"/>
+         <ref name="att.global.linking.attribute.synch"/>
+         <ref name="att.global.linking.attribute.sameAs"/>
+         <ref name="att.global.linking.attribute.copyOf"/>
+         <ref name="att.global.linking.attribute.next"/>
+         <ref name="att.global.linking.attribute.prev"/>
+         <ref name="att.global.linking.attribute.exclude"/>
+         <ref name="att.global.linking.attribute.select"/>
+         <ref name="att.global.rendition.attribute.rend"/>
+         <ref name="att.global.rendition.attribute.style"/>
+         <ref name="att.global.rendition.attribute.rendition"/>
+         <ref name="att.global.responsibility.attribute.cert"/>
+         <ref name="att.global.responsibility.attribute.resp"/>
+         <ref name="att.global.source.attribute.source"/>
+         <ref name="att.breaking.attributes"/>
+         <ref name="att.cmc.attributes"/>
+         <ref name="att.edition.attribute.ed"/>
+         <ref name="att.spanning.attributes"/>
+         <ref name="att.typed.attributes"/>
+         <attribute name="n">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(number) the number, as the edition gives it</a:documentation>
+            <data type="string"/>
+         </attribute>
+         <attribute name="edRef">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(edition reference) the edition, a witness in the file's listWit</a:documentation>
+            <list>
+               <oneOrMore>
+                  <data type="anyURI">
+                     <param name="pattern">\S+</param>
+                  </data>
+               </oneOrMore>
+            </list>
+         </attribute>
+         <attribute name="unit">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">what the other numbering numbers, from the application's vocabulary
+Suggested values include: 1] book; 2] chapter; 3] canon; 4] letter; 5] section</a:documentation>
+            <choice>
+               <value>book</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a book</a:documentation>
+               <value>chapter</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a chapter</a:documentation>
+               <value>canon</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a canon</a:documentation>
+               <value>letter</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a letter</a:documentation>
+               <value>section</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a section, a paragraph or a key, such as Clavis canonum's</a:documentation>
+               <data type="token">
+                  <param name="pattern">[^\p{C}\p{Z}]+</param>
+               </data>
+            </choice>
+         </attribute>
          <empty/>
       </element>
    </define>
@@ -5302,7 +5404,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-biblStruct-title-level-constraint-rule-35">
+                  id="solemne-biblStruct-title-level-constraint-rule-37">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:biblStruct/tei:*[self::tei:analytic or self::tei:monogr or self::tei:series]/tei:title">
@@ -5314,7 +5416,7 @@ Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] sho
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-biblStruct-entry-type-constraint-rule-36">
+                  id="solemne-biblStruct-entry-type-constraint-rule-38">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:biblStruct[@type]">
@@ -5513,7 +5615,7 @@ Suggested values include: 1] article; 2] book; 3] mvbook; 4] inbook; 5] bookinbo
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-teiHeader-record-pointer-in-ref-constraint-rule-37">
+                  id="solemne-teiHeader-record-pointer-in-ref-constraint-rule-39">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5570,7 +5672,7 @@ Suggested values include: 1] article; 2] book; 3] mvbook; 4] inbook; 5] bookinbo
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-titleStmt-title-first-formal-constraint-rule-38">
+                  id="solemne-titleStmt-title-first-formal-constraint-rule-40">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5581,7 +5683,7 @@ Suggested values include: 1] article; 2] book; 3] mvbook; 4] inbook; 5] bookinbo
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-titleStmt-title-one-formal-constraint-rule-39">
+                  id="solemne-titleStmt-title-one-formal-constraint-rule-41">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5592,7 +5694,7 @@ Suggested values include: 1] article; 2] book; 3] mvbook; 4] inbook; 5] bookinbo
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-titleStmt-title-type-constraint-rule-40">
+                  id="solemne-titleStmt-title-type-constraint-rule-42">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5603,7 +5705,7 @@ Suggested values include: 1] article; 2] book; 3] mvbook; 4] inbook; 5] bookinbo
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-titleStmt-title-alias-words-constraint-rule-41">
+                  id="solemne-titleStmt-title-alias-words-constraint-rule-43">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5615,7 +5717,7 @@ Suggested values include: 1] article; 2] book; 3] mvbook; 4] inbook; 5] bookinbo
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-titleStmt-title-other-source-constraint-rule-42">
+                  id="solemne-titleStmt-title-other-source-constraint-rule-44">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5742,7 +5844,7 @@ Suggested values include: 1] article; 2] book; 3] mvbook; 4] inbook; 5] bookinbo
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-idno-formal-title-idnos-constraint-rule-43">
+                  id="solemne-idno-formal-title-idnos-constraint-rule-45">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5757,7 +5859,7 @@ Suggested values include: 1] article; 2] book; 3] mvbook; 4] inbook; 5] bookinbo
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-idno-idno-in-formal-title-constraint-rule-44">
+                  id="solemne-idno-idno-in-formal-title-constraint-rule-46">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5768,7 +5870,7 @@ Suggested values include: 1] article; 2] book; 3] mvbook; 4] inbook; 5] bookinbo
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-idno-idno-type-constraint-rule-45">
+                  id="solemne-idno-idno-type-constraint-rule-47">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5780,7 +5882,7 @@ Suggested values include: 1] article; 2] book; 3] mvbook; 4] inbook; 5] bookinbo
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-idno-code-format-constraint-rule-46">
+                  id="solemne-idno-code-format-constraint-rule-48">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5794,7 +5896,7 @@ Suggested values include: 1] article; 2] book; 3] mvbook; 4] inbook; 5] bookinbo
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-idno-code-category-constraint-rule-47">
+                  id="solemne-idno-code-category-constraint-rule-49">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5803,14 +5905,14 @@ Suggested values include: 1] article; 2] book; 3] mvbook; 4] inbook; 5] bookinbo
                         value="normalize-space(../tei:idno[@type = 'category'][1])"/>
                <sch:let name="prefix" value="substring-before(normalize-space(.), '.')"/>
                <sch:assert id="code-category"
-                           test="$category = ('', 'UNK') or $prefix = (if                   ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category)">The document's code
-                  (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of select="if ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category"/>, for the category
-                  <sch:value-of select="$category"/>).</sch:assert>
+                           test="$category = ('', 'UNK') or $prefix = (if                   ($category = ('SYSCOLL', 'CHRCOLL', 'FARCOLL')) then 'COLL' else $category)">The document's code
+                  (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of select="if ($category = ('SYSCOLL', 'CHRCOLL', 'FARCOLL')) then 'COLL' else $category"/>, for the
+                  category <sch:value-of select="$category"/>).</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-idno-code-manuscript-constraint-rule-48">
+                  id="solemne-idno-code-manuscript-constraint-rule-50">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5822,7 +5924,7 @@ Suggested values include: 1] article; 2] book; 3] mvbook; 4] inbook; 5] bookinbo
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-idno-code-matches-file-name-constraint-rule-49">
+                  id="solemne-idno-code-matches-file-name-constraint-rule-51">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5835,19 +5937,20 @@ Suggested values include: 1] article; 2] book; 3] mvbook; 4] inbook; 5] bookinbo
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-idno-category-value-constraint-rule-50">
+                  id="solemne-idno-category-value-constraint-rule-52">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'category']">
                <sch:assert id="category-value"
-                           test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'C', 'D', 'P', 'H',                   'EX', 'EP', 'LR', 'CPT', 'CHA', 'BIB', 'UNK')">The document's category (<sch:value-of select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, C, D, P, H, EX, EP, LR, CPT, CHA, BIB,
-                  UNK.</sch:assert>
+                           test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'FARCOLL', 'C', 'D',                   'P', 'H', 'EX', 'EP', 'LR', 'CPT', 'CHA', 'BIB', 'PATR', 'SCHOL', 'W', 'UNK')">The document's category
+                  (<sch:value-of select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, FARCOLL, C, D, P, H, EX, EP,
+                  LR, CPT, CHA, BIB, PATR, SCHOL, W, UNK.</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-idno-document-type-value-constraint-rule-51">
+                  id="solemne-idno-document-type-value-constraint-rule-53">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5859,7 +5962,7 @@ Suggested values include: 1] article; 2] book; 3] mvbook; 4] inbook; 5] bookinbo
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-idno-register-form-constraint-rule-52">
+                  id="solemne-idno-register-form-constraint-rule-54">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -5873,7 +5976,7 @@ Suggested values include: 1] article; 2] book; 3] mvbook; 4] inbook; 5] bookinbo
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-idno-type-manuscript-constraint-rule-53">
+                  id="solemne-idno-type-manuscript-constraint-rule-55">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6070,7 +6173,7 @@ Suggested values include: 1] category; 2] type; 3] work; 4] version; 5] witness;
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-sourceDesc-text-source-one-constraint-rule-54">
+                  id="solemne-sourceDesc-text-source-one-constraint-rule-56">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6085,7 +6188,7 @@ Suggested values include: 1] category; 2] type; 3] work; 4] version; 5] witness;
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-sourceDesc-source-named-constraint-rule-55">
+                  id="solemne-sourceDesc-source-named-constraint-rule-57">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6096,7 +6199,7 @@ Suggested values include: 1] category; 2] type; 3] work; 4] version; 5] witness;
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-sourceDesc-source-retrieved-constraint-rule-56">
+                  id="solemne-sourceDesc-source-retrieved-constraint-rule-58">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6158,7 +6261,7 @@ Suggested values include: 1] category; 2] type; 3] work; 4] version; 5] witness;
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-editorialDecl-decls-target-constraint-rule-57">
+                  id="solemne-editorialDecl-decls-target-constraint-rule-59">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6170,7 +6273,7 @@ Suggested values include: 1] category; 2] type; 3] work; 4] version; 5] witness;
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-editorialDecl-correction-default-constraint-rule-58">
+                  id="solemne-editorialDecl-correction-default-constraint-rule-60">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6182,7 +6285,7 @@ Suggested values include: 1] category; 2] type; 3] work; 4] version; 5] witness;
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-editorialDecl-inferred-units-pointed-to-constraint-rule-59">
+                  id="solemne-editorialDecl-inferred-units-pointed-to-constraint-rule-61">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6270,7 +6373,7 @@ Suggested values include: 1] category; 2] type; 3] work; 4] version; 5] witness;
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-quotation-quotationContents-constraint-rule-60">
+                  id="solemne-quotation-quotationContents-constraint-rule-62">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6421,7 +6524,7 @@ Suggested values include: 1] category; 2] type; 3] work; 4] version; 5] witness;
          </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-citeStructure-match-citestructure-outer-match-constraint-rule-61">
+                  id="solemne-citeStructure-match-citestructure-outer-match-constraint-rule-63">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6431,7 +6534,7 @@ Suggested values include: 1] category; 2] type; 3] work; 4] version; 5] witness;
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-citeStructure-match-citestructure-inner-match-constraint-rule-62">
+                  id="solemne-citeStructure-match-citestructure-inner-match-constraint-rule-64">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6474,7 +6577,7 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-prefixDef-same-as-prefix-declared-constraint-rule-63">
+                  id="solemne-prefixDef-same-as-prefix-declared-constraint-rule-65">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6487,7 +6590,7 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-prefixDef-prefix-known-constraint-rule-64">
+                  id="solemne-prefixDef-prefix-known-constraint-rule-66">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6500,7 +6603,7 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-prefixDef-authority-term-constraint-rule-65">
+                  id="solemne-prefixDef-authority-term-constraint-rule-67">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6518,7 +6621,7 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-prefixDef-authority-link-constraint-rule-66">
+                  id="solemne-prefixDef-authority-link-constraint-rule-68">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6660,7 +6763,7 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
          <ref name="macro.specialPara"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-handNote-script-term-constraint-rule-67">
+                  id="solemne-handNote-script-term-constraint-rule-69">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6675,7 +6778,7 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-handNote-execution-term-constraint-rule-68">
+                  id="solemne-handNote-execution-term-constraint-rule-70">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6687,7 +6790,7 @@ Sample values include: 1] book; 2] chapter; 3] entry; 4] poem; 5] letter; 6] lin
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-handNote-hand-declared-constraint-rule-69">
+                  id="solemne-handNote-hand-declared-constraint-rule-71">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6924,7 +7027,7 @@ Suggested values include: 1] formata; 2] libraria; 3] currens</a:documentation>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-calendar-date-calendar-constraint-rule-70">
+                  id="solemne-calendar-date-calendar-constraint-rule-72">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6936,7 +7039,7 @@ Suggested values include: 1] formata; 2] libraria; 3] currens</a:documentation>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-calendar-calendar-declared-constraint-rule-71">
+                  id="solemne-calendar-calendar-declared-constraint-rule-73">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -6977,7 +7080,7 @@ Suggested values include: 1] formata; 2] libraria; 3] currens</a:documentation>
          <ref name="macro.specialPara"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-change-release-named-constraint-rule-72">
+                  id="solemne-change-release-named-constraint-rule-74">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -7102,12 +7205,12 @@ Suggested values include: 1] formata; 2] libraria; 3] currens</a:documentation>
          <ref name="solemne.structure"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-body-text-elements-constraint-rule-73">
+                  id="solemne-body-text-elements-constraint-rule-75">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:body//tei:*">
                <sch:assert id="text-elements"
-                           test="local-name() = ('div', 'head', 'p', 'note', 'pb', 'lb', 'gap',                 'persName', 'placeName', 'eventName', 'bibl', 'cit', 'quote', 'ref', 'seg', 'date', 'subst', 'add',                 'del', 'unclear', 'foreign', 'choice', 'corr', 'sic', 'abbr', 'expan', 'supplied', 'rs',                 'anchor')">&lt;<sch:name/>&gt; isn't one of the text's elements.</sch:assert>
+                           test="local-name() = ('div', 'head', 'p', 'note', 'pb', 'milestone', 'lb', 'gap',                 'persName', 'placeName', 'eventName', 'bibl', 'cit', 'quote', 'ref', 'seg', 'date', 'subst', 'add',                 'del', 'unclear', 'foreign', 'choice', 'corr', 'sic', 'abbr', 'expan', 'supplied', 'rs',                 'anchor')">&lt;<sch:name/>&gt; isn't one of the text's elements.</sch:assert>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -7121,7 +7224,7 @@ Suggested values include: 1] formata; 2] libraria; 3] currens</a:documentation>
          <ref name="solemne.structure"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-div-book-code-section-constraint-rule-74">
+                  id="solemne-div-book-code-section-constraint-rule-76">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:div[matches(@n, '^[1-4]?[A-Z]')]">
@@ -7131,7 +7234,7 @@ Suggested values include: 1] formata; 2] libraria; 3] currens</a:documentation>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-div-unit-alone-constraint-rule-75">
+                  id="solemne-div-unit-alone-constraint-rule-77">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:div[@type = 'unit']">
@@ -7141,7 +7244,7 @@ Suggested values include: 1] formata; 2] libraria; 3] currens</a:documentation>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-div-unit-holds-text-constraint-rule-76">
+                  id="solemne-div-unit-holds-text-constraint-rule-78">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:div[@type = 'unit']">
@@ -7151,7 +7254,7 @@ Suggested values include: 1] formata; 2] libraria; 3] currens</a:documentation>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-div-register-item-in-register-constraint-rule-77">
+                  id="solemne-div-register-item-in-register-constraint-rule-79">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:div[@type = 'registerItem']">
@@ -7162,7 +7265,7 @@ Suggested values include: 1] formata; 2] libraria; 3] currens</a:documentation>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-div-number-heading-n-constraint-rule-78">
+                  id="solemne-div-number-heading-n-constraint-rule-80">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:div[tei:head[@type = 'number']][not(@type = ('preface', 'closer', 'subscriptions',               'register'))]">
@@ -7172,7 +7275,7 @@ Suggested values include: 1] formata; 2] libraria; 3] currens</a:documentation>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-div-abstractModel-structure-div-in-l-constraint-rule-79">
+                  id="solemne-div-abstractModel-structure-div-in-l-constraint-rule-81">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:l//tei:div">
@@ -7183,7 +7286,7 @@ Suggested values include: 1] formata; 2] libraria; 3] currens</a:documentation>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-div-abstractModel-structure-div-in-ab-or-p-constraint-rule-80">
+                  id="solemne-div-abstractModel-structure-div-in-ab-or-p-constraint-rule-82">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="tei:div">
@@ -7830,7 +7933,7 @@ Sample values include: 1] proclaimed; 2] assumed; 3] verified; 4] clinical; 5] b
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-event-event-described-constraint-rule-81">
+                  id="solemne-event-event-described-constraint-rule-83">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -7841,7 +7944,7 @@ Sample values include: 1] proclaimed; 2] assumed; 3] verified; 4] clinical; 5] b
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-event-event-words-constraint-rule-82">
+                  id="solemne-event-event-words-constraint-rule-84">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -7852,7 +7955,7 @@ Sample values include: 1] proclaimed; 2] assumed; 3] verified; 4] clinical; 5] b
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-event-event-typed-constraint-rule-83">
+                  id="solemne-event-event-typed-constraint-rule-85">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -7866,7 +7969,7 @@ Sample values include: 1] proclaimed; 2] assumed; 3] verified; 4] clinical; 5] b
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-event-event-term-constraint-rule-84">
+                  id="solemne-event-event-term-constraint-rule-86">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -7922,7 +8025,7 @@ Suggested values include: 1] council; 2] ecumenicalCouncil; 3] generalCouncil; 4
          <ref name="macro.phraseSeq"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-floruit-floruit-dates-constraint-rule-85">
+                  id="solemne-floruit-floruit-dates-constraint-rule-87">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -8124,13 +8227,13 @@ Suggested values include: 1] council; 2] ecumenicalCouncil; 3] generalCouncil; 4
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-listRelation-relation-term-constraint-rule-86">
+                  id="solemne-listRelation-relation-term-constraint-rule-88">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
                       context="tei:relation[@name]">
                <sch:let name="terms"
-                        value="('isTextOf', 'derivedFrom', 'versionOf', 'witnessOf', 'transcriptionOf',                 'in', 'isVerbatimOf', 'isVariantOf', 'isShorterVersionOf', 'translationOf', 'closeTranslationOf',                 'looseTranslationOf', 'verbatimTranslationOf', 'indirectTranslationOf', 'revisionOf',                 'abridgementOf', 'augmentationOf', 'sameSequenceAs', 'similarSequenceTo', 'subsequenceOf',                 'madeFrom', 'adaptationOf', 'basedOn', 'sameAs', 'correctionOf', 'closeRenderingOf',                 'looseRenderingOf', 'paraphraseOf', 'reactionTo', 'replacedBy', 'origin', 'ownedBy', 'formerlyIn',                 'fromSamePlaceAs', 'olderThan', 'copiedFrom', 'siblingOf', 'usedBy', 'scribe', 'artist', 'author',                 'attributedTo', 'editor', 'madeBy', 'addressedTo', 'enactedAt', 'tookPlaceAt', 'tookPartIn',                 'hasRole', 'memberOf', 'locatedIn', 'belongedTo', 'foundedBy', 'bornAt', 'diedAt', 'livedIn',                 'studiedAt', 'lists', 'sameScribeAs', 'sameHandAs', 'reprintOf', 'reviewOf', 'firstPublishedIn',                 'relatedTo', 'notSameAs')"/>
+                        value="('isTextOf', 'derivedFrom', 'versionOf', 'witnessOf', 'transcriptionOf',                 'in', 'isVerbatimOf', 'isVariantOf', 'isShorterVersionOf', 'isLongerVersionOf', 'translationOf',                 'closeTranslationOf',                 'looseTranslationOf', 'verbatimTranslationOf', 'indirectTranslationOf', 'revisionOf',                 'abridgementOf', 'augmentationOf', 'sameSequenceAs', 'similarSequenceTo', 'subsequenceOf',                 'madeFrom', 'adaptationOf', 'basedOn', 'sameAs', 'correctionOf', 'closeRenderingOf',                 'looseRenderingOf', 'paraphraseOf', 'reactionTo', 'replacedBy', 'origin', 'ownedBy', 'formerlyIn',                 'fromSamePlaceAs', 'olderThan', 'copiedFrom', 'siblingOf', 'usedBy', 'scribe', 'artist', 'author',                 'attributedTo', 'editor', 'madeBy', 'addressedTo', 'enactedAt', 'tookPlaceAt', 'tookPartIn',                 'hasRole', 'memberOf', 'locatedIn', 'belongedTo', 'foundedBy', 'bornAt', 'diedAt', 'livedIn',                 'studiedAt', 'lists', 'sameScribeAs', 'sameHandAs', 'reprintOf', 'reviewOf', 'firstPublishedIn',                 'relatedTo', 'notSameAs')"/>
                <sch:assert id="relation-term" role="warning" test="@name = $terms">The relation type <sch:value-of select="@name"/> isn't among the guide's types: check its spelling, or add it to the application's
                 vocabulary.</sch:assert>
             </sch:rule>
@@ -8272,7 +8375,7 @@ Sample values include: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentation
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-person-person-main-name-constraint-rule-87">
+                  id="solemne-person-person-main-name-constraint-rule-89">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -8286,7 +8389,7 @@ Sample values include: 1] primary; 2] other; 3] paid; 4] unpaid</a:documentation
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-person-person-term-constraint-rule-88">
+                  id="solemne-person-person-term-constraint-rule-90">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -8495,7 +8598,7 @@ Suggested values include: 1] historical; 2] modernScholar; 3] divine; 4] fictiti
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-relation-ref-or-key-or-name-constraint-rule-89">
+                  id="solemne-relation-ref-or-key-or-name-constraint-rule-91">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -8505,7 +8608,7 @@ Suggested values include: 1] historical; 2] modernScholar; 3] divine; 4] fictiti
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-relation-active-mutual-constraint-rule-90">
+                  id="solemne-relation-active-mutual-constraint-rule-92">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -8515,7 +8618,7 @@ Suggested values include: 1] historical; 2] modernScholar; 3] divine; 4] fictiti
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-relation-active-passive-constraint-rule-91">
+                  id="solemne-relation-active-passive-constraint-rule-93">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -8600,7 +8703,7 @@ Suggested values include: 1] historical; 2] modernScholar; 3] divine; 4] fictiti
          </choice>
          <attribute name="name">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">supplies a name for the kind of relationship of which this is an instance.
-Suggested values include: 1] isTextOf; 2] derivedFrom; 3] versionOf; 4] witnessOf; 5] transcriptionOf; 6] in; 7] isVerbatimOf; 8] isVariantOf; 9] isShorterVersionOf; 10] translationOf; 11] closeTranslationOf; 12] looseTranslationOf; 13] verbatimTranslationOf; 14] indirectTranslationOf; 15] revisionOf; 16] abridgementOf; 17] augmentationOf; 18] sameSequenceAs; 19] similarSequenceTo; 20] subsequenceOf; 21] madeFrom; 22] adaptationOf; 23] basedOn; 24] sameAs; 25] correctionOf; 26] closeRenderingOf; 27] looseRenderingOf; 28] paraphraseOf; 29] reactionTo; 30] replacedBy; 31] origin; 32] ownedBy; 33] formerlyIn; 34] fromSamePlaceAs; 35] olderThan; 36] copiedFrom; 37] siblingOf; 38] usedBy; 39] scribe; 40] artist; 41] author; 42] attributedTo; 43] editor; 44] madeBy; 45] addressedTo; 46] enactedAt; 47] tookPlaceAt; 48] tookPartIn; 49] hasRole; 50] memberOf; 51] locatedIn; 52] belongedTo; 53] foundedBy; 54] bornAt; 55] diedAt; 56] livedIn; 57] studiedAt; 58] lists; 59] sameScribeAs; 60] sameHandAs; 61] reprintOf; 62] reviewOf; 63] firstPublishedIn; 64] relatedTo; 65] notSameAs</a:documentation>
+Suggested values include: 1] isTextOf; 2] derivedFrom; 3] versionOf; 4] witnessOf; 5] transcriptionOf; 6] in; 7] isVerbatimOf; 8] isVariantOf; 9] isShorterVersionOf; 10] isLongerVersionOf; 11] translationOf; 12] closeTranslationOf; 13] looseTranslationOf; 14] verbatimTranslationOf; 15] indirectTranslationOf; 16] revisionOf; 17] abridgementOf; 18] augmentationOf; 19] sameSequenceAs; 20] similarSequenceTo; 21] subsequenceOf; 22] madeFrom; 23] adaptationOf; 24] basedOn; 25] sameAs; 26] correctionOf; 27] closeRenderingOf; 28] looseRenderingOf; 29] paraphraseOf; 30] reactionTo; 31] replacedBy; 32] origin; 33] ownedBy; 34] formerlyIn; 35] fromSamePlaceAs; 36] olderThan; 37] copiedFrom; 38] siblingOf; 39] usedBy; 40] scribe; 41] artist; 42] author; 43] attributedTo; 44] editor; 45] madeBy; 46] addressedTo; 47] enactedAt; 48] tookPlaceAt; 49] tookPartIn; 50] hasRole; 51] memberOf; 52] locatedIn; 53] belongedTo; 54] foundedBy; 55] bornAt; 56] diedAt; 57] livedIn; 58] studiedAt; 59] lists; 60] sameScribeAs; 61] sameHandAs; 62] reprintOf; 63] reviewOf; 64] firstPublishedIn; 65] relatedTo; 66] notSameAs</a:documentation>
             <choice>
                <value>isTextOf</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a unit is a text of another (fixed)</a:documentation>
@@ -8620,6 +8723,8 @@ Suggested values include: 1] isTextOf; 2] derivedFrom; 3] versionOf; 4] witnessO
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a unit is a text of another, with variants</a:documentation>
                <value>isShorterVersionOf</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a unit is a text of another, shortened</a:documentation>
+               <value>isLongerVersionOf</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a unit is a text of another, lengthened</a:documentation>
                <value>translationOf</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a version or a publication translates another</a:documentation>
                <value>closeTranslationOf</value>
@@ -8649,15 +8754,15 @@ Suggested values include: 1] isTextOf; 2] derivedFrom; 3] versionOf; 4] witnessO
                <value>basedOn</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a work is based on another</a:documentation>
                <value>sameAs</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">two texts are the same, neither taken from the other (symmetric)</a:documentation>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">two units are the same text, neither taken from the other (symmetric)</a:documentation>
                <value>correctionOf</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a text corrects another</a:documentation>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a unit corrects another's text</a:documentation>
                <value>closeRenderingOf</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a text renders another closely, in the same language</a:documentation>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a unit renders another's text closely, in the same language</a:documentation>
                <value>looseRenderingOf</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a text renders another loosely, in the same language</a:documentation>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a unit renders another's text loosely, in the same language</a:documentation>
                <value>paraphraseOf</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a text paraphrases another</a:documentation>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a unit paraphrases another's text</a:documentation>
                <value>reactionTo</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a collection answers another</a:documentation>
                <value>replacedBy</value>
@@ -8813,7 +8918,7 @@ Suggested values include: 1] isTextOf; 2] derivedFrom; 3] versionOf; 4] witnessO
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-msDesc-manuscript-unit-constraint-rule-92">
+                  id="solemne-msDesc-manuscript-unit-constraint-rule-94">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -8829,7 +8934,7 @@ Suggested values include: 1] isTextOf; 2] derivedFrom; 3] versionOf; 4] witnessO
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-msDesc-description-elements-constraint-rule-93">
+                  id="solemne-msDesc-description-elements-constraint-rule-95">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -8847,7 +8952,7 @@ Suggested values include: 1] isTextOf; 2] derivedFrom; 3] versionOf; 4] witnessO
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-msDesc-one_ms_singleton_max-constraint-rule-94">
+                  id="solemne-msDesc-one_ms_singleton_max-constraint-rule-96">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -8876,7 +8981,7 @@ Suggested values include: 1] isTextOf; 2] derivedFrom; 3] versionOf; 4] witnessO
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-dimensions-dimensions-unit-constraint-rule-95">
+                  id="solemne-dimensions-dimensions-unit-constraint-rule-97">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -8887,7 +8992,7 @@ Suggested values include: 1] isTextOf; 2] derivedFrom; 3] versionOf; 4] witnessO
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-dimensions-duplicateDim-constraint-rule-96">
+                  id="solemne-dimensions-duplicateDim-constraint-rule-98">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -9107,7 +9212,7 @@ Sample values include: 1] leaves; 2] ruled; 3] pricked; 4] written; 5] miniature
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-msIdentifier-msId_minimal-constraint-rule-97">
+                  id="solemne-msIdentifier-msId_minimal-constraint-rule-99">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -9352,7 +9457,7 @@ Sample values include: 1] leaves; 2] ruled; 3] pricked; 4] written; 5] miniature
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-msItem-item-locus-constraint-rule-98">
+                  id="solemne-msItem-item-locus-constraint-rule-100">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -9429,7 +9534,7 @@ Sample values include: 1] leaves; 2] ruled; 3] pricked; 4] written; 5] miniature
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-objectDesc-form-term-constraint-rule-99">
+                  id="solemne-objectDesc-form-term-constraint-rule-101">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -9501,7 +9606,7 @@ Suggested values include: 1] codex; 2] roll; 3] sheet; 4] faltbuch; 5] roll-code
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-supportDesc-material-term-constraint-rule-100">
+                  id="solemne-supportDesc-material-term-constraint-rule-102">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -9691,7 +9796,7 @@ Suggested values include: 1] perg; 2] chart; 3] papyrus; 4] palm; 5] mixed; 6] o
          <ref name="macro.specialPara"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-decoNote-decoration-term-constraint-rule-101">
+                  id="solemne-decoNote-decoration-term-constraint-rule-103">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -9811,7 +9916,7 @@ Suggested values include: 1] border; 2] diagram; 3] illustration; 4] initial; 5]
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-binding-binding-dated-constraint-rule-102">
+                  id="solemne-binding-binding-dated-constraint-rule-104">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -9994,7 +10099,7 @@ Suggested values include: 1] border; 2] diagram; 3] illustration; 4] initial; 5]
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-msPart-unit-dated-constraint-rule-103">
+                  id="solemne-msPart-unit-dated-constraint-rule-105">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -10121,7 +10226,7 @@ Suggested values include: 1] border; 2] diagram; 3] illustration; 4] initial; 5]
          <empty/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-link-linkTargets3-constraint-rule-104">
+                  id="solemne-link-linkTargets3-constraint-rule-106">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -10152,7 +10257,7 @@ Suggested values include: 1] border; 2] diagram; 3] illustration; 4] initial; 5]
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-linkGrp-reuse-link-constraint-rule-105">
+                  id="solemne-linkGrp-reuse-link-constraint-rule-107">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -10198,7 +10303,7 @@ Suggested values include: 1] border; 2] diagram; 3] illustration; 4] initial; 5]
          <ref name="macro.paraContent"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-seg-seg-term-declared-constraint-rule-106">
+                  id="solemne-seg-seg-term-declared-constraint-rule-108">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -10247,7 +10352,7 @@ Suggested values include: 1] border; 2] diagram; 3] illustration; 4] initial; 5]
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-standOff-record-id-constraint-rule-107">
+                  id="solemne-standOff-record-id-constraint-rule-109">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -10310,7 +10415,7 @@ Suggested values include: 1] border; 2] diagram; 3] illustration; 4] initial; 5]
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-annotation-annotation-target-constraint-rule-108">
+                  id="solemne-annotation-annotation-target-constraint-rule-110">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -10323,7 +10428,7 @@ Suggested values include: 1] border; 2] diagram; 3] illustration; 4] initial; 5]
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-annotation-annotation-body-constraint-rule-109">
+                  id="solemne-annotation-annotation-body-constraint-rule-111">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -10418,7 +10523,7 @@ Suggested values include: 1] border; 2] diagram; 3] illustration; 4] initial; 5]
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                  id="solemne-subst-substContents1-constraint-rule-110">
+                  id="solemne-subst-substContents1-constraint-rule-112">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:xi="http://www.w3.org/2001/XInclude"
