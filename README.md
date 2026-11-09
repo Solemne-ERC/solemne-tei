@@ -12,7 +12,7 @@ against them: files must pass the RelaxNG, and the Schematron's findings are rep
 With Python 3.12 or newer, from the repository at a release's tag:
 
 ```
-pip install git+https://github.com/Solemne-ERC/solemne-tei@v0.8.1
+pip install git+https://github.com/Solemne-ERC/solemne-tei@v1.0.0
 ```
 
 For development, from a clone:

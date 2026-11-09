@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.8.1/solemne.rng" type="application/xml"
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/1.0.0/solemne.rng" type="application/xml"
   schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/0.8.1/solemne.sch" type="application/xml"
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/1.0.0/solemne.sch" type="application/xml"
   schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <!-- A council from an edition: the Council of Soissons, 744, from the project's file C.SOI-0744, its preface, two
   chapters and two signatories; what is left out is marked by gaps. -->

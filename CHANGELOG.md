@@ -3,7 +3,7 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
-## Unreleased
+## 1.0.0 (2026-11-09)
 
 The first stable release: from it on, a file that passes fails only after a major version. It holds the records the
 application's database starts from: known and new records, the registers that seed it, authorities that grow, the
