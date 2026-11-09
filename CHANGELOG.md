@@ -3,6 +3,87 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
+## Unreleased
+
+The records the application's database starts from: known and new records, the registers that seed it, authorities
+that grow, the types of persons and events, the application's relation types, work groups; a century as an
+interval; the Bible's file; the codes of capitularies and charters.
+
+### What changes for existing files
+
+Files that passed may now meet Schematron errors, which the import reports and `--strict` fails on:
+- **`record-id`:** a record listed in the standOff whose id is neither its kind's known id (`PERS.12`, `PLACE.7`,
+  `INST.3`, `EVENT.4`, `PUBL.5`, `GROUP.2`, a work's code, a manuscript's short code) nor a new one, `new_`, its
+  kind's word and a name (`new_person_…`, `new_place_…`). `solemne_person_7` and a capital `New_place_…` fail; so
+  does a person listed as `new_place_…`. In the project's corpus, 4 records in each copy, as received and as
+  corrected.
+- **`event-typed`:** a new event, and every event of a register, has a type. In the project's corpus, the 213
+  events of each copy, which are new and have none; the registers give them their types.
+- **`register-form`:** a file without a text is a register, and a register has none.
+- **`book-code-section`:** a book of the Bible's code in `@n` stands only on a section.
+- **`authority-link`:** a declared authority's link holds `$1` where the id goes.
+
+What now passes:
+- an `idno` typed by an authority the guide doesn't list: reported by a warning, `authority-term`, unless the file
+  declares it, where it failed the RelaxNG before;
+- a register: a file of records with a header and a standOff, typed `register` in its formal title, without a code
+  or a category;
+- an EDTF interval (`0801/0900`), a century's form;
+- a book's code (`MAT`) in a section's `@n`;
+- pointers with the prefix `BIB`, the Bible's file's.
+
+Warnings that change:
+- **`date-edtf-bounds`** compares a date with unspecified digits exactly: `09XX` is 900 to 999, so with the bounds
+  901 to 1000 it's now reported; a century is `0901/1000`. No file of the corpus writes an EDTF.
+- **`relation-term`** reports `holdsOfficeIn`, which `hasRole` replaces, and knows 40 more types.
+- **`person-term` and `event-term`** report a person's or an event's type outside the guide's seeds.
+
+On the project's files: the corpus as received and as corrected meets the 217 errors above in each copy and nothing
+else new; the corpus as received has 1,233 fewer RelaxNG errors, the formal title's identifiers of older types,
+which `idno-type` still reports. The data project's sets, its charters among them, pass as before.
+
+### The schema
+
+- **Known and new records:** a record's `xml:id` is its known id, the application's, or a new one, `new_` and its
+  kind's word; `record-id` checks both, for every kind, and for an edition or its volume in the header that has an
+  id. A known record outside a register may hold its name alone; the rules that ask more of a record
+  (`person-main-name`, `event-typed`, `manuscript-unit`) ask it of new records and of a register's. `person-id` goes
+  into `record-id`.
+- **Registers:** the formal title's type `register`, holding nothing else (`formal-title-idnos`, `document-type-value`);
+  `register-form`; `text-source-one` lets a register name every list it's made from; a note typed `unreviewed`
+  says what wasn't checked.
+- **Authorities that grow:** `idno/@type` is open, its list of seeds a warning's (`authority-term`), with `isil`,
+  `doi`, `k10plus`, `dnb`, `openAlex`, `gryson`, `kery`, `whg` and `jaffe` added, and `permalink` for an export's
+  known records. A file declares an authority in a taxonomy `authorities`, a category for each, its links `ptr`s
+  holding `$1`, typed by the record's kind where the link depends on it (`ptr/@type` gains the kinds' words).
+- **Persons:** `person/@type`, added: `historical` (the default), `modernScholar`, `divine`, `fictitious`, with
+  `person-term`. `personGrp` joins the schema, for a group of persons.
+- **Events:** `event/@type`'s seeds, `council` to `royalAssembly`, with `event-term` and `event-typed`.
+- **Relations:** 65 types to start with: the application's, from `closeTranslationOf` to `firstPublishedIn`, and
+  seven between texts and collections (`sameAs`, `correctionOf`, `closeRenderingOf`, `looseRenderingOf`,
+  `paraphraseOf`, `reactionTo`, `replacedBy`); `hasRole` in place of `holdsOfficeIn`.
+- **A century:** `date-edtf-form` takes an interval; `date-edtf-bounds` compares exactly.
+- **The Bible:** the category `BIB`, in the pointers' patterns and `source-note-codes`; `div/@n` takes the 73 books'
+  codes, `book-code-section` keeping them on sections.
+
+### The guide
+
+- Part V: known and new records, by kind; persons' types and groups; events' types; work groups as `bibl`s typed
+  `workGroup`, their members by `memberOf`; authorities that grow, a Jaffé number; a record known only from a list;
+  registers, with a register of persons.
+- Part VI: the 65 types with their SAWS terms; roles by `hasRole`; an editor's order; `versionOf`'s certainty and
+  evidence.
+- Part VII: a century as an interval.
+- Part II: the coding rules for capitularies, bishops' statutes and charters (the issuer's letters and the year),
+  for the Bible (`BIB.Vulg`), and an edition by its series and volume; the register's type; declaring an authority.
+- Part III: a body headed by its own heading; the Bible's file, by book, chapter and verse; a charter's chrismon,
+  monogram and seal, which stay text.
+- Part IV: a pointer to the Bible names its file's verse (`MAT_18_19`, `MAT.18.19`).
+- Part X: an export's references to records point to the records it lists, each holding its permalink; a relation
+  type's SAWS term in its category's `corresp`.
+- Appendix D: the older forms these replace.
+- A template, `register.xml`.
+
 ## 0.8.1 (2026-11-08)
 
 The RelaxNG readable in a browser, and the build's downloads tried again.
