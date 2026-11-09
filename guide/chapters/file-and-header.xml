@@ -86,11 +86,14 @@
 
     <div xml:id="header-categories">
       <head>Categories and types</head>
-      <p>The category says what kind of text the document is. The application keeps the categories as a vocabulary,
-        which may grow; the schema checks them against its list, which these seed:</p>
+      <p>The category says what kind of text the document is, or, for <val>W</val>, how the work is known. The
+        categories are a closed list, released with the guide: a category the application adds comes to the guide
+        first and joins it in a release, with its prefix, since every code's and every pointer's prefix depends on
+        it.</p>
       <list xml:id="category-list">
         <item><val>SYSCOLL</val>: a collection arranged by subject;</item>
         <item><val>CHRCOLL</val>: a collection arranged chronologically;</item>
+        <item><val>FARCOLL</val>: a collection in no order, a farrago, as Clavis canonum calls it;</item>
         <item><val>C</val>: a council;</item>
         <item><val>D</val>: a decretal;</item>
         <item><val>P</val>: a penitential;</item>
@@ -100,6 +103,13 @@
         <item><val>LR</val>: Roman law, <foreign xml:lang="la">lex Romana</foreign>;</item>
         <item><val>CPT</val>: a capitulary;</item>
         <item><val>CHA</val>: a charter;</item>
+        <item><val>BIB</val>: the Bible;</item>
+        <item><val>PATR</val>: a patristic work not known by a siglum;</item>
+        <item><val>SCHOL</val>: a scholarly work worth citing into, such as Kéry's catalogue of canonical
+          collections;</item>
+        <item><val>W</val>: a work known by its siglum in Gryson's <title>Répertoire général des auteurs
+            ecclésiastiques latins</title>, whatever its kind: a Father's letter cited by its siglum is
+          <val>W</val>, not <val>EP</val>;</item>
         <item><val>UNK</val>: not known.</item>
       </list>
       <p>The type says what the file transcribes:</p>
@@ -111,7 +121,9 @@
           known from parts of other collections;</item>
         <item><val>hypothesis</val>: any text supposed rather than found, less precise than a reconstruction;</item>
         <item><val>placeholder</val>: a text whose content stands in for another's, such as a manuscript's text taken
-          for now from the edition that used it.</item>
+          for now from the edition that used it;</item>
+        <item><val>register</val>: not a document but a list of records, with no text: its formal title holds its
+          type alone, without a code or a category (<ptr target="#records-registers"/>).</item>
       </list>
       <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="category-value">
         <title type="formal">
@@ -146,9 +158,9 @@
       <p>A code has up to three parts, joined by dots:</p>
       <list>
         <item><hi>The category's prefix:</hi> the category itself (<code>C</code>, <code>D</code>, <code>P</code>,
-          <code>H</code>, <code>EX</code>, <code>EP</code>, <code>LR</code>, <code>CPT</code>, <code>CHA</code>),
-          and <code>COLL</code> for both kinds of collection. A document of an unknown category takes any
-          prefix.</item>
+          <code>H</code>, <code>EX</code>, <code>EP</code>, <code>LR</code>, <code>CPT</code>, <code>CHA</code>,
+          <code>BIB</code>, <code>PATR</code>, <code>SCHOL</code>, <code>W</code>), and <code>COLL</code> for the
+          three kinds of collection. A document of an unknown category takes any prefix.</item>
         <item><hi>The title part,</hi> its subparts joined by hyphens:
           <list>
             <item>the title: for a council, three capitals for its place (<code>C.MAI</code> for Mainz); for a
@@ -156,21 +168,29 @@
               pope (<code>D.PsCAL</code>); for a collection or a penitential, its name or an abbreviation of it
               (<code>COLL.Dach</code>, <code>COLL.400</code>, <code>P.HAL</code>); for a code of Roman law, the
               abbreviation its editions cite it by (<code>LR.CTh</code> for the Codex Theodosianus, <code>LR.CJ</code>
-              for Justinian's Codex, <code>LR.Inst</code>, <code>LR.Dig</code>); <code>UNK</code> where the title
-              isn't known;</item>
+              for Justinian's Codex, <code>LR.Inst</code>, <code>LR.Dig</code>); for a capitulary, a bishop's
+              statutes or a charter, three letters for the person who issued it (<code>CPT.CHL</code> for Chlothar
+              II, <code>CPT.GER</code> for Gerbald of Liège, <code>CHA.RAT</code> for Ratherius of Verona); for the
+              Bible, its version (<code>BIB.Vulg</code>, the Vulgate); for a work known by its Gryson siglum, the
+              siglum (<code>W.IS-ety</code>, below); <code>UNK</code> where the title isn't known;</item>
             <item>the date, where wanted: four digits, the year (<code>C.MAI-0813</code>), and for a code of Roman law
               the year of its promulgation (<code>LR.CTh-0438</code>, <code>LR.CJ-0534</code>); the latest possible
               year, where the date is a range; <code>9999</code> where the date isn't known
               (<code>EP.LupEuf-9999</code>);</item>
             <item>a further identifier, where needed: a decretal's number in Jaffé's register, in Kaltenbrunner's
-              numbering (<code>D.LEO-0447-414</code>); a version, <code>-v</code> and a name
-              (<code>C.NIC-0325-vDIO1</code>, Nicaea in the first Dionysiana; <code>D.LEO-0446-410-v1</code>).</item>
+              numbering (<code>D.LEO-0447-414</code>); a number, where one issuer and one year have several texts, in
+              the edition's order (<code>CPT.KAR-0813-1</code> to <code>-4</code>, <code>CHA.HEN-1002-1</code> to
+              <code>-12</code>); a version, <code>-v</code> and a name or the edition's letter
+              (<code>C.NIC-0325-vDIO1</code>, Nicaea in the first Dionysiana; <code>D.LEO-0446-410-v1</code>;
+              <code>CPT.HLU-0816-vA</code>, a version Mordek prints apart).</item>
           </list></item>
         <item><hi>The source part,</hi> where the code would otherwise be another document's: <code>ms-</code> and
           the manuscript's short code, for every transcription of a manuscript
           (<code>COLL.400.ms-Mun-BSB-4592</code>); <code>ed-</code> and the edition, where the corpus holds two
-          editions of one text: the volume of the Patrologia Latina (<code>COLL.Burch.ed-PL140</code>), SCTA's
-          Gratian (<code>COLL.Grat.ed-SCTA</code>).</item>
+          editions of one text: the volume of the Patrologia Latina (<code>COLL.Burch.ed-PL140</code>,
+          <code>CHA.RAT-0974.ed-PL136</code>), SCTA's Gratian (<code>COLL.Grat.ed-SCTA</code>), a series and its
+          volume (<code>C.GRM-0742.ed-MGHCapit1</code>, Karlmann's capitulary of 742 in the MGH's Capitularia beside
+          the council in its Concilia).</item>
       </list>
       <p>A manuscript's short code joins, by hyphens, its city in three letters, its library's abbreviation and its
         shelfmark: <code>Mun-BSB-4592</code> for Munich, Bayerische Staatsbibliothek, Clm 4592. A code is a valid
@@ -178,9 +198,62 @@
         parentheses, so a former shelfmark has no place in it. An underscore stands only in a pointer, before a
         citation (<ptr target="#marked-pointers"/>).</p>
       <p>A law of a Roman code is cited by its book, title and law, as the editions cite it: "CTh 16.2.47" is
-        <code>LR.CTh-0438_16.2.47</code>, its divisions numbered so (<ptr target="#text-prefaces-and-closers"/>). No
-        file of the corpus has the categories <code>CPT</code> or <code>CHA</code> yet. Their codes follow the general
-        rule, with their own prefixes; how their title parts are made, the guide will say with the first files.</p>
+        <code>LR.CTh-0438_16.2.47</code>, its divisions numbered so (<ptr target="#text-prefaces-and-closers"/>).</p>
+      <p>Each category has its own title part, and those for texts a person issues name the issuer: a decretal its
+        pope, a capitulary, a bishop's statutes and a charter the one who issued them. One name takes one set of
+        letters, whoever bears it, the year telling them apart, as <code>D.LEO</code> names every Leo: Charlemagne,
+        Charles the Bald and Charles III are all <code>KAR</code> (<code>CPT.KAR-0813-2</code>,
+        <code>CPT.KAR-0869</code>, <code>CPT.KAR-0880</code>). An issuer the edition leaves open between two, or
+        doesn't name, is <code>UNK</code>, and a statute without a name of its own has the edition's name for it in
+        its alias. A capitulary's year is the latest its edition's heading gives ("a. 805/813" is 813), a charter's
+        too. A collection of capitularies is a collection (<code>COLL.Ansegis</code>). A letter, a homiliary,
+        exegesis, a patristic work and a scholarly work take their title parts with their first files; until then,
+        the Schematron checks their codes' form and prefix.</p>
+      <p>A work known by its siglum in Gryson's <title>Répertoire</title> takes the siglum as its title part, its
+        spaces, dots and underscores made hyphens, the author's hyphen kept, and no date: <code>W.IS-ety</code> for
+        Isidore's Etymologiae, <code>W.HI-ep-52</code> for Jerome's letter 52, <code>W.AU-s-351</code> for
+        Augustine's sermon 351. A file holds one text, as the siglum's work part names it: a treatise is one file,
+        and a numbered collection of texts, such as a Father's letters or sermons, one file for each, its number in
+        the work part (<code>HI_ep.52</code>). It is cited by its divisions, as any code is: Isidore's book 15,
+        chapter 2, section 1 is <code>W.IS-ety_15.2.1</code>, and a pointer by the siglum,
+        <code>IS_ety_15.2.1</code>, names the same place (<ptr target="#marked-pointers"/>). A work that has a code
+        of its own, such as a pope's letter, keeps it, and its siglum stands on its record (<ptr
+          target="#records-works"/>). A made-up file of the Etymologiae opens so:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples">
+        <titleStmt>
+          <title type="formal">
+            <idno>W.IS-ety</idno>
+            <idno type="category">W</idno>
+            <idno type="type">edition</idno>
+          </title>
+          <title type="alias">Isidore of Seville, Etymologiae</title>
+        </titleStmt>
+      </egXML>
+      <p>A capitulary's chapter is cited by its number, as its edition numbers it: <code>CPT.CHL-0614_9</code>.
+        Ansegis's collection, by book and chapter: <code>COLL.Ansegis_2.5</code>. A charter is cited whole, by its
+        code, or by its own numbers where it numbers its parts (<code>CHA.RAT-0974.ed-PL136_2</code>). Chlothar II's
+        edict of 614 opens so:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-CPT.CHL-0614">
+        <titleStmt>
+          <title type="formal">
+            <idno>CPT.CHL-0614</idno>
+            <idno type="category">CPT</idno>
+            <idno type="type">edition</idno>
+          </title>
+          <title type="alias">Chlotharii II. edictum, 614 (BK 9)</title>
+        </titleStmt>
+      </egXML>
+      <p>Ratherius of Verona's testament, in Migne's text:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-CHA.RAT-0974.ed-PL136">
+        <titleStmt>
+          <title type="formal">
+            <idno>CHA.RAT-0974.ed-PL136</idno>
+            <idno type="category">CHA</idno>
+            <idno type="type">edition</idno>
+          </title>
+          <title type="alias">Ratherius of Verona, Testamentum, in Migne's Patrologia Latina 136</title>
+        </titleStmt>
+      </egXML>
       <p>The Schematron checks the form: the prefix and its dot; the title part, whose subparts, the date among them,
         are joined by hyphens; and any source part after a dot, which begins with a letter. A code with an
         underscore fails, and so does a date joined by a dot (<code>P.SAM.0700</code> for
@@ -295,14 +368,17 @@
         <elementSpec ident="idno" module="header" mode="change" corresp="#tier-required">
           <constraintSpec ident="formal-title-idnos" scheme="schematron" corresp="#tier-required">
             <desc>The formal title holds the document's code (an identifier without a type), its category and its
-              type, once each; an export adds the permalinks of the levels the file belongs to.</desc>
+              type, once each; an export adds the permalinks of the levels the file belongs to. A register's holds its
+              type alone.</desc>
             <constraint>
               <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']">
-                <sch:assert id="formal-title-idnos" test="count(tei:idno[not(@type)]) = 1 and count(tei:idno[@type =
-                  'category']) = 1 and count(tei:idno[@type = 'type']) = 1 and (every $level in ('work', 'version',
-                  'witness', 'transcription') satisfies count(tei:idno[@type = $level]) le 1)">The formal title holds
-                  the document's code (an identifier without a type), its category and its type, once each, and at
-                  most one permalink for each level the file belongs to.</sch:assert>
+                <sch:let name="register" value="normalize-space(tei:idno[@type = 'type'][1]) = 'register'"/>
+                <sch:assert id="formal-title-idnos" test="count(tei:idno[@type = 'type']) = 1 and (if ($register) then
+                  count(tei:idno) = 1 else count(tei:idno[not(@type)]) = 1 and count(tei:idno[@type = 'category']) = 1
+                  and (every $level in ('work', 'version', 'witness', 'transcription') satisfies count(tei:idno[@type =
+                  $level]) le 1))">The formal title holds the document's code (an identifier without a type), its
+                  category and its type, once each, and at most one permalink for each level the file belongs to; a
+                  register's holds its type alone.</sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>
@@ -340,17 +416,17 @@
             </constraint>
           </constraintSpec>
           <constraintSpec ident="code-category" scheme="schematron" corresp="#tier-required">
-            <desc>The document's code begins with its category's prefix: COLL for both kinds of collection, the
-              category itself for the others; UNK's any.</desc>
+            <desc>The document's code begins with its category's prefix: COLL for the three kinds of collection,
+              the category itself for the others; UNK's any.</desc>
             <constraint>
               <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[not(@type)]">
                 <sch:let name="category" value="normalize-space(../tei:idno[@type = 'category'][1])"/>
                 <sch:let name="prefix" value="substring-before(normalize-space(.), '.')"/>
                 <sch:assert id="code-category" test="$category = ('', 'UNK') or $prefix = (if
-                  ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category)">The document's code
+                  ($category = ('SYSCOLL', 'CHRCOLL', 'FARCOLL')) then 'COLL' else $category)">The document's code
                   (<sch:value-of select="normalize-space(.)"/>) begins with its category's prefix (<sch:value-of
-                  select="if ($category = ('SYSCOLL', 'CHRCOLL')) then 'COLL' else $category"/>, for the category
-                  <sch:value-of select="$category"/>).</sch:assert>
+                  select="if ($category = ('SYSCOLL', 'CHRCOLL', 'FARCOLL')) then 'COLL' else $category"/>, for the
+                  category <sch:value-of select="$category"/>).</sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>
@@ -380,10 +456,10 @@
             <desc>The document's category is one of the categories.</desc>
             <constraint>
               <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'category']">
-                <sch:assert id="category-value" test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'C', 'D', 'P', 'H',
-                  'EX', 'EP', 'LR', 'CPT', 'CHA', 'UNK')">The document's category (<sch:value-of
-                  select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, C, D, P, H, EX, EP, LR, CPT, CHA,
-                  UNK.</sch:assert>
+                <sch:assert id="category-value" test="normalize-space(.) = ('SYSCOLL', 'CHRCOLL', 'FARCOLL', 'C', 'D',
+                  'P', 'H', 'EX', 'EP', 'LR', 'CPT', 'CHA', 'BIB', 'PATR', 'SCHOL', 'W', 'UNK')">The document's category
+                  (<sch:value-of select="normalize-space(.)"/>) is one of SYSCOLL, CHRCOLL, FARCOLL, C, D, P, H, EX, EP,
+                  LR, CPT, CHA, BIB, PATR, SCHOL, W, UNK.</sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>
@@ -392,9 +468,21 @@
             <constraint>
               <sch:rule context="tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type']">
                 <sch:assert id="document-type-value" test="normalize-space(.) = ('edition', 'manuscript',
-                  'reconstruction', 'hypothesis', 'placeholder')">The document's type (<sch:value-of
-                  select="normalize-space(.)"/>) is one of edition, manuscript, reconstruction, hypothesis,
-                  placeholder.</sch:assert>
+                  'reconstruction', 'hypothesis', 'placeholder', 'register')">The document's type (<sch:value-of
+                  select="normalize-space(.)"/>) is one of edition, manuscript, reconstruction, hypothesis, placeholder,
+                  register.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <constraintSpec ident="register-form" scheme="schematron" corresp="#tier-full">
+            <desc>A register holds a standOff and no text; any other file holds a text.</desc>
+            <constraint>
+              <sch:rule context="tei:TEI">
+                <sch:let name="register" value="normalize-space(tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type
+                  = 'formal']/tei:idno[@type = 'type'][1]) = 'register'"/>
+                <sch:assert id="register-form" test="if ($register) then tei:standOff and not(tei:text) else
+                  tei:text">A register (a file typed register) holds a standOff and no text; any other file holds a
+                  text.</sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>
@@ -410,7 +498,7 @@
           </constraintSpec>
           <attList>
             <attDef ident="type" mode="change" corresp="#tier-required">
-              <valList type="closed" mode="replace" xml:id="idno-type-unknown" corresp="#tier-required">
+              <valList type="semi" mode="replace">
                 <valItem ident="category">
                   <desc>in the formal title: the document's category</desc>
                 </valItem>
@@ -477,6 +565,34 @@
                 <valItem ident="SCN">
                   <desc>the Bodleian's Summary Catalogue number</desc>
                 </valItem>
+                <valItem ident="isil">
+                  <desc>the International Standard Identifier for Libraries, a library's</desc>
+                </valItem>
+                <valItem ident="doi">
+                  <desc>a publication's Digital Object Identifier</desc>
+                </valItem>
+                <valItem ident="k10plus">
+                  <desc>K10plus, the union catalogue of the GBV and the SWB, a publication's record (PPN)</desc>
+                </valItem>
+                <valItem ident="dnb">
+                  <desc>the Deutsche Nationalbibliothek's catalogue, a publication's record</desc>
+                </valItem>
+                <valItem ident="openAlex">
+                  <desc>OpenAlex, a publication's or a scholar's record</desc>
+                </valItem>
+                <valItem ident="gryson">
+                  <desc>Gryson's repertory of Latin ecclesiastical writers, a work's siglum</desc>
+                </valItem>
+                <valItem ident="kery">
+                  <desc>Kéry's catalogue of canonical collections, a collection's or a manuscript's entry</desc>
+                </valItem>
+                <valItem ident="whg">
+                  <desc>the World Historical Gazetteer, a place</desc>
+                </valItem>
+                <valItem ident="jaffe">
+                  <desc>Jaffé's register of the popes' letters, the number as it's cited, its editor's letters first
+                    (JK 414)</desc>
+                </valItem>
                 <valItem ident="shelfmark">
                   <desc>a manuscript's shelfmark</desc>
                 </valItem>
@@ -488,6 +604,9 @@
                 </valItem>
                 <valItem ident="biblatex">
                   <desc>a publication's biblatex key</desc>
+                </valItem>
+                <valItem ident="permalink">
+                  <desc>in an export: a known record's permalink</desc>
                 </valItem>
               </valList>
             </attDef>
@@ -577,7 +696,7 @@
             <sch:rule context="tei:*[@key or @corresp]">
               <sch:report id="record-pointer-in-ref" role="warning" test="some $p in
                 tokenize(normalize-space(string-join((@key, @corresp), ' ')), ' ') satisfies matches($p,
-                '^#?[Nn]ew_[A-Za-z]+_|^#?(PERS\.\d+|solemne_person_\d+)$|^https?://\S+/id/(person|place|institution|event|manuscript|publication)/')">&lt;<sch:name/>&gt;
+                '^#?[Nn]ew_[A-Za-z]+_|^#?(PERS|PLACE|INST|EVENT|PUBL|GROUP)\.\d+$|^https?://\S+/id/(person|place|institution|event|manuscript|publication)/')">&lt;<sch:name/>&gt;
                 points to a record in @key or @corresp (<sch:value-of select="normalize-space(string-join((@key,
                 @corresp), ' '))"/>): a record is pointed to by @ref, on a name inside provenance, acquisition and
                 origin.</sch:report>
@@ -635,7 +754,7 @@
         </biblStruct>
       </sourceDesc>
     </egXML>
-    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="idno-type-unknown">
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="authority-term">
       <sourceDesc>
         <bibl>
           <title>Concilia exempli gratia</title>
@@ -646,7 +765,7 @@
     <p>A file taken from another project's names that project as its source, in a <gi>bibl</gi> typed
       <val>source</val> after the witness's description, which stays whole: the description says what the text is,
       the source where and when this file took it, in the form a record's source has (<ptr
-        target="#records-sources"/>). Its name, in <gi>title</gi>, is required; then a link to the text there
+        target="#records-sources"/>); a register names every list it's made from (<ptr target="#records-registers"/>). Its name, in <gi>title</gi>, is required; then a link to the text there
       (<gi>ref</gi>), the date it was taken (<gi>date</gi> typed <val>retrieved</val>, its day in <att>when</att>),
       the licence it was taken under, where the source states one (<gi>licence</gi>, in <gi>availability</gi>), the
       source's version or release, where it has one (<gi>edition</gi>), and a credit the source gives, in its own
@@ -738,12 +857,13 @@
            record's too, has its name; one with a link gives the date it was taken. -->
       <elementSpec ident="sourceDesc" module="header" mode="change" corresp="#tier-required">
         <constraintSpec ident="text-source-one" scheme="schematron" corresp="#tier-full">
-          <desc>A text has one source at most.</desc>
+          <desc>A text has one source at most; a register names every list it's made from.</desc>
           <constraint>
             <sch:rule context="tei:sourceDesc">
-              <sch:assert id="text-source-one" test="count(tei:bibl[@type = 'source']) le 1">A text has one source
-                at most: this sourceDesc holds <sch:value-of select="count(tei:bibl[@type = 'source'])"/> bibl typed
-                source.</sch:assert>
+              <sch:let name="register" value="normalize-space(/tei:TEI/tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title[@type = 'formal']/tei:idno[@type = 'type'][1]) = 'register'"/>
+              <sch:assert id="text-source-one" test="count(tei:bibl[@type = 'source']) le 1 or $register">A text has
+                one source at most: this sourceDesc holds <sch:value-of select="count(tei:bibl[@type = 'source'])"/>
+                bibl typed source.</sch:assert>
             </sch:rule>
           </constraint>
         </constraintSpec>
@@ -990,7 +1110,39 @@
         </listPrefixDef>
       </egXML>
       <p>A record's or a manuscript's ids in other catalogues aren't pointers but identifiers: <gi>idno</gi>s typed
-        by their authority (<ptr target="#records"/>).</p>
+        by their authority, its key in lower camel case (<ptr target="#records-external-ids"/>). The guide lists the
+        authorities the application knows, and the list grows: a key it doesn't list is reported, not refused, unless
+        the file declares it. A file declares an authority in the encoding description's <gi>classDecl</gi>, as an
+        export declares a vocabulary's terms (<ptr target="#exports-vocabularies"/>): a <gi>taxonomy</gi> with the id
+        <code>authorities</code>, and in it a <gi>category</gi> for each authority, its <att>xml:id</att> the key, its
+        name in <gi>catDesc</gi> and, after the name, its links, each a <gi>ptr</gi> whose target holds
+        <code>$1</code> where the id goes. Where the link depends on the kind of record, as Mirabile's does, each link
+        is typed by the kind's word, the one a new record's id has (<val>person</val>, <val>place</val>,
+        <val>org</val>, <val>event</val>, <val>bibl</val>, <val>work</val>, <val>version</val>, <val>group</val>,
+        <val>manuscript</val>). An authority may have no link. The import makes a declared authority it doesn't hold;
+        one it holds under another key is the application's to map. The authorities the guide lists need no
+        declaration. Mirabile's indices, and a catalogue made up for the example:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples">
+        <classDecl>
+          <taxonomy xml:id="authorities">
+            <category xml:id="mirabile">
+              <catDesc>Mirabile <ptr type="person" target="https://www.mirabileweb.it/author/-author/$1"/>
+                <ptr type="work" target="https://www.mirabileweb.it/title/-/$1"/>
+                <ptr type="version" target="https://www.mirabileweb.it/title/-/$1"/>
+                <ptr type="manuscript" target="https://www.mirabileweb.it/manuscript/-manuscript/$1"/></catDesc>
+            </category>
+            <category xml:id="catalogusExempli">
+              <catDesc>Catalogus exempli gratia <ptr target="https://example.org/catalogus/$1"/></catDesc>
+            </category>
+          </taxonomy>
+        </classDecl>
+      </egXML>
+      <p>An authority's link holds <code>$1</code>, or it can't make a record's address:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="authority-link">
+        <category xml:id="catalogusSineNumero">
+          <catDesc>Catalogus sine numero <ptr target="https://example.org/catalogus/"/><!-- breaks the rule --></catDesc>
+        </category>
+      </egXML>
       <specGrp xml:id="header-external-ids-specs">
         <!-- External ids: a node's in @sameAs, its prefix declared in the header; a record's or a manuscript's in an
              idno typed by its authority. -->
@@ -1015,6 +1167,34 @@
                 <sch:assert id="prefix-known" role="warning" test="@ident = ('scta', 'clavis', 'pseudoisidor',
                   'corpuscorporum')">The prefix <sch:value-of select="@ident"/> isn't one the application knows (scta,
                   clavis, pseudoisidor, corpuscorporum).</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <!-- A record's authorities: the guide's, or declared in the file's taxonomy of authorities; a declared
+               authority's links hold $1 for the id. -->
+          <constraintSpec ident="authority-term" scheme="schematron" corresp="#tier-full">
+            <desc>An identifier's type is one of the guide's authorities, or declared in the file.</desc>
+            <constraint>
+              <sch:rule context="tei:idno[@type][not(parent::tei:title[@type = 'formal'])]">
+                <sch:let name="terms" value="('category', 'type', 'work', 'version', 'witness', 'transcription',
+                  'wikidata', 'viaf', 'gnd', 'geonames', 'tgn', 'pleiades', 'mirabile', 'clavis', 'biblissima',
+                  'schoenberg', 'hmml', 'bodleian', 'manusOnline', 'ieArk', 'crArk', 'SCN', 'isil', 'doi', 'k10plus',
+                  'dnb', 'openAlex', 'gryson', 'kery', 'whg', 'jaffe', 'shelfmark', 'ISBN', 'url', 'biblatex',
+                  'permalink')"/>
+                <sch:let name="declared" value="/tei:TEI/tei:teiHeader//tei:taxonomy[@xml:id =
+                  'authorities']/tei:category/@xml:id"/>
+                <sch:assert id="authority-term" role="warning" test="@type = ($terms, $declared)">The identifier's type
+                  <sch:value-of select="@type"/> isn't among the guide's authorities, nor declared in the file's
+                  taxonomy of authorities: check its spelling, or declare it.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <constraintSpec ident="authority-link" scheme="schematron" corresp="#tier-full">
+            <desc>An authority's link holds $1 where the id goes.</desc>
+            <constraint>
+              <sch:rule context="tei:taxonomy[@xml:id = 'authorities']//tei:ptr">
+                <sch:assert id="authority-link" test="contains(@target, '$1')">An authority's link holds $1 where the
+                  id goes (<sch:value-of select="@target"/>).</sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>

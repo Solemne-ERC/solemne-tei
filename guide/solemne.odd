@@ -11,7 +11,7 @@
         <author>Sven Meeder</author>
       </titleStmt>
       <editionStmt>
-        <edition n="0.8.1">Version 0.8.1</edition>
+        <edition n="1.0.0">Version 1.0.0</edition>
       </editionStmt>
       <publicationStmt>
         <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University</publisher>
@@ -65,8 +65,8 @@
         <docAuthor>Gleb Schmidt</docAuthor>
         <docAuthor>Friederike Voit</docAuthor>
         <docAuthor>Sven Meeder</docAuthor>
-        <docEdition>Version 0.8.1</docEdition>
-        <docDate when="2026-11-08">8 November 2026</docDate>
+        <docEdition>Version 1.0.0</docEdition>
+        <docDate when="2026-11-09">9 November 2026</docDate>
         <docImprint>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University, Nijmegen; funded by
           the European Research Council, grant 101087979. The guide is under the Creative Commons Attribution 4.0
           licence; the schema made from it, under the MIT licence.</docImprint>
@@ -108,7 +108,7 @@
               <gi>address</gi> <gi>analytic</gi>
               <gi>distributor</gi> <gi>email</gi> <gi>forename</gi> <gi>imprint</gi> <gi>listPerson</gi>
               <gi>monogr</gi> <gi>p</gi> <gi>postCode</gi> <gi>publisher</gi> <gi>pubPlace</gi>
-              <gi>series</gi> <gi>standOff</gi> <gi>street</gi> <gi>surname</gi>
+              <gi>series</gi> <gi>street</gi> <gi>surname</gi>
             </cell>
           </row>
           <row corresp="#tier-full">
@@ -130,7 +130,8 @@
               <gi>listPlace</gi> <gi>listPrefixDef</gi> <gi>listWit</gi> <gi>location</gi> <gi>locus</gi>
               <gi>locusGrp</gi> <gi>measure</gi> <gi>msContents</gi> <gi>msIdentifier</gi> <gi>msName</gi>
               <gi>name</gi> <gi>nameLink</gi> <gi>normalization</gi> <gi>notesStmt</gi> <gi>num</gi>
-              <gi>occupation</gi> <gi>org</gi> <gi>orig</gi> <gi>origin</gi> <gi>physDesc</gi> <gi>place</gi>
+              <gi>occupation</gi> <gi>org</gi> <gi>orig</gi> <gi>origin</gi> <gi>personGrp</gi> <gi>physDesc</gi>
+              <gi>place</gi>
               <gi>principal</gi> <gi>profileDesc</gi> <gi>projectDesc</gi> <gi>provenance</gi> <gi>punctuation</gi>
               <gi>q</gi> <gi>quotation</gi> <gi>recordHist</gi> <gi>refsDecl</gi> <gi>reg</gi> <gi>resp</gi>
               <gi>respStmt</gi> <gi>revisionDesc</gi> <gi>roleName</gi> <gi>rubric</gi> <gi>samplingDecl</gi>
@@ -154,8 +155,8 @@
           <moduleRef key="core"
             include="abbr add addrLine address analytic author bibl biblScope biblStruct choice cit citedRange corr
               date del desc editor email expan foreign gap graphic head imprint item label lb list listBibl measure
-              monogr name note num orig p pb postCode ptr publisher pubPlace q quote ref reg resp respStmt rs series sic
-              street term textLang title unclear hi"/>
+              milestone monogr name note num orig p pb postCode ptr publisher pubPlace q quote ref reg resp respStmt
+              rs series sic street term textLang title unclear hi"/>
           <moduleRef key="header"
             include="abstract authority availability calendar calendarDesc catDesc category change citeData
               citeStructure classDecl correction creation distributor edition editionStmt editorialDecl encodingDesc
@@ -168,7 +169,7 @@
           <moduleRef key="namesdates"
             include="addName affiliation birth bloc country death district event eventName floruit forename genName
               geo geogName listEvent listOrg listPerson listPlace listRelation location nameLink occupation org
-              orgName persName person place placeName region relation roleName settlement surname"/>
+              orgName persName person personGrp place placeName region relation roleName settlement surname"/>
           <moduleRef key="msdescription"
             include="acquisition additional additions adminInfo altIdentifier binding bindingDesc collation collection
               colophon condition decoDesc decoNote depth dimensions explicit finalRubric foliation handDesc height
@@ -189,6 +190,7 @@
           <specGrpRef target="#text-divisions-specs"/>
           <specGrpRef target="#text-headings-specs"/>
           <specGrpRef target="#text-page-breaks-specs"/>
+          <specGrpRef target="#text-other-editions-specs"/>
           <specGrpRef target="#text-gaps-specs"/>
           <specGrpRef target="#marked-names-specs"/>
           <specGrpRef target="#marked-works-specs"/>
@@ -196,6 +198,7 @@
           <specGrpRef target="#marked-pointers-specs"/>
           <specGrpRef target="#marked-notes-specs"/>
           <specGrpRef target="#marked-other-specs"/>
+          <specGrpRef target="#records-ids-specs"/>
           <specGrpRef target="#records-persons-specs"/>
           <specGrpRef target="#records-institutions-specs"/>
           <specGrpRef target="#records-events-specs"/>
@@ -393,6 +396,41 @@
             <cell><ptr target="#records-external-ids"/></cell>
           </row>
           <row>
+            <cell>A record's id <code>solemne_person_</code> and a number; a register's id by
+              <att>sameAs</att> on a placeholder</cell>
+            <cell>a known id, the application's (<code>PERS.12</code>), or a new one (<code>new_person_…</code>), the
+              record's own <att>xml:id</att></cell>
+            <cell><ptr target="#records-ids"/></cell>
+          </row>
+          <row>
+            <cell>A group of persons as a <gi>person</gi> (<code>new_person_romans</code>)</cell>
+            <cell><gi>personGrp</gi>, its members by <val>memberOf</val></cell>
+            <cell><ptr target="#records-persons"/></cell>
+          </row>
+          <row>
+            <cell>A work group as a <gi>listBibl</gi> typed <val>workGroup</val>, its name a <gi>head</gi> typed
+              <val>rubric</val>, its members <gi>bibl</gi>s holding a <gi>ptr</gi></cell>
+            <cell>a <gi>bibl</gi> typed <val>workGroup</val>, its name a <gi>title</gi>, its members by
+              <val>memberOf</val></cell>
+            <cell><ptr target="#records-work-groups"/></cell>
+          </row>
+          <row>
+            <cell><val>holdsOfficeIn</val>, from a person to an institution, the office a <gi>roleName</gi></cell>
+            <cell><val>hasRole</val>, from a person to a role's term, where it was held in the description</cell>
+            <cell><ptr target="#relations-form"/></cell>
+          </row>
+          <row>
+            <cell>A century's EDTF by unspecified digits (<code>08XX</code>), a year off at each end</cell>
+            <cell>its interval, <code>0801/0900</code></cell>
+            <cell><ptr target="#dates"/></cell>
+          </row>
+          <row>
+            <cell>An export's pointer to a record by its permalink</cell>
+            <cell><code>#</code> and the id of the record listed, which holds its permalink in an <gi>idno</gi>
+              typed <val>permalink</val></cell>
+            <cell><ptr target="#exports-ids"/></cell>
+          </row>
+          <row>
             <cell>Relations after SAWS and the project's own terms, their ends pointing to the standOff's
               entries</cell>
             <cell>the model's relation types, each with its permalink; SAWS's under "is a text of"</cell>
@@ -465,6 +503,9 @@
           <bibl xml:id="source-C.VLA-0549"><idno>C.VLA-0549</idno>: <title>Council of Valencia, 549</title>, ed.
             <editor>José Vives</editor>, <title>Concilios visigóticos e hispano-romanos</title>, España Cristiana 1
             (Barcelona and Madrid, <date>1963</date>), pp. 61–64.</bibl>
+          <bibl xml:id="source-C.THE-0418"><idno>C.THE-0418</idno>: <title>Council of Telepte, 418</title>, ed.
+            <editor>Charles Munier</editor>, <title>Concilia Africae a. 345 – a. 525</title>, CCSL 149 (Turnhout,
+            <date>1974</date>), pp. 54–65: the records of its standOff, the project's own.</bibl>
           <bibl xml:id="source-C.CON-0381-v5"><idno>C.CON-0381-v5</idno>: <title>First Council of Constantinople,
               381</title>, ed. <editor>Adolf Martin Ritter</editor>, in <title>The oecumenical councils: from Nicaea I
               to Nicaea II (325-787)</title>, ed. <editor>Giuseppe Alberigo</editor>, Corpus Christianorum,
@@ -476,6 +517,22 @@
             edition.</bibl>
           <bibl xml:id="source-LR.CTh-0438"><idno>LR.CTh-0438</idno>: <title>Codex Theodosianus</title>, in The
             Latin Library's text (thelatinlibrary.com/theodosius.html), which names no edition.</bibl>
+          <bibl xml:id="source-CPT.CHB-0596"><idno>CPT.CHB-0596</idno>: <title>Childeberti secundi decretio,
+              596</title>, ed. <editor>Alfred Boretius</editor>, <title>Capitularia regum Francorum</title> I, MGH
+            Capitularia 1 (Hannover, <date>1881</date>), pp. 16–18, in the Latin Text Archive's text, converted by the
+            data project.</bibl>
+          <bibl xml:id="source-CPT.CHL-0614"><idno>CPT.CHL-0614</idno>: <title>Chlotharii II. edictum, 614</title>,
+            ed. <editor>Alfred Boretius</editor>, <title>Capitularia regum Francorum</title> I, MGH Capitularia 1
+            (Hannover, <date>1881</date>), pp. 21–24, BK 9, in the Latin Text Archive's text, converted by the data
+            project.</bibl>
+          <bibl xml:id="source-D.GRE-0599-1748"><idno>D.GRE-0599-1748</idno>: <title>Gregory I to Aregius, bishop in
+              Gaul, 599</title>, Register IX, 219, ed. <editor>Ludo M. Hartmann</editor>, <title>Gregorii I papae
+              Registrum epistolarum</title> II, MGH Epistolae 2 (Berlin, <date>1892–1899</date>), pp. 210–211, in
+            the digital MGH's text, converted by the data project: the record's title, its code and its
+            siglum.</bibl>
+          <bibl xml:id="source-CHA.RAT-0974.ed-PL136"><idno>CHA.RAT-0974.ed-PL136</idno>: <title>Ratherius of Verona,
+              Testamentum</title>, ed. <editor>Jacques-Paul Migne</editor>, Patrologia Latina 136, cols. 641–644, in Corpus
+            Corporum's text through the Latin Text Archive, converted by the data project.</bibl>
           <bibl xml:id="source-COLL.400.ms-Mun-BSB-4592"><idno>COLL.400.ms-Mun-BSB-4592</idno>: <title>Collectio 400
               capitulorum</title>, transcribed by the project from Munich, Bayerische Staatsbibliothek, Clm
             4592.</bibl>

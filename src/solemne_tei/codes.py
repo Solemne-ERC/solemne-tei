@@ -7,13 +7,34 @@ from dataclasses import dataclass
 from importlib import resources
 
 # The categories a document's code begins with, as the schema checks them on the formal title's category.
-CATEGORIES = ("SYSCOLL", "CHRCOLL", "C", "D", "P", "H", "EX", "EP", "LR", "CPT", "CHA", "UNK")
+CATEGORIES = (
+    "SYSCOLL",
+    "CHRCOLL",
+    "FARCOLL",
+    "C",
+    "D",
+    "P",
+    "H",
+    "EX",
+    "EP",
+    "LR",
+    "CPT",
+    "CHA",
+    "BIB",
+    "PATR",
+    "SCHOL",
+    "W",
+    "UNK",
+)
+
+# The categories of collections, whose codes begin with COLL.
+COLLECTIONS = ("SYSCOLL", "CHRCOLL", "FARCOLL")
 
 
 def code_prefix(category: str) -> str:
-    """The prefix a code of this category begins with: COLL for both kinds of collection, the category itself for the
-    others. A code of category UNK may take any prefix."""
-    return "COLL" if category in ("SYSCOLL", "CHRCOLL") else category
+    """The prefix a code of this category begins with: COLL for the three kinds of collection, the category itself
+    for the others. A code of category UNK may take any prefix."""
+    return "COLL" if category in COLLECTIONS else category
 
 
 @dataclass(frozen=True)

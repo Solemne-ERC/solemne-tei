@@ -113,6 +113,7 @@
         <content>
           <alternate>
             <elementRef key="pb"/>
+            <elementRef key="milestone"/>
             <elementRef key="note"/>
             <elementRef key="gap"/>
           </alternate>
@@ -127,7 +128,7 @@
           <desc>Inside the text, only the annotation layers' elements.</desc>
           <constraint>
             <sch:rule context="tei:body//tei:*">
-              <sch:assert id="text-elements" test="local-name() = ('div', 'head', 'p', 'note', 'pb', 'lb', 'gap',
+              <sch:assert id="text-elements" test="local-name() = ('div', 'head', 'p', 'note', 'pb', 'milestone', 'lb', 'gap',
                 'persName', 'placeName', 'eventName', 'bibl', 'cit', 'quote', 'ref', 'seg', 'date', 'subst', 'add',
                 'del', 'unclear', 'foreign', 'choice', 'corr', 'sic', 'abbr', 'expan', 'supplied', 'rs',
                 'anchor')">&lt;<sch:name/>&gt; isn't one of the text's elements.</sch:assert>
@@ -140,6 +141,15 @@
         <content>
           <macroRef key="solemne.structure"/>
         </content>
+        <constraintSpec ident="book-code-section" scheme="schematron" corresp="#tier-full">
+          <desc>A book's code, in @n, stands only on a section.</desc>
+          <constraint>
+            <sch:rule context="tei:div[matches(@n, '^[1-4]?[A-Z]')]">
+              <sch:assert id="book-code-section" test="@type = 'section'">A book's code (<sch:value-of select="@n"/>)
+                stands only on a section: a book of the Bible.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
         <constraintSpec ident="unit-alone" scheme="schematron" corresp="#tier-full">
           <desc>Units are written only where they stand side by side.</desc>
           <constraint>
@@ -226,9 +236,9 @@
           </attDef>
           <attDef ident="n" mode="change" corresp="#tier-common">
             <desc>the division's number, as a value: 49 for a heading XLVIIII; a letter after it for a chapter after a
-              numbered one, or for a number repeated</desc>
+              numbered one, or for a number repeated; on a book of the Bible, its code</desc>
             <datatype xml:id="division-number-not-a-value" corresp="#tier-common">
-              <dataRef name="token" restriction="[0-9]+[a-z]?"/>
+              <dataRef name="token" restriction="[0-9]+[a-z]?|GEN|EXO|LEV|NUM|DEU|JOS|JDG|RUT|1SA|2SA|1KI|2KI|1CH|2CH|EZR|NEH|TOB|JDT|EST|1MA|2MA|JOB|PSA|PRO|ECC|SOS|WIS|SIR|ISA|JER|LAM|BAR|EZE|DAN|HOS|JOE|AMO|OBA|JON|MIC|NAH|HAB|ZEP|HAG|ZEC|MAL|MAT|MAR|LUK|JOH|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAM|1PE|2PE|1JO|2JO|3JO|JUD|REV"/>
             </datatype>
           </attDef>
           <attDef ident="subtype" mode="delete"/>
@@ -266,6 +276,24 @@
         <head type="inscription">In Antioceno concilio de peregrinorum susceptione, t. VII.</head>
         <p>Nullus peregrinorum sine pacificis, id est commendaticiis, suscipiatur epistolis.</p>
       </div>
+    </egXML>
+    <p>A heading may head the whole text: the body holds it before the text's divisions, as a division holds its
+      headings, so that the chapters below are cited by their own numbers (<code>9</code>, not <code>1.9</code>).
+      Childebert II's decree, in Boretius's edition, opens with its title, then its preface and its chapters:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-CPT.CHB-0596">
+      <body>
+        <head type="rubric">Incipit decretio Childeberti regis.</head>
+        <div type="preface">
+          <p>Childebertus, rex Francorum, vir inluster. Cum in Dei nomine nos omnes Kalendas Martias de quascumque
+            condiciones una cum nostris optimatibus pertractavimus, ad unumquemque noticia volumus pervenire.</p>
+        </div>
+        <div type="chapter" n="1">
+          <head type="number">1.</head>
+          <p>Ita, Deo propitiante, Antonaco Kalendas Marcias anno vicesimo regni nostri convenit, ut nepotes ex filio
+            vel ex filia ad aviaticas res cum avunculos vel amitas sic venirent, tamquam si pater aut mater vivi
+            fuissent. …</p>
+        </div>
+      </body>
     </egXML>
     <p>A heading without a type, or with one not in the list, fails the RelaxNG:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="heading-type-missing">
@@ -332,7 +360,8 @@
     </egXML>
     <p>The import keeps the value as the node's number, and the citation of a chapter or a register item is made from
       it (<ptr target="#citations-and-permalinks"/>). A division without a number heading may still have
-      <att>n</att>, where the numbering of the file gives one.</p>
+      <att>n</att>, where the numbering of the file gives one. One kind of value isn't a number: a book of the Bible,
+      a section, has its book's code (<ptr target="#text-bible"/>).</p>
   </div>
 
   <div xml:id="text-units">
@@ -504,6 +533,60 @@
     </egXML>
   </div>
 
+  <div xml:id="text-bible">
+    <head>The Bible</head>
+    <p>The Bible is one file, the Vulgate (<code>BIB.Vulg</code>, of the category <val>BIB</val>), divided by book,
+      chapter and verse, so that the pointers to it (<ptr target="#marked-pointers"/>) name its nodes without a table
+      between them. A book is a section, its code in <att>n</att> (<val>MAT</val>, one of the 73 the pointers use) and
+      its name as a rubric; a chapter is a chapter, numbered; a verse is a chapter inside it, numbered, its text a
+      paragraph, since a chapter is a numbered unit as the source divides it and is cited by its number. So
+      <code>MAT_18_19</code> names the verse cited <code>MAT.18.19</code>, <code>JOH_1</code> the chapter
+      <code>JOH.1</code>, and a range, <code>PHP_3_17-20</code>, its run of verses. The Psalms keep the Vulgate's
+      numbers, and a psalm's title stays in its first verse, as the Clementine text prints it. A book's prologue,
+      which the Clementine text prints before the first verse, as Sirach's and Lamentations', is a preface of its
+      book, before its first chapter, cited <code>pr1</code> (<code>SIR.pr1</code>), its heading as the text gives
+      it. Matthew 18:19–20, made up from the Vulgate's words:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <div type="section" n="MAT">
+        <head type="rubric">Evangelium secundum Matthaeum</head>
+        <div type="chapter" n="18">
+          <div type="chapter" n="19">
+            <p>Iterum dico vobis, quia si duo ex vobis consenserint super terram, de omni re quamcumque petierint,
+              fiet illis a Patre meo, qui in caelis est.</p>
+          </div>
+          <div type="chapter" n="20">
+            <p>Ubi enim sunt duo vel tres congregati in nomine meo, ibi sum in medio eorum.</p>
+          </div>
+        </div>
+      </div>
+    </egXML>
+    <p>The opening of Sirach, its prologue shortened, made up from the Vulgate's words:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <div type="section" n="SIR">
+        <head type="rubric">Ecclesiasticus</head>
+        <div type="preface">
+          <head type="rubric">Prologus.</head>
+          <p>Multorum nobis, et magnorum, per legem et prophetas, aliosque qui secuti sunt illos, sapientia
+            demonstrata est …</p>
+        </div>
+        <div type="chapter" n="1">
+          <div type="chapter" n="1">
+            <p>Omnis sapientia a Domino Deo est, et cum illo fuit semper, et est ante aevum.</p>
+          </div>
+          <div type="chapter" n="2">
+            <p>Arenam maris, et pluviae guttas, et dies saeculi quis dinumeravit?</p>
+          </div>
+        </div>
+      </div>
+    </egXML>
+    <p>A book's code stands only on a section, and <att>n</att> takes no other name:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="book-code-section">
+      <div type="chapter" n="JOH"><!-- breaks the rule: a chapter -->
+        <p>In principio erat Verbum.</p>
+      </div>
+    </egXML>
+  </div>
+
   <div xml:id="text-between">
     <head>What stands between</head>
     <p>Page breaks, notes and gaps may stand between headings, paragraphs and divisions, where the source has them.
@@ -541,6 +624,8 @@
       <p>Layout comes second: what is written, and how the text is organised, rather than where it stands on the
         page. So the layout is encoded only in page breaks, in where a change was made (above the line, in the
         margin), and in what can't be read.</p>
+      <p>A charter's signs, which an edition gives in words, a chrismon ("C."), a monogram ("(Monogramma.)"), a seal
+        ("Cum sigillo …"), stay text where the edition puts them: they have no mark of their own.</p>
     </div>
 
     <div xml:id="transcription-page-breaks">
@@ -563,6 +648,107 @@
           <attList>
             <attDef ident="n" mode="change" usage="req" xml:id="page-break-without-number" corresp="#tier-common">
               <desc>the page, folio or column: 255, 120ra, 0187A</desc>
+            </attDef>
+          </attList>
+        </elementSpec>
+      </specGrp>
+    </div>
+
+    <div xml:id="transcription-other-editions">
+      <head>Another edition's pages and numbering</head>
+      <p>A text is often cited by another edition's pages or numbering than the one the file follows: Pseudo-Isidore
+        by Hinschius's pages and chapters, the Quadripartitus by Kerff's numbers, Gregory's letters by the Maurists'.
+        That edition is a witness of the same text, listed in the source description's <gi>listWit</gi>, a
+        <gi>witness</gi> pointing to its publication (<ptr target="#records-witnesses"/>). Its pages are page breaks
+        that name it in <att>edRef</att>, as an edition gives a manuscript's folios; a page break without
+        <att>edRef</att> is the file's own edition's page.</p>
+      <p>Its numbering is a milestone (<gi>milestone</gi>) where its unit begins: <att>unit</att> says what it numbers
+        (<val>book</val>, <val>chapter</val>, <val>canon</val>, <val>letter</val>, <val>section</val>, a warning
+        outside them), <att>n</att> gives the number as the edition gives it, and <att>edRef</att> names the witness.
+        Another edition's chapters needn't begin where the file's do, so a milestone stands where its unit begins:
+        between divisions and paragraphs, or inside a paragraph or a heading. A page is a page break, never a
+        milestone. A made-up chapter of Pseudo-Isidore, in an edition that gives Hinschius's pages and chapters, his
+        chapter 5 beginning inside the file's chapter 4:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples">
+        <listWit>
+          <witness xml:id="wit-hinschius"><bibl><ptr target="#new_bibl_hinschius_1863"/></bibl></witness>
+        </listWit>
+        <div type="chapter" n="4">
+          <p><pb n="17"/>Exemplum verborum, quae in hoc capitulo leguntur, <pb edRef="#wit-hinschius" n="131"/>et
+            alia. <milestone unit="chapter" n="5" edRef="#wit-hinschius"/>Aliud exemplum, quod sequitur.</p>
+        </div>
+      </egXML>
+      <p>A letter of Gregory's Register, cited by the Maurists' numbers in the Patrologia Latina and in older works,
+        holds the Maurists' number in a milestone typed <val>letter</val> where its text begins. Clavis canonum's keys
+        stay on the divisions, in <att>sameAs</att> (<ptr target="#header-external-ids"/>); a Clavis location that
+        differs from the file's numbering, such as <code>RR1.97</code> for Regino's book 1, chapter 97, is a milestone
+        of the edition the Clavis follows.</p>
+      <p>Pointers keep citing the file's own numbering: a citation by another edition's is resolved to the file's
+        divisions before it is written (<ptr target="#marked-pointers"/>). The import keeps each milestone as an
+        annotation of its own layer, another numbering: the edition, the unit and the number, for search and
+        citation, never as the file's own divisions (<ptr target="#annotations"/>).</p>
+      <p>The edition a page break or a milestone names is a witness listed in the file:</p>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="edref-witness">
+        <p>Exemplum verborum <pb edRef="#ed-hinschius" n="131"/><!-- breaks the rule -->et alia.</p>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="milestone-term">
+        <listWit>
+          <witness xml:id="wit-hinschius-page"><bibl><ptr target="#new_bibl_hinschius_1863"/></bibl></witness>
+        </listWit>
+        <p>Exemplum verborum <milestone unit="page" n="131" edRef="#wit-hinschius-page"/><!-- breaks the rule --> et
+          alia.</p>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="milestone-without-number">
+        <listWit>
+          <witness xml:id="wit-hinschius-number"><bibl><ptr target="#new_bibl_hinschius_1863"/></bibl></witness>
+        </listWit>
+        <p>Exemplum verborum <milestone unit="chapter" edRef="#wit-hinschius-number"/><!-- breaks the rule --> et
+          alia.</p>
+      </egXML>
+      <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="milestone-without-edition">
+        <p>Exemplum verborum <milestone unit="chapter" n="5"/><!-- breaks the rule --> et alia.</p>
+      </egXML>
+      <specGrp xml:id="text-other-editions-specs">
+        <elementSpec ident="milestone" module="core" mode="change" corresp="#tier-full">
+          <constraintSpec ident="milestone-term" scheme="schematron" corresp="#tier-full">
+            <desc>Another numbering's unit is one of the guide's, or a new term of the vocabulary.</desc>
+            <constraint>
+              <sch:rule context="tei:milestone[@unit]">
+                <sch:let name="terms" value="('book', 'chapter', 'canon', 'letter', 'section')"/>
+                <sch:assert id="milestone-term" role="warning" test="@unit = $terms">The milestone's unit
+                  <sch:value-of select="@unit"/> isn't among the guide's: check its spelling, or add it to the
+                  application's vocabulary; a page is a page break.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <constraintSpec ident="edref-witness" scheme="schematron" corresp="#tier-full">
+            <desc>The edition a page break or a milestone names is a witness listed in the file.</desc>
+            <constraint>
+              <sch:rule context="tei:pb[@edRef] | tei:milestone[@edRef]">
+                <sch:assert id="edref-witness" test="every $ref in tokenize(normalize-space(@edRef), ' ') satisfies
+                  (starts-with($ref, '#') and exists(ancestor::tei:TEI//tei:witness[@xml:id = substring($ref,
+                  2)]))">The edition a &lt;<sch:name/>&gt; names (<sch:value-of select="@edRef"/>) is a witness
+                  listed in the file's listWit, by # and its id.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <attList>
+            <attDef ident="unit" mode="change" corresp="#tier-full">
+              <desc>what the other numbering numbers, from the application's vocabulary</desc>
+              <valList type="semi" mode="replace">
+                <valItem ident="book"><desc>a book</desc></valItem>
+                <valItem ident="chapter"><desc>a chapter</desc></valItem>
+                <valItem ident="canon"><desc>a canon</desc></valItem>
+                <valItem ident="letter"><desc>a letter</desc></valItem>
+                <valItem ident="section"><desc>a section, a paragraph or a key, such as Clavis canonum's</desc></valItem>
+              </valList>
+            </attDef>
+            <attDef ident="n" mode="change" usage="req" xml:id="milestone-without-number" corresp="#tier-full">
+              <desc>the number, as the edition gives it</desc>
+            </attDef>
+            <attDef ident="edRef" mode="change" usage="req" xml:id="milestone-without-edition"
+              corresp="#tier-full">
+              <desc>the edition, a witness in the file's listWit</desc>
             </attDef>
           </attList>
         </elementSpec>

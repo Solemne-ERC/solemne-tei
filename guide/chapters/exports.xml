@@ -22,16 +22,29 @@
       <div type="chapter" n="1" xml:id="C.SOI-0744_1">
         <head type="number" xml:id="C.SOI-0744_1.h1"><pb n="34"/>(I).</head>
         <p xml:id="C.SOI-0744_1.p1">In primitus constituimus fide catholica, quam constituerunt CCCXVIII episcopi in
-          <eventName ref="https://example.org/id/event/EVENT.1">Niceno concilio</eventName>, ut denuntiaretur per
+          <eventName ref="#EVENT.1">Niceno concilio</eventName>, ut denuntiaretur per
           universa regione nostra …</p>
       </div>
     </egXML>
-    <p>A pointer to anything outside the file, a record, a canon, another document, is a permalink, since one code can
-      name several kinds of thing (<ptr target="#citations-and-permalinks"/>). The records an export points to are
-      listed in its standOff, each with its own id as its <att>xml:id</att>, the permalink's last step, and its names,
-      so that the file reads on its own. A record's links to pages that aren't an authority's record are written
-      back in its note of links (<ptr target="#records-external-ids"/>), and every manuscript's date and every date in
-      the text names its calendar (<ptr target="#dates-calendars"/>).</p>
+    <p>A record an export points to, a person, a place, an event, the author of an annotation or a change, is listed
+      in its standOff as a known record (<ptr target="#records-ids"/>): its own id as its <att>xml:id</att>, its
+      names, and its permalink, an <gi>idno</gi> typed <val>permalink</val>, so that the file reads on its own. Every
+      pointer to it is <code>#</code> and its id. Imported again, the file is compared with the database's records
+      as one change set. A pointer to a canon or another document is a permalink, since one code can name several
+      kinds of thing (<ptr target="#citations-and-permalinks"/>). The council's record of Nicaea:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.SOI-0744-export">
+      <listEvent>
+        <event xml:id="EVENT.1" when="0325">
+          <eventName>Council of Nicaea, 325</eventName>
+          <idno type="permalink">https://example.org/id/event/EVENT.1</idno>
+        </event>
+      </listEvent>
+    </egXML>
+    <p> A record's links to pages that aren't an authority's record are written
+      back in its note of links (<ptr target="#records-external-ids"/>), its literature as untyped <gi>bibl</gi>s in
+      it (<ptr target="#records-literature"/>); a work's record stands for its canonical version, as in a register
+      (<ptr target="#records-works"/>); and every manuscript's date and every date in the text names its
+      calendar (<ptr target="#dates-calendars"/>).</p>
   </div>
 
   <div xml:id="exports-citations">
@@ -66,7 +79,7 @@
         counted in characters of the node's text as the application holds it, its words without the markup and each
         run of spaces as one, from 0; or a node, an anchor or the range between two, by their ids. An annotation
         over several spans or nodes has several targets;</item>
-      <item><hi>its author</hi>, in a <gi>respStmt</gi> naming them by permalink, and its licence, in a
+      <item><hi>its author</hi>, in a <gi>respStmt</gi> naming them by their record, and its licence, in a
         <gi>licence</gi>;</item>
       <item><hi>its body</hi>: a <gi>note</gi> holding the element of its layer, with the attributes it has inline and
         the span's words, which the import checks the target against; for a note's layers, a source note, a
@@ -78,13 +91,13 @@
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.SOI-0744-export">
       <p xml:id="C.SOI-0744_pr1.p1"><pb n="33"/>In Dei nomine trinitatis. Anno septingentesimo quadragesimo quarto ab
         incarnatione Christi sub die VI. Nonas Martii et luna XIIII. in anno secundo <persName
-          ref="https://example.org/id/person/PERS.31">Childerici regis Francorum</persName> ego <persName
-          ref="https://example.org/id/person/PERS.32">Pippinus, dux et princeps Francorum</persName>. …</p>
+          ref="#PERS.31">Childerici regis Francorum</persName> ego <persName
+          ref="#PERS.32">Pippinus, dux et princeps Francorum</persName>. …</p>
       <listAnnotation>
         <annotation xml:id="annotation-date" target="#string-range(C.SOI-0744_pr1.p1,26,137)">
           <respStmt>
             <resp>dated</resp>
-            <persName ref="https://example.org/id/person/PERS.12">An editor</persName>
+            <persName ref="#PERS.12">An editor</persName>
           </respStmt>
           <licence target="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</licence>
           <note><date when="0744-03-06" calendar="#julian">Anno septingentesimo quadragesimo quarto ab incarnatione
@@ -212,7 +225,7 @@
         (<code>2027.1</code>), its date in <att>when</att>, and as its words a summary of the changes since the last
         release;</item>
       <item><hi>the change sets</hi>, on request: each a <gi>change</gi> without a type, its date, its author's
-        permalink in <att>who</att>, the nodes it touched in <att>target</att>, and its message as its words. An
+        record in <att>who</att>, the nodes it touched in <att>target</att>, and its message as its words. An
         earlier text of a node is pointed to by its permalink and version (<code>…@t3</code>), not copied.</item>
     </list>
     <p>The history a file had before its import stays as it was, read-only (<ptr target="#header-revisions"/>). The
@@ -221,7 +234,7 @@
       <revisionDesc>
         <change type="release" n="2027.1" when="2027-06-30">The project's first release: the council checked against
           its edition, its persons, places and events identified.</change>
-        <change when="2027-05-02" who="https://example.org/id/person/PERS.12" target="#C.SOI-0744_2.p1">A reading
+        <change when="2027-05-02" who="#PERS.12" target="#C.SOI-0744_2.p1">A reading
           corrected against the edition.</change>
       </revisionDesc>
     </egXML>
@@ -266,7 +279,9 @@
     <p>An export declares the terms of the application's vocabularies it uses, in the encoding description's
       <gi>classDecl</gi>: a <gi>taxonomy</gi> for each vocabulary, and in it a <gi>category</gi> for each term, its
       <att>xml:id</att> the term's name, its labels in <gi>catDesc</gi>, one for each language, its permalink in
-      <att>sameAs</att>, since the category is that term, and its equivalents elsewhere in <att>corresp</att>. An
+      <att>sameAs</att>, since the category is that term, and its equivalents elsewhere in <att>corresp</att>: for a
+      relation type, its term in SAWS, by its address (<code>http://purl.org/saws/ontology#isChildOf</code> for
+      <val>copiedFrom</val>; <ptr target="#relations-types"/>). An
       element that uses a term names it, as an attribute's value or by a pointer, as the guide's parts say. The
       council's relations use one term:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-C.SOI-0744-export">

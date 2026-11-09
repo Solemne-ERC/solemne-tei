@@ -3,7 +3,7 @@
 <div xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:id="relations" n="VI">
   <head>Relations</head>
   <p>A relation is a typed statement from one thing to another: a chapter is a text of a council's canon, a
-    manuscript was owned by an abbey, a hand was a scribe's, a bishop held office in a church. It joins records,
+    manuscript was owned by an abbey, a hand was a scribe's, a man was bishop of a see. It joins records,
     nodes of texts, or other relations, and may carry a date, a certainty, a role and a place, its evidence, its
     author, and, for a judgement, its method. Facts that belong to one record alone are its fields (<ptr
       target="#records"/>); what joins two things, may be uncertain or disputed, or needs evidence, is a
@@ -36,8 +36,11 @@
     <p>TEI 4.12 lets a relation hold one <gi>desc</gi>, and nothing else. What the type needs beyond its ends goes
       there, each in its element:</p>
     <list>
-      <item>a role (bishop, abbot, owner), by <gi>roleName</gi>;</item>
-      <item>a place (an office held in a diocese), by <gi>placeName</gi> with <att>ref</att>;</item>
+      <item>a role in what the relation joins (an editor's, a participant's at a council), by
+        <gi>roleName</gi>;</item>
+      <item>where a role was held (a bishop's see), by <gi>placeName</gi> or <gi>orgName</gi> with
+        <att>ref</att>;</item>
+      <item>a name as a publication prints it, for <val>editor</val>, by <gi>persName</gi>;</item>
       <item>a judgement's method ("in all witnesses", "in the canonical witness", "the editor's text", "the
         register"), by <gi>term</gi> typed <val>method</val>;</item>
       <item>what a text came through, for <val>derivedFrom</val>, by <gi>ptr</gi> typed <val>via</val>, pointing to the
@@ -57,14 +60,35 @@
         </relation>
       </listRelation>
     </egXML>
-    <p>An office, with its role and its years, and a symmetric relation between two hands, both made up:</p>
+    <p>A role a person held is a relation from the person to the role, a term of the application's vocabulary of
+      roles, which a file declares as it declares any vocabulary's terms (<ptr target="#exports-vocabularies"/>):
+      where it was held in the description, and when in the relation's dates. A bishop of a see, and a symmetric
+      relation between two hands, both made up:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <classDecl>
+        <taxonomy xml:id="roles">
+          <category xml:id="bishop">
+            <catDesc xml:lang="en">bishop</catDesc>
+          </category>
+        </taxonomy>
+      </classDecl>
       <listRelation>
-        <relation name="holdsOfficeIn" type="observation" active="#new_person_exemplus"
-          passive="#new_org_ecclesia_exemplensis" from="0801" to="0814">
-          <desc><roleName>episcopus</roleName></desc>
+        <relation name="hasRole" type="observation" active="#new_person_exemplus" passive="#bishop" from="0801"
+          to="0814">
+          <desc><placeName ref="#new_place_dioecesis_exemplensis">Exemplum</placeName></desc>
         </relation>
         <relation name="sameHandAs" type="judgement" cert="low" mutual="#hand-A #hand-C"/>
+      </listRelation>
+    </egXML>
+    <p>An editor of a publication, the first of two, with the name as the volume prints it; a person who belongs to a
+      group, probably:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listRelation>
+        <relation name="editor" active="#new_bibl_concilia_exempli" passive="#new_person_editor_exempli" n="1">
+          <desc><persName>A. Exemplarius</persName></desc>
+        </relation>
+        <relation name="memberOf" type="judgement" cert="medium" active="#new_person_exemplus"
+          passive="#new_person_novatians"/>
       </listRelation>
     </egXML>
     <p>A relation has a name, its type is one of the two, and its certainty one of the three:</p>
@@ -85,37 +109,71 @@
           <attDef ident="name" mode="change" usage="req" xml:id="relation-without-name" corresp="#tier-full">
             <valList type="semi" mode="add">
               <valItem ident="isTextOf"><desc>a unit is a text of another (fixed)</desc></valItem>
-              <valItem ident="derivedFrom"><desc>a unit derives from another, through a work, version or
-                  transcription, the via (fixed)</desc></valItem>
+              <valItem ident="derivedFrom"><desc>a unit derives from another, through a work, version or transcription, the via (fixed)</desc></valItem>
               <valItem ident="versionOf"><desc>a version is a version of a work (fixed)</desc></valItem>
               <valItem ident="witnessOf"><desc>a witness is a witness of a version or a work (fixed)</desc></valItem>
-              <valItem ident="transcriptionOf"><desc>a transcription is a transcription of a witness
-                  (fixed)</desc></valItem>
-              <valItem ident="in"><desc>a witness is in a manuscript or a publication, at folios or pages
-                  (fixed)</desc></valItem>
+              <valItem ident="transcriptionOf"><desc>a transcription is a transcription of a witness (fixed)</desc></valItem>
+              <valItem ident="in"><desc>a witness is in a manuscript or a publication, at folios or pages (fixed)</desc></valItem>
               <valItem ident="isVerbatimOf"><desc>a unit is a text of another, word for word</desc></valItem>
               <valItem ident="isVariantOf"><desc>a unit is a text of another, with variants</desc></valItem>
               <valItem ident="isShorterVersionOf"><desc>a unit is a text of another, shortened</desc></valItem>
-              <valItem ident="translationOf"><desc>a version translates another</desc></valItem>
+              <valItem ident="isLongerVersionOf"><desc>a unit is a text of another, lengthened</desc></valItem>
+              <valItem ident="translationOf"><desc>a version or a publication translates another</desc></valItem>
+              <valItem ident="closeTranslationOf"><desc>a version translates another closely</desc></valItem>
+              <valItem ident="looseTranslationOf"><desc>a version translates another loosely</desc></valItem>
+              <valItem ident="verbatimTranslationOf"><desc>a version translates another word for word</desc></valItem>
+              <valItem ident="indirectTranslationOf"><desc>a version translates another through a third</desc></valItem>
               <valItem ident="revisionOf"><desc>a version revises another</desc></valItem>
               <valItem ident="abridgementOf"><desc>a version abridges another</desc></valItem>
               <valItem ident="augmentationOf"><desc>a version augments another</desc></valItem>
+              <valItem ident="sameSequenceAs"><desc>two versions or divisions give their texts in the same order (symmetric)</desc></valItem>
+              <valItem ident="similarSequenceTo"><desc>two versions or divisions give their texts in a similar order (symmetric)</desc></valItem>
+              <valItem ident="subsequenceOf"><desc>a division gives a part of another's texts, in their order</desc></valItem>
+              <valItem ident="madeFrom"><desc>a version is made from a witness: a reconstruction's sources</desc></valItem>
               <valItem ident="adaptationOf"><desc>a work adapts another</desc></valItem>
               <valItem ident="basedOn"><desc>a work is based on another</desc></valItem>
-              <valItem ident="origin"><desc>a manuscript or unit was made at a place or institution</desc></valItem>
-              <valItem ident="ownedBy"><desc>a manuscript or unit was owned by a person or institution, with
-                  dates</desc></valItem>
+              <valItem ident="sameAs"><desc>two units are the same text, neither taken from the other (symmetric)</desc></valItem>
+              <valItem ident="correctionOf"><desc>a unit corrects another's text</desc></valItem>
+              <valItem ident="closeRenderingOf"><desc>a unit renders another's text closely, in the same language</desc></valItem>
+              <valItem ident="looseRenderingOf"><desc>a unit renders another's text loosely, in the same language</desc></valItem>
+              <valItem ident="paraphraseOf"><desc>a unit paraphrases another's text</desc></valItem>
+              <valItem ident="reactionTo"><desc>a collection answers another</desc></valItem>
+              <valItem ident="replacedBy"><desc>a collection was replaced by another</desc></valItem>
+              <valItem ident="origin"><desc>a manuscript, a unit or a work was made at a place or institution</desc></valItem>
+              <valItem ident="ownedBy"><desc>a manuscript or unit was owned by a person or institution, with dates</desc></valItem>
+              <valItem ident="formerlyIn"><desc>a unit was part of another manuscript, with dates</desc></valItem>
+              <valItem ident="fromSamePlaceAs"><desc>two manuscripts or units were made at the same place (symmetric)</desc></valItem>
+              <valItem ident="olderThan"><desc>a manuscript or unit is older than another</desc></valItem>
+              <valItem ident="copiedFrom"><desc>a witness was copied from another</desc></valItem>
+              <valItem ident="siblingOf"><desc>two witnesses were copied from one exemplar (symmetric)</desc></valItem>
+              <valItem ident="usedBy"><desc>a manuscript, unit, witness or work was used by a person, with dates</desc></valItem>
               <valItem ident="scribe"><desc>a hand was a person's</desc></valItem>
-              <valItem ident="artist"><desc>a decoration was a person's or a workshop's</desc></valItem>
-              <valItem ident="author"><desc>a work's author was a person</desc></valItem>
-              <valItem ident="enactedAt"><desc>a work was enacted at an event, a council's canons at the
-                  council</desc></valItem>
+              <valItem ident="artist"><desc>a decoration or a binding was a person's or a workshop's</desc></valItem>
+              <valItem ident="author"><desc>a work, version, publication or work group's author was a person, with a role and an order</desc></valItem>
+              <valItem ident="attributedTo"><desc>a work or a manuscript's item is attributed to a person</desc></valItem>
+              <valItem ident="editor"><desc>a publication's editor was a person, with an order and the name as printed</desc></valItem>
+              <valItem ident="madeBy"><desc>a transcription was made by a person, in a role</desc></valItem>
+              <valItem ident="addressedTo"><desc>a work is addressed to a person, an institution or an event</desc></valItem>
+              <valItem ident="enactedAt"><desc>a work was enacted at an event, a council's canons at the council</desc></valItem>
               <valItem ident="tookPlaceAt"><desc>an event took place at a place</desc></valItem>
-              <valItem ident="holdsOfficeIn"><desc>a person held office in an institution, with a role and
-                  dates</desc></valItem>
+              <valItem ident="tookPartIn"><desc>a person took part in an event, in a role</desc></valItem>
+              <valItem ident="hasRole"><desc>a person held a role, where and when</desc></valItem>
+              <valItem ident="memberOf"><desc>a person, institution, work, version or group was a member of a group, an institution or a work group</desc></valItem>
+              <valItem ident="locatedIn"><desc>an institution stood in a place, with dates</desc></valItem>
+              <valItem ident="belongedTo"><desc>a place belonged to a historical unit, a province, a kingdom, a diocese, with dates</desc></valItem>
+              <valItem ident="foundedBy"><desc>an institution was founded by a person</desc></valItem>
+              <valItem ident="bornAt"><desc>a person was born at a place</desc></valItem>
+              <valItem ident="diedAt"><desc>a person died at a place</desc></valItem>
+              <valItem ident="livedIn"><desc>a person lived in a place, with dates</desc></valItem>
+              <valItem ident="studiedAt"><desc>a person studied at an institution, with dates</desc></valItem>
               <valItem ident="lists"><desc>a register item lists a chapter</desc></valItem>
               <valItem ident="sameScribeAs"><desc>two hands are the same scribe's (symmetric)</desc></valItem>
               <valItem ident="sameHandAs"><desc>two hands are the same (symmetric)</desc></valItem>
+              <valItem ident="reprintOf"><desc>a publication reprints another</desc></valItem>
+              <valItem ident="reviewOf"><desc>a publication reviews another</desc></valItem>
+              <valItem ident="firstPublishedIn"><desc>a publication was first published in another</desc></valItem>
+              <valItem ident="relatedTo"><desc>two things are related, how not yet said (symmetric)</desc></valItem>
+              <valItem ident="notSameAs"><desc>two records of one kind are told apart (symmetric)</desc></valItem>
             </valList>
           </attDef>
           <attDef ident="type" mode="change" corresp="#tier-full">
@@ -148,51 +206,91 @@
 
   <div xml:id="relations-types">
     <head>The types</head>
-    <p>Each type says what it joins, and has a reverse: "a version of" reads back as "has as a version". The six types
-      of the texts' levels and units are fixed; the others are a vocabulary of the application, which grows as the
-      project needs, each type mapped later to SAWS or another ontology. The guide holds the types to start with;
-      a name outside them is reported, so that a slip is seen and a new type is added to the vocabulary on
-      purpose.</p>
+    <p>Each type says what it joins, and has a reverse: "a version of" reads back as "has as a version"; a symmetric
+      type reads the same both ways, and joins its two ends by <att>mutual</att>. The six types of the texts'
+      levels and units are fixed; the others are a vocabulary of the application, which grows as the project needs.
+      The guide holds the types to start with, each named by a plain key, and, where it has one, the term of SAWS,
+      the Sharing Ancient Wisdoms ontology, that the application maps it to ("nearest" where SAWS's says a little more
+      or less); an export writes it beside the type (<ptr target="#exports-vocabularies"/>). A name outside them is
+      reported, so that a slip is seen and a new type is added to the vocabulary on purpose.</p>
     <table xml:id="relation-types-table">
       <head>The relation types to start with</head>
       <row role="label">
         <cell>Name</cell>
         <cell>From, to</cell>
         <cell>Reverse</cell>
+        <cell>SAWS</cell>
       </row>
-      <row><cell><val>isTextOf</val> (fixed)</cell><cell>unit, unit: a node or a canon</cell><cell>has as a text</cell></row>
-      <row><cell><val>derivedFrom</val> (fixed)</cell><cell>unit, unit; via a work, version or
-          transcription</cell><cell>used in</cell></row>
-      <row><cell><val>versionOf</val> (fixed)</cell><cell>version, work</cell><cell>has as a version</cell></row>
-      <row><cell><val>witnessOf</val> (fixed)</cell><cell>witness, version or work</cell><cell>has as a
-          witness</cell></row>
-      <row><cell><val>transcriptionOf</val> (fixed)</cell><cell>transcription, witness</cell><cell>has as a
-          transcription</cell></row>
-      <row><cell><val>in</val> (fixed)</cell><cell>witness, manuscript or publication; at folios or
-          pages</cell><cell>holds</cell></row>
-      <row><cell><val>isVerbatimOf</val>, <val>isVariantOf</val>, <val>isShorterVersionOf</val></cell><cell>unit,
-          unit: narrower terms of <val>isTextOf</val>, after SAWS</cell><cell>as SAWS has them</cell></row>
-      <row><cell><val>translationOf</val>, <val>revisionOf</val>, <val>abridgementOf</val>,
-          <val>augmentationOf</val></cell><cell>version, version</cell><cell>translated as, revised as, abridged as,
-          augmented as</cell></row>
-      <row><cell><val>adaptationOf</val>, <val>basedOn</val></cell><cell>work, work</cell><cell>adapted as, basis
-          of</cell></row>
-      <row><cell><val>origin</val></cell><cell>manuscript or unit, place or institution</cell><cell>origin
-          of</cell></row>
-      <row><cell><val>ownedBy</val></cell><cell>manuscript or unit, person or institution; with
-          dates</cell><cell>owner of</cell></row>
-      <row><cell><val>scribe</val></cell><cell>hand, person</cell><cell>scribe of</cell></row>
-      <row><cell><val>artist</val></cell><cell>decoration, person or workshop</cell><cell>artist of</cell></row>
-      <row><cell><val>author</val></cell><cell>work, person</cell><cell>author of</cell></row>
-      <row><cell><val>enactedAt</val></cell><cell>work, event: a council's canons, the council</cell><cell>enacted</cell></row>
-      <row><cell><val>tookPlaceAt</val></cell><cell>event, place</cell><cell>place of</cell></row>
-      <row><cell><val>holdsOfficeIn</val></cell><cell>person, institution; with a role and dates</cell><cell>office held
-          by</cell></row>
-      <row><cell><val>lists</val></cell><cell>register item, chapter</cell><cell>listed in</cell></row>
-      <row><cell><val>sameScribeAs</val>, <val>sameHandAs</val></cell><cell>hand, hand</cell><cell>symmetric: by
-          <att>mutual</att></cell></row>
+      <row><cell><val>isTextOf</val> (fixed)</cell><cell>unit, unit: a node or a canon</cell><cell>has as a text</cell><cell></cell></row>
+      <row><cell><val>derivedFrom</val> (fixed)</cell><cell>unit, unit; via a work, version or transcription</cell><cell>used in</cell><cell></cell></row>
+      <row><cell><val>versionOf</val> (fixed)</cell><cell>version, work; with its certainty and evidence</cell><cell>has as a version</cell><cell></cell></row>
+      <row><cell><val>witnessOf</val> (fixed)</cell><cell>witness, version or work</cell><cell>has as a witness</cell><cell></cell></row>
+      <row><cell><val>transcriptionOf</val> (fixed)</cell><cell>transcription, witness</cell><cell>has as a transcription</cell><cell></cell></row>
+      <row><cell><val>in</val> (fixed)</cell><cell>witness, manuscript or publication; at folios or pages</cell><cell>holds</cell><cell></cell></row>
+      <row><cell><val>isVerbatimOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>has as a verbatim text</cell><cell><code>isVerbatimOf</code></cell></row>
+      <row><cell><val>isVariantOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>has as a variant</cell><cell><code>isVariantOf</code></cell></row>
+      <row><cell><val>isShorterVersionOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>has as a shorter version</cell><cell><code>isShorterVersionOf</code></cell></row>
+      <row><cell><val>isLongerVersionOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>has as a longer version</cell><cell><code>isLongerVersionOf</code></cell></row>
+      <row><cell><val>translationOf</val></cell><cell>version, version; publication, publication</cell><cell>translated as</cell><cell></cell></row>
+      <row><cell><val>closeTranslationOf</val></cell><cell>version, version: narrower than translationOf</cell><cell>closely translated as</cell><cell><code>isCloseTranslationOf</code></cell></row>
+      <row><cell><val>looseTranslationOf</val></cell><cell>version, version: narrower than translationOf</cell><cell>loosely translated as</cell><cell><code>isLooseTranslationOf</code></cell></row>
+      <row><cell><val>verbatimTranslationOf</val></cell><cell>version, version: narrower than translationOf</cell><cell>translated word for word as</cell><cell><code>isVerbatimTranslationOf</code></cell></row>
+      <row><cell><val>indirectTranslationOf</val></cell><cell>version, version: narrower than translationOf</cell><cell>indirectly translated as</cell><cell><code>isIndirectTranslationOf</code></cell></row>
+      <row><cell><val>revisionOf</val></cell><cell>version, version</cell><cell>revised as</cell><cell></cell></row>
+      <row><cell><val>abridgementOf</val></cell><cell>version, version</cell><cell>abridged as</cell><cell></cell></row>
+      <row><cell><val>augmentationOf</val></cell><cell>version, version</cell><cell>augmented as</cell><cell></cell></row>
+      <row><cell><val>sameSequenceAs</val></cell><cell>version or division, the same</cell><cell>symmetric: by <att>mutual</att></cell><cell><code>isSequentiallySameAs</code></cell></row>
+      <row><cell><val>similarSequenceTo</val></cell><cell>version or division, the same</cell><cell>symmetric: by <att>mutual</att></cell><cell><code>isSequentiallySimilarTo</code></cell></row>
+      <row><cell><val>subsequenceOf</val></cell><cell>division; version or division</cell><cell>has as a subsequence</cell><cell><code>isSubSequenceOf</code></cell></row>
+      <row><cell><val>madeFrom</val></cell><cell>version, witness</cell><cell>source of</cell><cell><code>isBasedOn</code></cell></row>
+      <row><cell><val>adaptationOf</val></cell><cell>work, work</cell><cell>adapted as</cell><cell></cell></row>
+      <row><cell><val>basedOn</val></cell><cell>work, work</cell><cell>basis of</cell><cell></cell></row>
+      <row><cell><val>sameAs</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>symmetric: by <att>mutual</att></cell><cell></cell></row>
+      <row><cell><val>correctionOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>corrected as</cell><cell></cell></row>
+      <row><cell><val>closeRenderingOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>rendered closely as</cell><cell><code>isCloseRenderingOf</code></cell></row>
+      <row><cell><val>looseRenderingOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>rendered loosely as</cell><cell><code>isLooseRenderingOf</code></cell></row>
+      <row><cell><val>paraphraseOf</val></cell><cell>unit, unit: narrower than isTextOf</cell><cell>paraphrased as</cell><cell></cell></row>
+      <row><cell><val>reactionTo</val></cell><cell>collection, collection</cell><cell>answered by</cell><cell></cell></row>
+      <row><cell><val>replacedBy</val></cell><cell>collection, collection</cell><cell>replaces</cell><cell></cell></row>
+      <row><cell><val>origin</val></cell><cell>manuscript, unit or work; place or institution</cell><cell>origin of</cell><cell></cell></row>
+      <row><cell><val>ownedBy</val></cell><cell>manuscript or unit, person or institution; with dates</cell><cell>owner of</cell><cell></cell></row>
+      <row><cell><val>formerlyIn</val></cell><cell>unit, manuscript; with dates</cell><cell>formerly held</cell><cell><code>formsPartOf</code></cell></row>
+      <row><cell><val>fromSamePlaceAs</val></cell><cell>manuscript or unit, the same; with a certainty</cell><cell>symmetric: by <att>mutual</att></cell><cell><code>isFromSamePlaceAs</code></cell></row>
+      <row><cell><val>olderThan</val></cell><cell>manuscript or unit, the same; with a certainty</cell><cell>younger than</cell><cell><code>isOlderThan</code></cell></row>
+      <row><cell><val>copiedFrom</val></cell><cell>witness, witness; with certainty and evidence</cell><cell>exemplar of</cell><cell><code>isChildOf</code></cell></row>
+      <row><cell><val>siblingOf</val></cell><cell>witness, witness; with certainty and evidence</cell><cell>symmetric: by <att>mutual</att></cell><cell><code>isSiblingOf</code></cell></row>
+      <row><cell><val>usedBy</val></cell><cell>manuscript, unit, witness or work; person; with dates and evidence</cell><cell>user of</cell><cell><code>usedBy</code></cell></row>
+      <row><cell><val>scribe</val></cell><cell>hand, person</cell><cell>scribe of</cell><cell></cell></row>
+      <row><cell><val>artist</val></cell><cell>decoration or binding, person or workshop</cell><cell>artist of</cell><cell></cell></row>
+      <row><cell><val>author</val></cell><cell>work, version, publication or work group; person; a role (roleName) and an order (@n)</cell><cell>author of</cell><cell></cell></row>
+      <row><cell><val>attributedTo</val></cell><cell>work or item, person; with certainty and evidence</cell><cell>to whom attributed</cell><cell><code>isAttributedToAuthor</code></cell></row>
+      <row><cell><val>editor</val></cell><cell>publication, person; an order (@n), the name as printed (persName)</cell><cell>editor of</cell><cell><code>isEditedBy</code></cell></row>
+      <row><cell><val>madeBy</val></cell><cell>transcription, person; a role (roleName)</cell><cell>maker of</cell><cell><code>isWrittenBy</code>, nearest</cell></row>
+      <row><cell><val>addressedTo</val></cell><cell>work; person, institution or event</cell><cell>addressee of</cell><cell></cell></row>
+      <row><cell><val>enactedAt</val></cell><cell>work, event: a council's canons, the council</cell><cell>enacted</cell><cell></cell></row>
+      <row><cell><val>tookPlaceAt</val></cell><cell>event, place</cell><cell>place of</cell><cell></cell></row>
+      <row><cell><val>tookPartIn</val></cell><cell>person, event; a role (roleName)</cell><cell>had as a participant</cell><cell></cell></row>
+      <row><cell><val>hasRole</val></cell><cell>person, a role's term; where (placeName, orgName), dates</cell><cell>held by</cell><cell></cell></row>
+      <row><cell><val>memberOf</val></cell><cell>person, institution, work, version or work group; group, institution or work group; dates, certainty</cell><cell>has as a member</cell><cell><code>isMemberOf</code></cell></row>
+      <row><cell><val>locatedIn</val></cell><cell>institution, place; with dates</cell><cell>place of</cell><cell><code>isLocatedAt</code></cell></row>
+      <row><cell><val>belongedTo</val></cell><cell>place, place; with dates</cell><cell>held</cell><cell></cell></row>
+      <row><cell><val>foundedBy</val></cell><cell>institution, person; date, certainty</cell><cell>founder of</cell><cell></cell></row>
+      <row><cell><val>bornAt</val></cell><cell>person, place; with a certainty</cell><cell>birthplace of</cell><cell></cell></row>
+      <row><cell><val>diedAt</val></cell><cell>person, place; with a certainty</cell><cell>place of death of</cell><cell></cell></row>
+      <row><cell><val>livedIn</val></cell><cell>person, place; with dates</cell><cell>home of</cell><cell></cell></row>
+      <row><cell><val>studiedAt</val></cell><cell>person, institution; with dates</cell><cell>school of</cell><cell></cell></row>
+      <row><cell><val>lists</val></cell><cell>register item, chapter</cell><cell>listed in</cell><cell></cell></row>
+      <row><cell><val>sameScribeAs</val></cell><cell>hand, hand</cell><cell>symmetric: by <att>mutual</att></cell><cell></cell></row>
+      <row><cell><val>sameHandAs</val></cell><cell>hand, hand</cell><cell>symmetric: by <att>mutual</att></cell><cell></cell></row>
+      <row><cell><val>reprintOf</val></cell><cell>publication, publication</cell><cell>reprinted as</cell><cell>biblatex's <code>related</code></cell></row>
+      <row><cell><val>reviewOf</val></cell><cell>publication, publication</cell><cell>reviewed in</cell><cell>biblatex's <code>related</code></cell></row>
+      <row><cell><val>firstPublishedIn</val></cell><cell>publication, publication</cell><cell>first publication of</cell><cell>biblatex's <code>related</code></cell></row>
+      <row><cell><val>relatedTo</val></cell><cell>any, any: a link seen, not yet named</cell><cell>symmetric: by <att>mutual</att></cell><cell><code>isRelatedTo</code></cell></row>
+      <row><cell><val>notSameAs</val></cell><cell>a record, another of its kind</cell><cell>symmetric: by <att>mutual</att></cell><cell><code>isDifferentTo</code></cell></row>
     </table>
-    <p>A family of texts is never encoded: the application works it out from the relations.</p>
+    <p>A family of texts is never encoded: the application works it out from the relations. A relation the project
+      sees and can't name yet is <val>relatedTo</val>; two records told apart, two bishops of one name,
+      <val>notSameAs</val>.</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="relation-term">
       <relation name="isQuotedIn" type="observation" active="#ch1" passive="C.NIC-0325_3"/>
     </egXML>
@@ -205,10 +303,17 @@
           <constraint>
             <sch:rule context="tei:relation[@name]">
               <sch:let name="terms" value="('isTextOf', 'derivedFrom', 'versionOf', 'witnessOf', 'transcriptionOf',
-                'in', 'isVerbatimOf', 'isVariantOf', 'isShorterVersionOf', 'translationOf', 'revisionOf',
-                'abridgementOf', 'augmentationOf', 'adaptationOf', 'basedOn', 'origin', 'ownedBy', 'scribe',
-                'artist', 'author', 'enactedAt', 'tookPlaceAt', 'holdsOfficeIn', 'lists', 'sameScribeAs',
-                'sameHandAs')"/>
+                'in', 'isVerbatimOf', 'isVariantOf', 'isShorterVersionOf', 'isLongerVersionOf', 'translationOf',
+                'closeTranslationOf',
+                'looseTranslationOf', 'verbatimTranslationOf', 'indirectTranslationOf', 'revisionOf',
+                'abridgementOf', 'augmentationOf', 'sameSequenceAs', 'similarSequenceTo', 'subsequenceOf',
+                'madeFrom', 'adaptationOf', 'basedOn', 'sameAs', 'correctionOf', 'closeRenderingOf',
+                'looseRenderingOf', 'paraphraseOf', 'reactionTo', 'replacedBy', 'origin', 'ownedBy', 'formerlyIn',
+                'fromSamePlaceAs', 'olderThan', 'copiedFrom', 'siblingOf', 'usedBy', 'scribe', 'artist', 'author',
+                'attributedTo', 'editor', 'madeBy', 'addressedTo', 'enactedAt', 'tookPlaceAt', 'tookPartIn',
+                'hasRole', 'memberOf', 'locatedIn', 'belongedTo', 'foundedBy', 'bornAt', 'diedAt', 'livedIn',
+                'studiedAt', 'lists', 'sameScribeAs', 'sameHandAs', 'reprintOf', 'reviewOf', 'firstPublishedIn',
+                'relatedTo', 'notSameAs')"/>
               <sch:assert id="relation-term" role="warning" test="@name = $terms">The relation type <sch:value-of
                   select="@name"/> isn't among the guide's types: check its spelling, or add it to the application's
                 vocabulary.</sch:assert>
@@ -229,14 +334,26 @@
       is a version of a work, or that a witness is of a version and not only of its work. An export writes the
       levels' ids in the formal title (<ptr target="#header-title"/>), and their relations in its
       standOff.</p>
+    <p>Which work a version belongs to is a judgement, as which version a witness carries is: <val>versionOf</val>,
+      as <val>witnessOf</val>, takes a certainty and its evidence, and the import keeps both. A made-up version,
+      probably of Nicaea's canons, after an edition:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <listRelation>
-        <relation name="versionOf" type="judgement" active="#new_version_nicaea_dionysius_ii" passive="C.NIC-0325"/>
+        <relation name="versionOf" type="judgement" cert="medium" active="#new_version_nicaea_dionysius_ii"
+          passive="C.NIC-0325">
+          <desc>after <bibl><ptr target="#new_bibl_maassen_1870"/><citedRange unit="page" from="12"
+                to="13">12–13</citedRange></bibl></desc>
+        </relation>
       </listRelation>
     </egXML>
     <p><val>isTextOf</val> joins a node of a witness to its version's canon: it is how a witness's own structure is
       mapped to the canons (<ptr target="#levels"/>). The import makes it as an observation from each source note
       that names a canon; an encoder writes it where no note does.</p>
+    <p>Its narrower types say more about how one unit's text is another's: <val>isVerbatimOf</val>,
+      <val>isVariantOf</val>, <val>isShorterVersionOf</val> and <val>isLongerVersionOf</val>, after SAWS;
+      <val>sameAs</val>, <val>correctionOf</val>, <val>closeRenderingOf</val>, <val>looseRenderingOf</val> and
+      <val>paraphraseOf</val>. Each joins two units, as <val>isTextOf</val> does, and a search for
+      <val>isTextOf</val> finds them too.</p>
     <p>A reception note's codes read the other way: each names a later text that took the passage over (<ptr
         target="#marked-notes"/>). The import keeps the note's words and codes; the relation it makes of each code,
       from the later text to the passage, and where that relation ends when the passage runs over several nodes, are

@@ -1,6 +1,6 @@
 {
   "SPDX-License-Identifier": "MIT",
-  "generated": "Generated from solemne.odd 0.8.1 (SHA-256 96ee4587a494717a7f56945a4dfa6a386667019e40bf0e5fde1e5a426a713ec1) by solemne-tei build. Edit the ODD, not this file.",
+  "generated": "Generated from solemne.odd 1.0.0 (SHA-256 60020868bc12fc4027c7ea2a252d3d66ccafe8a7a6c0d8dc545420c1e232fd8b) by solemne-tei build. Edit the ODD, not this file.",
   "lists": {
     "altIdentifier": {
       "type": [
@@ -149,36 +149,6 @@
         "rubric"
       ]
     },
-    "idno": {
-      "type": [
-        "ISBN",
-        "SCN",
-        "biblatex",
-        "biblissima",
-        "bodleian",
-        "category",
-        "clavis",
-        "crArk",
-        "geonames",
-        "gnd",
-        "hmml",
-        "ieArk",
-        "manusOnline",
-        "mirabile",
-        "pleiades",
-        "schoenberg",
-        "shelfmark",
-        "tgn",
-        "transcription",
-        "type",
-        "url",
-        "version",
-        "viaf",
-        "wikidata",
-        "witness",
-        "work"
-      ]
-    },
     "linkGrp": {
       "type": [
         "reuse"
@@ -198,7 +168,8 @@
         "links",
         "parallel",
         "reception",
-        "source"
+        "source",
+        "unreviewed"
       ]
     },
     "origDate": {
@@ -208,9 +179,18 @@
     },
     "ptr": {
       "type": [
+        "bibl",
         "canonical",
+        "event",
+        "group",
+        "manuscript",
+        "org",
+        "person",
+        "place",
         "stand-in",
-        "via"
+        "version",
+        "via",
+        "work"
       ]
     },
     "punctuation": {

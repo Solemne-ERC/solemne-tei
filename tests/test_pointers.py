@@ -16,9 +16,6 @@ from solemne_tei.validate import Problem, Validator
 TEI = "http://www.tei-c.org/ns/1.0"
 SCH = "http://purl.oclc.org/dsdl/schematron"
 
-# W isn't a category's prefix: the pattern keeps it, though no file uses it yet.
-EXTRA_PREFIXES = {"W"}
-
 
 @pytest.fixture(scope="module")
 def validator() -> Validator:
@@ -59,12 +56,12 @@ def category_prefixes() -> set[str]:
 
 def test_the_pointer_pattern_takes_the_categories_prefixes(odd: etree._Element) -> None:
     pattern = odd.find(f".//{{{TEI}}}dataSpec[@ident='solemne.pointer']//{{{TEI}}}dataRef").get("restriction")
-    assert prefixes(pattern) == category_prefixes() | EXTRA_PREFIXES
+    assert prefixes(pattern) == category_prefixes()
 
 
 def test_the_note_words_warning_takes_the_categories_prefixes(odd: etree._Element) -> None:
     rule = odd.find(f".//{{{SCH}}}report[@id='source-note-codes']").get("test")
-    assert prefixes(rule) == category_prefixes() | EXTRA_PREFIXES
+    assert prefixes(rule) == category_prefixes()
 
 
 @pytest.mark.parametrize(
@@ -75,7 +72,17 @@ def test_the_note_words_warning_takes_the_categories_prefixes(odd: etree._Elemen
         "cf_LR.CTh-0438_16.2.47.1",
         "CPT.Exemplum-0802_5",
         "CHA.Exemplum-0900",
-        "W.Exemplum_3",
+        "CPT.CHL-0614_9",
+        "CHA.RAT-0974.ed-PL136_2",
+        "BIB.Vulg_MAT.18.19",
+        "W.IS-ety_15.2.1",
+        "PATR.Exemplum_3",
+        "SCHOL.Exemplum_2",
+        "IS_ety_15.2.1",
+        "IS_ety_15.15.1-7",
+        "HI_ep.52_14",
+        "GR-M_ep.9.219",
+        "cf_GR-M_ep.9.219",
     ],
 )
 @pytest.mark.parametrize("form", [note, quote])
@@ -85,12 +92,23 @@ def test_a_pointer_to_any_category_passes(
     assert problems(validator, tmp_path, form(pointer)) == []
 
 
-@pytest.mark.parametrize("pointer", ["CAN.SAM-0600_3", "LRX.CTh-0438"])
+@pytest.mark.parametrize("pointer", ["CAN.SAM-0600_3", "LRX.CTh-0438", "PATRX.Exemplum"])
 def test_a_prefix_no_category_makes_fails(validator: Validator, tmp_path: Path, pointer: str) -> None:
     assert {p.check for p in problems(validator, tmp_path, note(pointer))} == {"relaxng"}
 
 
-@pytest.mark.parametrize("code", ["LR.CTh-0438_16.2.47", "CPT.Exemplum-0802_5", "CHA.Exemplum-0900"])
+@pytest.mark.parametrize(
+    "code",
+    [
+        "LR.CTh-0438_16.2.47",
+        "CPT.Exemplum-0802_5",
+        "CHA.Exemplum-0900",
+        "BIB.Vulg_MAT.18.19",
+        "PATR.Exemplum_3",
+        "SCHOL.Exemplum_2",
+        "W.IS-ety_15.2.1",
+    ],
+)
 def test_a_code_of_the_new_categories_in_a_note_s_words_is_reported(
     validator: Validator, tmp_path: Path, code: str
 ) -> None:
