@@ -2,9 +2,9 @@
 
 # The release, on a tag vX.Y.Z: the schema rebuilt from an empty cache and equal to the committed files, the tests,
 # the guide's HTML and PDF; then the GitHub release with its files and the changelog's section as its notes, the
-# pages (schema/X.Y.Z/, guide/X.Y.Z/ and latest/, on the gh-pages branch, keeping every earlier version), and, from
-# 1.0.0 on, PyPI by trusted publishing. On a pull request, or started by hand, it's a dry run: it builds everything
-# and keeps it as the run's artifacts, and publishes nothing.
+# pages (schema/X.Y.Z/, guide/X.Y.Z/ and latest/, on the gh-pages branch, keeping every earlier version). On a pull
+# request, or started by hand, it's a dry run: it builds everything and keeps it as the run's artifacts, and
+# publishes nothing.
 
 name: release
 
@@ -48,10 +48,8 @@ jobs:
         run: pytest
       - name: The guide as HTML and PDF
         run: solemne-tei docs --html --pdf
-      - name: The release's files, notes and pages; the wheel
-        run: |
-          python -m solemne_tei.release assemble --out dist
-          python -m pip wheel --no-deps -w dist/wheel .
+      - name: The release's files, notes and pages
+        run: python -m solemne_tei.release assemble --out dist
       - name: Earlier releases' schemas, from their tags
         run: |
           for tag in $(git tag -l 'v*'); do
@@ -102,22 +100,3 @@ jobs:
           git -C site add -A
           git -C site diff --cached --quiet || git -C site commit -m "${GITHUB_REF_NAME#v}"
           git -C site push origin gh-pages
-
-  pypi:
-    name: PyPI, from 1.0.0 on
-    needs: build
-    if: startsWith(github.ref, 'refs/tags/v') && !startsWith(github.ref, 'refs/tags/v0.')
-    runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: https://pypi.org/project/solemne-tei/
-    permissions:
-      id-token: write
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: release
-          path: dist
-      - uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          packages-dir: dist/wheel

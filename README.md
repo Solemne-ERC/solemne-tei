@@ -138,8 +138,9 @@ cache and checks it against the committed files, runs the tests, makes the guide
 
 - a GitHub release, with the schema's files, the HTML as a zip and the PDF, and the changelog's section as its notes;
 - the pages, from the `gh-pages` branch: `schema/X.Y.Z/` and `guide/X.Y.Z/`, with `schema/latest/` and
-  `guide/latest/` for the highest version, keeping every earlier one;
-- from 1.0.0 on, the package on PyPI, by trusted publishing.
+  `guide/latest/` for the highest version, keeping every earlier one.
+
+Releases stay on GitHub: the package is installed from the repository at a release's tag.
 
 On a pull request, or started by hand, the workflow builds the same files and keeps them as the run's artifacts,
 publishing nothing.
