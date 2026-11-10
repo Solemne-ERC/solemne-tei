@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/1.0.0/solemne.rng" type="application/xml"
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/1.1.0/solemne.rng" type="application/xml"
   schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/1.0.0/solemne.sch" type="application/xml"
+<?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/1.1.0/solemne.sch" type="application/xml"
   schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <!-- A register: the records of one kind, here persons, in a header and a standOff, without a text. The ids, the
   list of bishops and the bishop are made up; God's Wikidata id is Wikidata's. The registers are the seed of the
@@ -79,7 +79,7 @@
       </person>
     </listPerson>
     <listRelation>
-      <relation name="memberOf" type="judgement" active="#PERS.5" passive="#PERS.4"/>
+      <relation name="memberOf" active="#PERS.5" passive="#PERS.4"/>
       <relation name="livedIn" active="#PERS.3" passive="#PLACE.30"/>
     </listRelation>
   </standOff>

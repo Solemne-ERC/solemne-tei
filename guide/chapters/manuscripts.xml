@@ -80,7 +80,7 @@
         <repository ref="#new_org_bibliotheca_exemplensis">Bibliotheca Exemplensis</repository>
         <collection ref="#new_org_codices_canonici">Codices canonici</collection>
         <idno type="shelfmark">Can. 12</idno>
-        <idno type="mirabile">123456</idno>
+        <idno type="mirabileManuscript">123456</idno>
         <altIdentifier type="former">
           <idno>Theol. 7</idno>
         </altIdentifier>
@@ -490,7 +490,7 @@
       </handDesc>
       <p>Si quis <add hand="#hand-B">episcopus</add> migrauerit, deponatur.</p>
       <listRelation>
-        <relation name="scribe" type="judgement" cert="medium" active="#hand-A" passive="#new_person_exemplus_scriba"/>
+        <relation name="scribe" cert="medium" active="#hand-A" passive="#new_person_exemplus_scriba"/>
       </listRelation>
     </egXML>
     <p>A hand pointed to that the file doesn't describe is an error, and a script or an execution outside the seeds
@@ -828,7 +828,7 @@
             <source>
               <bibl type="source">
                 <title>Mirabile</title>
-                <idno type="mirabile">123456</idno>
+                <idno type="mirabileManuscript">123456</idno>
                 <date type="retrieved" when="2026-11-04">4 November 2026</date>
               </bibl>
             </source>

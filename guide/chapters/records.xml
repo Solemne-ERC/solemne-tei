@@ -263,7 +263,7 @@
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
       <org xml:id="new_org_benediktbeuern" type="religiousHouse">
         <orgName type="main">SS. Benedikt und Jakob, abbazia OSB</orgName>
-        <idno type="mirabile">6074</idno>
+        <idno type="mirabilePlace">6074</idno>
       </org>
     </egXML>
     <specGrp xml:id="records-institutions-specs">
@@ -390,7 +390,7 @@
         <bibl type="work" xml:id="new_work_institutiones">
           <author ref="#new_person_iustinianus">Iustinianus imperator</author>
           <title>Institutiones</title>
-          <idno type="mirabile">2106</idno>
+          <idno type="mirabileWork">2106</idno>
         </bibl>
       </listBibl>
     </egXML>
@@ -488,6 +488,18 @@
             </sch:rule>
           </constraint>
         </constraintSpec>
+        <constraintSpec ident="work-group-term" scheme="schematron" corresp="#tier-full">
+          <desc>A work group's type is one of the guide's, or a new term of the application's vocabulary.</desc>
+          <constraint>
+            <sch:rule context="tei:bibl[@type = 'workGroup'][@subtype]">
+              <sch:let name="terms" value="('oneOrigin', 'derivedCollections', 'oneManuscript',
+                'projectGrouping')"/>
+              <sch:assert id="work-group-term" role="warning" test="@subtype = $terms">The work group's type
+                <sch:value-of select="@subtype"/> isn't among the guide's: check its spelling, or add it to the
+                application's vocabulary.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
         <attList>
           <attDef ident="type" mode="change" corresp="#tier-full">
             <valList type="closed" mode="replace" xml:id="pointer-type" corresp="#tier-full">
@@ -558,10 +570,11 @@
     <head>Work groups</head>
     <p>A work group is a scholarly construct over several works, "the Pseudo-Isidorian forgeries": a <gi>bibl</gi>
       typed <val>workGroup</val> in <gi>listBibl</gi>, as works and versions are, with its name in <gi>title</gi>,
-      what it is in a <gi>note</gi>, and its type in <att>subtype</att>, a key in lower camel case for one of the
-      application's types of group: one origin, a collection and those derived from it, the collections of one
-      manuscript, the project's own grouping (<val>oneOrigin</val>, until the application's vocabulary gives its
-      keys). A group made as a part of a larger one points to it by <att>corresp</att>, since
+      what it is in a <gi>note</gi>, and its type in <att>subtype</att>, the key of one of the application's types
+      of group: <val>oneOrigin</val>, works of one origin; <val>derivedCollections</val>, a collection and those
+      derived from it; <val>oneManuscript</val>, the collections of one manuscript; <val>projectGrouping</val>, the
+      project's own grouping. Another key is reported, since the application's vocabulary grows, as an event's type
+      is. A group made as a part of a larger one points to it by <att>corresp</att>, since
       containment is a pointer. Its members join it by relations, <val>memberOf</val>, each from the member, a work,
       a version or another group, with its certainty and evidence, since membership is a claim (<ptr
         target="#relations-types"/>): the Clavis canonum counts the Collectio Lanfranci among the Pseudo-Isidorian
@@ -580,7 +593,15 @@
         </relation>
       </listRelation>
     </egXML>
-    <p>A group is stored with its name, description, type, author and members; it is never a level of a text.</p>
+    <p>A group is stored with its name, description, type, author and members; it is never a level of a text. A type
+      outside the application's is reported:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="work-group-term">
+      <listBibl>
+        <bibl type="workGroup" subtype="sameOrigin" xml:id="new_group_exemplum"><!-- breaks the rule -->
+          <title>The forgeries of Exemplum</title>
+        </bibl>
+      </listBibl>
+    </egXML>
   </div>
 
   <div xml:id="records-rare">
@@ -609,7 +630,7 @@
     <head>Ids elsewhere</head>
     <p>A record's ids in other projects' catalogues are <gi>idno</gi>s, each typed by its authority, its key in lower
       camel case. The guide knows <val>wikidata</val>, <val>viaf</val>, <val>gnd</val>, <val>geonames</val>,
-      <val>tgn</val>, <val>pleiades</val>, <val>mirabile</val>, <val>clavis</val>, <val>biblissima</val>,
+      <val>tgn</val>, <val>pleiades</val>, Mirabile's five indices (below), <val>clavis</val>, <val>biblissima</val>,
       <val>schoenberg</val>, <val>hmml</val>, <val>bodleian</val>, <val>manusOnline</val>, the Bodleian's
       <val>ieArk</val>, <val>crArk</val> and <val>SCN</val>, a library's ISIL (<val>isil</val>), a publication's
       <val>doi</val> and its records in <val>k10plus</val>, the <val>dnb</val> and <val>openAlex</val>, Gryson's
@@ -623,50 +644,62 @@
         <persName type="main">Iustinianus imperator</persName>
         <persName type="alternative">Flavius Petrus Sabbatius Iustinianus</persName>
         <persName type="alternative">Justinian I</persName>
-        <idno type="mirabile">19360</idno>
+        <idno type="mirabileAuthor">19360</idno>
       </person>
     </egXML>
-    <p>An authority may number each kind of record on its own. Mirabile does: 20174 is a work in its index of titles,
-      and another record in its index of authors. The kind of record says which index its number is from, and the
-      import makes the link from it, the index's address followed by a name and the number, as the corpus's links
-      have them; an export writes the number:</p>
+    <p>Mirabile numbers each of its indices on its own: 20174 is a work in its index of titles, and another record in
+      its index of authors. A person may be in two of them, its authors and the people its manuscripts name. So each
+      index is an authority of its own, with its key and one link, the index's address followed by the number; the
+      import makes the link, and an export writes the number:</p>
     <table xml:id="mirabile-indices">
-      <head>Mirabile's indices, by the kind of record</head>
+      <head>Mirabile's indices, each an authority</head>
       <row role="label">
-        <cell>Record</cell>
+        <cell>Key</cell>
         <cell>Index</cell>
-        <cell>Link</cell>
+        <cell>Link, before the number</cell>
       </row>
       <row>
-        <cell>a person</cell>
+        <cell><val>mirabileAuthor</val></cell>
         <cell>authors</cell>
-        <cell><code>https://www.mirabileweb.it/author/-author/19840</code></cell>
+        <cell><code>https://www.mirabileweb.it/author/-author/</code></cell>
       </row>
       <row>
-        <cell>a work or a version</cell>
-        <cell>titles</cell>
-        <cell><code>https://www.mirabileweb.it/title/-/20174</code></cell>
+        <cell><val>mirabilePerson</val></cell>
+        <cell>the people its manuscripts name: possessors, copyists</cell>
+        <cell><code>https://www.mirabileweb.it/search-person/-person/1044/</code></cell>
       </row>
       <row>
-        <cell>a manuscript</cell>
+        <cell><val>mirabileWork</val></cell>
+        <cell>titles: works and versions</cell>
+        <cell><code>https://www.mirabileweb.it/title/-title/</code></cell>
+      </row>
+      <row>
+        <cell><val>mirabileManuscript</val></cell>
         <cell>manuscripts</cell>
-        <cell><code>https://www.mirabileweb.it/manuscript/-manuscript/220110</code></cell>
+        <cell><code>https://www.mirabileweb.it/manuscript/-manuscript/</code></cell>
+      </row>
+      <row>
+        <cell><val>mirabilePlace</val></cell>
+        <cell>institutions (<foreign xml:lang="it">enti</foreign>)</cell>
+        <cell><code>https://www.mirabileweb.it/search-place/-place/1044/</code></cell>
       </row>
     </table>
-    <p>Mirabile's other indices, such as its institutions', join the table as the application reads them. A file may
-      declare the same links, each typed by the kind of record, as Part II's example of a declaration does (<ptr
-        target="#header-external-ids"/>).</p>
+    <p>The 1044 in two of the links is fixed: it opens any institution or person. A person found in both indices
+      holds both ids. A single key <val>mirabile</val> is reported, as any key the guide doesn't list; the id's key
+      follows from its record's kind: a person's <val>mirabileAuthor</val>, a work's or a
+      version's <val>mirabileWork</val>, an institution's <val>mirabilePlace</val>, a manuscript's
+      <val>mirabileManuscript</val>.</p>
     <p>Bernardus of Pavia and his Summa decretalium, each with the number of its own index:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" source="#source-COLL.400.ms-Mun-BSB-4592">
       <person xml:id="new_person_bernardus_papiensis">
         <persName type="main">Bernardus Papiensis praepositus</persName>
-        <idno type="mirabile">19840</idno>
+        <idno type="mirabileAuthor">19840</idno>
       </person>
       <listBibl>
         <bibl type="work" xml:id="new_work_summa_decretalium">
           <title>Summa decretalium</title>
           <author ref="#new_person_bernardus_papiensis">Bernardus Papiensis</author>
-          <idno type="mirabile">20174</idno>
+          <idno type="mirabileWork">20174</idno>
         </bibl>
       </listBibl>
     </egXML>
@@ -750,7 +783,7 @@
           <constraint>
             <sch:rule context="tei:note[@type = 'links']//tei:ref[@target]">
               <!-- The records of the authorities in idno/@type's list, by their addresses. -->
-              <sch:let name="authorities" value="'(mirabileweb\.it/(author|title|manuscript)/|wikidata\.org/(wiki|entity)/Q|viaf\.org/viaf/|d-nb\.info/gnd/|geonames\.org/[0-9]|vocab\.getty\.edu/(page/)?tgn/|pleiades\.stoa\.org/places/|sdbm\.library\.upenn\.edu/|manus\.iccu\.sbn\.it/|medieval\.bodleian\.ox\.ac\.uk/catalog/)'"/>
+              <sch:let name="authorities" value="'(mirabileweb\.it/(author|title|manuscript|search-place|search-person)/|vhmml\.org/readingRoom/view/|data\.biblissima\.fr/w/Item:Q|portail\.biblissima\.fr/(fr/)?ark:/|wikidata\.org/(wiki|entity)/Q|viaf\.org/viaf/|d-nb\.info/gnd/|geonames\.org/[0-9]|vocab\.getty\.edu/(page/)?tgn/|pleiades\.stoa\.org/places/|sdbm\.library\.upenn\.edu/|manus\.iccu\.sbn\.it/|medieval\.bodleian\.ox\.ac\.uk/catalog/)'"/>
               <sch:assert id="link-authority" role="warning" test="not(matches(@target, $authorities))">An
                 authority's record is an id: an idno typed by the authority, not a link in a note of links
                 (<sch:value-of select="@target"/>).</sch:assert>
@@ -774,8 +807,8 @@
           <title>Institutiones</title>
           <bibl type="source">
             <title>Mirabile</title>
-            <idno type="mirabile">2106</idno>
-            <ref target="http://www.mirabileweb.it/title/-/2106">mirabileweb.it</ref>
+            <idno type="mirabileWork">2106</idno>
+            <ref target="https://www.mirabileweb.it/title/-title/2106">mirabileweb.it</ref>
             <date type="retrieved" when="2025-01-10">10 January 2025</date>
           </bibl>
         </bibl>
@@ -898,7 +931,7 @@
             </person>
           </listPerson>
           <listRelation>
-            <relation name="memberOf" type="observation" active="#PERS.22" passive="#PERS.21"/>
+            <relation name="memberOf" active="#PERS.22" passive="#PERS.21"/>
           </listRelation>
         </standOff>
       </TEI>

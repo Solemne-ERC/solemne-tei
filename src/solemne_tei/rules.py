@@ -101,10 +101,21 @@ def _restricted(el: etree._Element, odd: etree._Element) -> tuple[str, ...]:
     ref = {"macroSpec": "macroRef", "dataSpec": "dataRef"}.get(local)
     if ref is None:
         return ()
+    # A datatype may be used through another that holds it (a note's pointer holds a source's).
+    keys = {el.get("ident", "")}
+    while True:
+        holders = {
+            spec.get("ident", "")
+            for spec in odd.iter(_t(local))
+            if any(r.get("key") in keys for r in spec.iter(_t(ref)))
+        }
+        if holders <= keys:
+            break
+        keys |= holders
     users = {
         spec.get("ident", "")
         for spec in odd.iter(_t("elementSpec"))
-        if any(r.get("key") == el.get("ident") for r in spec.iter(_t(ref)))
+        if any(r.get("key") in keys for r in spec.iter(_t(ref)))
     }
     return tuple(sorted(users))
 

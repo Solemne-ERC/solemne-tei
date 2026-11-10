@@ -190,7 +190,12 @@
           editions of one text: the volume of the Patrologia Latina (<code>COLL.Burch.ed-PL140</code>,
           <code>CHA.RAT-0974.ed-PL136</code>), SCTA's Gratian (<code>COLL.Grat.ed-SCTA</code>), a series and its
           volume (<code>C.GRM-0742.ed-MGHCapit1</code>, Karlmann's capitulary of 742 in the MGH's Capitularia beside
-          the council in its Concilia).</item>
+          the council in its Concilia). Where an edition gives one work's text twice, or a piece of it apart, the
+          text in the work's own place keeps the code, and another adds the edition's number for its item after a
+          hyphen: the Pseudoisidor project's edition gives the Tome of Leo as item 201,
+          <code>D.LEO-0449-423.ed-Schon</code>, and again as item 222, <code>D.LEO-0449-423.ed-Schon-222</code>. A
+          code without a source part takes one for it: <code>ed-</code>, the edition's name and the number. Each is a
+          witness of its own, at its own pages or folios.</item>
       </list>
       <p>A manuscript's short code joins, by hyphens, its city in three letters, its library's abbreviation and its
         shelfmark: <code>Mun-BSB-4592</code> for Munich, Bayerische Staatsbibliothek, Clm 4592. A code is a valid
@@ -535,8 +540,20 @@
                 <valItem ident="pleiades">
                   <desc>Pleiades, for ancient places</desc>
                 </valItem>
-                <valItem ident="mirabile">
-                  <desc>Mirabile</desc>
+                <valItem ident="mirabileAuthor">
+                  <desc>Mirabile's index of authors</desc>
+                </valItem>
+                <valItem ident="mirabilePerson">
+                  <desc>Mirabile's index of the people its manuscripts name: possessors, copyists</desc>
+                </valItem>
+                <valItem ident="mirabileWork">
+                  <desc>Mirabile's index of titles: works and versions</desc>
+                </valItem>
+                <valItem ident="mirabileManuscript">
+                  <desc>Mirabile's index of manuscripts</desc>
+                </valItem>
+                <valItem ident="mirabilePlace">
+                  <desc>Mirabile's index of institutions</desc>
                 </valItem>
                 <valItem ident="clavis">
                   <desc>the Clavis canonum</desc>
@@ -1116,20 +1133,20 @@
         export declares a vocabulary's terms (<ptr target="#exports-vocabularies"/>): a <gi>taxonomy</gi> with the id
         <code>authorities</code>, and in it a <gi>category</gi> for each authority, its <att>xml:id</att> the key, its
         name in <gi>catDesc</gi> and, after the name, its links, each a <gi>ptr</gi> whose target holds
-        <code>$1</code> where the id goes. Where the link depends on the kind of record, as Mirabile's does, each link
+        <code>$1</code> where the id goes. Where the link depends on the kind of record, each link
         is typed by the kind's word, the one a new record's id has (<val>person</val>, <val>place</val>,
         <val>org</val>, <val>event</val>, <val>bibl</val>, <val>work</val>, <val>version</val>, <val>group</val>,
         <val>manuscript</val>). An authority may have no link. The import makes a declared authority it doesn't hold;
         one it holds under another key is the application's to map. The authorities the guide lists need no
-        declaration. Mirabile's indices, and a catalogue made up for the example:</p>
+        declaration. Two authorities made up for the example, an index whose link depends on the kind of record, and
+        a catalogue with one link:</p>
       <egXML xmlns="http://www.tei-c.org/ns/Examples">
         <classDecl>
           <taxonomy xml:id="authorities">
-            <category xml:id="mirabile">
-              <catDesc>Mirabile <ptr type="person" target="https://www.mirabileweb.it/author/-author/$1"/>
-                <ptr type="work" target="https://www.mirabileweb.it/title/-/$1"/>
-                <ptr type="version" target="https://www.mirabileweb.it/title/-/$1"/>
-                <ptr type="manuscript" target="https://www.mirabileweb.it/manuscript/-manuscript/$1"/></catDesc>
+            <category xml:id="indexExempli">
+              <catDesc>Index exempli gratia <ptr type="person" target="https://example.org/index/personae/$1"/>
+                <ptr type="work" target="https://example.org/index/opera/$1"/>
+                <ptr type="version" target="https://example.org/index/opera/$1"/></catDesc>
             </category>
             <category xml:id="catalogusExempli">
               <catDesc>Catalogus exempli gratia <ptr target="https://example.org/catalogus/$1"/></catDesc>
@@ -1177,8 +1194,8 @@
             <constraint>
               <sch:rule context="tei:idno[@type][not(parent::tei:title[@type = 'formal'])]">
                 <sch:let name="terms" value="('category', 'type', 'work', 'version', 'witness', 'transcription',
-                  'wikidata', 'viaf', 'gnd', 'geonames', 'tgn', 'pleiades', 'mirabile', 'clavis', 'biblissima',
-                  'schoenberg', 'hmml', 'bodleian', 'manusOnline', 'ieArk', 'crArk', 'SCN', 'isil', 'doi', 'k10plus',
+                  'wikidata', 'viaf', 'gnd', 'geonames', 'tgn', 'pleiades', 'mirabileAuthor', 'mirabilePerson',
+                  'mirabileWork', 'mirabileManuscript', 'mirabilePlace', 'clavis', 'biblissima', 'schoenberg', 'hmml', 'bodleian', 'manusOnline', 'ieArk', 'crArk', 'SCN', 'isil', 'doi', 'k10plus',
                   'dnb', 'openAlex', 'gryson', 'kery', 'whg', 'jaffe', 'shelfmark', 'ISBN', 'url', 'biblatex',
                   'permalink')"/>
                 <sch:let name="declared" value="/tei:TEI/tei:teiHeader//tei:taxonomy[@xml:id =

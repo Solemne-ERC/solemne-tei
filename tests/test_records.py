@@ -170,7 +170,8 @@ def person_with(idno: str) -> str:
     return f"<person xml:id='new_person_exemplus'><persName type='main'>Exemplus</persName>{idno}</person>"
 
 
-SEEDS = ["isil", "doi", "k10plus", "dnb", "openAlex", "gryson", "kery", "whg", "jaffe", "wikidata", "mirabile"]
+MIRABILE = ["mirabileAuthor", "mirabilePerson", "mirabileWork", "mirabileManuscript", "mirabilePlace"]
+SEEDS = ["isil", "doi", "k10plus", "dnb", "openAlex", "gryson", "kery", "whg", "jaffe", "wikidata", *MIRABILE]
 
 
 @pytest.mark.parametrize("authority", SEEDS)
@@ -181,6 +182,34 @@ def test_an_authority_the_guide_lists_passes(validator: Validator, tmp_path: Pat
 def test_an_authority_the_guide_doesn_t_list_is_reported_not_refused(validator: Validator, tmp_path: Path) -> None:
     found = fragment(validator, tmp_path, person_with("<idno type='regestaImperii'>1</idno>"))
     assert [(p.rule, p.severity) for p in found] == [("authority-term", "warning")]
+
+
+def test_mirabile_s_single_key_is_reported_since_its_indices_are_authorities(
+    validator: Validator, tmp_path: Path
+) -> None:
+    found = fragment(validator, tmp_path, person_with("<idno type='mirabile'>19840</idno>"))
+    assert [(p.rule, p.severity) for p in found] == [("authority-term", "warning")]
+
+
+@pytest.mark.parametrize(
+    ("target", "reported"),
+    [
+        ("https://www.mirabileweb.it/search-person/-person/1044/77", True),
+        ("https://www.mirabileweb.it/search-place/-place/1044/6074", True),
+        ("https://www.mirabileweb.it/title/-title/20174", True),
+        ("https://www.vhmml.org/readingRoom/view/12345", True),
+        ("https://data.biblissima.fr/w/Item:Q12345", True),
+        ("https://portail.biblissima.fr/fr/ark:/43093/mdata0123", True),
+        ("https://portail.biblissima.fr/ark:/43093/mdata0123", True),
+        ("https://iiif.biblissima.fr/collections/manifest/0123abc", False),
+        ("https://example.org/a-page-about-it", False),
+    ],
+)
+def test_an_authority_s_record_given_as_a_link_is_reported(
+    validator: Validator, tmp_path: Path, target: str, reported: bool
+) -> None:
+    links = f"<note type='links'><list type='links'><item><ref target='{target}'>A page</ref></item></list></note>"
+    assert ("link-authority" in rules(fragment(validator, tmp_path, person_with(links)))) == reported
 
 
 def test_a_declared_authority_passes(validator: Validator, tmp_path: Path) -> None:
@@ -214,6 +243,18 @@ def test_an_authority_s_link_holds_the_id_s_place(validator: Validator, tmp_path
         ),
         ("<event xml:id='new_event_x' type='synod'><eventName>Synodus</eventName></event>", "", False),
         ("<event xml:id='new_event_y' type='councel'><eventName>Synodus</eventName></event>", "event-term", True),
+        (
+            "<listBibl><bibl type='workGroup' subtype='derivedCollections' xml:id='new_group_a'><title>A</title>"
+            "</bibl></listBibl>",
+            "",
+            False,
+        ),
+        (
+            "<listBibl><bibl type='workGroup' subtype='sameOrigin' xml:id='new_group_b'><title>B</title>"
+            "</bibl></listBibl>",
+            "work-group-term",
+            True,
+        ),
     ],
 )
 def test_a_type_outside_the_seeds_is_reported(

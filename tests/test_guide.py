@@ -335,3 +335,32 @@ def test_the_rich_template_holds_every_common_element(odd: etree._Element) -> No
     common = {element for element, named in element_tiers(odd).items() if named[0] == "common"}
     # The project's files give a person's address for contact, which a public template leaves out.
     assert common - template_elements("rich.xml") == {"distributor", "email"}
+
+
+# A relation starting at a record is neither an observation nor a judgement: its type is left out. Records are named
+# by their kind's known id or a new one, or are a hand or a group described in the same example or template.
+RECORD_POINTER = re.compile(
+    r"^#((PERS|PLACE|INST|EVENT|PUBL|GROUP)\.[0-9]+|new_(person|place|org|event|bibl|group)_.+)$"
+)
+RECORD_KINDS = {"person", "personGrp", "place", "org", "event", "handNote", "biblStruct"}
+
+
+def _relations_typed_from_a_record(root: etree._Element) -> list[str]:
+    kinds = {
+        el.get(XML_ID): etree.QName(el).localname
+        for el in root.iter(tag=etree.Element)
+        if el.get(XML_ID) and (etree.QName(el).localname in RECORD_KINDS or el.get("type") == "workGroup")
+    }
+    wrong = []
+    for relation in root.iter(f"{{{TEI}}}relation", f"{{{EXAMPLES}}}relation"):
+        start = (relation.get("active") or relation.get("mutual") or "").split()
+        if relation.get("type") and start and all(RECORD_POINTER.match(p) or p[1:] in kinds for p in start):
+            wrong.append(f"{relation.get('name')} from {' '.join(start)}, line {relation.sourceline}")
+    return wrong
+
+
+def test_no_relation_starting_at_a_record_is_typed(odd: etree._Element) -> None:
+    wrong = _relations_typed_from_a_record(odd)
+    for template in TEMPLATES:
+        wrong += [f"{template.name}: {w}" for w in _relations_typed_from_a_record(etree.parse(str(template)).getroot())]
+    assert not wrong, "\n".join(wrong)
