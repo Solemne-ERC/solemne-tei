@@ -79,12 +79,13 @@
         counted in characters of the node's text as the application holds it, its words without the markup and each
         run of spaces as one, from 0; or a node, an anchor or the range between two, by their ids. An annotation
         over several spans or nodes has several targets;</item>
-      <item><hi>its author</hi>, in a <gi>respStmt</gi> naming them by their record, and its licence, in a
-        <gi>licence</gi>;</item>
+      <item><hi>its author</hi>, in a <gi>respStmt</gi> naming them by their record, or an account with no person
+        record by its name alone (<ptr target="#exports-history"/>), and its licence, in a <gi>licence</gi>;</item>
       <item><hi>its body</hi>: a <gi>note</gi> holding the element of its layer, with the attributes it has inline and
         the span's words, which the import checks the target against; for a note's layers, a source note, a
-        parallel, a reception note or an editorial remark, the <gi>note</gi> itself, typed by its layer. One form for each layer, inline or not,
-        so that the import reads both alike. TEI's <att>motivation</att> isn't used: the body says the layer.</item>
+        parallel, a reception note, an attribution or an editorial remark, the <gi>note</gi> itself, typed by its
+        layer, an attribution's target the inscription or the division it stands for. One form for each layer,
+        inline or not, so that the import reads both alike. TEI's <att>motivation</att> isn't used: the body says the layer.</item>
     </list>
     <p>The council's date, from its year to the king's, crosses the name of Childeric, which runs on past it, so it
       stands in the standOff:</p>
@@ -149,9 +150,11 @@
           <constraint>
             <sch:rule context="tei:annotation">
               <sch:assert id="annotation-body" test="count(tei:note) = 1 and not(tei:ptr or tei:ref) and
-                (tei:note/@type = ('source', 'parallel', 'reception', 'editorial') or (count(tei:note/*) = 1 and
+                (tei:note/@type = ('source', 'parallel', 'reception', 'attribution', 'editorial') or
+                (count(tei:note/*) = 1 and
                 not(tei:note/text()[normalize-space()])))">An annotation's body is one note, which holds the element of
-                its layer alone, or is typed by a note's layer (source, parallel, reception, editorial).</sch:assert>
+                its layer alone, or is typed by a note's layer (source, parallel, reception, attribution,
+                editorial).</sch:assert>
             </sch:rule>
           </constraint>
         </constraintSpec>
@@ -237,6 +240,28 @@
         <change when="2027-05-02" who="#PERS.12" target="#C.SOI-0744_2.p1">A reading
           corrected against the edition.</change>
       </revisionDesc>
+    </egXML>
+    <p>An account in the application may be joined to a person record, but only where its owner wishes. An export
+      lists an account joined to none once, in its title statement, as a <gi>respStmt</gi> whose id is
+      <code>account.</code> and the account's number in the application, with <val>account</val> in <gi>resp</gi>
+      and the account's name in <gi>name</gi>. A change set's <att>who</att> and a relation's <att>resp</att> point
+      to it, as they point to a person record; an annotation's <gi>respStmt</gi> names the account in a <gi>name</gi>
+      without <att>ref</att>. The import reads a pointer to such a <gi>respStmt</gi> back into that account when the
+      file returns to the same database, and as an account's name otherwise: it never makes a person from it. A
+      change set and a relation by an account with no person record, made up:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <respStmt xml:id="account.17">
+        <resp>account</resp>
+        <name>jdoe</name>
+      </respStmt>
+      <revisionDesc>
+        <change when="2027-05-03" who="#account.17" target="#C.SOI-0744_3.p1">A reading corrected against the
+          edition.</change>
+      </revisionDesc>
+      <listRelation>
+        <relation name="derivedFrom" type="judgement" resp="#account.17" active="COLL.Dach_1_12"
+          passive="C.NIC-0325_3"/>
+      </listRelation>
     </egXML>
     <p>A release has its name and its date, and a change is a release or a change set:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="release-named">

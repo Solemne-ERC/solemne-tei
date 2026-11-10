@@ -286,6 +286,22 @@ def test_a_work_known_by_its_siglum_is_coded_from_it(validator: Validator, tmp_p
     assert not found & {"code-format", "code-category", "category-value", "code-matches-file-name"}
 
 
+@pytest.mark.parametrize(
+    ("code", "category"),
+    [
+        ("D.LEO-0449-423.ed-Schon-222", "D"),
+        ("D.DAM-0378-235.ed-Schon-142", "D"),
+        ("C.BRA-0561.ed-Schon-109", "C"),
+        ("C.NIC-0325.ed-Exemplum-12", "C"),
+    ],
+)
+def test_a_second_text_of_one_work_in_one_edition_takes_its_item_s_number(
+    validator: Validator, tmp_path: Path, code: str, category: str
+) -> None:
+    found = schematron_rules(validator, with_code(tmp_path, code, category, f"{code}.xml"))
+    assert not found & {"code-format", "code-category", "category-value", "code-matches-file-name"}
+
+
 @pytest.mark.parametrize("category", ["C", "LR", "CPT", "CHA", "SYSCOLL"])
 def test_a_file_named_by_a_code_is_named_by_its_own(validator: Validator, tmp_path: Path, category: str) -> None:
     prefix = code_prefix(category)

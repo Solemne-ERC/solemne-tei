@@ -392,7 +392,7 @@
           <row>
             <cell>An authority's records as links, in a <gi>note</gi> typed <val>links</val>; its bare numbers, in a
               <gi>note</gi> typed <val>authorities</val></cell>
-            <cell><gi>idno</gi> typed by the authority (<code>&lt;idno type="mirabile"&gt;19840&lt;/idno&gt;</code>)</cell>
+            <cell><gi>idno</gi> typed by the authority (<code>&lt;idno type="mirabileAuthor"&gt;19840&lt;/idno&gt;</code>)</cell>
             <cell><ptr target="#records-external-ids"/></cell>
           </row>
           <row>

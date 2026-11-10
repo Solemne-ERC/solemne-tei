@@ -1,7 +1,8 @@
 # SPDX-License-Identifier: MIT
 """Notes in the text: a reception note stands inline or in the standOff, as the other notes' layers do; codes left in
 a source or reception note's words are reported, inline or stand-off, but Gratian's abbreviations aren't taken for
-codes. Each case is a fragment placed in a minimal valid file, as the guide's examples are."""
+codes; an attribution names the sources no words name, in an inscription or a division. Each case is a fragment placed
+in a minimal valid file, as the guide's examples are."""
 
 from collections.abc import Callable
 from pathlib import Path
@@ -79,3 +80,84 @@ def test_gratian_s_abbreviations_are_not_taken_for_codes(
 
 def test_a_parallel_s_words_are_not_checked_for_codes(validator: Validator, tmp_path: Path) -> None:
     assert problems(validator, tmp_path, inline("parallel", "Cf. C.NIC-0325_15.")) == []
+
+
+def attribution_in_inscription(source: str, words: str = "Clavis canonum's author group.") -> str:
+    return (
+        f'<div type="chapter" n="1"><head type="inscription">ITEM <note type="attribution" source="{source}">'
+        f"{words}</note></head><p>Placuit ut episcopi maneant.</p></div>"
+    )
+
+
+def attribution_in_division(source: str) -> str:
+    return (
+        f'<div type="chapter" n="1"><note type="attribution" source="{source}">Clavis canonum\'s author groups.</note>'
+        '<head type="rubric">De episcopis.</head><p>Placuit ut episcopi maneant.</p></div>'
+    )
+
+
+def attribution_stand_off(source: str) -> str:
+    return (
+        '<div type="chapter" n="1"><head type="inscription" xml:id="inscription-1">ITEM</head>'
+        "<p>Placuit ut episcopi maneant.</p></div>"
+        '<listAnnotation><annotation xml:id="attribution-1" target="#inscription-1">'
+        f'<note type="attribution" source="{source}"/></annotation></listAnnotation>'
+    )
+
+
+def test_attribution_is_among_the_note_types() -> None:
+    assert "attribution" in closed_lists()["note"]["type"]
+
+
+@pytest.mark.parametrize("form", [attribution_in_inscription, attribution_in_division, attribution_stand_off])
+@pytest.mark.parametrize(
+    "source", ["#PERS.12", "#EVENT.4", "#new_person_exemplus", "#new_work_exemplum", "C.NIC-0325", "#PERS.40 #EVENT.9"]
+)
+def test_an_attribution_passes_in_an_inscription_a_division_or_the_standoff(
+    validator: Validator, tmp_path: Path, form: Callable[[str], str], source: str
+) -> None:
+    assert problems(validator, tmp_path, form(source)) == []
+
+
+@pytest.mark.parametrize("source", ["#leo", "#PLACE.3", "#new_place_exemplum", "#PERS.12 #leo"])
+def test_an_attribution_points_to_persons_events_and_works(validator: Validator, tmp_path: Path, source: str) -> None:
+    found = problems(validator, tmp_path, attribution_in_inscription(source))
+    assert {p.rule for p in found} == {"attribution-source"}
+
+
+def test_an_attribution_names_its_sources(validator: Validator, tmp_path: Path) -> None:
+    xml = (
+        '<div type="chapter" n="1"><head type="inscription">ITEM <note type="attribution">Leo.</note></head>'
+        "<p>P.</p></div>"
+    )
+    assert {p.rule for p in problems(validator, tmp_path, xml)} == {"attribution-source"}
+
+
+@pytest.mark.parametrize(
+    "xml",
+    [
+        '<p>Placuit ut episcopi maneant.<note type="attribution" source="#PERS.12"/></p>',
+        '<div type="chapter" n="1"><head type="rubric">De episcopis <note type="attribution" source="#PERS.12"/>'
+        "</head><p>P.</p></div>",
+    ],
+)
+def test_an_attribution_stands_in_an_inscription_or_a_division(validator: Validator, tmp_path: Path, xml: str) -> None:
+    assert {p.rule for p in problems(validator, tmp_path, xml)} == {"attribution-place"}
+
+
+@pytest.mark.parametrize("note_type", ["source", "reception", "parallel"])
+def test_only_an_attribution_points_to_records(validator: Validator, tmp_path: Path, note_type: str) -> None:
+    xml = f'<p>Placuit ut episcopi maneant.<note type="{note_type}" source="#PERS.12"/></p>'
+    assert {p.rule for p in problems(validator, tmp_path, xml)} == {"note-source-records"}
+
+
+def test_an_attribution_s_source_is_a_pointer_not_a_name(validator: Validator, tmp_path: Path) -> None:
+    eg = etree.fromstring(f'<egXML xmlns="{EXAMPLES}">{attribution_in_inscription("Leo")}</egXML>')
+    path = tmp_path / "note.xml"
+    placed(Example(eg, True, "", "", 1, "note.xml")).write(str(path), xml_declaration=True, encoding="UTF-8")
+    assert not validator.check(path).passes_relaxng
+
+
+def test_a_code_in_an_attribution_s_words_is_reported(validator: Validator, tmp_path: Path) -> None:
+    found = problems(validator, tmp_path, attribution_in_inscription("#EVENT.4", "Clavis: C.NIC-0325."))
+    assert [(p.rule, p.severity) for p in found] == [("source-note-codes", "warning")]

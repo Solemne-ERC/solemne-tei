@@ -79,7 +79,7 @@
       </person>
     </listPerson>
     <listRelation>
-      <relation name="memberOf" type="judgement" active="#PERS.5" passive="#PERS.4"/>
+      <relation name="memberOf" active="#PERS.5" passive="#PERS.4"/>
       <relation name="livedIn" active="#PERS.3" passive="#PLACE.30"/>
     </listRelation>
   </standOff>

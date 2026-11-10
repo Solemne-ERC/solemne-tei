@@ -409,7 +409,7 @@
   </div>
 
   <div xml:id="marked-notes">
-    <head>Notes: sources, parallels, reception, editorial remarks</head>
+    <head>Notes: sources, parallels, reception, attributions, editorial remarks</head>
     <p>A note in the text has a type, its layer:</p>
     <list>
       <item><val>source</val>: where a passage comes from, as an edition says it: its words, and the codes of its
@@ -418,6 +418,8 @@
       <item><val>reception</val>: the later texts that took the passage over, as an edition's tier of later
         collections gives them ("Burchard I, 135; Ivo, Decr. V, 234"): the reverse of a source, the codes of the
         later texts in <att>source</att>;</item>
+      <item><val>attribution</val>: the source a text claims where no words of it name the source, as a scholarly
+        source or the encoder reads it: the sources claimed in <att>source</att>;</item>
       <item><val>editorial</val>: a remark of the editor of the file, about the text or the transcription.</item>
     </list>
     <p>A note stands where its source puts it: at a point of a paragraph, or between paragraphs and divisions,
@@ -495,6 +497,50 @@
     </egXML>
     <p>The import keeps a reception note's words and codes as it keeps a source note's, and reads its codes the other
       way (<ptr target="#relations-levels"/>).</p>
+    <p>An inscription is the text's own claim about where it comes from, and the names in it are the attribution the
+      application reads (<ptr target="#text-headings"/>). Where no words name the source, as when an inscription says
+      only "Item", "Idem" or "Ex eodem concilio", or a canon has none, an attribution a scholarly source or the
+      encoder makes is a note typed <val>attribution</val>: in the inscription, or directly in the division where
+      there's none, where it annotates the division. The sources it claims are in <att>source</att>, several where it
+      claims several: a person or an event by <code>#</code> and its record's id, as the file or a register lists it
+      (<code>#PERS.12</code>, <code>#EVENT.4</code>, <code>#new_person_…</code>), a work or a canon by its code. Its
+      words, if any, say whose reading it is; an encoder's own attribution takes <att>resp</att>. Being a note, it
+      isn't the text's words, where a name on "Item" would say the words name someone. Where an inscription's words
+      name the source, the names in them stay the attribution, and no note is needed.</p>
+    <p>Two canons as the Clavis canonum analyses a collection, made up: Clavis reads the first, whose inscription
+      says only "Ex eodem concilio", as a council's; the second has no inscription, and Clavis gives it two sources,
+      a pope and the council he held:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <div type="chapter" n="11">
+        <head type="inscription">EX EODEM CONCILIO <note type="attribution" source="#new_event_exemplense">Clavis
+            canonum's author group: Exemplense (2EX).</note></head>
+        <p>Placuit ut episcopi in ciuitatibus suis maneant.</p>
+      </div>
+      <div type="chapter" n="12">
+        <note type="attribution" source="#new_person_exemplus #new_event_exemplense">Clavis canonum's author groups:
+          Exemplus papa (1EX); Exemplense (2EX).</note>
+        <head type="rubric">De clericis peregrinis.</head>
+        <p>Clericus peregrinus sine litteris episcopi sui non suscipiatur.</p>
+      </div>
+    </egXML>
+    <p>The import reads each source as an attribution on the inscription, or on the division where there's none, as
+      it reads the names in an inscription. Its stand-off form is the same note in an <gi>annotation</gi> whose target
+      is the heading or the division (<ptr target="#exports-annotations"/>). An attribution names its sources, each
+      record by its id; a pointer to a record by <code>#</code> stands only in an attribution, since the other notes
+      name texts by their codes; and the note stands in an inscription or directly in a division:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="note-pointer-form">
+      <head type="inscription">ITEM <note type="attribution" source="Leo"/><!-- breaks the rule: a name, not a pointer --></head>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="attribution-source">
+      <head type="inscription">ITEM <note type="attribution" source="#leo">Clavis canonum's author group: Leo
+          (1LE).</note><!-- breaks the rule --></head>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="note-source-records">
+      <p>Placuit ut episcopi maneant.<note type="source" source="#PERS.12"/><!-- breaks the rule --></p>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="attribution-place">
+      <p>Placuit ut episcopi maneant.<note type="attribution" source="#PERS.12"/><!-- breaks the rule --></p>
+    </egXML>
     <specGrp xml:id="marked-notes-specs">
       <!-- Notes: in the text, typed by their layer. -->
       <elementSpec ident="note" module="core" mode="change" corresp="#tier-full">
@@ -502,8 +548,9 @@
           <desc>In the text, a note's type is its layer.</desc>
           <constraint>
             <sch:rule context="tei:body//tei:note">
-              <sch:assert id="text-note-type" test="@type = ('source', 'parallel', 'reception', 'editorial')">A note
-                in the text is typed source, parallel, reception or editorial.</sch:assert>
+              <sch:assert id="text-note-type" test="@type = ('source', 'parallel', 'reception', 'attribution',
+                'editorial')">A note in the text is typed source, parallel, reception, attribution or
+                editorial.</sch:assert>
             </sch:rule>
           </constraint>
         </constraintSpec>
@@ -517,17 +564,51 @@
           </constraint>
         </constraintSpec>
         <constraintSpec ident="source-note-codes" scheme="schematron" corresp="#tier-full">
-          <desc>A source or reception note's codes are in source, not in its words. A word starting C. or D. is taken
+          <desc>A source, reception or attribution note's codes are in source, not in its words. A word starting C. or D. is taken
             for a code only in a code's form, older ones included: a letter after the dot, then a hyphen, an
             underscore or a dot, and a digit (C.NIC-0325, C.MEA_0845), so that Gratian's D.5, C.16 or D.LXXVI
             isn't.</desc>
           <constraint>
-            <sch:rule context="tei:note[@type = ('source', 'reception')]">
+            <sch:rule context="tei:note[@type = ('source', 'reception', 'attribution')]">
               <sch:report id="source-note-codes" role="warning" test="some $w in tokenize(normalize-space(.),
                 '[\s;,]+') satisfies matches($w,
                 '^(cf_)?((C|D)\.[A-Za-z][A-Za-z0-9]*[\-_.][0-9][A-Za-z0-9.\-]*(_[A-Za-z0-9.\-]+)?|(COLL|P|EP|H|EX|LR|CPT|CHA|BIB|PATR|SCHOL|W)\.[A-Za-z0-9.\-]+(_[A-Za-z0-9.\-]+)?|[1-4]?[A-Z]{2,4}_[0-9]+(_[0-9]+)?(-[0-9]+)?)$')">A
                 <sch:value-of select="@type"/> note's words hold a code (<sch:value-of select="normalize-space(.)"/>):
                 it belongs in @source.</sch:report>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="attribution-source" scheme="schematron" corresp="#tier-full">
+          <desc>An attribution names the sources it claims in source, each record by # and its id.</desc>
+          <constraint>
+            <sch:rule context="tei:note[@type = 'attribution']">
+              <sch:assert id="attribution-source" test="@source and (every $p in tokenize(normalize-space(@source),
+                ' ')[starts-with(., '#')] satisfies matches($p,
+                '^#((PERS|EVENT)\.[0-9]+|new_(person|event|work|version)_.+)$'))">An attribution names the sources it
+                claims in @source, a person or an event by # and its record's id (#PERS.12, #EVENT.4, #new_person_…),
+                a work or a canon by its code (<sch:value-of select="normalize-space(@source)"/>).</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="note-source-records" scheme="schematron" corresp="#tier-full">
+          <desc>A record pointed to by # stands only in an attribution's source: the other notes name texts by their
+            codes.</desc>
+          <constraint>
+            <sch:rule context="tei:note[@source][not(@type = 'attribution')]">
+              <sch:assert id="note-source-records" test="not(tokenize(normalize-space(@source), ' ')[starts-with(.,
+                '#')])">A <sch:value-of select="@type"/> note names texts by their codes; a record pointed to by #
+                stands only in an attribution (<sch:value-of select="normalize-space(@source)"/>).</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="attribution-place" scheme="schematron" corresp="#tier-full">
+          <desc>An attribution stands in an inscription, or directly in a division, or as a stand-off
+            annotation's body.</desc>
+          <constraint>
+            <sch:rule context="tei:note[@type = 'attribution']">
+              <sch:assert id="attribution-place" test="parent::tei:head[@type = 'inscription'] or parent::tei:div or
+                parent::tei:annotation">An attribution stands in an inscription, or directly in a division where
+                there's none.</sch:assert>
             </sch:rule>
           </constraint>
         </constraintSpec>
@@ -543,6 +624,10 @@
               <valItem ident="reception">
                 <desc>in the text: the later texts that took the passage over, an edition's later collections; their
                   codes in source</desc>
+              </valItem>
+              <valItem ident="attribution">
+                <desc>in the text: the source a text claims where no words of it name the source; the sources claimed
+                  in source</desc>
               </valItem>
               <valItem ident="editorial">
                 <desc>in the text: an editor's remark</desc>
@@ -564,14 +649,23 @@
           </attDef>
           <attDef ident="source" mode="change" corresp="#tier-full">
             <desc>the texts the note names, in the pointers' forms: a source note's sources, a parallel's texts, a
-              reception note's later texts</desc>
+              reception note's later texts, an attribution's sources, records among them by # and their id</desc>
             <datatype minOccurs="1" maxOccurs="unbounded">
-              <dataRef key="solemne.pointer"/>
+              <dataRef key="solemne.notePointer"/>
             </datatype>
           </attDef>
           <attDef ident="subtype" mode="delete"/>
         </attList>
       </elementSpec>
+      <dataSpec ident="solemne.notePointer" mode="add" xml:id="note-pointer-form" corresp="#tier-full">
+        <desc>A note's pointer: a text in the pointers' forms, or, in an attribution, a record by # and its id.</desc>
+        <content>
+          <alternate>
+            <dataRef key="solemne.pointer"/>
+            <dataRef name="token" restriction="#[A-Za-z_][A-Za-z0-9_.\-]*"/>
+          </alternate>
+        </content>
+      </dataSpec>
     </specGrp>
   </div>
 

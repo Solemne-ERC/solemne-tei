@@ -311,7 +311,9 @@
       </div>
     </egXML>
     <p>An inscription is also a claim about the text's source: the application reads it as an attribution, the source
-      the text claims (<ptr target="#marked-statements"/>).</p>
+      the text claims (<ptr target="#marked-statements"/>). Where its words don't name the source ("Item", "Idem"),
+      or a canon has none, a source's or the encoder's attribution is a note typed <val>attribution</val> in the
+      inscription or in the division (<ptr target="#marked-notes"/>).</p>
     <specGrp xml:id="text-headings-specs">
       <elementSpec ident="head" module="core" mode="change" corresp="#tier-common">
         <attList>

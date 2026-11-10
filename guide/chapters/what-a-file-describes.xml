@@ -143,8 +143,9 @@
       </row>
       <row>
         <cell>attribution</cell>
-        <cell>an inscription; a statement's reference</cell>
-        <cell>the inscription; the reference</cell>
+        <cell>an inscription; a statement's reference; a <gi>note</gi> typed <val>attribution</val>, where no words
+          name the source</cell>
+        <cell>the inscription; the reference; the inscription or the division the note stands in</cell>
       </row>
       <row>
         <cell>source note, parallel, reception note, editorial note</cell>

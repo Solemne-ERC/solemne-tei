@@ -22,12 +22,16 @@
         symmetric type, <att>mutual</att>, both ends, once. An end is an id in the file (<code>#hand-A</code>), a
         placeholder, a permalink, or the code of a document or a canon, as <att>source</att> names them (<ptr
           target="#marked-pointers"/>);</item>
-      <item><hi>observation or judgement</hi>: <att>type</att>, <val>observation</val> for what a witness shows,
-        <val>judgement</val> for what holds of a version or a work, naming its evidence;</item>
+      <item><hi>observation or judgement</hi>: <att>type</att>, by where the relation starts:
+        <val>observation</val> from a transcription's node, for what a copy shows; <val>judgement</val> from a
+        passage, a version or a work, for what holds of the text, naming its evidence; none from a record (a person,
+        a place, an institution, a hand, a group), which is neither. The application reads the type so, writes it so
+        in its exports, and reports a file's type that disagrees;</item>
       <item><hi>its certainty</hi>: <att>cert</att>, <val>high</val>, <val>medium</val> or <val>low</val>, for
         certain, probable and possible; none means certain. A disagreement is two relations, not a fourth
         value;</item>
-      <item><hi>its author</hi>: <att>resp</att>, pointing to the person who states it;</item>
+      <item><hi>its author</hi>: <att>resp</att>, pointing to the person who states it, or, in an export, to an
+        account with no person record (<ptr target="#exports-history"/>);</item>
       <item><hi>its date</hi>, where the type has one (an owner's years, an office's), in the relation's own
         attributes, in the one form (<ptr target="#dates"/>);</item>
       <item><hi>its evidence</hi>: the passages it rests on, by pointers in <att>source</att>, and the publications,
@@ -73,11 +77,11 @@
         </taxonomy>
       </classDecl>
       <listRelation>
-        <relation name="hasRole" type="observation" active="#new_person_exemplus" passive="#bishop" from="0801"
+        <relation name="hasRole" active="#new_person_exemplus" passive="#bishop" from="0801"
           to="0814">
           <desc><placeName ref="#new_place_dioecesis_exemplensis">Exemplum</placeName></desc>
         </relation>
-        <relation name="sameHandAs" type="judgement" cert="low" mutual="#hand-A #hand-C"/>
+        <relation name="sameHandAs" cert="low" mutual="#hand-A #hand-C"/>
       </listRelation>
     </egXML>
     <p>An editor of a publication, the first of two, with the name as the volume prints it; a person who belongs to a
@@ -87,7 +91,7 @@
         <relation name="editor" active="#new_bibl_concilia_exempli" passive="#new_person_editor_exempli" n="1">
           <desc><persName>A. Exemplarius</persName></desc>
         </relation>
-        <relation name="memberOf" type="judgement" cert="medium" active="#new_person_exemplus"
+        <relation name="memberOf" cert="medium" active="#new_person_exemplus"
           passive="#new_person_novatians"/>
       </listRelation>
     </egXML>

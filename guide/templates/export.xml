@@ -24,6 +24,10 @@
           <idno type="transcription">https://example.org/id/transcription/C.SOI-0744</idno>
         </title>
         <title type="alias">Council of Soissons, 744</title>
+        <respStmt xml:id="account.17">
+          <resp>account</resp>
+          <name>jdoe</name>
+        </respStmt>
       </titleStmt>
       <publicationStmt>
         <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts</publisher>
@@ -99,6 +103,8 @@
     <revisionDesc>
       <change type="release" n="2027.1" when="2027-06-30">The project's first release: the council checked against
         its edition, its persons, places and events identified.</change>
+      <change when="2027-05-03" who="#account.17" target="#C.SOI-0744_1.p1">A page break moved to its
+        place in the edition.</change>
       <change when="2027-05-02" who="#PERS.12" target="#C.SOI-0744_2.p1">A reading
         corrected against the edition.</change>
     </revisionDesc>
