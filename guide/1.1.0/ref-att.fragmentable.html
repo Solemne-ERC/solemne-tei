@@ -1,0 +1,70 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta charset="UTF-8"/><!--THIS FILE IS GENERATED FROM AN XML MASTER. DO NOT EDIT (7)--><title>TEI class att.fragmentable </title><meta name="author" content="Gleb Schmidt, Friederike Voit and Sven Meeder"/><meta name="generator" content="Text Encoding Initiative Consortium XSLT stylesheets"/><meta name="DC.Title" content="TEI class att.fragmentable"/><meta name="DC.Type" content="Text"/><meta name="DC.Format" content="text/html"/><link href="guide.css" rel="stylesheet" type="text/css"/><script type="text/javascript"><!--
+var displayXML=0;
+states=new Array()
+states[0]="element-a"
+states[1]="element-b"
+states[2]="element-c"
+states[3]="element-d"
+states[4]="element-e"
+states[5]="element-f"
+states[6]="element-g"
+states[7]="element-h"
+states[8]="element-i"
+states[9]="element-j"
+states[10]="element-k"
+states[11]="element-l"
+states[12]="element-m"
+states[13]="element-n"
+states[14]="element-o"
+states[15]="element-p"
+states[16]="element-q"
+states[17]="element-r"
+states[18]="element-s"
+states[19]="element-t"
+states[20]="element-u"
+states[21]="element-v"
+states[22]="element-w"
+states[23]="element-x"
+states[24]="element-y"
+states[25]="element-z"
+
+function startUp() {
+
+}
+
+function hideallExcept(elm) {
+for (var i = 0; i < states.length; i++) {
+ var layer;
+ if (layer = document.getElementById(states[i]) ) {
+  if (states[i] != elm) {
+    layer.style.display = "none";
+  }
+  else {
+   layer.style.display = "block";
+      }
+  }
+ }
+ var mod;
+ if ( mod = document.getElementById('byMod') ) {
+     mod.style.display = "none";
+ }
+}
+
+function showall() {
+ for (var i = 0; i < states.length; i++) {
+   var layer;
+   if (layer = document.getElementById(states[i]) ) {
+      layer.style.display = "block";
+      }
+  }
+}
+
+function showByMod() {
+  hideallExcept('');
+  var mod;
+  if (mod = document.getElementById('byMod') ) {
+     mod.style.display = "block";
+     }
+}
+
+        --></script></head><body id="TOP"><p class="guide-title"><a href="index.html">The SOLEMNE Encoding Guidelines</a>, <a href="specification.html">the specification</a></p><div class="main-content"><div><h3 class="oddSpec" id="att.fragmentable">att.fragmentable</h3><table class="wovenodd"><tr><td colspan="2" class="wovenodd-col2"><span class="label">att.fragmentable</span> provides attributes for representing fragmentation of a structural element, typically as a consequence of some overlapping hierarchy.</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Module</span></td><td class="wovenodd-col2">tei — The specification</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Members</span></td><td class="wovenodd-col2"><span class="showmembers1"><a class="link_odd_classSpec" title="provides attributes common to all elements which behave in the same way as divisions." href="ref-att.divLike.html">att.divLike</a><span class="showmembers2"> [<a class="link_odd_elementSpec" title="(text division) contains a subdivision of the front, body, or back of a text." href="ref-div.html">div</a>] </span> <a class="link_odd_classSpec" title="provides attributes for elements used for arbitrary segmentation." href="ref-att.segLike.html">att.segLike</a><span class="showmembers2"> [<a class="link_odd_elementSpec" title="(arbitrary segment) represents any segmentation of text below the ‘chunk’ level." href="ref-seg.html">seg</a>] </span> <a class="link_odd_elementSpec" title="(paragraph) marks paragraphs in prose." href="ref-p.html">p</a></span></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Attributes</span></td><td class="wovenodd-col2"><table class="attList"><tr><td class="odd_label">part</td><td class="odd_value">specifies whether or not its parent element is fragmented in some way, typically by some other overlapping structure: for example a speech which is divided between two or more verse stanzas, a paragraph which is split across a page division, a verse line which is divided between two speakers.<table class="attDef"><tr><td class="odd_label"><span class="label" xml:lang="en">Status</span> </td><td class="odd_value"><span xml:lang="en">Optional</span></td></tr><tr><td class="odd_label"><span xml:lang="en" class="label">Datatype</span> </td><td class="odd_value"><a class="link_element" href="ref-teidata.enumerated.html">teidata.enumerated</a></td></tr><tr><td class="odd_label"><span class="label" xml:lang="en">Legal values are:</span></td><td class="odd_value"><dl class="valList"><dt class="odd_label">Y</dt><dd class="odd_value">(yes) the element is fragmented in some (unspecified) respect</dd><dt class="odd_label">N</dt><dd class="odd_value">(no) the element is not fragmented, or no claim is made as to its completeness<span class="defaultVal" xml:lang="en"> [Default] </span></dd><dt class="odd_label">I</dt><dd class="odd_value">(initial) this is the initial part of a fragmented element</dd><dt class="odd_label">M</dt><dd class="odd_value">(medial) this is a medial part of a fragmented element</dd><dt class="odd_label">F</dt><dd class="odd_value">(final) this is the final part of a fragmented element</dd></dl></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Note</span></td><td class="wovenodd-col2"><!-- --><p>The values <span class="val">I</span>, <span class="val">M</span>, or <span class="val">F</span> should be used only where it is clear how the element may be reconstituted.</p></td></tr></table></td></tr></table></td></tr></table></div></div><footer class="guide-footer"><p><a href="index.html">The SOLEMNE Encoding Guidelines</a>, Version 1.1.0. Under the Creative Commons Attribution 4.0 licence.</p></footer></body></html>

@@ -1,0 +1,253 @@
+{
+  "SPDX-License-Identifier": "MIT",
+  "generated": "Generated from solemne.odd 1.1.0 (SHA-256 d9d90a3681cd50ee88ef82c03c8892e0c15eaae4f0d23f915120b0c460ebf8a4) by solemne-tei build. Edit the ODD, not this file.",
+  "lists": {
+    "altIdentifier": {
+      "type": [
+        "code",
+        "former",
+        "siglum"
+      ]
+    },
+    "att.declarable": {
+      "default": [
+        "false",
+        "true"
+      ]
+    },
+    "att.divLike": {
+      "org": [
+        "composite",
+        "parallel",
+        "uniform"
+      ],
+      "sample": [
+        "complete",
+        "final",
+        "initial",
+        "medial",
+        "unknown"
+      ]
+    },
+    "att.fragmentable": {
+      "part": [
+        "F",
+        "I",
+        "M",
+        "N",
+        "Y"
+      ]
+    },
+    "att.global": {
+      "xml:space": [
+        "default",
+        "preserve"
+      ]
+    },
+    "att.personal": {
+      "full": [
+        "abb",
+        "init",
+        "yes"
+      ]
+    },
+    "att.pointing": {
+      "evaluate": [
+        "all",
+        "none",
+        "one"
+      ]
+    },
+    "availability": {
+      "status": [
+        "free",
+        "restricted",
+        "unknown"
+      ]
+    },
+    "biblScope": {
+      "unit": [
+        "column",
+        "issue",
+        "page",
+        "part",
+        "volume"
+      ]
+    },
+    "binding": {
+      "contemporary": [
+        "false",
+        "true",
+        "unknown"
+      ]
+    },
+    "change": {
+      "type": [
+        "release"
+      ]
+    },
+    "citedRange": {
+      "unit": [
+        "column",
+        "issue",
+        "page",
+        "part",
+        "volume"
+      ]
+    },
+    "correction": {
+      "method": [
+        "markup",
+        "silent"
+      ],
+      "status": [
+        "high",
+        "low",
+        "medium",
+        "unknown"
+      ]
+    },
+    "div": {
+      "type": [
+        "capitulum",
+        "causa",
+        "chapter",
+        "closer",
+        "dictum",
+        "distinctio",
+        "part",
+        "preface",
+        "quaestio",
+        "register",
+        "registerItem",
+        "section",
+        "subscriptions",
+        "unit"
+      ]
+    },
+    "gap": {
+      "reason": [
+        "damage",
+        "deleted",
+        "editorial",
+        "illegible",
+        "lacuna",
+        "reproduction",
+        "sampling"
+      ],
+      "unit": [
+        "chars",
+        "leaves",
+        "lines",
+        "words"
+      ]
+    },
+    "head": {
+      "type": [
+        "inscription",
+        "number",
+        "rubric"
+      ]
+    },
+    "linkGrp": {
+      "type": [
+        "reuse"
+      ]
+    },
+    "normalization": {
+      "method": [
+        "markup",
+        "silent"
+      ]
+    },
+    "note": {
+      "type": [
+        "attribution",
+        "authorities",
+        "editorial",
+        "extra",
+        "links",
+        "parallel",
+        "reception",
+        "source",
+        "unreviewed"
+      ]
+    },
+    "origDate": {
+      "type": [
+        "undated"
+      ]
+    },
+    "ptr": {
+      "type": [
+        "bibl",
+        "canonical",
+        "event",
+        "group",
+        "manuscript",
+        "org",
+        "person",
+        "place",
+        "stand-in",
+        "version",
+        "via",
+        "work"
+      ]
+    },
+    "punctuation": {
+      "marks": [
+        "all",
+        "none",
+        "some"
+      ],
+      "placement": [
+        "external",
+        "internal"
+      ]
+    },
+    "quotation": {
+      "marks": [
+        "all",
+        "none",
+        "some"
+      ]
+    },
+    "ref": {
+      "type": [
+        "from_paratext",
+        "iiif"
+      ]
+    },
+    "relation": {
+      "cert": [
+        "high",
+        "low",
+        "medium"
+      ],
+      "type": [
+        "judgement",
+        "observation"
+      ]
+    },
+    "seg": {
+      "type": [
+        "corr",
+        "formula"
+      ]
+    },
+    "segmentation": {
+      "type": [
+        "inferred-units"
+      ]
+    },
+    "title": {
+      "level": [
+        "a",
+        "j",
+        "m",
+        "s",
+        "u"
+      ]
+    }
+  }
+}
