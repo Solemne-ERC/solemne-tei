@@ -3,6 +3,60 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
+## 1.1.0 (2026-11-10)
+
+An attribution where no words of the text name the source; Mirabile's indices as five authorities; and the forms
+settled since 1.0.0: a relation's type by where it starts, an author with no person record, a second text of one work
+in one edition, the work groups' types.
+
+### What changes for existing files
+
+Nothing that passed 1.0.0 fails: the new errors apply only to forms 1.0.0 refused, and the RelaxNG takes more, not
+less. New warnings:
+- **`authority-term` on `mirabile`:** the single key is retired, since Mirabile numbers each index on its own and a
+  person may be in two. Each id takes its index's key, which its record's kind gives: a person's `mirabileAuthor`, a
+  work's or a version's `mirabileWork`, an institution's `mirabilePlace`, a manuscript's `mirabileManuscript`; an id
+  in a record's source takes its record's. `mirabilePerson`, for the people Mirabile's manuscripts name, is new: no
+  file has one yet. In the project's files: 315 ids in 26 files of the corrected corpus, and 195 in 9 of the data
+  project's (189 in its three registers, 6 in manuscript descriptions).
+- **`link-authority`** reports a link to Mirabile's institutions or persons, to HMML's reading room or to Biblissima's
+  records in a note of links, as it reports other authorities' records: they belong in `idno`s. None in the project's
+  files.
+- **`work-group-term`** reports a work group's type outside the application's four.
+
+What now passes:
+- a note typed `attribution`, in an inscription or directly in a division, its sources in `@source`, records among
+  them by `#` and their id;
+- `mirabileAuthor`, `mirabilePerson`, `mirabileWork`, `mirabileManuscript` and `mirabilePlace`, without a
+  declaration.
+
+On the project's files: the corpus as received and as corrected, and the data project's sets, meet nothing new but
+the `authority-term` warnings above. The data project's 160 files of Clavis canonum's analyses, their 41,738 author
+groups rewritten from editorial notes into attributions, pass without a problem.
+
+### The schema
+
+- **Attributions:** `note/@type` takes `attribution`; a note's `@source` takes a record by `#` and its id besides the
+  pointers' forms; `attribution-source` (its sources named, a record by its id), `attribution-place` (in an
+  inscription or a division) and `note-source-records` (a record by `#` only in an attribution), errors;
+  `text-note-type`, `annotation-body` and `source-note-codes` take attribution notes.
+- **Mirabile:** `idno/@type`'s seeds lose `mirabile` and gain its five indices.
+- **`link-authority`** knows Mirabile's institutions and persons, HMML's reading room and Biblissima's records.
+- **Work groups:** `work-group-term`, a warning, with the types `oneOrigin`, `derivedCollections`, `oneManuscript`
+  and `projectGrouping`.
+
+### The guide
+
+- Part IV: attributions where no words name the source, with an example and counter-examples; Part III's headings,
+  Part I's layers and Part X's stand-off bodies point to them.
+- Part VI: a relation's type follows where it starts: an observation from a transcription's node, a judgement from a
+  passage, a version or a work, none from a record. The examples that start at a record lose their type.
+- Part X: an account with no person record, a `respStmt` in the title statement (`account.17`) that `@who` and
+  `@resp` point to; the export template shows one.
+- Part II: a second text of one work in one edition, its item's number after the edition
+  (`D.LEO-0449-423.ed-Schon-222`); a declaration's example with a made-up index.
+- Part V: Mirabile's indices by key, a work's link `title/-title/`; the work groups' types.
+
 ## 1.0.0 (2026-11-09)
 
 The first stable release: from it on, a file that passes fails only after a major version. It holds the records the
