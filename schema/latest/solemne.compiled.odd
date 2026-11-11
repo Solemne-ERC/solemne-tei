@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-<!-- Generated from solemne.odd 1.1.0 (SHA-256 d9d90a3681cd50ee88ef82c03c8892e0c15eaae4f0d23f915120b0c460ebf8a4) by solemne-tei build. Edit the ODD, not this file. -->
+<!-- Generated from solemne.odd 1.2.0 (SHA-256 15b300bf4bafb04561f53ab3320d349a43a3f9cc20a910dbc58ceb572b2b42d6) by solemne-tei build. Edit the ODD, not this file. -->
 <!--
 This schema is made from TEI P5 4.12.0 by the TEI Consortium (https://tei-c.org/), which distributes it under the Creative Commons Attribution 3.0 Unported licence (https://creativecommons.org/licenses/by/3.0/) and under the BSD 2-Clause licence:
 
@@ -37,7 +37,7 @@ the use of this software, even if advised of the possibility of such damage.
         <author>Sven Meeder</author>
       </titleStmt>
       <editionStmt>
-        <edition n="1.1.0">Version 1.1.0</edition>
+        <edition n="1.2.0">Version 1.2.0</edition>
       </editionStmt>
       <publicationStmt>
         <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University</publisher>
@@ -96,8 +96,8 @@ the use of this software, even if advised of the possibility of such damage.
         <docAuthor>Gleb Schmidt</docAuthor>
         <docAuthor>Friederike Voit</docAuthor>
         <docAuthor>Sven Meeder</docAuthor>
-        <docEdition>Version 1.1.0</docEdition>
-        <docDate when="2026-11-10">10 November 2026</docDate>
+        <docEdition>Version 1.2.0</docEdition>
+        <docDate when="2026-11-11">11 November 2026</docDate>
         <docImprint>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University, Nijmegen; funded by
           the European Research Council, grant 101087979. The guide is under the Creative Commons Attribution 4.0
           licence; the schema made from it, under the MIT licence.</docImprint>
@@ -142,9 +142,9 @@ the use of this software, even if advised of the possibility of such damage.
       the templates is checked as it is typed: the template declares the schema by two <code>xml-model</code>
       processing instructions, one for the RelaxNG, with the Schematron inside it, and one for the Schematron, for
       other tools:</p>
-    <eg>&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/1.1.0/solemne.rng"
+    <eg>&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/1.2.0/solemne.rng"
   type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?&gt;
-&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/1.1.0/solemne.sch"
+&lt;?xml-model href="https://solemne-erc.github.io/solemne-tei/schema/1.2.0/solemne.sch"
   type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?&gt;</eg>
     <p>The schema is published at its version's address once the release is published; until then, a template is
       checked with <code>solemne-tei validate</code>.</p>
@@ -787,9 +787,9 @@ the use of this software, even if advised of the possibility of such damage.
     </egXML>
     <p>The header points to records as the text does, by <att>ref</att>, in the same forms: a title to its work, an
       author or an editor to a person. <att>key</att> and <att>corresp</att> keep TEI's other uses; a record's
-      pointer in them is reported. <gi>provenance</gi>, <gi>acquisition</gi> and <gi>origin</gi>, in a manuscript's
-      description, have no <att>ref</att> in TEI: the record they point to is named inside them, by a name with
-      <att>ref</att>, and the import makes the relation from that name.</p>
+      pointer in them is reported, except a work group's <att>corresp</att> to the larger group it is a part of (<ptr target="#records-work-groups"/>). <gi>provenance</gi>, <gi>acquisition</gi> and <gi>origin</gi>, in a
+      manuscript's description, have no <att>ref</att> in TEI: the record they point to is named inside them, by a
+      name with <att>ref</att>, and the import makes the relation from that name.</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-in-ref">
       <sourceDesc>
         <bibl>
@@ -2709,10 +2709,10 @@ the use of this software, even if advised of the possibility of such damage.
       of group: <val>oneOrigin</val>, works of one origin; <val>derivedCollections</val>, a collection and those
       derived from it; <val>oneManuscript</val>, the collections of one manuscript; <val>projectGrouping</val>, the
       project's own grouping. Another key is reported, since the application's vocabulary grows, as an event's type
-      is. A group made as a part of a larger one points to it by <att>corresp</att>, since
-      containment is a pointer. Its members join it by relations, <val>memberOf</val>, each from the member, a work,
-      a version or another group, with its certainty and evidence, since membership is a claim (<ptr target="#relations-types"/>): the Clavis canonum counts the Collectio Lanfranci among the Pseudo-Isidorian
-      forgeries, an abridgement made two centuries later. A made-up group, its ids made up too:</p>
+      is. Its members join it by relations, <val>memberOf</val>, each from the member, a work, a version or another
+      group, with its certainty and evidence, since membership is a claim (<ptr target="#relations-types"/>): the
+      Clavis canonum counts the Collectio Lanfranci among the Pseudo-Isidorian forgeries, an abridgement made two
+      centuries later. A made-up group, its ids made up too:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <listBibl>
         <bibl type="workGroup" subtype="oneOrigin" xml:id="GROUP.2">
@@ -2725,6 +2725,42 @@ the use of this software, even if advised of the possibility of such damage.
         <relation name="memberOf" type="judgement" cert="low" active="COLL.Lanfranc" passive="#GROUP.2">
           <desc>after <bibl><ptr target="#PUBL.5"/></bibl></desc>
         </relation>
+      </listRelation>
+    </egXML>
+    <p>A group made as a part of a larger one, by whoever made the larger, points to it by <att>corresp</att>, since
+      containment is a pointer; a group that someone else counts in a larger construct is a member of it, like any
+      other. A group whose members stand in an order, Gregory I's Register by book and letter, a ruler's capitularies
+      by date, gives each member's place in <att>n</att> on its relation: a whole number, counting from 1 in each
+      group. The order is optional: a group in no order, as the Pseudo-Isidorian forgeries, has none, and neither has
+      a member whose place isn't known. A made-up group, a register that is a part of it with two letters in their
+      order, and a letter outside the register, a member of the larger group with no place:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listBibl>
+        <bibl type="workGroup" subtype="oneOrigin" xml:id="new_group_letters_exempli">
+          <title>The letters of Exemplus</title>
+        </bibl>
+        <bibl type="workGroup" subtype="oneOrigin" xml:id="new_group_register_exempli" corresp="#new_group_letters_exempli">
+          <title>The register of Exemplus</title>
+          <note>The letters his chancery copied into its register, in the register's order.</note>
+        </bibl>
+      </listBibl>
+      <listRelation>
+        <relation name="memberOf" type="judgement" active="D.EXE-0601-12" passive="#new_group_register_exempli" n="1"/>
+        <relation name="memberOf" type="judgement" active="D.EXE-0601-15" passive="#new_group_register_exempli" n="2"/>
+        <relation name="memberOf" type="judgement" active="D.EXE-0602-3" passive="#new_group_letters_exempli"/>
+      </listRelation>
+    </egXML>
+    <p>A place is a whole number from 1, and two members of one group don't share one in a file; both are
+      reported:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="member-place-number">
+      <listRelation>
+        <relation name="memberOf" type="judgement" active="D.EXE-0601-12" passive="#new_group_register_exempli" n="first"/><!-- breaks the rule -->
+      </listRelation>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="member-place-unique">
+      <listRelation>
+        <relation name="memberOf" type="judgement" active="D.EXE-0601-12" passive="#new_group_register_exempli" n="1"/>
+        <relation name="memberOf" type="judgement" active="D.EXE-0601-15" passive="#new_group_register_exempli" n="1"/><!-- breaks the rule -->
       </listRelation>
     </egXML>
     <p>A group is stored with its name, description, type, author and members; it is never a level of a text. A type
@@ -15393,6 +15429,27 @@ Measures</ref>
                 application's vocabulary.</sch:assert>
             </sch:rule>
           </constraint>
+        </constraintSpec><constraintSpec ident="member-place-number" scheme="schematron" corresp="#tier-full">
+          <desc>A member's place in a work group is a whole number from 1.</desc>
+          <constraint>
+            <sch:rule context="tei:relation[@name = 'memberOf'][@n][matches(normalize-space(@passive),               '^#(GROUP\.\d+|new_group_\S+)$')]">
+              <sch:assert id="member-place-number" role="warning" test="matches(@n, '^[1-9][0-9]*$')">A member's
+                place in its group (n="<sch:value-of select="@n"/>") is a whole number, counting from 1.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec><constraintSpec ident="member-place-unique" scheme="schematron" corresp="#tier-full">
+          <desc>Two members of one work group don't share a place in a file.</desc>
+          <constraint>
+            <sch:pattern>
+              
+              <sch:let name="memberPlaces" value="for $r in //tei:relation[@name = 'memberOf'][@n]                 [matches(normalize-space(@passive), '^#(GROUP\.\d+|new_group_\S+)$')] return                 concat(normalize-space($r/@passive), ' ', normalize-space($r/@n))"/>
+              <sch:let name="repeatedMemberPlaces" value="if (count(distinct-values($memberPlaces)) eq                 count($memberPlaces)) then () else (for $k in distinct-values($memberPlaces) return                 $k[count(index-of($memberPlaces, $k)) gt 1])"/>
+              <sch:rule context="tei:relation[@name = 'memberOf'][@n][matches(normalize-space(@passive),                 '^#(GROUP\.\d+|new_group_\S+)$')]">
+                <sch:report id="member-place-unique" role="warning" test="concat(normalize-space(@passive), ' ',                   normalize-space(@n)) = $repeatedMemberPlaces">Another member of <sch:value-of select="normalize-space(@passive)"/> stands at place <sch:value-of select="normalize-space(@n)"/>
+                  in this file: each member has a place of its own.</sch:report>
+              </sch:rule>
+            </sch:pattern>
+          </constraint>
         </constraintSpec><constraintSpec scheme="schematron" ident="ptrAtts" xml:lang="en">
     <constraint>
       <sch:rule context="tei:ptr">
@@ -18902,10 +18959,11 @@ element in the TEI header.
     제공한다.</desc><desc versionDate="2007-05-02" xml:lang="zh-TW">在所有符合TEI標準的文本起始的電子題名頁當中提供敘述性以及宣告性的資訊。</desc><desc versionDate="2008-04-05" xml:lang="ja">全てのTEI準拠テキストが伴う、電子版のタイトルページを構成する、記述 的・宣言的情報を示す。</desc><desc versionDate="2016-11-25" xml:lang="de">beinhaltet beschreibende und erklärende Metadaten, die einer digitalen Ressource oder einer Sammlung von Ressourcen vorangestellt sind.</desc><desc versionDate="2007-05-04" xml:lang="es">proporciona información descriptiva y declarativa de una
     página de título electrónico prefijada como un texto conforme a TEI.</desc><desc versionDate="2007-01-21" xml:lang="it">fornisce informazioni descrittive e dichiarative che
     costituiscono un frontespizio elettronico che precede qualsiasi testo TEI-conforme.</desc><classes><memberOf key="att.global"/></classes><content><sequence minOccurs="1" maxOccurs="1"><elementRef key="fileDesc"/><classRef key="model.teiHeaderPart" minOccurs="0" maxOccurs="unbounded"/><elementRef key="revisionDesc" minOccurs="0"/></sequence></content><constraintSpec ident="record-pointer-in-ref" scheme="schematron" corresp="#tier-full">
-          <desc>A record is pointed to by @ref, not by @key or @corresp.</desc>
+          <desc>A record is pointed to by @ref, not by @key or @corresp, except a work group's @corresp to the larger
+            group it is a part of.</desc>
           <constraint>
             <sch:rule context="tei:*[@key or @corresp]">
-              <sch:report id="record-pointer-in-ref" role="warning" test="some $p in                 tokenize(normalize-space(string-join((@key, @corresp), ' ')), ' ') satisfies matches($p,                 '^#?[Nn]ew_[A-Za-z]+_|^#?(PERS|PLACE|INST|EVENT|PUBL|GROUP)\.\d+$|^https?://\S+/id/(person|place|institution|event|manuscript|publication)/')">&lt;<sch:name/>&gt;
+              <sch:report id="record-pointer-in-ref" role="warning" test="some $p in                 (tokenize(normalize-space(@key), ' '), if (self::tei:bibl[@type = 'workGroup']) then                 tokenize(normalize-space(@corresp), ' ')[not(matches(., '^#(GROUP\.\d+|new_group_\S+)$'))] else                 tokenize(normalize-space(@corresp), ' ')) satisfies matches($p,                 '^#?[Nn]ew_[A-Za-z]+_|^#?(PERS|PLACE|INST|EVENT|PUBL|GROUP)\.\d+$|^https?://\S+/id/(person|place|institution|event|manuscript|publication)/')">&lt;<sch:name/>&gt;
                 points to a record in @key or @corresp (<sch:value-of select="normalize-space(string-join((@key,                 @corresp), ' '))"/>): a record is pointed to by @ref, on a name inside provenance, acquisition and
                 origin.</sch:report>
             </sch:rule>

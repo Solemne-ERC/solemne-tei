@@ -1,0 +1,70 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta charset="UTF-8"/><!--THIS FILE IS GENERATED FROM AN XML MASTER. DO NOT EDIT (7)--><title>TEI class model.global </title><meta name="author" content="Gleb Schmidt, Friederike Voit and Sven Meeder"/><meta name="generator" content="Text Encoding Initiative Consortium XSLT stylesheets"/><meta name="DC.Title" content="TEI class model.global"/><meta name="DC.Type" content="Text"/><meta name="DC.Format" content="text/html"/><link href="guide.css" rel="stylesheet" type="text/css"/><script type="text/javascript"><!--
+var displayXML=0;
+states=new Array()
+states[0]="element-a"
+states[1]="element-b"
+states[2]="element-c"
+states[3]="element-d"
+states[4]="element-e"
+states[5]="element-f"
+states[6]="element-g"
+states[7]="element-h"
+states[8]="element-i"
+states[9]="element-j"
+states[10]="element-k"
+states[11]="element-l"
+states[12]="element-m"
+states[13]="element-n"
+states[14]="element-o"
+states[15]="element-p"
+states[16]="element-q"
+states[17]="element-r"
+states[18]="element-s"
+states[19]="element-t"
+states[20]="element-u"
+states[21]="element-v"
+states[22]="element-w"
+states[23]="element-x"
+states[24]="element-y"
+states[25]="element-z"
+
+function startUp() {
+
+}
+
+function hideallExcept(elm) {
+for (var i = 0; i < states.length; i++) {
+ var layer;
+ if (layer = document.getElementById(states[i]) ) {
+  if (states[i] != elm) {
+    layer.style.display = "none";
+  }
+  else {
+   layer.style.display = "block";
+      }
+  }
+ }
+ var mod;
+ if ( mod = document.getElementById('byMod') ) {
+     mod.style.display = "none";
+ }
+}
+
+function showall() {
+ for (var i = 0; i < states.length; i++) {
+   var layer;
+   if (layer = document.getElementById(states[i]) ) {
+      layer.style.display = "block";
+      }
+  }
+}
+
+function showByMod() {
+  hideallExcept('');
+  var mod;
+  if (mod = document.getElementById('byMod') ) {
+     mod.style.display = "block";
+     }
+}
+
+        --></script></head><body id="TOP"><p class="guide-title"><a href="index.html">The SOLEMNE Encoding Guidelines</a>, <a href="specification.html">the specification</a></p><div class="main-content"><div><h3 class="oddSpec" id="model.global">model.global</h3><table class="wovenodd"><tr><td colspan="2" class="wovenodd-col2"><span class="label">model.global</span> groups elements which may appear at any point within a TEI text. [1.3. The TEI Class System]</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Module</span></td><td class="wovenodd-col2">tei — The specification</td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Used by</span></td><td class="wovenodd-col2"><div class="parent"><a class="link_odd_elementSpec" title="(address) contains a postal address, for example of a publisher, an organization, or an individual." href="ref-address.html">address</a> <a class="link_odd_elementSpec" title="(bibliographic citation) contains a loosely-structured bibliographic citation of which the sub-components may or may not be explicitly tagged." href="ref-bibl.html">bibl</a> <a class="link_odd_elementSpec" title="(cited quotation) contains a quotation from some other document, together with a bibliographic reference to its source. In a dictionary it may contain an example text with at least one occurrence of the word form, used in the sense being described, or a translation of the headword, or an example." href="ref-cit.html">cit</a> <a class="link_odd_elementSpec" title="(date) contains a date in any format." href="ref-date.html">date</a> <a class="link_odd_elementSpec" title="(heading) contains any type of heading, for example the title of a section, or the heading of a list, glossary, manuscript description, etc." href="ref-head.html">head</a> <a class="link_odd_elementSpec" title="() groups information relating to the publication or distribution of a bibliographic item." href="ref-imprint.html">imprint</a> <a class="link_odd_elementSpec" title="(list) contains any sequence of items organized as a list." href="ref-list.html">list</a> <a class="link_odd_macroSpec" title="" href="ref-macro.phraseSeq.html">macro.phraseSeq</a> <a class="link_odd_macroSpec" title="" href="ref-macro.phraseSeq.limited.html">macro.phraseSeq.limited</a> <a class="link_odd_macroSpec" title="" href="ref-macro.specialPara.html">macro.specialPara</a> <a class="link_odd_classSpec" title="groups elements that may appear in paragraphs and similar elements." href="ref-model.paraPart.html">model.paraPart</a> <a class="link_odd_elementSpec" title="(manuscript item) describes an individual work or item within the intellectual content of a manuscript, manuscript part, or other object." href="ref-msItem.html">msItem</a> <a class="link_odd_elementSpec" title="(origin date) contains any form of date, used to identify the date of origin for a manuscript, manuscript part, or other object." href="ref-origDate.html">origDate</a> <a class="link_odd_elementSpec" title="(person) provides information about an identifiable individual, for example a participant in a language interaction, or a person referred to in a historical source." href="ref-person.html">person</a> <a class="link_odd_elementSpec" title="(personal group) describes a group of individuals treated as a single person for analytic purposes." href="ref-personGrp.html">personGrp</a> <a class="link_odd_elementSpec" title="(series information) contains information about the series in which a book or other bibliographic item has appeared." href="ref-series.html">series</a> <a class="link_odd_elementSpec" title="(text) contains a single text of any kind, whether unitary or composite, for example a poem or drama, a collection of essays, a novel, a dictionary, or a corpus sample." href="ref-text.html">text</a></div></td></tr><tr><td class="wovenodd-col1"><span class="label" xml:lang="en">Members</span></td><td class="wovenodd-col2"><span class="showmembers1"><a class="link_odd_classSpec" title="groups globally available elements which perform a specifically editorial function." href="ref-model.global.edit.html">model.global.edit</a><span class="showmembers2"> [<a class="link_odd_elementSpec" title="(gap) indicates a point where material has been omitted in a transcription, whether for editorial reasons described in the TEI header, as part of sampling practice, or because the material is illegible, invisible, or inaudible." href="ref-gap.html">gap</a>] </span> <a class="link_odd_classSpec" title="groups globally available elements which describe the status of other elements." href="ref-model.global.meta.html">model.global.meta</a><span class="showmembers2"> [<a class="link_odd_elementSpec" title="(feature structure) represents a feature structure, that is, a collection of feature-value pairs organized as a structural unit." href="ref-fs.html">fs</a> <a class="link_odd_elementSpec" title="(link) defines an association or hypertextual link among elements or passages, of some type not more precisely specifiable by other elements." href="ref-link.html">link</a> <a class="link_odd_elementSpec" title="(link group) defines a collection of associations or hypertextual links." href="ref-linkGrp.html">linkGrp</a>] </span> <a class="link_odd_classSpec" title="groups milestone-style elements used to represent reference systems." href="ref-model.milestoneLike.html">model.milestoneLike</a><span class="showmembers2"> [<a class="link_odd_elementSpec" title="(anchor point) attaches an identifier to a point within a text, whether or not it corresponds with a textual element." href="ref-anchor.html">anchor</a> <a class="link_odd_elementSpec" title="(line beginning) marks the beginning of a topographic line in some edition or version of a text." href="ref-lb.html">lb</a> <a class="link_odd_elementSpec" title="(milestone) marks a boundary point separating any kind of section of a text, typically but not necessarily indicating a point at which some part of a standard reference system changes, where the change is not represented by a structural element." href="ref-milestone.html">milestone</a> <a class="link_odd_elementSpec" title="(page beginning) marks the beginning of a new page in a paginated document." href="ref-pb.html">pb</a>] </span> <a class="link_odd_classSpec" title="groups globally-available note-like elements." href="ref-model.noteLike.html">model.noteLike</a><span class="showmembers2"> [<a class="link_odd_elementSpec" title="(note) contains a note or annotation." href="ref-note.html">note</a>] </span></span></td></tr></table></div></div><footer class="guide-footer"><p><a href="index.html">The SOLEMNE Encoding Guidelines</a>, Version 1.2.0. Under the Creative Commons Attribution 4.0 licence.</p></footer></body></html>
