@@ -476,7 +476,8 @@
       choices; an export writes each work and version it points to, with them.</p>
     <specGrp xml:id="records-works-specs">
       <!-- A work's choices of versions: its canonical version and the version that stands in for it; and, in a
-           relation, what a text came through. -->
+           relation, what a text came through. The work groups' rules stand here too, a second elementSpec for bibl
+           or relation clashing with Part IV's and Part VI's: a group's type, and its members' places. -->
       <elementSpec ident="ptr" module="core" mode="change" corresp="#tier-full">
         <constraintSpec ident="version-choices" scheme="schematron" corresp="#tier-full">
           <desc>A work names at most one canonical version and one stand-in.</desc>
@@ -498,6 +499,38 @@
                 <sch:value-of select="@subtype"/> isn't among the guide's: check its spelling, or add it to the
                 application's vocabulary.</sch:assert>
             </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="member-place-number" scheme="schematron" corresp="#tier-full">
+          <desc>A member's place in a work group is a whole number from 1.</desc>
+          <constraint>
+            <sch:rule context="tei:relation[@name = 'memberOf'][@n][matches(normalize-space(@passive),
+              '^#(GROUP\.\d+|new_group_\S+)$')]">
+              <sch:assert id="member-place-number" role="warning" test="matches(@n, '^[1-9][0-9]*$')">A member's
+                place in its group (n="<sch:value-of select="@n"/>") is a whole number, counting from 1.</sch:assert>
+            </sch:rule>
+          </constraint>
+        </constraintSpec>
+        <constraintSpec ident="member-place-unique" scheme="schematron" corresp="#tier-full">
+          <desc>Two members of one work group don't share a place in a file.</desc>
+          <constraint>
+            <sch:pattern>
+              <!-- The places are gathered once per file: checking each relation against the others took seconds
+                   on a register of a few thousand. -->
+              <sch:let name="memberPlaces" value="for $r in //tei:relation[@name = 'memberOf'][@n]
+                [matches(normalize-space(@passive), '^#(GROUP\.\d+|new_group_\S+)$')] return
+                concat(normalize-space($r/@passive), ' ', normalize-space($r/@n))"/>
+              <sch:let name="repeatedMemberPlaces" value="if (count(distinct-values($memberPlaces)) eq
+                count($memberPlaces)) then () else (for $k in distinct-values($memberPlaces) return
+                $k[count(index-of($memberPlaces, $k)) gt 1])"/>
+              <sch:rule context="tei:relation[@name = 'memberOf'][@n][matches(normalize-space(@passive),
+                '^#(GROUP\.\d+|new_group_\S+)$')]">
+                <sch:report id="member-place-unique" role="warning" test="concat(normalize-space(@passive), ' ',
+                  normalize-space(@n)) = $repeatedMemberPlaces">Another member of <sch:value-of
+                    select="normalize-space(@passive)"/> stands at place <sch:value-of select="normalize-space(@n)"/>
+                  in this file: each member has a place of its own.</sch:report>
+              </sch:rule>
+            </sch:pattern>
           </constraint>
         </constraintSpec>
         <attList>
@@ -574,11 +607,10 @@
       of group: <val>oneOrigin</val>, works of one origin; <val>derivedCollections</val>, a collection and those
       derived from it; <val>oneManuscript</val>, the collections of one manuscript; <val>projectGrouping</val>, the
       project's own grouping. Another key is reported, since the application's vocabulary grows, as an event's type
-      is. A group made as a part of a larger one points to it by <att>corresp</att>, since
-      containment is a pointer. Its members join it by relations, <val>memberOf</val>, each from the member, a work,
-      a version or another group, with its certainty and evidence, since membership is a claim (<ptr
-        target="#relations-types"/>): the Clavis canonum counts the Collectio Lanfranci among the Pseudo-Isidorian
-      forgeries, an abridgement made two centuries later. A made-up group, its ids made up too:</p>
+      is. Its members join it by relations, <val>memberOf</val>, each from the member, a work, a version or another
+      group, with its certainty and evidence, since membership is a claim (<ptr target="#relations-types"/>): the
+      Clavis canonum counts the Collectio Lanfranci among the Pseudo-Isidorian forgeries, an abridgement made two
+      centuries later. A made-up group, its ids made up too:</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples">
       <listBibl>
         <bibl type="workGroup" subtype="oneOrigin" xml:id="GROUP.2">
@@ -591,6 +623,48 @@
         <relation name="memberOf" type="judgement" cert="low" active="COLL.Lanfranc" passive="#GROUP.2">
           <desc>after <bibl><ptr target="#PUBL.5"/></bibl></desc>
         </relation>
+      </listRelation>
+    </egXML>
+    <p>A group made as a part of a larger one, by whoever made the larger, points to it by <att>corresp</att>, since
+      containment is a pointer; a group that someone else counts in a larger construct is a member of it, like any
+      other. A group whose members stand in an order, Gregory I's Register by book and letter, a ruler's capitularies
+      by date, gives each member's place in <att>n</att> on its relation: a whole number, counting from 1 in each
+      group. The order is optional: a group in no order, as the Pseudo-Isidorian forgeries, has none, and neither has
+      a member whose place isn't known. A made-up group, a register that is a part of it with two letters in their
+      order, and a letter outside the register, a member of the larger group with no place:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+      <listBibl>
+        <bibl type="workGroup" subtype="oneOrigin" xml:id="new_group_letters_exempli">
+          <title>The letters of Exemplus</title>
+        </bibl>
+        <bibl type="workGroup" subtype="oneOrigin" xml:id="new_group_register_exempli"
+          corresp="#new_group_letters_exempli">
+          <title>The register of Exemplus</title>
+          <note>The letters his chancery copied into its register, in the register's order.</note>
+        </bibl>
+      </listBibl>
+      <listRelation>
+        <relation name="memberOf" type="judgement" active="D.EXE-0601-12" passive="#new_group_register_exempli"
+          n="1"/>
+        <relation name="memberOf" type="judgement" active="D.EXE-0601-15" passive="#new_group_register_exempli"
+          n="2"/>
+        <relation name="memberOf" type="judgement" active="D.EXE-0602-3" passive="#new_group_letters_exempli"/>
+      </listRelation>
+    </egXML>
+    <p>A place is a whole number from 1, and two members of one group don't share one in a file; both are
+      reported:</p>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="member-place-number">
+      <listRelation>
+        <relation name="memberOf" type="judgement" active="D.EXE-0601-12" passive="#new_group_register_exempli"
+          n="first"/><!-- breaks the rule -->
+      </listRelation>
+    </egXML>
+    <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="member-place-unique">
+      <listRelation>
+        <relation name="memberOf" type="judgement" active="D.EXE-0601-12" passive="#new_group_register_exempli"
+          n="1"/>
+        <relation name="memberOf" type="judgement" active="D.EXE-0601-15" passive="#new_group_register_exempli"
+          n="1"/><!-- breaks the rule -->
       </listRelation>
     </egXML>
     <p>A group is stored with its name, description, type, author and members; it is never a level of a text. A type

@@ -653,9 +653,10 @@
     </egXML>
     <p>The header points to records as the text does, by <att>ref</att>, in the same forms: a title to its work, an
       author or an editor to a person. <att>key</att> and <att>corresp</att> keep TEI's other uses; a record's
-      pointer in them is reported. <gi>provenance</gi>, <gi>acquisition</gi> and <gi>origin</gi>, in a manuscript's
-      description, have no <att>ref</att> in TEI: the record they point to is named inside them, by a name with
-      <att>ref</att>, and the import makes the relation from that name.</p>
+      pointer in them is reported, except a work group's <att>corresp</att> to the larger group it is a part of (<ptr
+        target="#records-work-groups"/>). <gi>provenance</gi>, <gi>acquisition</gi> and <gi>origin</gi>, in a
+      manuscript's description, have no <att>ref</att> in TEI: the record they point to is named inside them, by a
+      name with <att>ref</att>, and the import makes the relation from that name.</p>
     <egXML xmlns="http://www.tei-c.org/ns/Examples" valid="false" n="record-pointer-in-ref">
       <sourceDesc>
         <bibl>
@@ -708,11 +709,14 @@
 
       <elementSpec ident="teiHeader" module="header" mode="change" corresp="#tier-required">
         <constraintSpec ident="record-pointer-in-ref" scheme="schematron" corresp="#tier-full">
-          <desc>A record is pointed to by @ref, not by @key or @corresp.</desc>
+          <desc>A record is pointed to by @ref, not by @key or @corresp, except a work group's @corresp to the larger
+            group it is a part of.</desc>
           <constraint>
             <sch:rule context="tei:*[@key or @corresp]">
               <sch:report id="record-pointer-in-ref" role="warning" test="some $p in
-                tokenize(normalize-space(string-join((@key, @corresp), ' ')), ' ') satisfies matches($p,
+                (tokenize(normalize-space(@key), ' '), if (self::tei:bibl[@type = 'workGroup']) then
+                tokenize(normalize-space(@corresp), ' ')[not(matches(., '^#(GROUP\.\d+|new_group_\S+)$'))] else
+                tokenize(normalize-space(@corresp), ' ')) satisfies matches($p,
                 '^#?[Nn]ew_[A-Za-z]+_|^#?(PERS|PLACE|INST|EVENT|PUBL|GROUP)\.\d+$|^https?://\S+/id/(person|place|institution|event|manuscript|publication)/')">&lt;<sch:name/>&gt;
                 points to a record in @key or @corresp (<sch:value-of select="normalize-space(string-join((@key,
                 @corresp), ' '))"/>): a record is pointed to by @ref, on a name inside provenance, acquisition and

@@ -264,6 +264,63 @@ def test_a_type_outside_the_seeds_is_reported(
     assert [(p.rule, p.severity) for p in found] == ([(rule, "warning")] if flagged else [])
 
 
+@pytest.mark.parametrize(("whole", "part"), [("GROUP.2", "GROUP.3"), ("new_group_letters", "new_group_register")])
+def test_a_group_points_to_the_larger_one_it_is_a_part_of(
+    validator: Validator, tmp_path: Path, whole: str, part: str
+) -> None:
+    groups = (
+        f"<listBibl><bibl type='workGroup' xml:id='{whole}'><title>Letters</title></bibl>"
+        f"<bibl type='workGroup' xml:id='{part}' corresp='#{whole}'><title>Register</title></bibl></listBibl>"
+    )
+    assert fragment(validator, tmp_path, groups) == []
+
+
+@pytest.mark.parametrize(
+    "record",
+    [
+        "<bibl type='workGroup' xml:id='GROUP.3' corresp='#PERS.12'><title>Register</title></bibl>",
+        "<bibl type='workGroup' xml:id='GROUP.3' corresp='#GROUP.2 #PERS.12'><title>Register</title></bibl>",
+        "<bibl type='work' xml:id='C.NIC-0325' corresp='#GROUP.2'><title>Nicaea</title></bibl>",
+    ],
+)
+def test_only_a_work_group_s_corresp_to_groups_is_left_alone(validator: Validator, tmp_path: Path, record: str) -> None:
+    assert rules(fragment(validator, tmp_path, f"<listBibl>{record}</listBibl>")) == {"record-pointer-in-ref"}
+
+
+def memberships(*places: tuple[str, str]) -> str:
+    """Members of work groups, each a group's pointer and a place."""
+    relations = "".join(
+        f"<relation name='memberOf' type='judgement' active='D.EXE-0601-{i}' passive='{group}' n='{n}'/>"
+        for i, (group, n) in enumerate(places, 1)
+    )
+    return f"<listRelation>{relations}</listRelation>"
+
+
+@pytest.mark.parametrize("n", ["1", "12"])
+def test_a_member_s_place_is_a_whole_number_from_1(validator: Validator, tmp_path: Path, n: str) -> None:
+    assert fragment(validator, tmp_path, memberships(("#GROUP.12", n))) == []
+
+
+@pytest.mark.parametrize("n", ["0", "01", "x", "1.2"])
+def test_a_place_of_another_form_is_reported(validator: Validator, tmp_path: Path, n: str) -> None:
+    found = fragment(validator, tmp_path, memberships(("#GROUP.12", n)))
+    assert [(p.rule, p.severity) for p in found] == [("member-place-number", "warning")]
+
+
+def test_two_members_of_one_group_at_one_place_are_both_reported(validator: Validator, tmp_path: Path) -> None:
+    found = fragment(validator, tmp_path, memberships(("#GROUP.12", "1"), ("#GROUP.12", "2"), ("#GROUP.12", "1")))
+    assert [(p.rule, p.severity) for p in found] == [("member-place-unique", "warning")] * 2
+
+
+def test_members_of_two_groups_may_share_a_place(validator: Validator, tmp_path: Path) -> None:
+    assert fragment(validator, tmp_path, memberships(("#GROUP.12", "1"), ("#new_group_letters", "1"))) == []
+
+
+def test_a_place_on_a_person_s_membership_is_not_checked(validator: Validator, tmp_path: Path) -> None:
+    relation = "<listRelation><relation name='memberOf' active='#PERS.22' passive='#PERS.21' n='x'/></listRelation>"
+    assert fragment(validator, tmp_path, relation) == []
+
+
 @pytest.mark.parametrize(
     ("name", "reported"),
     [
