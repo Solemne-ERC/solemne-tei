@@ -3,6 +3,38 @@
 
 Each release says what changed, and whether files that passed may now fail.
 
+## 1.2.0 (2026-11-11)
+
+A work group's part of a larger one passes, in the form the guide has always given it; a group's members may be given
+in their order.
+
+### What changes for existing files
+
+Nothing that passed 1.1.0 fails, and none of the project's files has a new problem.
+- **`record-pointer-in-ref`** no longer reports a work group's `@corresp` to the larger group it is a part of
+  (`#GROUP.2`, `#new_group_…`). Another record's pointer there, or a group's in any other `@corresp` or `@key`, is
+  still reported. A part written as a member of the larger group, by `memberOf`, still passes; the guide now says
+  which is which: a part is made so by whoever made the larger group, a member is counted in it by someone else.
+- **Two new warnings,** on a `memberOf` to a work group that gives a place in `@n`: `member-place-number`, a place
+  that isn't a whole number from 1, and `member-place-unique`, two members of one group at one place in a file. The
+  data project's register of works gives 3,009 places, with neither.
+
+On the project's files: the corpus as received and as corrected, and every set of the data project's, have the
+same problems as with 1.1.0, rule by rule.
+
+### The schema
+
+- `record-pointer-in-ref` leaves a work group's `@corresp` to groups alone.
+- `member-place-number` and `member-place-unique`, warnings; the places are gathered once per file, so a register of
+  thousands of members takes no longer to check.
+
+### The guide
+
+- Part V: a group's part of a larger one and a group counted in one; a member's place in `@n` on its `memberOf`,
+  counting from 1 in each group, optional; an example of a group, a part of it and its members in order; a
+  counter-example for each warning.
+- Part II: the exception to `record-pointer-in-ref`.
+
 ## 1.1.0 (2026-11-10)
 
 An attribution where no words of the text name the source; Mirabile's indices as five authorities; and the forms

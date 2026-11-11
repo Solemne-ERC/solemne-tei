@@ -11,7 +11,7 @@
         <author>Sven Meeder</author>
       </titleStmt>
       <editionStmt>
-        <edition n="1.1.0">Version 1.1.0</edition>
+        <edition n="1.2.0">Version 1.2.0</edition>
       </editionStmt>
       <publicationStmt>
         <publisher>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University</publisher>
@@ -65,8 +65,8 @@
         <docAuthor>Gleb Schmidt</docAuthor>
         <docAuthor>Friederike Voit</docAuthor>
         <docAuthor>Sven Meeder</docAuthor>
-        <docEdition>Version 1.1.0</docEdition>
-        <docDate when="2026-11-10">10 November 2026</docDate>
+        <docEdition>Version 1.2.0</docEdition>
+        <docDate when="2026-11-11">11 November 2026</docDate>
         <docImprint>SOLEMNE: The Social Life of Early Medieval Normative Texts, Radboud University, Nijmegen; funded by
           the European Research Council, grant 101087979. The guide is under the Creative Commons Attribution 4.0
           licence; the schema made from it, under the MIT licence.</docImprint>
